@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<title>Claude for Magic Assistants — Onboarding Playbook</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="stylesheet" href="css/styles.css">
+<head>
+  <meta charset="utf-8">
+  <title>Claude for Magic Assistants — Onboarding Playbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="css/styles.css">
 
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
 </head>
 
 <body>
 
-<!-- =========================================================
+  <!-- =========================================================
      EDITING NOTES (v5)
      - Content is the v5 source of truth. All copy lives in this
        file as semantic HTML — search the phrase and edit in place.
@@ -38,1144 +40,1500 @@
      - Router + picker copy live in playbook-v5.js.
      ========================================================= -->
 
-<!-- ============== HERO ============== -->
-<header class="hero">
-  <div class="aurora aurora--hero" aria-hidden="true"></div>
-  <div class="hero__wash" aria-hidden="true"></div>
+  <!-- ============== HERO ============== -->
+  <header class="hero">
+    <div class="aurora aurora--hero" aria-hidden="true"></div>
+    <div class="hero__wash" aria-hidden="true"></div>
 
-  <nav class="topbar">
-    <a class="topbar__brand" href="#" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
-      <svg class="mark mark--claude" viewBox="75 223 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="Claude">
-        <path fill="currentColor" d="m 105.01,322.07 29.14,-16.35 0.49,-1.42 -0.49,-0.79 h -1.42 l -4.87,-0.3 -16.65,-0.45 -14.44,-0.6 -13.99,-0.75 -3.52,-0.75 -3.3,-4.35 0.34,-2.17 2.96,-1.99 4.24,0.37 9.37,0.64 14.06,0.97 10.2,0.6 15.11,1.57 h 2.4 l 0.34,-0.97 -0.82,-0.6 -0.64,-0.6 -14.55,-9.86 -15.75,-10.42 -8.25,-6 -4.46,-3.04 -2.25,-2.85 -0.97,-6.22 4.05,-4.46 5.44,0.37 1.39,0.37 5.51,4.24 11.77,9.11 15.37,11.32 2.25,1.87 0.9,-0.64 0.11,-0.45 -1.01,-1.69 -8.36,-15.11 -8.92,-15.37 -3.97,-6.37 -1.05,-3.82 c -0.37,-1.57 -0.64,-2.89 -0.64,-4.5 l 4.61,-6.26 2.55,-0.82 6.15,0.82 2.59,2.25 3.82,8.74 6.19,13.76 9.6,18.71 2.81,5.55 1.5,5.14 0.56,1.57 h 0.97 v -0.9 l 0.79,-10.54 1.46,-12.94 1.42,-16.65 0.49,-4.69 2.32,-5.62 4.61,-3.04 3.6,1.72 2.96,4.24 -0.41,2.74 -1.76,11.44 -3.45,17.92 -2.25,12 h 1.31 l 1.5,-1.5 6.07,-8.06 10.2,-12.75 4.5,-5.06 5.25,-5.59 3.37,-2.66 h 6.37 l 4.69,6.97 -2.1,7.2 -6.56,8.32 -5.44,7.05 -7.8,10.5 -4.87,8.4 0.45,0.67 1.16,-0.11 17.62,-3.75 9.52,-1.72 11.36,-1.95 5.14,2.4 0.56,2.44 -2.02,4.99 -12.15,3 -14.25,2.85 -21.22,5.02 -0.26,0.19 0.3,0.37 9.56,0.9 4.09,0.22 h 10.01 l 18.64,1.39 4.87,3.22 2.92,3.94 -0.49,3 -7.5,3.82 -10.12,-2.4 -23.62,-5.62 -8.1,-2.02 h -1.12 v 0.67 l 6.75,6.6 12.37,11.17 15.49,14.4 0.79,3.56 -1.99,2.81 -2.1,-0.3 -13.61,-10.24 -5.25,-4.61 -11.89,-10.01 h -0.79 v 1.05 l 2.74,4.01 14.47,21.75 0.75,6.67 -1.05,2.17 -3.75,1.31 -4.12,-0.75 -8.47,-11.89 -8.74,-13.39 -7.05,-12 -0.86,0.49 -4.16,44.81 -1.95,2.29 -4.5,1.72 -3.75,-2.85 -1.99,-4.61 1.99,-9.11 2.4,-11.89 1.95,-9.45 1.76,-11.74 1.05,-3.9 -0.07,-0.26 -0.86,0.11 -8.85,12.15 -13.46,18.19 -10.65,11.4 -2.55,1.01 -4.42,-2.29 0.41,-4.09 2.47,-3.64 14.74,-18.75 8.89,-11.62 5.74,-6.71 -0.04,-0.97 h -0.34 l -39.15,25.42 -6.97,0.9 -3,-2.81 0.37,-4.61 1.42,-1.5 11.77,-8.1 -0.04,0.04 z"></path>
-      </svg>
-      <span class="topbar__x" aria-hidden="true">×</span>
-      <img class="mark mark--magic" src="assets/logo.png" alt="Magic">
-    </a>
+    <nav class="topbar">
+      <a class="topbar__brand" href="#" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Back to top">
+        <svg class="mark mark--claude" viewBox="75 223 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="Claude">
+          <path fill="currentColor"
+            d="m 105.01,322.07 29.14,-16.35 0.49,-1.42 -0.49,-0.79 h -1.42 l -4.87,-0.3 -16.65,-0.45 -14.44,-0.6 -13.99,-0.75 -3.52,-0.75 -3.3,-4.35 0.34,-2.17 2.96,-1.99 4.24,0.37 9.37,0.64 14.06,0.97 10.2,0.6 15.11,1.57 h 2.4 l 0.34,-0.97 -0.82,-0.6 -0.64,-0.6 -14.55,-9.86 -15.75,-10.42 -8.25,-6 -4.46,-3.04 -2.25,-2.85 -0.97,-6.22 4.05,-4.46 5.44,0.37 1.39,0.37 5.51,4.24 11.77,9.11 15.37,11.32 2.25,1.87 0.9,-0.64 0.11,-0.45 -1.01,-1.69 -8.36,-15.11 -8.92,-15.37 -3.97,-6.37 -1.05,-3.82 c -0.37,-1.57 -0.64,-2.89 -0.64,-4.5 l 4.61,-6.26 2.55,-0.82 6.15,0.82 2.59,2.25 3.82,8.74 6.19,13.76 9.6,18.71 2.81,5.55 1.5,5.14 0.56,1.57 h 0.97 v -0.9 l 0.79,-10.54 1.46,-12.94 1.42,-16.65 0.49,-4.69 2.32,-5.62 4.61,-3.04 3.6,1.72 2.96,4.24 -0.41,2.74 -1.76,11.44 -3.45,17.92 -2.25,12 h 1.31 l 1.5,-1.5 6.07,-8.06 10.2,-12.75 4.5,-5.06 5.25,-5.59 3.37,-2.66 h 6.37 l 4.69,6.97 -2.1,7.2 -6.56,8.32 -5.44,7.05 -7.8,10.5 -4.87,8.4 0.45,0.67 1.16,-0.11 17.62,-3.75 9.52,-1.72 11.36,-1.95 5.14,2.4 0.56,2.44 -2.02,4.99 -12.15,3 -14.25,2.85 -21.22,5.02 -0.26,0.19 0.3,0.37 9.56,0.9 4.09,0.22 h 10.01 l 18.64,1.39 4.87,3.22 2.92,3.94 -0.49,3 -7.5,3.82 -10.12,-2.4 -23.62,-5.62 -8.1,-2.02 h -1.12 v 0.67 l 6.75,6.6 12.37,11.17 15.49,14.4 0.79,3.56 -1.99,2.81 -2.1,-0.3 -13.61,-10.24 -5.25,-4.61 -11.89,-10.01 h -0.79 v 1.05 l 2.74,4.01 14.47,21.75 0.75,6.67 -1.05,2.17 -3.75,1.31 -4.12,-0.75 -8.47,-11.89 -8.74,-13.39 -7.05,-12 -0.86,0.49 -4.16,44.81 -1.95,2.29 -4.5,1.72 -3.75,-2.85 -1.99,-4.61 1.99,-9.11 2.4,-11.89 1.95,-9.45 1.76,-11.74 1.05,-3.9 -0.07,-0.26 -0.86,0.11 -8.85,12.15 -13.46,18.19 -10.65,11.4 -2.55,1.01 -4.42,-2.29 0.41,-4.09 2.47,-3.64 14.74,-18.75 8.89,-11.62 5.74,-6.71 -0.04,-0.97 h -0.34 l -39.15,25.42 -6.97,0.9 -3,-2.81 0.37,-4.61 1.42,-1.5 11.77,-8.1 -0.04,0.04 z">
+          </path>
+        </svg>
+        <span class="topbar__x" aria-hidden="true">×</span>
+        <img class="mark mark--magic" src="assets/magic-logo.png" alt="Magic">
+      </a>
 
-    <ul class="topbar__nav">
-      <li><a href="#setup">Setup</a></li>
-      <li><a href="#cowork">Cowork</a></li>
-      <li><a href="#prompting">Prompting</a></li>
-      <li><a href="#model">Model</a></li>
-      <li><a href="#safety">Safety</a></li>
-      <li><a href="#learn">Learn</a></li>
-      <li><a href="#help">Help</a></li>
-    </ul>
-  </nav>
+      <ul class="topbar__nav">
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#cowork">Cowork</a></li>
+        <li><a href="#prompting">Prompting</a></li>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#safety">Safety</a></li>
+        <li><a href="#learn">Learn</a></li>
+        <li><a href="#help">Help</a></li>
+      </ul>
+    </nav>
 
-  <div class="hero__body">
-    <h1 class="display">Claude Cowork for Magic Assistants <span class="grad">Onboarding Guide</span></h1>
-    <p class="lede">Claude Cowork is Magic's new primary AI tool. This guide takes you from invite email to your first real task. Complete every step before using Claude for client work.</p>
+    <div class="hero__body">
+      <h1 class="display">Claude Cowork for Magic Assistants <span class="grad">Onboarding Guide</span></h1>
+      <p class="lede">Claude Cowork is Magic's new primary AI tool. This guide takes you from invite email to your first
+        real task. Complete every step before using Claude for client work.</p>
 
-        <div class="benefit-showcase">
-      <div class="benefit-card">
-        <div class="benefit-card__glow"></div>
-        <p class="benefit-card__kicker">Your Magic benefit</p>
-        <p class="benefit-card__label" style="margin-bottom:10px;margin-top:2px;">access to a Claude Team Standard seat worth</p>
-        <div class="benefit-card__value">
-          <span class="benefit-card__currency">₱</span>
-          <span class="benefit-card__amount">1,500</span>
-          <span class="benefit-card__period">/month</span>
-        </div>
-        <div class="benefit-card__chips">
-          <span class="benefit-card__chip">Claude Cowork</span>
-          <span class="benefit-card__chip">Your local files as context</span>
-          <span class="benefit-card__chip">Latest frontier models</span>
-          <span class="benefit-card__chip">All Magic skills</span>
-          <span class="benefit-card__chip">App Connectors</span>
-          <span class="benefit-card__chip">Claude Design</span>
+      <div class="benefit-showcase">
+        <div class="benefit-card">
+          <div class="benefit-card__glow"></div>
+          <p class="benefit-card__kicker">Your Magic benefit</p>
+          <p class="benefit-card__label" style="margin-bottom:10px;margin-top:2px;">access to a Claude Team Standard
+            seat worth</p>
+          <div class="benefit-card__value">
+            <span class="benefit-card__currency">₱</span>
+            <span class="benefit-card__amount">1,500</span>
+            <span class="benefit-card__period">/month</span>
+          </div>
+          <div class="benefit-card__chips">
+            <span class="benefit-card__chip">Claude Cowork</span>
+            <span class="benefit-card__chip">Your local files as context</span>
+            <span class="benefit-card__chip">Latest frontier models</span>
+            <span class="benefit-card__chip">All Magic skills</span>
+            <span class="benefit-card__chip">App Connectors</span>
+            <span class="benefit-card__chip">Claude Design</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
 
-<!-- ============== WHAT'S DIFFERENT ============== -->
-<section class="section section--intro" id="intro" data-gate-section="intro">
-  <div class="container container--two">
-    <div class="col col--copy">
-      <p class="kicker">What's different about Claude</p>
-      <h2 class="h2">Claude does things, not just answers <span class="grad">things</span>.</h2>
-      <p class="body">You've used <strong>MagicGPT</strong> and <strong>ChatGPT</strong>. Claude sits in the same place — you chat, it answers — with one difference that changes how you'll work day to day.</p>
-      <p class="body">Specifically, <strong>Claude Cowork can do things, not just answer your requests.</strong> It takes on whole tasks across your files and connected tools, reads from your folders and the services you connect, works over many steps, and saves the result where you can open it.</p>
-    </div>
+  <!-- ============== WHAT'S DIFFERENT ============== -->
+  <section class="section section--intro" id="intro" data-gate-section="intro">
+    <div class="container container--two">
+      <div class="col col--copy">
+        <p class="kicker">What's different about Claude</p>
+        <h2 class="h2">Claude does things, not just answers <span class="grad">things</span>.</h2>
+        <p class="body">You've used <strong>MagicGPT</strong> and <strong>ChatGPT</strong>. Claude sits in the same
+          place — you chat, it answers — with one difference that changes how you'll work day to day.</p>
+        <p class="body">Specifically, <strong>Claude Cowork can do things, not just answer your requests.</strong> It
+          takes on whole tasks across your files and connected tools, reads from your folders and the services you
+          connect, works over many steps, and saves the result where you can open it.</p>
+      </div>
 
-    <div class="col col--table">
-      <div class="card compare">
-        <div class="compare__head">
-          <p class="kicker kicker--muted">How it stacks up</p>
+      <div class="col col--table">
+        <div class="card compare">
+          <div class="compare__head">
+            <p class="kicker kicker--muted">How it stacks up</p>
+          </div>
+          <table class="compare__table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>MagicGPT</th>
+                <th>ChatGPT</th>
+                <th class="is-claude">Claude</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Works inside Chrome</td>
+                <td class="y">Yes</td>
+                <td class="y">Yes</td>
+                <td class="y is-claude">Yes</td>
+              </tr>
+              <tr>
+                <td>Works outside Chrome</td>
+                <td class="n">—</td>
+                <td class="y">Desktop app</td>
+                <td class="y is-claude">Desktop app</td>
+              </tr>
+              <tr>
+                <td>Executes tasks for you</td>
+                <td class="n">—</td>
+                <td class="n">—</td>
+                <td class="y is-claude">Cowork + Chrome</td>
+              </tr>
+              <tr>
+                <td>Gmail · Calendar · Drive · Notion · Slack · Asana</td>
+                <td class="n">—</td>
+                <td class="n">—</td>
+                <td class="y is-claude">Yes</td>
+              </tr>
+              <tr>
+                <td>Opens tabs and fills forms</td>
+                <td class="n">—</td>
+                <td class="n">—</td>
+                <td class="y is-claude">Yes</td>
+              </tr>
+              <tr>
+                <td>Accesses files on your computer</td>
+                <td class="n">—</td>
+                <td class="n">—</td>
+                <td class="y is-claude">Cowork</td>
+              </tr>
+              <tr>
+                <td>Pre-built Magic skill templates</td>
+                <td class="n">—</td>
+                <td class="n">—</td>
+                <td class="y is-claude">Yes</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table class="compare__table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>MagicGPT</th>
-              <th>ChatGPT</th>
-              <th class="is-claude">Claude</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Works inside Chrome</td><td class="y">Yes</td><td class="y">Yes</td><td class="y is-claude">Yes</td></tr>
-            <tr><td>Works outside Chrome</td><td class="n">—</td><td class="y">Desktop app</td><td class="y is-claude">Desktop app</td></tr>
-            <tr><td>Executes tasks for you</td><td class="n">—</td><td class="n">—</td><td class="y is-claude">Cowork + Chrome</td></tr>
-            <tr><td>Gmail · Calendar · Drive · Notion · Slack · Asana</td><td class="n">—</td><td class="n">—</td><td class="y is-claude">Yes</td></tr>
-            <tr><td>Opens tabs and fills forms</td><td class="n">—</td><td class="n">—</td><td class="y is-claude">Yes</td></tr>
-            <tr><td>Accesses files on your computer</td><td class="n">—</td><td class="n">—</td><td class="y is-claude">Cowork</td></tr>
-            <tr><td>Pre-built Magic skill templates</td><td class="n">—</td><td class="n">—</td><td class="y is-claude">Yes</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
-  </div>
 
 
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="intro">Mark as read →</button>
-</div>
-</section>
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="intro">Mark as read →</button>
+    </div>
+  </section>
 
 
-<!-- ============== INTRODUCING COWORK — DARK BAND ============== -->
-<section class="section section--dark" id="cowork-intro" data-gate-section="cowork-intro">
-  <div class="aurora aurora--dark" aria-hidden="true"></div>
-  <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
-  <div class="container">
-    <p class="kicker kicker--cyan">Introducing Claude Cowork</p>
-    <h2 class="h2 h2--inverse">Less chatbot, more junior <span class="grad">colleague</span>.</h2>
-    <p class="lede lede--inverse">Cowork completes tasks end-to-end — reading your files, working through each step, and saving finished results. Think of it as a colleague who can actually click, type, and get things done.</p>
+  <!-- ============== INTRODUCING COWORK — DARK BAND ============== -->
+  <section class="section section--dark" id="cowork-intro" data-gate-section="cowork-intro">
+    <div class="aurora aurora--dark" aria-hidden="true"></div>
+    <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+    <div class="container">
+      <p class="kicker kicker--cyan">Introducing Claude Cowork</p>
+      <h2 class="h2 h2--inverse">Less chatbot, more junior <span class="grad">colleague</span>.</h2>
+      <p class="lede lede--inverse">Cowork completes tasks end-to-end — reading your files, working through each step,
+        and saving finished results. Think of it as a colleague who can actually click, type, and get things done.</p>
 
-    <img src="assets/cowork-thumbnail.gif" alt="Cowork in action" class="shot shot--wide" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+      <img src="assets/cowork-thumbnail.gif" alt="Cowork in action" class="shot shot--wide"
+        style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
 
-    <ul class="cw-only">
-      <li>
-        <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg></div>
-        <div>
-        <strong>Access your local folders</strong>
-        <span>Reads and writes files directly on your computer. No uploading — output saves next to your inputs.</span>
-        </div>
-      </li>
-      <li>
-        <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="13" rx="2"/><path stroke-linecap="round" d="M8 21h8M12 16v5"/></svg></div>
-        <div>
-        <strong>Reach your desktop apps</strong>
-        <span>Opens and operates native apps — PowerPoint, forms, any desktop software.</span>
-        </div>
-      </li>
-      <li>
-        <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13 3l-5 8h5l-1 10 7-11h-5l1-7zM3 12h2M3 8l1.5 1.5M3 16l1.5-1.5"/></svg></div>
-        <div>
-        <strong>Delegate parallel work</strong>
-        <span>Splits multi-part tasks and runs the independent pieces simultaneously.</span>
-        </div>
-      </li>
-      <li>
-        <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3.5 3.5"/></svg></div>
-        <div>
-        <strong>Run tasks on a schedule</strong>
-        <span>Set a cadence once — recurring work runs automatically.</span>
-        </div>
-      </li>
-    </ul>
-  </div>
+      <ul class="cw-only">
+        <li>
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+            </svg></div>
+          <div>
+            <strong>Access your local folders</strong>
+            <span>Reads and writes files directly on your computer. No uploading — output saves next to your
+              inputs.</span>
+          </div>
+        </li>
+        <li>
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="2" y="3" width="20" height="13" rx="2" />
+              <path stroke-linecap="round" d="M8 21h8M12 16v5" />
+            </svg></div>
+          <div>
+            <strong>Reach your desktop apps</strong>
+            <span>Opens and operates native apps — PowerPoint, forms, any desktop software.</span>
+          </div>
+        </li>
+        <li>
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13 3l-5 8h5l-1 10 7-11h-5l1-7zM3 12h2M3 8l1.5 1.5M3 16l1.5-1.5" />
+            </svg></div>
+          <div>
+            <strong>Delegate parallel work</strong>
+            <span>Splits multi-part tasks and runs the independent pieces simultaneously.</span>
+          </div>
+        </li>
+        <li>
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="9" />
+              <path stroke-linecap="round" d="M12 7v5l3.5 3.5" />
+            </svg></div>
+          <div>
+            <strong>Run tasks on a schedule</strong>
+            <span>Set a cadence once — recurring work runs automatically.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
 
 
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="cowork-intro">Mark as read →</button>
-</div>
-</section>
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="cowork-intro">Mark as read →</button>
+    </div>
+  </section>
 
 
-<!-- ============== QUICKSTART — WHAT YOU NEED ============== -->
-<section class="section" id="need" data-gate-section="need" style="position:relative;min-height:820px;">
-  <!-- HERO GRAPH: remove canvas#heroGraph3D + script#heroGraph3D-init to disable -->
-  <canvas id="heroGraph3D" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:calc(100% + 420px);z-index:0;opacity:0.25;"></canvas>
-  <div class="container container--narrow" style="position:relative;z-index:2;">
-    <p class="kicker">Quickstart</p>
-    <h2 class="h2">What you <span class="grad">need</span>.</h2>
+  <!-- ============== QUICKSTART — WHAT YOU NEED ============== -->
+  <section class="section" id="need" data-gate-section="need" style="position:relative;min-height:820px;">
+    <!-- HERO GRAPH: remove canvas#heroGraph3D + script#heroGraph3D-init to disable -->
+    <canvas id="heroGraph3D" aria-hidden="true"
+      style="position:absolute;top:0;left:0;width:100%;height:calc(100% + 420px);z-index:0;opacity:0.25;"></canvas>
+    <div class="container container--narrow" style="position:relative;z-index:2;">
+      <p class="kicker">Quickstart</p>
+      <h2 class="h2">What you <span class="grad">need</span>.</h2>
 
-    <ul class="checklist" data-step-id="need">
-      <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>Claude.ai</strong> invite link.</span></label></li>
-      <li><label><input type="checkbox" data-cb-key="need-1"><span>A laptop or desktop. Cowork doesn't work on mobile.</span></label></li>
-      <li><label><input type="checkbox" data-cb-key="need-2"><span>Google Chrome installed.</span></label></li>
-      <li><label><input type="checkbox" data-cb-key="need-3"><span>Your Google account (Gmail + Calendar) ready to connect.</span></label></li>
-    </ul>
+      <ul class="checklist" data-step-id="need">
+        <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>Claude.ai</strong> invite
+              link.</span></label></li>
+        <li><label><input type="checkbox" data-cb-key="need-1"><span>A laptop or desktop. Cowork doesn't work on
+              mobile.</span></label></li>
+        <li><label><input type="checkbox" data-cb-key="need-2"><span>Google Chrome installed.</span></label></li>
+        <li><label><input type="checkbox" data-cb-key="need-3"><span>Your Google account (Gmail + Calendar) ready to
+              connect.</span></label></li>
+      </ul>
 
-    <!-- ═══════════════════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════════════════
          VIDEO PLACEHOLDER
          Replace the empty src="" with your video path when ready.
          Example:  src="assets/intro-cowork.mp4"
          Supports .mp4, .webm, .mov
     ═══════════════════════════════════════════════════════ -->
-    <figure style="margin:48px auto 56px;max-width:100%;width:100%;position:relative;z-index:2;">
-      <video
-        id="introVideo"
-        src="assets/setup-guide.mp4"
-        poster="assets/setup-guide-thumb.jpg"
-        controls
-        preload="metadata"
-        style="display:block;width:100%;aspect-ratio:16/9;height:auto;border-radius:16px;background:#1c0040;box-shadow:0 6px 40px rgba(82,0,227,0.14);">
-        <!--  Add  src="path/to/video.mp4"  to the video tag above  -->
-        <!--  ↑  Replace src="" with your video path  -->
-      </video>
-    </figure>
-  </div>
-</section>
+      <figure style="margin:48px auto 56px;max-width:100%;width:100%;position:relative;z-index:2;">
+        <video id="introVideo" src="assets/setup-guide.mp4" poster="assets/setup-guide-thumb.jpg" controls
+          preload="metadata"
+          style="display:block;width:100%;aspect-ratio:16/9;height:auto;border-radius:16px;background:#1c0040;box-shadow:0 6px 40px rgba(82,0,227,0.14);">
+          <!--  Add  src="path/to/video.mp4"  to the video tag above  -->
+          <!--  ↑  Replace src="" with your video path  -->
+        </video>
+      </figure>
+    </div>
+  </section>
 
 
-<!-- ============== SETUP — TABBED ============== -->
-<section class="section section--steps" id="setup" data-gate-section="setup">
-  <div class="container container--narrow">
-    <p class="kicker">Setup</p>
-    <h2 class="h2">Get up and <span class="grad">running</span>.</h2>
-    <p class="body body--lead">About thirty minutes end to end. Work through the tabs in order — tick each item as you finish, and the tab turns green when it's done. Your progress saves automatically.</p>
-  </div>
+  <!-- ============== SETUP — TABBED ============== -->
+  <section class="section section--steps" id="setup" data-gate-section="setup">
+    <div class="container container--narrow">
+      <p class="kicker">Setup</p>
+      <h2 class="h2">Get up and <span class="grad">running</span>.</h2>
+      <p class="body body--lead">About thirty minutes end to end. Work through the tabs in order — tick each item as you
+        finish, and the tab turns green when it's done. Your progress saves automatically.</p>
+    </div>
 
-  <div class="container container--narrow">
-    <div class="setup-tabs" id="setupTabs">
+    <div class="container container--narrow">
+      <div class="setup-tabs" id="setupTabs">
 
-      <div class="setup-tabs__rail" role="tablist" aria-label="Setup steps">
-        <button class="setup-tab is-active" data-tab="s1" type="button"><span class="setup-tab__num">01</span><span class="setup-tab__label">Accept invite</span></button>
-        <button class="setup-tab" data-tab="s2" type="button"><span class="setup-tab__num">02</span><span class="setup-tab__label">Desktop app</span></button>
-        <button class="setup-tab" data-tab="s3" type="button"><span class="setup-tab__num">03</span><span class="setup-tab__label">Connect tools</span></button>
-        <button class="setup-tab" data-tab="s4" type="button"><span class="setup-tab__num">04</span><span class="setup-tab__label">Skill templates</span></button>
-        <button class="setup-tab" data-tab="s5" type="button"><span class="setup-tab__num">05</span><span class="setup-tab__label">First task</span></button>
+        <div class="setup-tabs__rail" role="tablist" aria-label="Setup steps">
+          <button class="setup-tab is-active" data-tab="s1" type="button"><span class="setup-tab__num">01</span><span
+              class="setup-tab__label">Accept invite</span></button>
+          <button class="setup-tab" data-tab="s2" type="button"><span class="setup-tab__num">02</span><span
+              class="setup-tab__label">Desktop app</span></button>
+          <button class="setup-tab" data-tab="s3" type="button"><span class="setup-tab__num">03</span><span
+              class="setup-tab__label">Connect tools</span></button>
+          <button class="setup-tab" data-tab="s4" type="button"><span class="setup-tab__num">04</span><span
+              class="setup-tab__label">Skill templates</span></button>
+          <button class="setup-tab" data-tab="s5" type="button"><span class="setup-tab__num">05</span><span
+              class="setup-tab__label">First task</span></button>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="setup-panel is-active" data-panel="s1" data-step-id="step-1">
+          <div class="setup-panel__head">
+            <p class="kicker">Step one</p>
+            <span class="setup-panel__time">~3 min</span>
+          </div>
+          <h3 class="h3">Accept your invite.</h3>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s1-0"><span>Open the invite link from your email, assistant
+                  workspace, or account lead.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-1"><span>Click <strong>Get Started</strong> on the Join
+                  Magic EA page.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-2"><span>Sign in using the email the invite was sent to.
+                  Do not sign up with multiple emails or share the link.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-3"><span>Once signed in, click <strong>Join
+                    Team</strong>.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-4"><span>Confirm you can see the Claude
+                  homepage.</span></label></li>
+          </ul>
+          <img src="assets/join-magic-ea.png" alt="Accept your invite to Magic"
+            style="display:block;width:80%;height:auto;min-height:0;padding:0 0 10px;border:none;background:none;margin-left:auto;margin-right:auto;">
+          <div style="display:flex;justify-content:center;margin-top:8px;">
+            <div class="callout callout--warn"
+              style="display:inline-block;width:auto;max-width:100%;text-align:center;">
+              <p><strong>Heads up.</strong> The invite may expire without notice. If this happens and you need
+                access,<br>email <a href="mailto:product-team@getmagicea.com"
+                  style="font-weight:700;color:var(--violet,#5200e3);text-decoration:none;">product-team@getmagicea.com</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="setup-panel" data-panel="s2" data-step-id="step-2">
+          <div class="setup-panel__head">
+            <p class="kicker">Step two</p>
+            <span class="setup-panel__time">~8 min</span>
+          </div>
+          <h3 class="h3">Download the desktop app and open Cowork.</h3>
+          <p class="body">The desktop app unlocks <strong>Cowork</strong> — Claude's ability to access your files and
+            execute tasks, not just answer questions.</p>
+
+          <p class="setup-sub">Installation</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-0"><span>Go to <strong>claude.ai/download</strong> (or
+                  follow the link on your first sign-in).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-1"><span>Download for your OS — Mac or
+                  Windows.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-2"><span>Open the installer and follow the
+                  steps.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-3"><span>Sign in with the <strong>same account</strong>
+                  from step one.</span></label></li>
+          </ul>
+          <img src="assets/cowork-homescreen.png" alt="Cowork home screen"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+
+          <p class="setup-sub">Getting started with Cowork</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-4"><span>When the desktop app opens, switch to
+                  <strong>Cowork</strong> in the mode picker (left sidebar).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-5"><span>In your first Cowork session, type <code
+                    class="prompt-inline">/setup-cowork</code> and press enter to run guided setup.</span></label></li>
+          </ul>
+          <img src="assets/setup-cowork.png" alt="Setup Cowork"
+            style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
+
+          <p class="setup-sub">Connect your project folder</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-6"><span>Select <strong>Work in a project</strong> in the
+                  chat bar to pick where Claude reads context from and saves finished work back to.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-7"><span>Choose an existing folder or create a new project
+                  — we recommend a dedicated <em>Magic Work</em> or <em>Claude Tasks</em> folder. Avoid pointing it at
+                  your Desktop or Downloads.</span></label></li>
+          </ul>
+          <div class="explain-grid">
+            <div class="explain">
+              <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A folder</p>
+              <p>A folder on your computer. Cowork reads what's there and saves new files alongside it. Scope it to one
+                piece of work, or point it at a broader directory several tasks share.</p>
+            </div>
+            <div class="explain">
+              <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A project</p>
+              <p>A workspace that carries its own files, instructions, and memory across sessions. Create one in
+                Cowork's sidebar, or import a project you already use in Chat.</p>
+            </div>
+          </div>
+          <img src="assets/project-folder.png" alt="Project folder"
+            style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
+
+          <div class="callout callout--claude">
+            <svg class="callout__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle>
+              <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+            <p><strong>Keep the desktop app open while you work.</strong> Cowork only runs through the desktop app, not
+              the browser. The folder you select is Claude's workspace where it can read, write, or delete files.</p>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="setup-panel" data-panel="s3" data-step-id="step-3">
+          <div class="setup-panel__head">
+            <p class="kicker">Step three</p>
+            <span class="setup-panel__time">~6 min</span>
+          </div>
+          <h3 class="h3">Connect your tools.</h3>
+          <p class="body">Claude connects to popular third-party apps — Microsoft 365, Notion, Slack, Canva, Asana,
+            HubSpot, QuickBooks, and many more — so you can bring agentic AI into your real workflows. Cowork's real
+            power comes from connecting the apps your client already uses. Without this, Claude works blind.</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s3-0"><span>In the desktop app, click
+                  <strong>Customize</strong> (left sidebar).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-1"><span>Go to <strong>Connectors</strong> and click
+                  <strong>Add Connector</strong> (the plus sign).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-2"><span>Find <strong>Google Workspace apps</strong> and
+                  add them.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-3"><span>The added app appears in your Connectors list,
+                  most likely under Not Connected.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-4"><span>Click <strong>Connect</strong> and sign in with
+                  your Google account to allow permissions.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-5"><span>Repeat for <strong>Gmail</strong>, <strong>Google
+                    Calendar</strong>, <strong>Google Drive</strong>, or other apps.</span></label></li>
+          </ul>
+          <img src="assets/connectors-1.png" alt="Connectors panel"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+          <img src="assets/connectors-2.png" alt="Connect Google Workspace"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+
+          <p class="setup-sub">Test it</p>
+          <p class="body body--small">Open a new Claude chat and type:</p>
+          <code class="prompt" data-copy="">What meetings do I have tomorrow?</code>
+          <p class="body body--small">If Claude lists your calendar events, you're connected. If it says it doesn't have
+            access, go back to Connectors and check.</p>
+
+          <div class="callout callout--warn">
+            <p><strong>Connect your own Google account only.</strong> Never connect a client's email or calendar without
+              their explicit written approval.</p>
+          </div>
+        </div>
+
+        <!-- Panel 4 -->
+        <div class="setup-panel" data-panel="s4" data-step-id="step-4">
+          <div class="setup-panel__head">
+            <p class="kicker">Step four</p>
+            <span class="setup-panel__time">~4 min</span>
+          </div>
+          <h3 class="h3">Find your Magic skill templates.</h3>
+          <p class="body">Magic has pre-built skill templates for the most common EA tasks. Always start from a template
+            before prompting from scratch.</p>
+
+          <div class="callout callout--claude">
+            <svg class="callout__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3z" stroke="currentColor"
+                stroke-width="1.5" stroke-linejoin="round"></path>
+            </svg>
+            <p><strong>Where to find them.</strong> Desktop app or claude.ai → <strong>Customize</strong> (left sidebar)
+              → Skills project → Add / Browse Skills → Your organization tab.</p>
+          </div>
+
+          <div class="template-grid" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+              <span class="template">Email Management</span>
+              <span class="template">Calendar Management</span>
+              <span class="template">Writing</span>
+              <span class="template">Data Analysis &amp; Reporting <span class="coming">soon</span></span>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+              <span class="template">Content Creation <span class="coming">soon</span></span>
+              <span class="template">Social Media Management <span class="coming">soon</span></span>
+            </div>
+          </div>
+
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s4-0"><span>Open <strong>Customize</strong> → Skills project
+                  → Browse Skills → Your organization tab.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s4-1"><span>Add the skills available to you.</span></label>
+            </li>
+            <li><label><input type="checkbox" data-cb-key="s4-2"><span>Confirm they appear in your Skills
+                  list.</span></label></li>
+          </ul>
+          <img src="assets/connectors-1.png" alt="Model selection"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+          <img src="assets/connectors-2.png" alt="Model selection"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+          <p class="body body--small">Once a skill is added, use it in Cowork by typing its slash command — for example
+            <code class="prompt-inline">/email-management</code> or <code
+              class="prompt-inline">/calendar-management</code> — then combine it with your own prompt. You can even ask
+            Claude to explain what a specific skill does and how to use it.
+          </p>
+
+          <div class="callout callout--warn">
+            <p>If you don't see any skill, message the Product Team — there may be a permissions issue on your account.
+            </p>
+          </div>
+        </div>
+
+        <!-- Panel 5 -->
+        <div class="setup-panel" data-panel="s5" data-step-id="step-5">
+          <div class="setup-panel__head">
+            <p class="kicker">Step five</p>
+            <span class="setup-panel__time">~10 min</span>
+          </div>
+          <h3 class="h3">Try your first Cowork task.</h3>
+          <p class="body">Open a new Cowork session and start on something from your to-do list — a task that's spread
+            across your tools, takes several steps, or needs real work on your computer. Type <code
+              class="prompt-inline">/</code> for the starting prompts your plugin installed.</p>
+
+          <p class="setup-sub">Good first tasks</p>
+          <code class="prompt"
+            data-copy="">Go through my inbox, find unread client emails from the last 24 hours, and draft a reply for each one that needs a response. Save the drafts to my Magic Work folder.</code>
+          <code class="prompt"
+            data-copy="">Check my Google Calendar for next week and write a summary of my client's availability. Save it as availability.md in my folder.</code>
+          <code class="prompt"
+            data-copy="">Research [company name] — their industry, recent news, and key people. Write a one-page briefing and save it to my folder.</code>
+          <code class="prompt"
+            data-copy="">Summarize these meeting notes and pull out every action item with the owner and deadline.</code>
+
+          <p class="setup-sub">How to run it</p>
+          <ol class="bullets bullets--num">
+            <li>In Cowork, set the working folder to send with your prompt.</li>
+            <li>Type clear, specific instructions describing what you need.</li>
+            <li>Claude may show its plan or ask clarifying questions before anything consequential. If it's right,
+              approve it. If not, redirect it.</li>
+            <li>Watch Claude work through the steps, or step away and come back.</li>
+            <li>Always review Claude's output before sending anything to a client.</li>
+            <li>If the output needs work, re-prompt until you get the outcome you want.</li>
+          </ol>
+
+          <div class="callout callout--tip">
+            <p>To get more practice, try doing tasks in Cowork using the connectors or skills you set up earlier.</p>
+          </div>
+
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s5-0"><span>Ran my first real Cowork task and reviewed the
+                  output.</span></label></li>
+          </ul>
+        </div>
+
+        <!-- shared nav -->
+        <div class="setup-nav">
+          <button class="setup-nav__btn" id="setupPrev" type="button" disabled="">← Previous</button>
+          <button class="setup-nav__btn setup-nav__btn--next" id="setupNext" type="button"><span
+              data-next-label="">Next</span> →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== USING COWORK ============== -->
+  <section class="section" id="cowork" data-gate-section="cowork">
+    <div class="container container--narrow">
+      <p class="kicker">Using Claude Cowork</p>
+      <h2 class="h2">The mode where Claude stops answering and starts <span class="grad">doing</span>.</h2>
+      <p class="body body--lead">Cowork is the agentic mode in Claude Desktop — it runs on your computer and completes
+        work across your files, browser, and tools. As a Magic assistant, Cowork is your default mode. Always. Your job
+        is task execution; this is how you execute.</p>
+    </div>
+
+    <div class="container container--narrow">
+      <div class="cowork-hero">
+        <div class="cowork-hero__img">
+          <img src="assets/chat-vs-cowork.png" alt="Cowork in action"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+        </div>
+        <div class="cowork-hero__card">
+          <article class="card reach reach--cowork">
+            <p class="reach__tag">Always use Cowork</p>
+            <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes —
+              always, without exception.</p>
+            <p style="font-size:14px;color:var(--on-dark-mute);margin:0 0 10px;">Use it whenever:</p>
+            <ul class="bullets">
+              <li>You have a clear deliverable — a document, a summary, a drafted reply, a research brief.</li>
+              <li>The work touches your files, calendar, inbox, or connected tools.</li>
+              <li>You'd rather hand off the whole job and review what comes back.</li>
+              <li>You're running something on a schedule — daily briefings, weekly reports, recurring prep.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:96px">How a Cowork task runs</p>
+      <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
+      <div style="display:flex;gap:20px;align-items:center;margin-top:24px;margin-bottom:40px;">
+        <img src="assets/how-cowork-runs.png" alt="How a Cowork task runs"
+          style="width:60%;height:auto;padding:0;border:none;background:none;">
+        <img src="assets/claude-task-runs.png" alt="Claude task runs"
+          style="width:40%;height:auto;padding:0;border:none;background:none;">
+      </div>
+      <p class="flow-note">Every action appears in the sidebar. Claude pauses and asks for your approval before anything
+        consequential — sending an email, posting a message, or modifying files outside your working folder.</p>
+
+      <div style="display:flex;gap:20px;align-items:flex-start;margin-top:32px;">
+        <div style="width:50%;flex-shrink:0;">
+          <img src="assets/claude-usecase-3.gif" alt="Data extraction use case"
+            style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
+          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Hand Claude a pile of receipts, invoices,
+            or screenshots. Come back to a formatted spreadsheet with all the data extracted and organized.</p>
+        </div>
+        <div style="width:50%;flex-shrink:0;">
+          <img src="assets/claude-usecase-4.gif" alt="Document generation use case"
+            style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
+          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Give Claude your templates and source
+            materials. It produces polished docs, decks, or reports — and can run on a schedule to keep them current.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="container container--narrow" style="margin-top:96px;">
+      <p class="kicker">Context Window</p>
+      <h3 class="h3 h3--block">Claude's working memory. It has a <span class="grad">limit</span>.</h3>
+      <p class="body body--lead">Every session holds a fixed amount of text — your messages, Claude's replies, and any
+        files combined. When it fills, older context drops off and quality degrades.</p>
+
+      <div class="cw-grid">
+        <div class="card">
+          <p class="kicker">What it is</p>
+          <p>A rolling window of everything Claude can see — your prompts, its responses, attached files. Fixed in size,
+            it doesn't grow mid-session.</p>
+        </div>
+        <div class="card">
+          <p class="kicker">When it fills</p>
+          <p>Claude loses sight of earlier instructions and context. Responses become shorter, repetitive, or miss
+            details you've already given.</p>
+        </div>
+        <div class="card">
+          <p class="kicker">How to manage it</p>
+          <p>Start a fresh session for each new task. Don't chain unrelated work in one conversation. Paste a brief
+            summary if context needs to carry over.</p>
+        </div>
       </div>
 
-      <!-- Panel 1 -->
-      <div class="setup-panel is-active" data-panel="s1" data-step-id="step-1">
-        <div class="setup-panel__head">
-          <p class="kicker">Step one</p>
-          <span class="setup-panel__time">~3 min</span>
+      <div class="cw-img-wrap">
+        <img src="assets/context-window-thinking-tools.svg"
+          alt="Diagram showing how Claude's context window works alongside extended thinking and tool use">
+        <p class="cw-caption">Context window, extended thinking, and tool access — how they interact in a Cowork
+          session.</p>
+      </div>
+    </div>
+
+
+    <div class="dark-band">
+      <div class="aurora aurora--dark" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+      <div class="container container--narrow">
+        <p class="kicker" style="margin-top:0">Skills</p>
+        <h3 class="h3 h3--block">Reusable task templates, ready to call.</h3>
+        <p class="body">Instead of prompting from scratch every time, call a skill and Claude loads the right approach
+          automatically. Type <code class="prompt-inline">/skill-name</code> or just describe your task in plain English
+          — Claude recognizes when a skill applies. Always check if a skill exists before prompting from scratch.</p>
+        <div class="dtable-wrap">
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>What it does</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Email Management<span class="skill-tip">Triage inbox,
+                      summarize threads, draft replies and follow-ups, flag urgent items, apply client
+                      tone.</span></span></td>
+                <td>Inbox triage, reply drafts, follow-ups</td>
+              </tr>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Calendar Management<span class="skill-tip">Pull availability,
+                      summarize the week ahead, schedule across time zones, set recurring blocks, flag
+                      conflicts.</span></span></td>
+                <td>Availability summaries, scheduling, conflict checks</td>
+              </tr>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Writing<span class="skill-tip">Long-form drafts, memos,
+                      briefings, and formatted documents tailored to your voice and context.</span></span></td>
+                <td>Long-form drafts, memos, reports, structured documents</td>
+              </tr>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Research<span class="skill-tip">Company and contact research
+                      from public sources, briefing documents, news summaries, competitor overviews.</span></span> <span
+                    class="coming">soon</span></td>
+                <td>Collects and synthesizes online information</td>
+              </tr>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Data Analysis &amp; Reporting<span class="skill-tip">Clean
+                      and structure spreadsheets, summarize datasets, extract action items from notes, build simple
+                      trackers.</span></span> <span class="coming">soon</span></td>
+                <td>Spreadsheet cleanup, summaries, action item extraction</td>
+              </tr>
+              <tr>
+                <td><span class="pill-skill skill-tiphost">Content Creation &amp; Social Media Management<span
+                      class="skill-tip">Draft posts, repurpose long-form content, write email sequences, create content
+                      calendars.</span></span> <span class="coming">soon</span></td>
+                <td>Writes posts, captions, content calendars</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <h3 class="h3">Accept your invite.</h3>
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s1-0"><span>Open the invite link from your email, assistant workspace, or account lead.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s1-1"><span>Click <strong>Get Started</strong> on the Join Magic EA page.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s1-2"><span>Sign in using the email the invite was sent to. Do not sign up with multiple emails or share the link.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s1-3"><span>Once signed in, click <strong>Join Team</strong>.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s1-4"><span>Confirm you can see the Claude homepage.</span></label></li>
-        </ul>
-        <img src="assets/join-magic-ea.png" alt="Accept your invite to Magic" style="display:block;width:80%;height:auto;min-height:0;padding:0 0 10px;border:none;background:none;margin-left:auto;margin-right:auto;">
-        <div style="display:flex;justify-content:center;margin-top:8px;">
-          <div class="callout callout--warn" style="display:inline-block;width:auto;max-width:100%;text-align:center;">
-            <p><strong>Heads up.</strong> The invite may expire without notice. If this happens and you need access,<br>email <a href="mailto:product-team@getmagicea.com" style="font-weight:700;color:var(--violet,#5200e3);text-decoration:none;">product-team@getmagicea.com</a>.</p>
+        <div class="callout callout--warn" style="margin-top:16px">
+          <p>If you don't see Magic skills in your Projects sidebar, message the Product Team — there may be a
+            permissions issue.</p>
+        </div>
+
+        <figure style="margin:32px 0;width:100%;">
+          <a href="https://www.youtube.com/watch?v=bjdBVZa66oU&t=71s" target="_blank" rel="noopener"
+            style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
+            <img src="https://img.youtube.com/vi/bjdBVZa66oU/maxresdefault.jpg" alt="Introduction to Skills"
+              style="width:100%;height:100%;object-fit:cover;display:block;">
+            <div
+              style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
+              <div
+                style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
+                <svg viewBox="0 0 24 24" fill="currentColor"
+                  style="width:30px;height:30px;color:#5200e3;margin-left:4px;">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        </figure>
+
+        <!-- Demo Videos -->
+        <div class="demo-section">
+          <div class="aurora aurora--demo" aria-hidden="true"></div>
+          <p class="kicker">See it in action</p>
+          <h3 class="h3 h3--block">Watch each skill work.</h3>
+          <div class="demo-grid">
+
+            <!-- CHANGE URL: Email Management demo
+             Replace the src value with your embed URL.
+             Loom:    https://www.loom.com/embed/YOUR_VIDEO_ID
+             YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID -->
+            <div class="demo-card">
+              <p class="demo-card__label">Email Management</p>
+              <div class="demo-card__player">
+                <iframe src="PLACEHOLDER_EMAIL_DEMO_URL" title="Email Management demo" frameborder="0"
+                  allow="fullscreen" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <!-- CHANGE URL: Calendar Management demo
+             Replace the src value with your embed URL. -->
+            <div class="demo-card">
+              <p class="demo-card__label">Calendar Management</p>
+              <div class="demo-card__player">
+                <iframe src="PLACEHOLDER_CALENDAR_DEMO_URL" title="Calendar Management demo" frameborder="0"
+                  allow="fullscreen" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <!-- CHANGE URL: Writing demo
+             Replace the src value with your embed URL. -->
+            <div class="demo-card">
+              <p class="demo-card__label">Writing</p>
+              <div class="demo-card__player">
+                <iframe src="PLACEHOLDER_WRITING_DEMO_URL" title="Writing demo" frameborder="0" allow="fullscreen"
+                  loading="lazy"></iframe>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <!-- Panel 2 -->
-      <div class="setup-panel" data-panel="s2" data-step-id="step-2">
-        <div class="setup-panel__head">
-          <p class="kicker">Step two</p>
-          <span class="setup-panel__time">~8 min</span>
+
+      <div class="container container--narrow">
+        <!-- CONNECTORS subsection -->
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 44px;">
+        <p class="kicker" style="margin-top:0">Connectors</p>
+        <h3 class="h3 h3--block">The apps Claude works inside directly.</h3>
+        <p class="body">Connectors (also called MCP Apps) let Claude read data and take actions inside your tools on
+          your behalf — no copy-pasting between apps. Once connected, they're available in every conversation. Manage
+          them under <strong>Settings → Integrations</strong> in Claude Cowork.</p>
+
+        <div class="dtable-wrap" style="margin-top: 24px;">
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th>App</th>
+                <th>What Claude can do</th>
+                <th style="text-align:center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Gmail</strong></td>
+                <td>Read inbox, draft replies, send emails — powers <span class="pill-skill">Email Management</span>
+                </td>
+                <td style="text-align:center"><span class="connector-status connector-status--on">Connected</span></td>
+              </tr>
+              <tr>
+                <td><strong>Notion</strong></td>
+                <td>Read and write pages and databases</td>
+                <td style="text-align:center"><span class="connector-status connector-status--on">Connected</span></td>
+              </tr>
+              <tr>
+                <td><strong>Google Calendar</strong></td>
+                <td>Check availability, create events, send briefings — powers <span class="pill-skill">Calendar
+                    Management</span></td>
+                <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
+              </tr>
+              <tr>
+                <td><strong>Google Drive</strong></td>
+                <td>Retrieve and manage documents</td>
+                <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
+              </tr>
+              <tr>
+                <td><strong>Slack</strong></td>
+                <td>Summaries, notifications, follow-ups</td>
+                <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <h3 class="h3">Download the desktop app and open Cowork.</h3>
-        <p class="body">The desktop app unlocks <strong>Cowork</strong> — Claude's ability to access your files and execute tasks, not just answer questions.</p>
+        <figure style="margin:24px 0;width:100%;">
+          <a href="https://www.youtube.com/watch?v=_jjSS0qGFbI" target="_blank" rel="noopener"
+            style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
+            <img src="https://img.youtube.com/vi/_jjSS0qGFbI/maxresdefault.jpg" alt="Connectors overview"
+              style="width:100%;height:100%;object-fit:cover;display:block;">
+            <div
+              style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
+              <div
+                style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
+                <svg viewBox="0 0 24 24" fill="currentColor"
+                  style="width:30px;height:30px;color:#5200e3;margin-left:4px;">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        </figure>
 
-        <p class="setup-sub">Installation</p>
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s2-0"><span>Go to <strong>claude.ai/download</strong> (or follow the link on your first sign-in).</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s2-1"><span>Download for your OS — Mac or Windows.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s2-2"><span>Open the installer and follow the steps.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s2-3"><span>Sign in with the <strong>same account</strong> from step one.</span></label></li>
-        </ul>
-        <img src="assets/cowork-homescreen.png" alt="Cowork home screen" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+        <div class="callout callout--claude" style="margin-top: 16px;">
+          <p>Skills that depend on a missing connector won't run until it's added. If a connector isn't set up yet,
+            Claude will flag it and point you directly to Settings.</p>
+        </div>
+      </div>
+    </div>
 
-        <p class="setup-sub">Getting started with Cowork</p>
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s2-4"><span>When the desktop app opens, switch to <strong>Cowork</strong> in the mode picker (left sidebar).</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s2-5"><span>In your first Cowork session, type <code class="prompt-inline">/setup-cowork</code> and press enter to run guided setup.</span></label></li>
-        </ul>
-        <img src="assets/setup-cowork.png" alt="Setup Cowork" style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:96px">Scheduled tasks</p>
+      <h3 class="h3 h3--block">Have Claude run work on a cadence — without you starting it.</h3>
+      <p class="body">Type <code class="prompt-inline">/schedule</code> in Cowork. Claude asks a few questions — what,
+        when, how often — and confirms before anything is created. You define it once and it handles it from there.</p>
+      <div class="card schedule-card">
+        <p class="kicker kicker--violet">Magic EA examples</p>
+        <div class="schedule-prompts">
+          <code class="prompt"
+            data-copy="">Every weekday morning at 8am, check my inbox and save a summary of unread client emails to my folder.</code>
+          <code class="prompt"
+            data-copy="">Every Friday at 4pm, pull my completed tasks for the week and create a short summary for my AL.</code>
+          <code class="prompt"
+            data-copy="">Every Monday, check my client's calendar for the week and flag any conflicts or gaps in scheduling.</code>
+        </div>
+      </div>
+    </div>
 
-        <p class="setup-sub">Connect your project folder</p>
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s2-6"><span>Select <strong>Work in a project</strong> in the chat bar to pick where Claude reads context from and saves finished work back to.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s2-7"><span>Choose an existing folder or create a new project — we recommend a dedicated <em>Magic Work</em> or <em>Claude Tasks</em> folder. Avoid pointing it at your Desktop or Downloads.</span></label></li>
-        </ul>
-        <div class="explain-grid">
-          <div class="explain">
-            <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A folder</p>
-            <p>A folder on your computer. Cowork reads what's there and saves new files alongside it. Scope it to one piece of work, or point it at a broader directory several tasks share.</p>
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="cowork">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== PROMPTING ============== -->
+  <section class="section" id="prompting" data-gate-section="prompting">
+
+
+
+    <!-- HEADER -->
+    <div class="container container--narrow">
+      <p class="kicker">Prompting for Cowork</p>
+      <h2 class="h2">Tell it what you want delivered, not what you want to <span class="grad">know</span>.</h2>
+      <p class="body body--lead">Cowork responds best to goal-oriented prompts. Describe the deliverable — format, tone,
+        where to save — and you will get something usable on the first try.</p>
+    </div>
+
+    <!-- RULE #1 DARK CARD -->
+    <div class="dark-band" style="width: calc(75vw - 120px); margin: 40px auto 0;">
+      <div class="aurora aurora--dark" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+      <div class="container container--narrow">
+        <div class="prompt-rule">
+          <div>
+            <p class="kicker" style="margin-top:0">The #1 rule</p>
+            <h3 class="h3 h3--block">Claude is <span
+                style="background:var(--sphere,linear-gradient(135deg,#FF8EA9 0%,#9B00FF 50%,#14E9ED 100%));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">brilliant</span>
+              on day one. It just doesn't know your situation yet.</h3>
+            <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know
+              is your client, your task, and what a good result looks like. Give it that context — the more you hand
+              over, the less it has to guess.</p>
+            <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that is almost always a
+              context problem — not a Claude problem.</p>
           </div>
-          <div class="explain">
-            <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A project</p>
-            <p>A workspace that carries its own files, instructions, and memory across sessions. Create one in Cowork's sidebar, or import a project you already use in Chat.</p>
+          <div class="prompt-rule__compare">
+            <div class="prompt-rule__example prompt-rule__example--bad">
+              <p class="prompt-rule__tag prompt-rule__tag--bad">Without context</p>
+              <p class="prompt-rule__quote">"Write a follow-up email."</p>
+            </div>
+            <div class="prompt-rule__example prompt-rule__example--good">
+              <p class="prompt-rule__tag prompt-rule__tag--good">With context</p>
+              <p class="prompt-rule__quote">"Write a follow-up email to a client who missed our Monday check-in. We
+                manage their calendar. Warm but professional. Under 5 sentences. Save to my Magic folder."</p>
+            </div>
           </div>
         </div>
-        <img src="assets/project-folder.png" alt="Project folder" style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
-
-        <div class="callout callout--claude">
-          <svg class="callout__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
-          <p><strong>Keep the desktop app open while you work.</strong> Cowork only runs through the desktop app, not the browser. The folder you select is Claude's workspace where it can read, write, or delete files.</p>
-        </div>
       </div>
+    </div>
 
-      <!-- Panel 3 -->
-      <div class="setup-panel" data-panel="s3" data-step-id="step-3">
-        <div class="setup-panel__head">
-          <p class="kicker">Step three</p>
-          <span class="setup-panel__time">~6 min</span>
-        </div>
-        <h3 class="h3">Connect your tools.</h3>
-        <p class="body">Claude connects to popular third-party apps — Microsoft 365, Notion, Slack, Canva, Asana, HubSpot, QuickBooks, and many more — so you can bring agentic AI into your real workflows. Cowork's real power comes from connecting the apps your client already uses. Without this, Claude works blind.</p>
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s3-0"><span>In the desktop app, click <strong>Customize</strong> (left sidebar).</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s3-1"><span>Go to <strong>Connectors</strong> and click <strong>Add Connector</strong> (the plus sign).</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s3-2"><span>Find <strong>Google Workspace apps</strong> and add them.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s3-3"><span>The added app appears in your Connectors list, most likely under Not Connected.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s3-4"><span>Click <strong>Connect</strong> and sign in with your Google account to allow permissions.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s3-5"><span>Repeat for <strong>Gmail</strong>, <strong>Google Calendar</strong>, <strong>Google Drive</strong>, or other apps.</span></label></li>
-        </ul>
-        <img src="assets/connectors-1.png" alt="Connectors panel" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
-        <img src="assets/connectors-2.png" alt="Connect Google Workspace" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+    <!-- THREE PRINCIPLES -->
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:72px">Three things to always remember</p>
+      <div class="habit-grid">
 
-        <p class="setup-sub">Test it</p>
-        <p class="body body--small">Open a new Claude chat and type:</p>
-        <code class="prompt" data-copy="">What meetings do I have tomorrow?</code>
-        <p class="body body--small">If Claude lists your calendar events, you're connected. If it says it doesn't have access, go back to Connectors and check.</p>
+        <article class="card habit-card">
+          <p class="habit-num">01</p>
+          <p class="habit-title">Give it the full brief</p>
+          <p class="habit-body">Who, what, format, tone, where to save. The more context you give, the less it has to
+            guess.</p>
+        </article>
 
-        <div class="callout callout--warn">
-          <p><strong>Connect your own Google account only.</strong> Never connect a client's email or calendar without their explicit written approval.</p>
-        </div>
+        <article class="card habit-card">
+          <p class="habit-num">02</p>
+          <p class="habit-title">Correct it. Don't accept the first draft.</p>
+          <p class="habit-body">Claude iterates. If the result isn't right, redirect it — just like you would with a
+            colleague.</p>
+        </article>
+
+        <article class="card habit-card habit-card--wide">
+          <p class="habit-num">03</p>
+          <p class="habit-title">Assume it can do anything until it tells you otherwise.</p>
+          <p class="habit-body">Try the task. Claude will flag it if something is outside what it can do. Most
+            assistants stop short of what is actually possible — the people who get the most out of it are the ones who
+            keep asking.</p>
+        </article>
+
       </div>
+    </div>
 
-      <!-- Panel 4 -->
-      <div class="setup-panel" data-panel="s4" data-step-id="step-4">
-        <div class="setup-panel__head">
-          <p class="kicker">Step four</p>
-          <span class="setup-panel__time">~4 min</span>
+    <!-- 6 PROMPT PAIRS -->
+    <div class="container container--narrow prompt-pairs"
+      style="margin-top:48px;width:80%;margin-left:auto;margin-right:auto;">
+
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Don't say</p>
+          <p class="prompt-pair__line">"Research [Company Name]."</p>
         </div>
-        <h3 class="h3">Find your Magic skill templates.</h3>
-        <p class="body">Magic has pre-built skill templates for the most common EA tasks. Always start from a template before prompting from scratch.</p>
-
-        <div class="callout callout--claude">
-          <svg class="callout__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></svg>
-          <p><strong>Where to find them.</strong> Desktop app or claude.ai → <strong>Customize</strong> (left sidebar) → Skills project → Add / Browse Skills → Your organization tab.</p>
-        </div>
-
-        <div class="template-grid" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-            <span class="template">Email Management</span>
-            <span class="template">Calendar Management</span>
-            <span class="template">Writing</span>
-            <span class="template">Data Analysis &amp; Reporting <span class="coming">soon</span></span>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-            <span class="template">Content Creation <span class="coming">soon</span></span>
-            <span class="template">Social Media Management <span class="coming">soon</span></span>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"I'm prepping for a discovery call with [Company]. They're in [industry]. Pull
+              their recent news, key people, and any funding history. Format as a one-page briefing doc."</p>
           </div>
         </div>
+        <p class="prompt-pair__why pp-reveal-why">Claude needs the who and why, not just the what. Context turns a
+          generic search into a targeted briefing.</p>
+      </article>
 
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s4-0"><span>Open <strong>Customize</strong> → Skills project → Browse Skills → Your organization tab.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s4-1"><span>Add the skills available to you.</span></label></li>
-          <li><label><input type="checkbox" data-cb-key="s4-2"><span>Confirm they appear in your Skills list.</span></label></li>
-        </ul>
-        <img src="assets/connectors-1.png" alt="Model selection" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
-<img src="assets/connectors-2.png" alt="Model selection" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
-        <p class="body body--small">Once a skill is added, use it in Cowork by typing its slash command — for example <code class="prompt-inline">/email-management</code> or <code class="prompt-inline">/calendar-management</code> — then combine it with your own prompt. You can even ask Claude to explain what a specific skill does and how to use it.</p>
-
-        <div class="callout callout--warn">
-          <p>If you don't see any skill, message the Product Team — there may be a permissions issue on your account.</p>
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Don't say</p>
+          <p class="prompt-pair__line">"Write an email."</p>
         </div>
-      </div>
-
-      <!-- Panel 5 -->
-      <div class="setup-panel" data-panel="s5" data-step-id="step-5">
-        <div class="setup-panel__head">
-          <p class="kicker">Step five</p>
-          <span class="setup-panel__time">~10 min</span>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"Write a follow-up to a client who missed our Monday call. Warm but
+              professional. Under 5 sentences. Save to my folder."</p>
+          </div>
         </div>
-        <h3 class="h3">Try your first Cowork task.</h3>
-        <p class="body">Open a new Cowork session and start on something from your to-do list — a task that's spread across your tools, takes several steps, or needs real work on your computer. Type <code class="prompt-inline">/</code> for the starting prompts your plugin installed.</p>
+        <p class="prompt-pair__why pp-reveal-why">Who the client is + what you need + format + delivery = a usable
+          result on the first try.</p>
+      </article>
 
-        <p class="setup-sub">Good first tasks</p>
-        <code class="prompt" data-copy="">Go through my inbox, find unread client emails from the last 24 hours, and draft a reply for each one that needs a response. Save the drafts to my Magic Work folder.</code>
-        <code class="prompt" data-copy="">Check my Google Calendar for next week and write a summary of my client's availability. Save it as availability.md in my folder.</code>
-        <code class="prompt" data-copy="">Research [company name] — their industry, recent news, and key people. Write a one-page briefing and save it to my folder.</code>
-        <code class="prompt" data-copy="">Summarize these meeting notes and pull out every action item with the owner and deadline.</code>
-
-        <p class="setup-sub">How to run it</p>
-        <ol class="bullets bullets--num">
-          <li>In Cowork, set the working folder to send with your prompt.</li>
-          <li>Type clear, specific instructions describing what you need.</li>
-          <li>Claude may show its plan or ask clarifying questions before anything consequential. If it's right, approve it. If not, redirect it.</li>
-          <li>Watch Claude work through the steps, or step away and come back.</li>
-          <li>Always review Claude's output before sending anything to a client.</li>
-          <li>If the output needs work, re-prompt until you get the outcome you want.</li>
-        </ol>
-
-        <div class="callout callout--tip">
-          <p>To get more practice, try doing tasks in Cowork using the connectors or skills you set up earlier.</p>
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Don't say</p>
+          <p class="prompt-pair__line">"Check my inbox for anything important."</p>
         </div>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"Check emails from the last 24 hours from clients or flagged senders.
+              One-sentence summary each."</p>
+          </div>
+        </div>
+        <p class="prompt-pair__why pp-reveal-why">Scoping the task prevents it from pulling in far more than you need
+          and slowing the whole task down.</p>
+      </article>
 
-        <ul class="checklist">
-          <li><label><input type="checkbox" data-cb-key="s5-0"><span>Ran my first real Cowork task and reviewed the output.</span></label></li>
-        </ul>
-      </div>
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Don't say</p>
+          <p class="prompt-pair__line">"Summarize this."</p>
+        </div>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"Summarize this meeting transcript. Pull out action items, owners, and
+              deadlines as a table."</p>
+          </div>
+        </div>
+        <p class="prompt-pair__why pp-reveal-why">Telling it what structure you want gets a result you can use — not a
+          wall of text you still have to process.</p>
+      </article>
 
-      <!-- shared nav -->
-      <div class="setup-nav">
-        <button class="setup-nav__btn" id="setupPrev" type="button" disabled="">← Previous</button>
-        <button class="setup-nav__btn setup-nav__btn--next" id="setupNext" type="button"><span data-next-label="">Next</span> →</button>
-      </div>
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Don't say</p>
+          <p class="prompt-pair__line">"Don't make it sound too corporate."</p>
+        </div>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"Write in a warm, direct tone — like a trusted colleague, not a PR statement."
+            </p>
+          </div>
+        </div>
+        <p class="prompt-pair__why pp-reveal-why">Tell it what to hit, not what to avoid. Positive instructions are
+          clearer and easier to follow.</p>
+      </article>
+
+      <article class="prompt-pair pp-collapsible">
+        <div class="prompt-pair__bad">
+          <p class="prompt-pair__tag">Getting a generic result?</p>
+          <p class="prompt-pair__line">The output exists — it just needs more to go on.</p>
+        </div>
+        <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
+          <p class="prompt-pair__tag">Reprompt <span class="pp-caret">&#8250;</span></p>
+          <p class="pp-hint">Tap to reveal</p>
+          <div class="pp-reveal">
+            <p class="prompt-pair__line">"That's too generic. The client is in [industry] and this is for [specific
+              context]. Rewrite with that in mind."</p>
+          </div>
+        </div>
+        <p class="prompt-pair__why pp-reveal-why">A generic result almost always means not enough context. It is not
+          broken — it just needs a better brief.</p>
+      </article>
 
     </div>
-  </div>
-</section>
 
+    <script src="js/ui.js"></script>
 
-<!-- ============== USING COWORK ============== -->
-<section class="section" id="cowork" data-gate-section="cowork">
-  <div class="container container--narrow">
-    <p class="kicker">Using Claude Cowork</p>
-    <h2 class="h2">The mode where Claude stops answering and starts <span class="grad">doing</span>.</h2>
-    <p class="body body--lead">Cowork is the agentic mode in Claude Desktop — it runs on your computer and completes work across your files, browser, and tools. As a Magic assistant, Cowork is your default mode. Always. Your job is task execution; this is how you execute.</p>
-  </div>
-
-  <div class="container container--narrow">
-    <div class="cowork-hero">
-      <div class="cowork-hero__img">
-        <img src="assets/chat-vs-cowork.png" alt="Cowork in action" style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
-      </div>
-      <div class="cowork-hero__card">
-        <article class="card reach reach--cowork">
-          <p class="reach__tag">Always use Cowork</p>
-          <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes — always, without exception.</p>
-          <p style="font-size:14px;color:var(--on-dark-mute);margin:0 0 10px;">Use it whenever:</p>
+    <!-- TIPS -->
+    <div class="container container--narrow" style="margin-top:48px;">
+      <div class="tips-grid">
+        <article class="card tips-card--tip">
+          <p class="kicker">Cowork-specific tips</p>
           <ul class="bullets">
-            <li>You have a clear deliverable — a document, a summary, a drafted reply, a research brief.</li>
-            <li>The work touches your files, calendar, inbox, or connected tools.</li>
-            <li>You'd rather hand off the whole job and review what comes back.</li>
-            <li>You're running something on a schedule — daily briefings, weekly reports, recurring prep.</li>
+            <li>State the <strong>output format</strong> upfront —<br><em class="tip-quote">"save as a .md file"</em>,
+              <em class="tip-quote">"create a table"</em>, <em class="tip-quote">"write bullet points"</em>.
+            </li>
+            <li>State the <strong>output location</strong> —<br><em class="tip-quote">"save to my Magic Work folder in
+                Google Drive"</em>.</li>
+            <li>For tasks touching your <strong>inbox or calendar</strong>, define the scope —<br><em
+                class="tip-quote">"only emails from the last 48 hours"</em> or <em class="tip-quote">"just the three
+                meetings on Thursday"</em>.</li>
+            <li><strong>Don't interrupt mid-step</strong> unless it is clearly going wrong. Wait for Claude to surface a
+              result, then redirect.</li>
+          </ul>
+        </article>
+        <article class="card tips-card--trip">
+          <p class="kicker">Things that trip people up</p>
+          <ul class="bullets">
+            <li>Claude <strong>can hit rate limits</strong> — <em class="tip-quote">"reset at 5am"</em> means your usage
+              cap was reached. Switch to a simpler task or step down to Sonnet.</li>
+            <li>If Claude <strong>goes quiet mid-task</strong>, it may be waiting on a permission prompt — check the
+              task sidebar before restarting.</li>
+            <li><strong>Always confirm the folder or file path</strong> before a task runs — check that the right
+              project folder, sub-folder, or file location is selected so Claude saves or reads from exactly where you
+              intend.</li>
           </ul>
         </article>
       </div>
     </div>
-  </div>
 
-  
-
-  <div class="container container--narrow">
-    <p class="kicker" style="margin-top:96px">How a Cowork task runs</p>
-    <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
-    <div style="display:flex;gap:20px;align-items:center;margin-top:24px;margin-bottom:40px;">
-      <img src="assets/how-cowork-runs.png" alt="How a Cowork task runs" style="width:60%;height:auto;padding:0;border:none;background:none;">
-      <img src="assets/claude-task-runs.png" alt="Claude task runs" style="width:40%;height:auto;padding:0;border:none;background:none;">
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="prompting">Mark as read &#x2192;</button>
     </div>
-    <p class="flow-note">Every action appears in the sidebar. Claude pauses and asks for your approval before anything consequential — sending an email, posting a message, or modifying files outside your working folder.</p>
-
-    <div style="display:flex;gap:20px;align-items:flex-start;margin-top:32px;">
-      <div style="width:50%;flex-shrink:0;">
-        <img src="assets/claude-usecase-3.gif" alt="Data extraction use case" style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
-        <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Hand Claude a pile of receipts, invoices, or screenshots. Come back to a formatted spreadsheet with all the data extracted and organized.</p>
-      </div>
-      <div style="width:50%;flex-shrink:0;">
-        <img src="assets/claude-usecase-4.gif" alt="Document generation use case" style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
-        <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Give Claude your templates and source materials. It produces polished docs, decks, or reports — and can run on a schedule to keep them current.</p>
-      </div>
-    </div>
-  </div>
-  
-
-  
+  </section>
 
 
-  <div class="container container--narrow" style="margin-top:96px;">
-    <p class="kicker">Context Window</p>
-    <h3 class="h3 h3--block">Claude's working memory. It has a <span class="grad">limit</span>.</h3>
-    <p class="body body--lead">Every session holds a fixed amount of text — your messages, Claude's replies, and any files combined. When it fills, older context drops off and quality degrades.</p>
-
-    <div class="cw-grid">
-      <div class="card">
-        <p class="kicker">What it is</p>
-        <p>A rolling window of everything Claude can see — your prompts, its responses, attached files. Fixed in size, it doesn't grow mid-session.</p>
-      </div>
-      <div class="card">
-        <p class="kicker">When it fills</p>
-        <p>Claude loses sight of earlier instructions and context. Responses become shorter, repetitive, or miss details you've already given.</p>
-      </div>
-      <div class="card">
-        <p class="kicker">How to manage it</p>
-        <p>Start a fresh session for each new task. Don't chain unrelated work in one conversation. Paste a brief summary if context needs to carry over.</p>
-      </div>
-    </div>
-
-    <div class="cw-img-wrap">
-      <img src="assets/context-window-thinking-tools.svg" alt="Diagram showing how Claude's context window works alongside extended thinking and tool use">
-      <p class="cw-caption">Context window, extended thinking, and tool access — how they interact in a Cowork session.</p>
-    </div>
-  </div>
-
-
-  <div class="dark-band">
-    <div class="aurora aurora--dark" aria-hidden="true"></div>
-    <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+  <!-- ============== MODEL ============== -->
+  <section class="section" id="model" data-gate-section="model">
     <div class="container container--narrow">
-    <p class="kicker" style="margin-top:0">Skills</p>
-    <h3 class="h3 h3--block">Reusable task templates, ready to call.</h3>
-    <p class="body">Instead of prompting from scratch every time, call a skill and Claude loads the right approach automatically. Type <code class="prompt-inline">/skill-name</code> or just describe your task in plain English — Claude recognizes when a skill applies. Always check if a skill exists before prompting from scratch.</p>
-    <div class="dtable-wrap">
-      <table class="dtable">
-        <thead><tr><th>Skill</th><th>What it does</th></tr></thead>
-        <tbody>
-          <tr><td><span class="pill-skill skill-tiphost">Email Management<span class="skill-tip">Triage inbox, summarize threads, draft replies and follow-ups, flag urgent items, apply client tone.</span></span></td><td>Inbox triage, reply drafts, follow-ups</td></tr>
-          <tr><td><span class="pill-skill skill-tiphost">Calendar Management<span class="skill-tip">Pull availability, summarize the week ahead, schedule across time zones, set recurring blocks, flag conflicts.</span></span></td><td>Availability summaries, scheduling, conflict checks</td></tr>
-          <tr><td><span class="pill-skill skill-tiphost">Writing<span class="skill-tip">Long-form drafts, memos, briefings, and formatted documents tailored to your voice and context.</span></span></td><td>Long-form drafts, memos, reports, structured documents</td></tr>
-          <tr><td><span class="pill-skill skill-tiphost">Research<span class="skill-tip">Company and contact research from public sources, briefing documents, news summaries, competitor overviews.</span></span> <span class="coming">soon</span></td><td>Collects and synthesizes online information</td></tr>
-          <tr><td><span class="pill-skill skill-tiphost">Data Analysis &amp; Reporting<span class="skill-tip">Clean and structure spreadsheets, summarize datasets, extract action items from notes, build simple trackers.</span></span> <span class="coming">soon</span></td><td>Spreadsheet cleanup, summaries, action item extraction</td></tr>
-          <tr><td><span class="pill-skill skill-tiphost">Content Creation &amp; Social Media Management<span class="skill-tip">Draft posts, repurpose long-form content, write email sequences, create content calendars.</span></span> <span class="coming">soon</span></td><td>Writes posts, captions, content calendars</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout callout--warn" style="margin-top:16px">
-      <p>If you don't see Magic skills in your Projects sidebar, message the Product Team — there may be a permissions issue.</p>
-    </div>
+      <p class="kicker">Choosing the right model</p>
+      <h2 class="h2">Start on Opus. Step down only when <span class="grad">limits</span> push you.</h2>
+      <p class="body body--lead">Opus is your default for all EA work — best quality, richest output, strongest
+        reasoning. Switch to Sonnet only if you’re hitting Opus rate limits. If you hit Sonnet limits too, escalate to
+        your account lead rather than dropping to Haiku.</p>
 
-    <figure style="margin:32px 0;width:100%;">
-      <a href="https://www.youtube.com/watch?v=bjdBVZa66oU&t=71s" target="_blank" rel="noopener" style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
-  <img src="https://img.youtube.com/vi/bjdBVZa66oU/maxresdefault.jpg" alt="Introduction to Skills" style="width:100%;height:100%;object-fit:cover;display:block;">
-  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
-    <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:30px;height:30px;color:#5200e3;margin-left:4px;"><path d="M8 5v14l11-7z"/></svg>
-    </div>
-  </div>
-</a>
-    </figure>
-
-    <!-- Demo Videos -->
-    <div class="demo-section">
-      <div class="aurora aurora--demo" aria-hidden="true"></div>
-      <p class="kicker">See it in action</p>
-      <h3 class="h3 h3--block">Watch each skill work.</h3>
-      <div class="demo-grid">
-
-        <!-- CHANGE URL: Email Management demo
-             Replace the src value with your embed URL.
-             Loom:    https://www.loom.com/embed/YOUR_VIDEO_ID
-             YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID -->
-        <div class="demo-card">
-          <p class="demo-card__label">Email Management</p>
-          <div class="demo-card__player">
-            <iframe src="PLACEHOLDER_EMAIL_DEMO_URL" title="Email Management demo" frameborder="0" allow="fullscreen" loading="lazy"></iframe>
+      <div class="card picker" id="picker">
+        <fieldset class="picker__field">
+          <legend class="kicker kicker--muted">What’s your situation?</legend>
+          <div class="picker__opts">
+            <label><input type="radio" name="task" value="opus" checked=""><span>Everyday EA work — the
+                default</span></label>
+            <label><input type="radio" name="task" value="sonnet"><span>Hitting Opus rate limits</span></label>
+            <label><input type="radio" name="task" value="haiku"><span>Bulk data, high-volume extraction
+                (rare)</span></label>
           </div>
-        </div>
+        </fieldset>
 
-        <!-- CHANGE URL: Calendar Management demo
-             Replace the src value with your embed URL. -->
-        <div class="demo-card">
-          <p class="demo-card__label">Calendar Management</p>
-          <div class="demo-card__player">
-            <iframe src="PLACEHOLDER_CALENDAR_DEMO_URL" title="Calendar Management demo" frameborder="0" allow="fullscreen" loading="lazy"></iframe>
-          </div>
+        <div class="picker__result" id="pickerResult">
+          <p class="kicker kicker--violet">Recommended</p>
+          <p class="picker__model"><span id="pickerModel">Opus</span></p>
+          <p class="picker__why" id="pickerWhy">Your default. Best quality and reasoning for all EA work — research,
+            writing, Cowork, complex tasks. Start here and only step down if rate limits actually stop you.</p>
         </div>
-
-        <!-- CHANGE URL: Writing demo
-             Replace the src value with your embed URL. -->
-        <div class="demo-card">
-          <p class="demo-card__label">Writing</p>
-          <div class="demo-card__player">
-            <iframe src="PLACEHOLDER_WRITING_DEMO_URL" title="Writing demo" frameborder="0" allow="fullscreen" loading="lazy"></iframe>
-          </div>
-        </div>
-
       </div>
     </div>
+
+    <div class="container container--narrow" style="margin-top:24px">
+      <div class="dtable-wrap">
+        <table class="dtable dtable--model">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Use for</th>
+              <th>Avoid for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-model="opus">
+              <td>Opus</td>
+              <td>Everything by default — all EA work, research, writing, Cowork, complex reasoning. Your starting
+                point, not a special-occasion model.</td>
+              <td>Nothing. Start here unless rate limits stop you.</td>
+            </tr>
+            <tr data-model="sonnet">
+              <td>Sonnet</td>
+              <td>When you’ve hit your Opus rate limit. Still strong for most work, lighter on quota.</td>
+              <td>Accuracy-critical or complex multi-step tasks where quality matters most.</td>
+            </tr>
+            <tr class="row-haiku">
+              <td>Haiku</td>
+              <td>High-volume rote data only — bulk categorization, simple extraction at scale across many rows.</td>
+              <td>Almost all EA work. Never for reasoning, writing, or anything needing judgement.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--warn"
+        style="margin-top:16px; width:fit-content; margin-left:auto; margin-right:auto; text-align:center;">
+        <p><strong>Hitting Sonnet limits?</strong> Don't drop to Haiku — defaulting to a weaker model may affect the
+          quality of results.</p>
+        <p style="margin-top:8px;">Escalate to your account lead so your quota can be reviewed.</p>
+      </div>
     </div>
-  
+
+
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="model">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== SAFETY ============== -->
+  <section class="section" id="safety" data-gate-section="safety">
+    <div class="container container--narrow">
+      <p class="kicker">Use Claude Cowork safely</p>
+      <h2 class="h2">Read this before any <span class="grad">client</span> work.</h2>
+      <p class="body body--lead">Cowork works on your computer with access to your files, browser, connected services,
+        and apps. That capability comes with risks worth understanding.</p>
+
+      <div style="display:flex;gap:12px;align-items:stretch;margin-top:16px;">
+        <div style="flex:1 1 0;min-width:0;overflow:hidden;border-radius:var(--r-card);">
+          <img src="assets/claude-graphic.jpg" alt="" style="width:100%;height:100%;display:block;object-fit:cover;">
+        </div>
+        <div class="card risk-card" style="margin-top:0;flex:0 0 70%;min-width:0;">
+          <p class="kicker kicker--violet">To minimize risks</p>
+          <ul class="bullets">
+            <li>Avoid granting access to local files with sensitive information, like financial documents.</li>
+            <li>Be especially cautious with computer use — Claude clicks, types, and navigates your screen directly,
+              without the permission checks that gate other Cowork tools.</li>
+            <li>Cowork may have direct access to Claude in Chrome. We strongly advise against using it to manage or take
+              actions involving sensitive information, purchases, and critical processes that may break things for your
+              client.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
 
     <div class="container container--narrow">
-    <!-- CONNECTORS subsection -->
-    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 44px;">
-    <p class="kicker" style="margin-top:0">Connectors</p>
-    <h3 class="h3 h3--block">The apps Claude works inside directly.</h3>
-    <p class="body">Connectors (also called MCP Apps) let Claude read data and take actions inside your tools on your behalf — no copy-pasting between apps. Once connected, they're available in every conversation. Manage them under <strong>Settings → Integrations</strong> in Claude Cowork.</p>
-
-    <div class="dtable-wrap" style="margin-top: 24px;">
-      <table class="dtable">
-        <thead>
-          <tr>
-            <th>App</th>
-            <th>What Claude can do</th>
-            <th style="text-align:center">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Gmail</strong></td>
-            <td>Read inbox, draft replies, send emails — powers <span class="pill-skill">Email Management</span></td>
-            <td style="text-align:center"><span class="connector-status connector-status--on">Connected</span></td>
-          </tr>
-          <tr>
-            <td><strong>Notion</strong></td>
-            <td>Read and write pages and databases</td>
-            <td style="text-align:center"><span class="connector-status connector-status--on">Connected</span></td>
-          </tr>
-          <tr>
-            <td><strong>Google Calendar</strong></td>
-            <td>Check availability, create events, send briefings — powers <span class="pill-skill">Calendar Management</span></td>
-            <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
-          </tr>
-          <tr>
-            <td><strong>Google Drive</strong></td>
-            <td>Retrieve and manage documents</td>
-            <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
-          </tr>
-          <tr>
-            <td><strong>Slack</strong></td>
-            <td>Summaries, notifications, follow-ups</td>
-            <td style="text-align:center"><span class="connector-status connector-status--off">Add</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <figure style="margin:24px 0;width:100%;">
-      <a href="https://www.youtube.com/watch?v=_jjSS0qGFbI" target="_blank" rel="noopener" style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
-  <img src="https://img.youtube.com/vi/_jjSS0qGFbI/maxresdefault.jpg" alt="Connectors overview" style="width:100%;height:100%;object-fit:cover;display:block;">
-  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
-    <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:30px;height:30px;color:#5200e3;margin-left:4px;"><path d="M8 5v14l11-7z"/></svg>
-    </div>
-  </div>
-</a>
-    </figure>
-
-    <div class="callout callout--claude" style="margin-top: 16px;">
-      <p>Skills that depend on a missing connector won't run until it's added. If a connector isn't set up yet, Claude will flag it and point you directly to Settings.</p>
-    </div>
-    </div>
-</div>
-
-    <div class="container container--narrow">
-    <p class="kicker" style="margin-top:96px">Scheduled tasks</p>
-    <h3 class="h3 h3--block">Have Claude run work on a cadence — without you starting it.</h3>
-    <p class="body">Type <code class="prompt-inline">/schedule</code> in Cowork. Claude asks a few questions — what, when, how often — and confirms before anything is created. You define it once and it handles it from there.</p>
-    <div class="card schedule-card">
-      <p class="kicker kicker--violet">Magic EA examples</p>
-      <div class="schedule-prompts">
-        <code class="prompt" data-copy="">Every weekday morning at 8am, check my inbox and save a summary of unread client emails to my folder.</code>
-        <code class="prompt" data-copy="">Every Friday at 4pm, pull my completed tasks for the week and create a short summary for my AL.</code>
-        <code class="prompt" data-copy="">Every Monday, check my client's calendar for the week and flag any conflicts or gaps in scheduling.</code>
-      </div>
-    </div>
-  </div>
-
-
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="cowork">Mark as read →</button>
-</div>
-</section>
-
-
-<!-- ============== PROMPTING ============== -->
-<section class="section" id="prompting" data-gate-section="prompting">
-
-  
-
-  <!-- HEADER -->
-  <div class="container container--narrow">
-    <p class="kicker">Prompting for Cowork</p>
-    <h2 class="h2">Tell it what you want delivered, not what you want to <span class="grad">know</span>.</h2>
-    <p class="body body--lead">Cowork responds best to goal-oriented prompts. Describe the deliverable — format, tone, where to save — and you will get something usable on the first try.</p>
-  </div>
-
-  <!-- RULE #1 DARK CARD -->
-  <div class="dark-band" style="width: calc(75vw - 120px); margin: 40px auto 0;">
-    <div class="aurora aurora--dark" aria-hidden="true"></div>
-    <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
-    <div class="container container--narrow">
-      <div class="prompt-rule">
-        <div>
-          <p class="kicker" style="margin-top:0">The #1 rule</p>
-          <h3 class="h3 h3--block">Claude is <span style="background:var(--sphere,linear-gradient(135deg,#FF8EA9 0%,#9B00FF 50%,#14E9ED 100%));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">brilliant</span> on day one. It just doesn't know your situation yet.</h3>
-          <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know is your client, your task, and what a good result looks like. Give it that context — the more you hand over, the less it has to guess.</p>
-          <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that is almost always a context problem — not a Claude problem.</p>
-        </div>
-        <div class="prompt-rule__compare">
-          <div class="prompt-rule__example prompt-rule__example--bad">
-            <p class="prompt-rule__tag prompt-rule__tag--bad">Without context</p>
-            <p class="prompt-rule__quote">"Write a follow-up email."</p>
-          </div>
-          <div class="prompt-rule__example prompt-rule__example--good">
-            <p class="prompt-rule__tag prompt-rule__tag--good">With context</p>
-            <p class="prompt-rule__quote">"Write a follow-up email to a client who missed our Monday check-in. We manage their calendar. Warm but professional. Under 5 sentences. Save to my Magic folder."</p>
+      <p class="kicker" style="margin-top:80px">Responsible Use</p>
+      <h3 class="h3 h3--block">Understand Anthropic's safety measures — what they've built, what to watch for, and how
+        to protect yourself and your client.</h3>
+      <div class="protect-grid">
+        <div class="protect"><span class="protect__num">1</span>
+          <p>Be selective about file access.</p>
+          <div class="protect-tip">
+            <p>Claude can read, write, and delete any files it has access to. Avoid pointing it at sensitive documents —
+              use a dedicated working folder instead, and keep backups of anything important.</p>
           </div>
         </div>
+        <div class="protect"><span class="protect__num">2</span>
+          <p>Monitor tasks, not just commands.</p>
+          <div class="protect-tip">
+            <p>Watch for unexpected patterns rather than validating every command — is Claude accessing files or sites
+              you didn't mention? Is scope creeping beyond what you asked for? If something feels off, stop the task
+              immediately.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">3</span>
+          <p>Be cautious with scheduled tasks.</p>
+          <div class="protect-tip">
+            <p>Scheduled tasks run without you watching. Start with low-risk tasks, avoid scheduling anything involving
+              messages, purchases, or hard-to-undo actions, and review results regularly from the Scheduled page in the
+              sidebar.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">4</span>
+          <p>Be cautious with “Act without asking” mode.</p>
+          <div class="protect-tip">
+            <p>Claude works without pausing for approval, which significantly increases prompt injection risk. Only use
+              it when actively supervising, with trusted files and sites, and when you can stop Claude immediately if
+              something looks wrong.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">5</span>
+          <p>Be cautious with computer use.</p>
+          <div class="protect-tip">
+            <p>Claude interacts directly with your screen, apps, and browser. Start with low-stakes tasks, avoid
+              sensitive apps (banking, healthcare), and monitor what it clicks — if it follows a link, that link opens.
+            </p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">6</span>
+          <p>Limit browser and web access to trusted sources.</p>
+          <div class="protect-tip">
+            <p>Web content is a primary vector for prompt injection — malicious instructions can be hidden in pages,
+              emails, or documents Claude opens. Limit browser access to sites you trust.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">7</span>
+          <p>Be especially cautious with unfamiliar plugins.</p>
+          <div class="protect-tip">
+            <p>Each plugin expands Claude's scope and introduces new attack surfaces. Stick to verified extensions from
+              the Claude Desktop directory and review permissions carefully before installing.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">8</span>
+          <p>Be mindful of cross-app data sharing.</p>
+          <div class="protect-tip">
+            <p>Claude can pass data between apps (Excel, PowerPoint) without you explicitly directing it. Avoid working
+              with sensitive information in these add-ins while Cowork is active.</p>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="aside-important">
+        <svg class="aside-important__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle>
+          <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+        <p><strong>Important.</strong> While Anthropic enacted these measures to reduce risk, you are still responsible
+          for your own use of Claude. Always exercise caution when using Cowork. Report any suspicious behaviour or
+          critical issues to <a href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a>.</p>
       </div>
     </div>
-  </div>
 
-  <!-- THREE PRINCIPLES -->
-  <div class="container container--narrow">
-    <p class="kicker" style="margin-top:72px">Three things to always remember</p>
-    <div class="habit-grid">
-
-      <article class="card habit-card">
-        <p class="habit-num">01</p>
-        <p class="habit-title">Give it the full brief</p>
-        <p class="habit-body">Who, what, format, tone, where to save. The more context you give, the less it has to guess.</p>
-      </article>
-
-      <article class="card habit-card">
-        <p class="habit-num">02</p>
-        <p class="habit-title">Correct it. Don't accept the first draft.</p>
-        <p class="habit-body">Claude iterates. If the result isn't right, redirect it — just like you would with a colleague.</p>
-      </article>
-
-      <article class="card habit-card habit-card--wide">
-        <p class="habit-num">03</p>
-        <p class="habit-title">Assume it can do anything until it tells you otherwise.</p>
-        <p class="habit-body">Try the task. Claude will flag it if something is outside what it can do. Most assistants stop short of what is actually possible — the people who get the most out of it are the ones who keep asking.</p>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- 6 PROMPT PAIRS -->
-  <div class="container container--narrow prompt-pairs" style="margin-top:48px;width:80%;margin-left:auto;margin-right:auto;">
-
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Don't say</p>
-        <p class="prompt-pair__line">"Research [Company Name]."</p>
+    <div class="container container--narrow">
+      <div class="safety-cols">
+        <article class="card safety-card--magic">
+          <p class="kicker">Magic-specific guidelines</p>
+          <ul class="bullets">
+            <li><strong>Never paste passwords, API keys, or credentials</strong> into a Cowork prompt. Don't ask it to
+              access private data or scrape personal information, especially your client's.</li>
+            <li><strong>Never connect a client's email, calendar, or cloud storage</strong> without their explicit
+              written approval.</li>
+            <li><strong>Never impersonate someone</strong> — say "based on their communication style, how would they
+              respond?"</li>
+            <li><strong>Don't modify security settings directly</strong> — Claude will refuse.</li>
+            <li><strong>Don't use Claude for clients</strong> whose confidentiality clauses cover AI tools — ask your AL
+              first.</li>
+            <li><strong>Aerospace, defense, or government clients:</strong> don't connect any client accounts — personal
+              productivity only.</li>
+            <li><strong>Always review everything</strong> before it goes to a client. Your sign-off is the last check.
+            </li>
+          </ul>
+        </article>
+        <article class="card">
+          <p class="kicker kicker--violet">Your responsibility</p>
+          <p class="body" style="font-size:16px;margin-bottom:14px">You remain responsible for all actions Claude takes
+            on your behalf:</p>
+          <ul class="bullets">
+            <li>Any content published or messages sent.</li>
+            <li>Purchases or financial transactions.</li>
+            <li>Data accessed or modified.</li>
+            <li>Actions taken by scheduled tasks running on your behalf.</li>
+            <li>Actions taken through computer use on your desktop and apps.</li>
+            <li>Respecting third-party terms of service, including restrictions on automated access.</li>
+          </ul>
+        </article>
       </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"I'm prepping for a discovery call with [Company]. They're in [industry]. Pull their recent news, key people, and any funding history. Format as a one-page briefing doc."</p>
+      <p class="body body--small body--muted" style="margin-top:20px">Not sure if something is allowed? Ask your Account
+        Lead. They'll check with the Product Team if they don't know.</p>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="safety">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== LEARNING ============== -->
+  <section class="section" id="learn" data-gate-section="learn">
+    <div class="container container--narrow">
+      <p class="kicker">Learning resources &amp; certification</p>
+      <h2 class="h2">Go beyond the <span class="grad">basics</span>.</h2>
+      <p class="body body--lead">Anthropic's official resources. For a beginner-friendly overview, start with Claude for
+        Work — then use these to deepen your skills and earn your Claude certification.</p>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker kicker--muted resource-section-tag">Start here</p>
+      <div class="resource-grid resource-grid--2">
+        <a class="card resource" href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener">
+          <p class="resource__tag">Course</p>
+          <h3 class="resource__title">Claude 101.</h3>
+          <p class="resource__body">What Claude is, and organizing your work with projects, artifacts, and skills.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource resource--cert" href="https://anthropic.skilljar.com/ai-fluency-framework-foundations"
+          target="_blank" rel="noopener">
+          <p class="resource__tag">Course · Certificate</p>
+          <h3 class="resource__title">AI Fluency: Framework &amp; Foundations.</h3>
+          <p class="resource__body">How AI works, ethical grounding, and how to use it responsibly. Aligned with Magic's
+            Claude Certified program.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-claude-cowork" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Course · Free · ~1 hr</p>
+          <h3 class="resource__title">Introduction to Claude Cowork.</h3>
+          <p class="resource__body">The official Cowork course — task loop, skills, file and research workflows,
+            steering multi-step work.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-agent-skills" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Course</p>
+          <h3 class="resource__title">Introduction to Skills.</h3>
+          <p class="resource__body">Learn what are Skills, how they work, and even how to create your own skill.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker kicker--muted resource-section-tag">Go deeper</p>
+      <div class="resource-grid resource-grid--2">
+        <a class="card resource" href="https://claude.com/resources/courses" target="_blank" rel="noopener">
+          <p class="resource__tag">Library</p>
+          <h3 class="resource__title">All courses.</h3>
+          <p class="resource__body">Structured learning paths with video lessons and assessments.</p>
+          <span class="resource__cta">Browse courses →</span>
+        </a>
+        <a class="card resource" href="https://claude.com/resources/tutorials" target="_blank" rel="noopener">
+          <p class="resource__tag">Library</p>
+          <h3 class="resource__title">All tutorials.</h3>
+          <p class="resource__body">Step-by-step guides for specific Claude features and workflows.</p>
+          <span class="resource__cta">Browse tutorials →</span>
+        </a>
+        <a class="card resource" href="https://claude.com/resources/tutorials/customize-claude-cowork" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Tutorial</p>
+          <h3 class="resource__title">Customize Claude Cowork.</h3>
+          <p class="resource__body">Tailor Cowork to your working style and recurring task patterns.</p>
+          <span class="resource__cta">Open tutorial →</span>
+        </a>
+        <a class="card resource" href="https://support.claude.com/en/articles/13837440-use-plugins-in-claude"
+          target="_blank" rel="noopener">
+          <p class="resource__tag">Guide</p>
+          <h3 class="resource__title">Use plugins with Cowork.</h3>
+          <p class="resource__body">Plugins customize how Claude works for your role, team, and company.</p>
+          <span class="resource__cta">Open guide →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <div class="cert-callout">
+        <p class="kicker kicker--violet">Claude Certified</p>
+        <p class="body cert-callout__body">The official courses issue a certificate of completion from Anthropic which
+          are aligned with Magic's Claude Certified program — your AL will track it as part of your onboarding.</p>
+        <p class="body body--small body--muted cert-callout__al">For Account Leads — these same resources are your
+          coaching toolkit. Reach out to the Product team for support.</p>
+      </div>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="learn">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== HELP ============== -->
+  <section class="section" id="help" data-gate-section="help">
+    <div class="container container--narrow">
+      <p class="kicker">Getting help</p>
+      <h2 class="h2">Pick the issue. We'll point to the right <span class="grad">person</span>.</h2>
+
+      <div class="card router" id="router">
+        <label class="router__label" for="routerSelect">What's wrong?</label>
+        <select class="router__select" id="routerSelect">
+          <option value="invite">Can't accept invite or sign in</option>
+          <option value="templates">Can't see Magic templates or Skills</option>
+          <option value="google">Google account not connecting</option>
+          <option value="refuse">Claude refuses a task</option>
+          <option value="limit">Hit the rate limit</option>
+          <option value="general">General Claude questions</option>
+          <option value="tech">Technical issue — extension or desktop app</option>
+        </select>
+
+        <div class="router__answer" id="routerAnswer">
+          <p class="kicker kicker--violet">Contact</p>
+          <p class="router__who" id="routerWho">Product Team</p>
+          <p class="router__why" id="routerWhy">Can't accept the invite or sign in? Email the Product Team —
+            product-team@getmagicea.com.</p>
         </div>
       </div>
-      <p class="prompt-pair__why pp-reveal-why">Claude needs the who and why, not just the what. Context turns a generic search into a targeted briefing.</p>
-    </article>
+    </div>
+  </section>
 
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Don't say</p>
-        <p class="prompt-pair__line">"Write an email."</p>
+
+  <!-- ============== CTA CLOSER ============== -->
+  <section class="section section--cta" id="feedback" data-gate-section="feedback">
+    <div class="container container--narrow">
+      <div class="cta">
+        <div class="aurora aurora--cta" aria-hidden="true"></div>
+        <p class="kicker kicker--cyan">End of week one</p>
+        <h2 class="h2 h2--inverse">Tell us what's <span class="grad">working</span>.</h2>
+        <p class="lede lede--inverse">At the end of your first week, the Product Team sends a short feedback form — five
+          minutes, max. It covers which tasks you ran in Cowork, what worked, what was frustrating, whether you used
+          Chat or other AI tools as a fallback, and what would make you use Cowork more in week two. Your answers
+          directly shape what we cascade for the next group of EAs.</p>
+        <a class="btn btn--light" href="https://forms.gle/placeholder">Open the feedback form</a>
       </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"Write a follow-up to a client who missed our Monday call. Warm but professional. Under 5 sentences. Save to my folder."</p>
+    </div>
+  </section>
+
+  <!-- ═══ PROGRESS BAR ═══ -->
+  <div class="container container--narrow" style="padding-top:26px;padding-bottom:40px;">
+    <div id="progressCard" style="display:flex;flex-direction:column;gap:10px;">
+      <span id="progressDone" style="display:none">0</span><span id="progressTotal" style="display:none">0</span>
+      <div class="progress-card__track" style="width:100%;">
+        <div class="progress-card__fill" id="progressFill"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <span id="progressStatus" style="font-size:13px;color:var(--ink-muted);">Start with step one below.</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="btn btn--ghost" id="resetProgress" type="button" style="font-size:13px;padding:7px 16px;">Reset
+            progress</button>
+          <a href="#setup" class="progress-card__jump" id="progressJump" style="font-size:13px;">Continue →</a>
         </div>
       </div>
-      <p class="prompt-pair__why pp-reveal-why">Who the client is + what you need + format + delivery = a usable result on the first try.</p>
-    </article>
-
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Don't say</p>
-        <p class="prompt-pair__line">"Check my inbox for anything important."</p>
-      </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"Check emails from the last 24 hours from clients or flagged senders. One-sentence summary each."</p>
-        </div>
-      </div>
-      <p class="prompt-pair__why pp-reveal-why">Scoping the task prevents it from pulling in far more than you need and slowing the whole task down.</p>
-    </article>
-
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Don't say</p>
-        <p class="prompt-pair__line">"Summarize this."</p>
-      </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"Summarize this meeting transcript. Pull out action items, owners, and deadlines as a table."</p>
-        </div>
-      </div>
-      <p class="prompt-pair__why pp-reveal-why">Telling it what structure you want gets a result you can use — not a wall of text you still have to process.</p>
-    </article>
-
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Don't say</p>
-        <p class="prompt-pair__line">"Don't make it sound too corporate."</p>
-      </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"Write in a warm, direct tone — like a trusted colleague, not a PR statement."</p>
-        </div>
-      </div>
-      <p class="prompt-pair__why pp-reveal-why">Tell it what to hit, not what to avoid. Positive instructions are clearer and easier to follow.</p>
-    </article>
-
-    <article class="prompt-pair pp-collapsible">
-      <div class="prompt-pair__bad">
-        <p class="prompt-pair__tag">Getting a generic result?</p>
-        <p class="prompt-pair__line">The output exists — it just needs more to go on.</p>
-      </div>
-      <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
-        <p class="prompt-pair__tag">Reprompt <span class="pp-caret">&#8250;</span></p>
-        <p class="pp-hint">Tap to reveal</p>
-        <div class="pp-reveal">
-          <p class="prompt-pair__line">"That's too generic. The client is in [industry] and this is for [specific context]. Rewrite with that in mind."</p>
-        </div>
-      </div>
-      <p class="prompt-pair__why pp-reveal-why">A generic result almost always means not enough context. It is not broken — it just needs a better brief.</p>
-    </article>
-
-  </div>
-
-  <script src="js/ui.js"></script>
-
-  <!-- TIPS -->
-  <div class="container container--narrow" style="margin-top:48px;">
-    <div class="tips-grid">
-      <article class="card tips-card--tip">
-        <p class="kicker">Cowork-specific tips</p>
-        <ul class="bullets">
-          <li>State the <strong>output format</strong> upfront —<br><em class="tip-quote">"save as a .md file"</em>, <em class="tip-quote">"create a table"</em>, <em class="tip-quote">"write bullet points"</em>.</li>
-          <li>State the <strong>output location</strong> —<br><em class="tip-quote">"save to my Magic Work folder in Google Drive"</em>.</li>
-          <li>For tasks touching your <strong>inbox or calendar</strong>, define the scope —<br><em class="tip-quote">"only emails from the last 48 hours"</em> or <em class="tip-quote">"just the three meetings on Thursday"</em>.</li>
-          <li><strong>Don't interrupt mid-step</strong> unless it is clearly going wrong. Wait for Claude to surface a result, then redirect.</li>
-        </ul>
-      </article>
-      <article class="card tips-card--trip">
-        <p class="kicker">Things that trip people up</p>
-        <ul class="bullets">
-          <li>Claude <strong>can hit rate limits</strong> — <em class="tip-quote">"reset at 5am"</em> means your usage cap was reached. Switch to a simpler task or step down to Sonnet.</li>
-          <li>If Claude <strong>goes quiet mid-task</strong>, it may be waiting on a permission prompt — check the task sidebar before restarting.</li>
-          <li><strong>Always confirm the folder or file path</strong> before a task runs — check that the right project folder, sub-folder, or file location is selected so Claude saves or reads from exactly where you intend.</li>
-        </ul>
-      </article>
-    </div>
-  </div>
-
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="prompting">Mark as read &#x2192;</button>
-</div>
-</section>
-
-
-<!-- ============== MODEL ============== -->
-<section class="section" id="model" data-gate-section="model">
-  <div class="container container--narrow">
-    <p class="kicker">Choosing the right model</p>
-    <h2 class="h2">Start on Opus. Step down only when <span class="grad">limits</span> push you.</h2>
-    <p class="body body--lead">Opus is your default for all EA work — best quality, richest output, strongest reasoning. Switch to Sonnet only if you’re hitting Opus rate limits. If you hit Sonnet limits too, escalate to your account lead rather than dropping to Haiku.</p>
-
-    <div class="card picker" id="picker">
-      <fieldset class="picker__field">
-        <legend class="kicker kicker--muted">What’s your situation?</legend>
-        <div class="picker__opts">
-          <label><input type="radio" name="task" value="opus" checked=""><span>Everyday EA work — the default</span></label>
-          <label><input type="radio" name="task" value="sonnet"><span>Hitting Opus rate limits</span></label>
-          <label><input type="radio" name="task" value="haiku"><span>Bulk data, high-volume extraction (rare)</span></label>
-        </div>
-      </fieldset>
-
-      <div class="picker__result" id="pickerResult">
-        <p class="kicker kicker--violet">Recommended</p>
-        <p class="picker__model"><span id="pickerModel">Opus</span></p>
-        <p class="picker__why" id="pickerWhy">Your default. Best quality and reasoning for all EA work — research, writing, Cowork, complex tasks. Start here and only step down if rate limits actually stop you.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="container container--narrow" style="margin-top:24px">
-    <div class="dtable-wrap">
-      <table class="dtable dtable--model">
-        <thead><tr><th>Model</th><th>Use for</th><th>Avoid for</th></tr></thead>
-        <tbody>
-          <tr data-model="opus">
-            <td>Opus</td>
-            <td>Everything by default — all EA work, research, writing, Cowork, complex reasoning. Your starting point, not a special-occasion model.</td>
-            <td>Nothing. Start here unless rate limits stop you.</td>
-          </tr>
-          <tr data-model="sonnet">
-            <td>Sonnet</td>
-            <td>When you’ve hit your Opus rate limit. Still strong for most work, lighter on quota.</td>
-            <td>Accuracy-critical or complex multi-step tasks where quality matters most.</td>
-          </tr>
-          <tr class="row-haiku">
-            <td>Haiku</td>
-            <td>High-volume rote data only — bulk categorization, simple extraction at scale across many rows.</td>
-            <td>Almost all EA work. Never for reasoning, writing, or anything needing judgement.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout callout--warn" style="margin-top:16px; width:fit-content; margin-left:auto; margin-right:auto; text-align:center;">
-      <p><strong>Hitting Sonnet limits?</strong> Don't drop to Haiku — defaulting to a weaker model may affect the quality of results.</p>
-      <p style="margin-top:8px;">Escalate to your account lead so your quota can be reviewed.</p>
-    </div>
-  </div>
-
-  
-
-
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="model">Mark as read →</button>
-</div>
-</section>
-
-
-<!-- ============== SAFETY ============== -->
-<section class="section" id="safety" data-gate-section="safety">
-  <div class="container container--narrow">
-    <p class="kicker">Use Claude Cowork safely</p>
-    <h2 class="h2">Read this before any <span class="grad">client</span> work.</h2>
-    <p class="body body--lead">Cowork works on your computer with access to your files, browser, connected services, and apps. That capability comes with risks worth understanding.</p>
-
-    <div style="display:flex;gap:12px;align-items:stretch;margin-top:16px;">
-      <div style="flex:1 1 0;min-width:0;overflow:hidden;border-radius:var(--r-card);">
-        <img src="assets/claude-graphic.jpg" alt="" style="width:100%;height:100%;display:block;object-fit:cover;">
-      </div>
-      <div class="card risk-card" style="margin-top:0;flex:0 0 70%;min-width:0;">
-        <p class="kicker kicker--violet">To minimize risks</p>
-        <ul class="bullets">
-          <li>Avoid granting access to local files with sensitive information, like financial documents.</li>
-          <li>Be especially cautious with computer use — Claude clicks, types, and navigates your screen directly, without the permission checks that gate other Cowork tools.</li>
-          <li>Cowork may have direct access to Claude in Chrome. We strongly advise against using it to manage or take actions involving sensitive information, purchases, and critical processes that may break things for your client.</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="container container--narrow">
-    <p class="kicker" style="margin-top:80px">Responsible Use</p>
-    <h3 class="h3 h3--block">Understand Anthropic's safety measures — what they've built, what to watch for, and how to protect yourself and your client.</h3>
-    <div class="protect-grid">
-      <div class="protect"><span class="protect__num">1</span><p>Be selective about file access.</p><div class="protect-tip"><p>Claude can read, write, and delete any files it has access to. Avoid pointing it at sensitive documents — use a dedicated working folder instead, and keep backups of anything important.</p></div></div>
-      <div class="protect"><span class="protect__num">2</span><p>Monitor tasks, not just commands.</p><div class="protect-tip"><p>Watch for unexpected patterns rather than validating every command — is Claude accessing files or sites you didn't mention? Is scope creeping beyond what you asked for? If something feels off, stop the task immediately.</p></div></div>
-      <div class="protect"><span class="protect__num">3</span><p>Be cautious with scheduled tasks.</p><div class="protect-tip"><p>Scheduled tasks run without you watching. Start with low-risk tasks, avoid scheduling anything involving messages, purchases, or hard-to-undo actions, and review results regularly from the Scheduled page in the sidebar.</p></div></div>
-      <div class="protect"><span class="protect__num">4</span><p>Be cautious with “Act without asking” mode.</p><div class="protect-tip"><p>Claude works without pausing for approval, which significantly increases prompt injection risk. Only use it when actively supervising, with trusted files and sites, and when you can stop Claude immediately if something looks wrong.</p></div></div>
-      <div class="protect"><span class="protect__num">5</span><p>Be cautious with computer use.</p><div class="protect-tip"><p>Claude interacts directly with your screen, apps, and browser. Start with low-stakes tasks, avoid sensitive apps (banking, healthcare), and monitor what it clicks — if it follows a link, that link opens.</p></div></div>
-      <div class="protect"><span class="protect__num">6</span><p>Limit browser and web access to trusted sources.</p><div class="protect-tip"><p>Web content is a primary vector for prompt injection — malicious instructions can be hidden in pages, emails, or documents Claude opens. Limit browser access to sites you trust.</p></div></div>
-      <div class="protect"><span class="protect__num">7</span><p>Be especially cautious with unfamiliar plugins.</p><div class="protect-tip"><p>Each plugin expands Claude's scope and introduces new attack surfaces. Stick to verified extensions from the Claude Desktop directory and review permissions carefully before installing.</p></div></div>
-      <div class="protect"><span class="protect__num">8</span><p>Be mindful of cross-app data sharing.</p><div class="protect-tip"><p>Claude can pass data between apps (Excel, PowerPoint) without you explicitly directing it. Avoid working with sensitive information in these add-ins while Cowork is active.</p></div></div>
-
-
-    </div>
-
-    <div class="aside-important">
-      <svg class="aside-important__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
-      <p><strong>Important.</strong> While Anthropic enacted these measures to reduce risk, you are still responsible for your own use of Claude. Always exercise caution when using Cowork. Report any suspicious behaviour or critical issues to <a href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a>.</p>
-    </div>
-  </div>
-
-  <div class="container container--narrow">
-    <div class="safety-cols">
-      <article class="card safety-card--magic">
-        <p class="kicker">Magic-specific guidelines</p>
-        <ul class="bullets">
-          <li><strong>Never paste passwords, API keys, or credentials</strong> into a Cowork prompt. Don't ask it to access private data or scrape personal information, especially your client's.</li>
-          <li><strong>Never connect a client's email, calendar, or cloud storage</strong> without their explicit written approval.</li>
-          <li><strong>Never impersonate someone</strong> — say "based on their communication style, how would they respond?"</li>
-          <li><strong>Don't modify security settings directly</strong> — Claude will refuse.</li>
-          <li><strong>Don't use Claude for clients</strong> whose confidentiality clauses cover AI tools — ask your AL first.</li>
-          <li><strong>Aerospace, defense, or government clients:</strong> don't connect any client accounts — personal productivity only.</li>
-          <li><strong>Always review everything</strong> before it goes to a client. Your sign-off is the last check.</li>
-        </ul>
-      </article>
-      <article class="card">
-        <p class="kicker kicker--violet">Your responsibility</p>
-        <p class="body" style="font-size:16px;margin-bottom:14px">You remain responsible for all actions Claude takes on your behalf:</p>
-        <ul class="bullets">
-          <li>Any content published or messages sent.</li>
-          <li>Purchases or financial transactions.</li>
-          <li>Data accessed or modified.</li>
-          <li>Actions taken by scheduled tasks running on your behalf.</li>
-          <li>Actions taken through computer use on your desktop and apps.</li>
-          <li>Respecting third-party terms of service, including restrictions on automated access.</li>
-        </ul>
-      </article>
-    </div>
-    <p class="body body--small body--muted" style="margin-top:20px">Not sure if something is allowed? Ask your Account Lead. They'll check with the Product Team if they don't know.</p>
-  </div>
-
-
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="safety">Mark as read →</button>
-</div>
-</section>
-
-
-<!-- ============== LEARNING ============== -->
-<section class="section" id="learn" data-gate-section="learn">
-  <div class="container container--narrow">
-    <p class="kicker">Learning resources &amp; certification</p>
-    <h2 class="h2">Go beyond the <span class="grad">basics</span>.</h2>
-    <p class="body body--lead">Anthropic's official resources. For a beginner-friendly overview, start with Claude for Work — then use these to deepen your skills and earn your Claude certification.</p>
-  </div>
-
-  <div class="container container--narrow">
-    <p class="kicker kicker--muted resource-section-tag">Start here</p>
-    <div class="resource-grid resource-grid--2">
-      <a class="card resource" href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener">
-        <p class="resource__tag">Course</p>
-        <h3 class="resource__title">Claude 101.</h3>
-        <p class="resource__body">What Claude is, and organizing your work with projects, artifacts, and skills.</p>
-        <span class="resource__cta">Start the course →</span>
-      </a>
-      <a class="card resource resource--cert" href="https://anthropic.skilljar.com/ai-fluency-framework-foundations" target="_blank" rel="noopener">
-        <p class="resource__tag">Course · Certificate</p>
-        <h3 class="resource__title">AI Fluency: Framework &amp; Foundations.</h3>
-        <p class="resource__body">How AI works, ethical grounding, and how to use it responsibly. Aligned with Magic's Claude Certified program.</p>
-        <span class="resource__cta">Start the course →</span>
-      </a>
-      <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-claude-cowork" target="_blank" rel="noopener">
-        <p class="resource__tag">Course · Free · ~1 hr</p>
-        <h3 class="resource__title">Introduction to Claude Cowork.</h3>
-        <p class="resource__body">The official Cowork course — task loop, skills, file and research workflows, steering multi-step work.</p>
-        <span class="resource__cta">Start the course →</span>
-      </a>
-      <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-agent-skills" target="_blank" rel="noopener">
-        <p class="resource__tag">Course</p>
-        <h3 class="resource__title">Introduction to Skills.</h3>
-        <p class="resource__body">Learn what are Skills, how they work, and even how to create your own skill.</p>
-        <span class="resource__cta">Start the course →</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="container container--narrow">
-    <p class="kicker kicker--muted resource-section-tag">Go deeper</p>
-    <div class="resource-grid resource-grid--2">
-      <a class="card resource" href="https://claude.com/resources/courses" target="_blank" rel="noopener">
-        <p class="resource__tag">Library</p>
-        <h3 class="resource__title">All courses.</h3>
-        <p class="resource__body">Structured learning paths with video lessons and assessments.</p>
-        <span class="resource__cta">Browse courses →</span>
-      </a>
-      <a class="card resource" href="https://claude.com/resources/tutorials" target="_blank" rel="noopener">
-        <p class="resource__tag">Library</p>
-        <h3 class="resource__title">All tutorials.</h3>
-        <p class="resource__body">Step-by-step guides for specific Claude features and workflows.</p>
-        <span class="resource__cta">Browse tutorials →</span>
-      </a>
-      <a class="card resource" href="https://claude.com/resources/tutorials/customize-claude-cowork" target="_blank" rel="noopener">
-        <p class="resource__tag">Tutorial</p>
-        <h3 class="resource__title">Customize Claude Cowork.</h3>
-        <p class="resource__body">Tailor Cowork to your working style and recurring task patterns.</p>
-        <span class="resource__cta">Open tutorial →</span>
-      </a>
-      <a class="card resource" href="https://support.claude.com/en/articles/13837440-use-plugins-in-claude" target="_blank" rel="noopener">
-        <p class="resource__tag">Guide</p>
-        <h3 class="resource__title">Use plugins with Cowork.</h3>
-        <p class="resource__body">Plugins customize how Claude works for your role, team, and company.</p>
-        <span class="resource__cta">Open guide →</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="container container--narrow">
-    <div class="cert-callout">
-      <p class="kicker kicker--violet">Claude Certified</p>
-      <p class="body cert-callout__body">The official courses issue a certificate of completion from Anthropic which are aligned with Magic's Claude Certified program — your AL will track it as part of your onboarding.</p>
-      <p class="body body--small body--muted cert-callout__al">For Account Leads — these same resources are your coaching toolkit. Reach out to the Product team for support.</p>
     </div>
   </div>
 
 
-<div class="section-gate-footer">
-  <button class="section-complete-btn" data-completes="learn">Mark as read →</button>
-</div>
-</section>
-
-
-<!-- ============== HELP ============== -->
-<section class="section" id="help" data-gate-section="help">
-  <div class="container container--narrow">
-    <p class="kicker">Getting help</p>
-    <h2 class="h2">Pick the issue. We'll point to the right <span class="grad">person</span>.</h2>
-
-    <div class="card router" id="router">
-      <label class="router__label" for="routerSelect">What's wrong?</label>
-      <select class="router__select" id="routerSelect">
-        <option value="invite">Can't accept invite or sign in</option>
-        <option value="templates">Can't see Magic templates or Skills</option>
-        <option value="google">Google account not connecting</option>
-        <option value="refuse">Claude refuses a task</option>
-        <option value="limit">Hit the rate limit</option>
-        <option value="general">General Claude questions</option>
-        <option value="tech">Technical issue — extension or desktop app</option>
-      </select>
-
-      <div class="router__answer" id="routerAnswer">
-        <p class="kicker kicker--violet">Contact</p>
-        <p class="router__who" id="routerWho">Product Team</p>
-        <p class="router__why" id="routerWhy">Can't accept the invite or sign in? Email the Product Team — product-team@getmagicea.com.</p>
-      </div>
+  <!-- ============== FOOTER ============== -->
+  <footer class="footer">
+    <div class="container container--narrow">
+      <p class="footer__line">Claude for Magic Assistants onboarding playbook.</p>
+      <p class="footer__meta">v5 · May 2026 · Questions? <a
+          href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a></p>
     </div>
-  </div>
-</section>
+  </footer>
 
 
-<!-- ============== CTA CLOSER ============== -->
-<section class="section section--cta" id="feedback" data-gate-section="feedback">
-  <div class="container container--narrow">
-    <div class="cta">
-      <div class="aurora aurora--cta" aria-hidden="true"></div>
-      <p class="kicker kicker--cyan">End of week one</p>
-      <h2 class="h2 h2--inverse">Tell us what's <span class="grad">working</span>.</h2>
-      <p class="lede lede--inverse">At the end of your first week, the Product Team sends a short feedback form — five minutes, max. It covers which tasks you ran in Cowork, what worked, what was frustrating, whether you used Chat or other AI tools as a fallback, and what would make you use Cowork more in week two. Your answers directly shape what we cascade for the next group of EAs.</p>
-      <a class="btn btn--light" href="https://forms.gle/placeholder">Open the feedback form</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PROGRESS BAR ═══ -->
-<div class="container container--narrow" style="padding-top:26px;padding-bottom:40px;">
-  <div id="progressCard" style="display:flex;flex-direction:column;gap:10px;">
-    <span id="progressDone" style="display:none">0</span><span id="progressTotal" style="display:none">0</span>
-    <div class="progress-card__track" style="width:100%;"><div class="progress-card__fill" id="progressFill"></div></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-      <span id="progressStatus" style="font-size:13px;color:var(--ink-muted);">Start with step one below.</span>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <button class="btn btn--ghost" id="resetProgress" type="button" style="font-size:13px;padding:7px 16px;">Reset progress</button>
-        <a href="#setup" class="progress-card__jump" id="progressJump" style="font-size:13px;">Continue →</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ============== FOOTER ============== -->
-<footer class="footer">
-  <div class="container container--narrow">
-    <p class="footer__line">Claude for Magic Assistants onboarding playbook.</p>
-    <p class="footer__meta">v5 · May 2026 · Questions? <a href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a></p>
-  </div>
-</footer>
-
-
-<script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 
 
 
 
 
 
-<!-- Floating Table of Contents -->
-<nav class="toc" aria-label="Page sections">
-  <ul class="toc__list">
-    <li class="toc__item"><a href="#intro"><span class="toc__dot"></span><span class="toc__label">What's Different</span></a></li>
-    <li class="toc__item"><a href="#cowork-intro"><span class="toc__dot"></span><span class="toc__label">Claude Cowork</span></a></li>
-    <li class="toc__item"><a href="#need"><span class="toc__dot"></span><span class="toc__label">Quickstart</span></a></li>
-    <li class="toc__item"><a href="#setup"><span class="toc__dot"></span><span class="toc__label">Setup</span></a></li>
-    <li class="toc__item"><a href="#cowork"><span class="toc__dot"></span><span class="toc__label">Using Cowork</span></a></li>
-    <li class="toc__item"><a href="#prompting"><span class="toc__dot"></span><span class="toc__label">Prompting</span></a></li>
-    <li class="toc__item"><a href="#model"><span class="toc__dot"></span><span class="toc__label">Model</span></a></li>
-    <li class="toc__item"><a href="#safety"><span class="toc__dot"></span><span class="toc__label">Safety</span></a></li>
-    <li class="toc__item"><a href="#learn"><span class="toc__dot"></span><span class="toc__label">Learning</span></a></li>
-    <li class="toc__item"><a href="#help"><span class="toc__dot"></span><span class="toc__label">Help</span></a></li>
-    <li class="toc__item"><a href="#feedback"><span class="toc__dot"></span><span class="toc__label">Feedback</span></a></li>
-  </ul>
-</nav>
+  <!-- Floating Table of Contents -->
+  <nav class="toc" aria-label="Page sections">
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#intro"><span class="toc__dot"></span><span class="toc__label">What's
+            Different</span></a></li>
+      <li class="toc__item"><a href="#cowork-intro"><span class="toc__dot"></span><span class="toc__label">Claude
+            Cowork</span></a></li>
+      <li class="toc__item"><a href="#need"><span class="toc__dot"></span><span class="toc__label">Quickstart</span></a>
+      </li>
+      <li class="toc__item"><a href="#setup"><span class="toc__dot"></span><span class="toc__label">Setup</span></a>
+      </li>
+      <li class="toc__item"><a href="#cowork"><span class="toc__dot"></span><span class="toc__label">Using
+            Cowork</span></a></li>
+      <li class="toc__item"><a href="#prompting"><span class="toc__dot"></span><span
+            class="toc__label">Prompting</span></a></li>
+      <li class="toc__item"><a href="#model"><span class="toc__dot"></span><span class="toc__label">Model</span></a>
+      </li>
+      <li class="toc__item"><a href="#safety"><span class="toc__dot"></span><span class="toc__label">Safety</span></a>
+      </li>
+      <li class="toc__item"><a href="#learn"><span class="toc__dot"></span><span class="toc__label">Learning</span></a>
+      </li>
+      <li class="toc__item"><a href="#help"><span class="toc__dot"></span><span class="toc__label">Help</span></a></li>
+      <li class="toc__item"><a href="#feedback"><span class="toc__dot"></span><span
+            class="toc__label">Feedback</span></a></li>
+    </ul>
+  </nav>
 
 
 
@@ -1184,7 +1542,9 @@
 
 
 
-<!-- HERO GRAPH -->
-<script src="js/hero-graph.js"></script>
-<!-- /HERO GRAPH -->
-</body></html>
+  <!-- HERO GRAPH -->
+  <script src="js/hero-graph.js"></script>
+  <!-- /HERO GRAPH -->
+</body>
+
+</html>
