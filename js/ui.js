@@ -477,3 +477,131 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else setTimeout(init, 100);
 })();
+
+/* ── Demo carousel: tab switching + fullscreen ───────────── */
+(function () {
+  function initDemoCarousel() {
+    var tabs   = document.querySelectorAll('.demo-carousel__tab');
+    var panels = document.querySelectorAll('.demo-carousel__panel');
+
+    /* Tab switching */
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-demo');
+
+        /* Pause any playing video in the outgoing panel */
+        panels.forEach(function (panel) {
+          if (panel.classList.contains('is-active')) {
+            var vid = panel.querySelector('video');
+            if (vid) vid.pause();
+          }
+        });
+
+        /* Update tabs */
+        tabs.forEach(function (t) {
+          t.classList.toggle('is-active', t === tab);
+          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+        });
+
+        /* Update panels */
+        panels.forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.getAttribute('data-demo') === target);
+        });
+      });
+    });
+
+    /* Fullscreen button on the stage */
+    var stage = document.querySelector('.demo-carousel__stage');
+    if (stage) {
+      stage.addEventListener('click', function (e) {
+        var btn = e.target.closest('.demo-fullscreen-btn');
+        if (!btn) return;
+        var activePanel = stage.querySelector('.demo-carousel__panel.is-active');
+        if (!activePanel) return;
+        var target = activePanel.querySelector('video') || activePanel;
+        var req = target.requestFullscreen ||
+                  target.webkitRequestFullscreen ||
+                  target.mozRequestFullScreen ||
+                  target.msRequestFullscreen;
+        if (req) req.call(target);
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDemoCarousel);
+  } else {
+    initDemoCarousel();
+  }
+})();
+
+/* ── Sync Connectors table width to Skills table width ───── */
+(function () {
+  function syncConnectorsWidth() {
+    var skillsWrap      = document.querySelector('.skills-dtable-wrap:not(.connectors-dtable-wrap)');
+    var connectorsWrap  = document.querySelector('.connectors-dtable-wrap');
+    if (!skillsWrap || !connectorsWrap) return;
+    /* Reset first so we measure the Skills table's natural width */
+    connectorsWrap.style.width    = '';
+    connectorsWrap.style.maxWidth = '';
+    var w = skillsWrap.getBoundingClientRect().width;
+    connectorsWrap.style.width    = w + 'px';
+    connectorsWrap.style.maxWidth = w + 'px';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncConnectorsWidth);
+  } else {
+    syncConnectorsWidth();
+  }
+  window.addEventListener('resize', syncConnectorsWidth);
+})();
+
+/* ── ToC proximity show / hide ───────────────────────────── */
+(function () {
+  function initTocHover() {
+    var toc = document.querySelector('.toc');
+    if (!toc) return;
+
+    var EDGE_PX   = 80;   /* px from right viewport edge to trigger reveal  */
+    var HIDE_MS   = 600;  /* ms to wait before hiding after mouse moves away */
+    var hideTimer = null;
+
+    function show() {
+      clearTimeout(hideTimer);
+      toc.classList.add('toc--peek');
+    }
+
+    function scheduleHide() {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        toc.classList.remove('toc--peek');
+      }, HIDE_MS);
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      var fromRight = window.innerWidth - e.clientX;
+      /* Also treat hovering anywhere over the TOC element as "near" */
+      var rect    = toc.getBoundingClientRect();
+      var nearToc = e.clientX >= rect.left - 12 &&
+                    e.clientX <= rect.right + 12 &&
+                    e.clientY >= rect.top  - 12 &&
+                    e.clientY <= rect.bottom + 12;
+
+      if (fromRight <= EDGE_PX || nearToc) {
+        show();
+      } else {
+        scheduleHide();
+      }
+    }, { passive: true });
+
+    /* Hide when the cursor leaves the window */
+    document.addEventListener('mouseleave', scheduleHide);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTocHover);
+  } else {
+    initTocHover();
+  }
+})();

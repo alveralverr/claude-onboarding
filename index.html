@@ -547,8 +547,7 @@
       <p class="kicker">Using Claude Cowork</p>
       <h2 class="h2">The mode where Claude stops answering and starts <span class="grad">doing</span>.</h2>
       <p class="body body--lead">Cowork is the agentic mode in Claude Desktop — it runs on your computer and completes
-        work across your files, browser, and tools. As a Magic assistant, Cowork is your default mode. Always. Your job
-        is task execution; this is how you execute.</p>
+        work across your files, browser, and tools. As a Magic assistant, always use Cowork as your default mode.</p>
     </div>
 
     <div class="container container--narrow">
@@ -560,14 +559,14 @@
         <div class="cowork-hero__card">
           <article class="card reach reach--cowork">
             <p class="reach__tag">Always use Cowork</p>
-            <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes —
-              always, without exception.</p>
-            <p style="font-size:14px;color:var(--on-dark-mute);margin:0 0 10px;">Use it whenever:</p>
+            <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes.
+            </p>
+            <p style="font-size:16px;color:var(--on-dark-mute);margin:0 0 10px;">Use it whenever:</p>
             <ul class="bullets">
-              <li>You have a clear deliverable — a document, a summary, a drafted reply, a research brief.</li>
-              <li>The work touches your files, calendar, inbox, or connected tools.</li>
-              <li>You'd rather hand off the whole job and review what comes back.</li>
-              <li>You're running something on a schedule — daily briefings, weekly reports, recurring prep.</li>
+              <li>You have a clear deliverable or outcome.</li>
+              <li>The work touches your files or connected tools.</li>
+              <li>You'd rather hand off the job and review the output.</li>
+              <li>You're running recurring tasks on a schedule.</li>
             </ul>
           </article>
         </div>
@@ -581,24 +580,24 @@
       <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
       <div style="display:flex;gap:20px;align-items:center;margin-top:24px;margin-bottom:40px;">
         <img src="assets/how-cowork-runs.png" alt="How a Cowork task runs"
-          style="width:60%;height:auto;padding:0;border:none;background:none;">
+          style="width:57%;height:auto;padding:0;border:none;background:none;">
         <img src="assets/claude-task-runs.png" alt="Claude task runs"
-          style="width:40%;height:auto;padding:0;border:none;background:none;">
+          style="width:43%;height:auto;padding:0;border:none;background:none;">
       </div>
-      <p class="flow-note">Every action appears in the sidebar. Claude pauses and asks for your approval before anything
-        consequential — sending an email, posting a message, or modifying files outside your working folder.</p>
+      <p class="flow-note">Every action appears in the sidebar. Claude pauses and asks for your approval before doing
+        anything consequential on your working folder.</p>
 
       <div style="display:flex;gap:20px;align-items:flex-start;margin-top:32px;">
         <div style="width:50%;flex-shrink:0;">
           <img src="assets/claude-usecase-3.gif" alt="Data extraction use case"
             style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
-          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Hand Claude a pile of receipts, invoices,
+          <p style="margin-top:8px;font-size:15px;color:#888;line-height:1.4;">Hand Claude a pile of receipts, invoices,
             or screenshots. Come back to a formatted spreadsheet with all the data extracted and organized.</p>
         </div>
         <div style="width:50%;flex-shrink:0;">
           <img src="assets/claude-usecase-4.gif" alt="Document generation use case"
             style="width:100%;height:auto;padding:0;border:none;background:none;display:block;">
-          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.4;">Give Claude your templates and source
+          <p style="margin-top:8px;font-size:15px;color:#888;line-height:1.4;">Give Claude your templates and source
             materials. It produces polished docs, decks, or reports — and can run on a schedule to keep them current.
           </p>
         </div>
@@ -612,14 +611,14 @@
     <div class="container container--narrow" style="margin-top:96px;">
       <p class="kicker">Context Window</p>
       <h3 class="h3 h3--block">Claude's working memory. It has a <span class="grad">limit</span>.</h3>
-      <p class="body body--lead">Every session holds a fixed amount of text — your messages, Claude's replies, and any
-        files combined. When it fills, older context drops off and quality degrades.</p>
+      <p class="body body--lead">Every session holds a fixed amount of input. When it fills, older context drops off and
+        quality degrades.</p>
 
       <div class="cw-grid">
         <div class="card">
           <p class="kicker">What it is</p>
-          <p>A rolling window of everything Claude can see — your prompts, its responses, attached files. Fixed in size,
-            it doesn't grow mid-session.</p>
+          <p>A rolling window of everything Claude can see — your prompts, its replies, attached files, tool calls.
+            Fixed in size and doesn't grow mid-session.</p>
         </div>
         <div class="card">
           <p class="kicker">When it fills</p>
@@ -627,7 +626,7 @@
             details you've already given.</p>
         </div>
         <div class="card">
-          <p class="kicker">How to manage it</p>
+          <p class="kicker"><strong>How to manage it</strong></p>
           <p>Start a fresh session for each new task. Don't chain unrelated work in one conversation. Paste a brief
             summary if context needs to carry over.</p>
         </div>
@@ -650,117 +649,139 @@
         <h3 class="h3 h3--block">Reusable task templates, ready to call.</h3>
         <p class="body">Instead of prompting from scratch every time, call a skill and Claude loads the right approach
           automatically. Type <code class="prompt-inline">/skill-name</code> or just describe your task in plain English
-          — Claude recognizes when a skill applies. Always check if a skill exists before prompting from scratch.</p>
-        <div class="dtable-wrap">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Skill</th>
-                <th>What it does</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Email Management<span class="skill-tip">Triage inbox,
-                      summarize threads, draft replies and follow-ups, flag urgent items, apply client
-                      tone.</span></span></td>
-                <td>Inbox triage, reply drafts, follow-ups</td>
-              </tr>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Calendar Management<span class="skill-tip">Pull availability,
-                      summarize the week ahead, schedule across time zones, set recurring blocks, flag
-                      conflicts.</span></span></td>
-                <td>Availability summaries, scheduling, conflict checks</td>
-              </tr>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Writing<span class="skill-tip">Long-form drafts, memos,
-                      briefings, and formatted documents tailored to your voice and context.</span></span></td>
-                <td>Long-form drafts, memos, reports, structured documents</td>
-              </tr>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Research<span class="skill-tip">Company and contact research
-                      from public sources, briefing documents, news summaries, competitor overviews.</span></span> <span
-                    class="coming">soon</span></td>
-                <td>Collects and synthesizes online information</td>
-              </tr>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Data Analysis &amp; Reporting<span class="skill-tip">Clean
-                      and structure spreadsheets, summarize datasets, extract action items from notes, build simple
-                      trackers.</span></span> <span class="coming">soon</span></td>
-                <td>Spreadsheet cleanup, summaries, action item extraction</td>
-              </tr>
-              <tr>
-                <td><span class="pill-skill skill-tiphost">Content Creation &amp; Social Media Management<span
-                      class="skill-tip">Draft posts, repurpose long-form content, write email sequences, create content
-                      calendars.</span></span> <span class="coming">soon</span></td>
-                <td>Writes posts, captions, content calendars</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="callout callout--warn" style="margin-top:16px">
-          <p>If you don't see Magic skills in your Projects sidebar, message the Product Team — there may be a
-            permissions issue.</p>
+          — Claude recognizes when a skill applies.</p>
+        <p class="body">We developed pre-made skills for the most common EA tasks. Always check if a skill exists before
+          prompting from scratch.</p>
+        <div class="skills-row">
+
+          <!-- YouTube thumbnail — LEFT -->
+          <figure class="skills-yt-thumb">
+            <a href="https://www.youtube.com/watch?v=bjdBVZa66oU&t=71s" target="_blank" rel="noopener">
+              <img src="https://img.youtube.com/vi/bjdBVZa66oU/maxresdefault.jpg" alt="Introduction to Skills">
+              <div class="skills-yt-thumb__play">
+                <div>
+                  <svg viewBox="0 0 24 24" fill="currentColor"
+                    style="width:22px;height:22px;color:#5200e3;margin-left:3px;">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <figcaption class="skills-yt-thumb__caption">Watch a more in-depth explanation on Claude skills.
+            </figcaption>
+          </figure>
+
+          <!-- Skills table — RIGHT -->
+          <div class="dtable-wrap skills-dtable-wrap">
+            <table class="dtable skills-dtable">
+              <thead>
+                <tr>
+                  <th>Skill</th>
+                  <th>What it does</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="pill-skill skill-tiphost">Email Management<span class="skill-tip">Triage inbox,
+                        summarize threads, draft replies and follow-ups, flag urgent items, apply client
+                        tone.</span></span></td>
+                  <td>Inbox triage, reply drafts, follow-ups</td>
+                </tr>
+                <tr>
+                  <td><span class="pill-skill skill-tiphost">Calendar Management<span class="skill-tip">Pull
+                        availability,
+                        summarize the week ahead, schedule across time zones, set recurring blocks, flag
+                        conflicts.</span></span></td>
+                  <td>Availability summaries, scheduling, conflict checks</td>
+                </tr>
+                <tr>
+                  <td><span class="pill-skill skill-tiphost">Writing<span class="skill-tip">Long-form drafts, memos,
+                        briefings, and formatted documents tailored to your voice and context.</span></span></td>
+                  <td>Long-form drafts, memos, reports, structured documents</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><span class="coming">More Skills Coming Soon</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
-        <figure style="margin:32px 0;width:100%;">
-          <a href="https://www.youtube.com/watch?v=bjdBVZa66oU&t=71s" target="_blank" rel="noopener"
-            style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
-            <img src="https://img.youtube.com/vi/bjdBVZa66oU/maxresdefault.jpg" alt="Introduction to Skills"
-              style="width:100%;height:100%;object-fit:cover;display:block;">
-            <div
-              style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
-              <div
-                style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
-                <svg viewBox="0 0 24 24" fill="currentColor"
-                  style="width:30px;height:30px;color:#5200e3;margin-left:4px;">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-          </a>
-        </figure>
 
         <!-- Demo Videos -->
         <div class="demo-section">
           <div class="aurora aurora--demo" aria-hidden="true"></div>
-          <p class="kicker">See it in action</p>
-          <h3 class="h3 h3--block">Watch each skill work.</h3>
-          <div class="demo-grid">
+          <p class="kicker" style="text-align:center">See it in action</p>
+          <h3 class="h3 h3--block" style="text-align:center">Watch <span class="grad">Magic</span> skills at work.</h3>
 
-            <!-- CHANGE URL: Email Management demo
-             Replace the src value with your embed URL.
-             Loom:    https://www.loom.com/embed/YOUR_VIDEO_ID
-             YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID -->
-            <div class="demo-card">
-              <p class="demo-card__label">Email Management</p>
-              <div class="demo-card__player">
-                <iframe src="PLACEHOLDER_EMAIL_DEMO_URL" title="Email Management demo" frameborder="0"
-                  allow="fullscreen" loading="lazy"></iframe>
-              </div>
+          <div class="demo-carousel">
+
+            <!-- Tab selectors -->
+            <div class="demo-carousel__tabs" role="tablist">
+              <button class="demo-carousel__tab is-active" role="tab" aria-selected="true" data-demo="email">Email
+                Management</button>
+              <button class="demo-carousel__tab" role="tab" aria-selected="false" data-demo="calendar">Calendar
+                Management</button>
+              <button class="demo-carousel__tab" role="tab" aria-selected="false" data-demo="writing">Writing</button>
             </div>
 
-            <!-- CHANGE URL: Calendar Management demo
-             Replace the src value with your embed URL. -->
-            <div class="demo-card">
-              <p class="demo-card__label">Calendar Management</p>
-              <div class="demo-card__player">
-                <iframe src="PLACEHOLDER_CALENDAR_DEMO_URL" title="Calendar Management demo" frameborder="0"
-                  allow="fullscreen" loading="lazy"></iframe>
-              </div>
-            </div>
+            <!-- Jumbotron stage -->
+            <div class="demo-carousel__stage">
 
-            <!-- CHANGE URL: Writing demo
-             Replace the src value with your embed URL. -->
-            <div class="demo-card">
-              <p class="demo-card__label">Writing</p>
-              <div class="demo-card__player">
-                <iframe src="PLACEHOLDER_WRITING_DEMO_URL" title="Writing demo" frameborder="0" allow="fullscreen"
-                  loading="lazy"></iframe>
+              <!-- CHANGE URL: replace src with your video path or embed URL -->
+              <div class="demo-carousel__panel is-active" data-demo="email">
+                <video src="https://drive.google.com/file/d/15n0czK-q5WfZkmWLCTJgtho22_2tPftu/view?usp=sharing" controls
+                  playsinline></video>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
               </div>
-            </div>
 
-          </div>
+              <!-- CHANGE URL: replace src with your video path or embed URL -->
+              <div class="demo-carousel__panel" data-demo="calendar">
+                <video src="https://drive.google.com/file/d/1LocRcwbbz1SoFR7HLjXk6UVqmc8-HUzx/view?usp=drive_link"
+                  controls playsinline></video>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- CHANGE URL: replace src with your Loom or YouTube embed URL -->
+              <div class="demo-carousel__panel" data-demo="writing">
+                <iframe src="PLACEHOLDER_WRITING_DEMO_URL" title="Writing demo" frameborder="0"
+                  allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
+              </div>
+
+            </div><!-- /.demo-carousel__stage -->
+          </div><!-- /.demo-carousel -->
+        </div><!-- /.demo-section -->
+        <div class="callout callout--warn" style="margin-top:16px">
+          <p>If you don't see Magic skills in your Projects sidebar, message your AL or email the Product Team — there
+            may be a
+            permissions issue.</p>
         </div>
       </div>
 
@@ -770,65 +791,68 @@
         <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 44px;">
         <p class="kicker" style="margin-top:0">Connectors</p>
         <h3 class="h3 h3--block">The apps Claude works inside directly.</h3>
-        <p class="body">Connectors (also called MCP Apps) let Claude read data and take actions inside your tools on
-          your behalf — no copy-pasting between apps. Once connected, they're available in every conversation. Manage
-          them under <strong>Settings → Integrations</strong> in Claude Cowork.</p>
+        <p class="body">Connectors let Claude read data and take actions inside your tools on
+          your behalf — no copy-pasting between apps. Once connected, they're available in every conversation.</p>
 
-        <div class="dtable-wrap" style="margin-top: 24px;">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>App</th>
-                <th>What Claude can do</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Gmail</strong></td>
-                <td>Read inbox, draft replies, send emails — powers <span class="pill-skill">Email Management</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Notion</strong></td>
-                <td>Read and write pages and databases</td>
-              </tr>
-              <tr>
-                <td><strong>Google Calendar</strong></td>
-                <td>Check availability, create events, send briefings — powers <span class="pill-skill">Calendar
-                    Management</span></td>
-              </tr>
-              <tr>
-                <td><strong>Google Drive</strong></td>
-                <td>Retrieve and manage documents</td>
-              </tr>
-              <tr>
-                <td><strong>Slack</strong></td>
-                <td>Summaries, notifications, follow-ups</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <figure style="margin:24px 0;width:100%;">
-          <a href="https://www.youtube.com/watch?v=_jjSS0qGFbI" target="_blank" rel="noopener"
-            style="display:block;position:relative;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 6px 40px rgba(82,0,227,0.14);aspect-ratio:16/9;background:#000;">
-            <img src="https://img.youtube.com/vi/_jjSS0qGFbI/maxresdefault.jpg" alt="Connectors overview"
-              style="width:100%;height:100%;object-fit:cover;display:block;">
-            <div
-              style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);">
-              <div
-                style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.32);">
-                <svg viewBox="0 0 24 24" fill="currentColor"
-                  style="width:30px;height:30px;color:#5200e3;margin-left:4px;">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+        <div class="skills-row" style="margin-top:24px;">
+
+          <!-- YouTube thumbnail — LEFT -->
+          <figure class="skills-yt-thumb">
+            <a href="https://www.youtube.com/watch?v=_jjSS0qGFbI" target="_blank" rel="noopener">
+              <img src="https://img.youtube.com/vi/_jjSS0qGFbI/maxresdefault.jpg" alt="Connectors overview">
+              <div class="skills-yt-thumb__play">
+                <div>
+                  <svg viewBox="0 0 24 24" fill="currentColor"
+                    style="width:22px;height:22px;color:#5200e3;margin-left:3px;">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
               </div>
-            </div>
-          </a>
-        </figure>
+            </a>
+            <figcaption class="skills-yt-thumb__caption">Learn more on how Connectors work.</figcaption>
+          </figure>
 
-        <div class="callout callout--claude" style="margin-top: 16px;">
+          <!-- Connectors table — RIGHT -->
+          <div class="dtable-wrap skills-dtable-wrap connectors-dtable-wrap">
+            <table class="dtable skills-dtable">
+              <thead>
+                <tr>
+                  <th>App</th>
+                  <th>What Claude can do</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Gmail</strong></td>
+                  <td>Read inbox, draft replies, send emails — powers <span class="pill-skill">Email Management</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Notion</strong></td>
+                  <td>Read and write pages and databases</td>
+                </tr>
+                <tr>
+                  <td><strong>Google Calendar</strong></td>
+                  <td>Check availability, create events, send briefings — powers <span class="pill-skill">Calendar
+                      Management</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Google Drive</strong></td>
+                  <td>Retrieve and manage documents</td>
+                </tr>
+                <tr>
+                  <td><strong>Slack</strong></td>
+                  <td>Summaries, notifications, follow-ups</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="callout callout--warn" style="margin-top:16px">
           <p>Skills that depend on a missing connector won't run until it's added. If a connector isn't set up yet,
-            Claude will flag it and point you directly to Settings.</p>
+            Claude will flag it.</p>
         </div>
       </div>
     </div>
@@ -839,7 +863,7 @@
       <p class="body">Type <code class="prompt-inline">/schedule</code> in Cowork. Claude asks a few questions — what,
         when, how often — and confirms before anything is created. You define it once and it handles it from there.</p>
       <div class="card schedule-card">
-        <p class="kicker kicker--violet">Magic EA examples</p>
+        <p class="kicker kicker--violet">Sample prompts for scheduled tasks</p>
         <div class="schedule-prompts">
           <code class="prompt"
             data-copy="">Every weekday morning at 8am, check my inbox and save a summary of unread client emails to my folder.</code>
@@ -867,8 +891,9 @@
     <div class="container container--narrow">
       <p class="kicker">Prompting for Cowork</p>
       <h2 class="h2">Tell it what you want delivered, not what you want to <span class="grad">know</span>.</h2>
-      <p class="body body--lead">Cowork responds best to goal-oriented prompts. Describe the deliverable — format, tone,
-        where to save — and you will get something usable on the first try.</p>
+      <p class="body body--lead">Two things get you something usable: share the situation — attach the file,
+        screenshot the thread, paste the email — and say what you want out of it. The wording is important but the
+        context you provide matters the most.</p>
     </div>
 
     <!-- RULE #1 DARK CARD -->
@@ -883,20 +908,23 @@
                 style="background:var(--sphere,linear-gradient(135deg,#FF8EA9 0%,#9B00FF 50%,#14E9ED 100%));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">brilliant</span>
               on day one. It just doesn't know your situation yet.</h3>
             <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know
-              is your client, your task, and what a good result looks like. Give it that context — the more you hand
-              over, the less it has to guess.</p>
+              is your client, your task, and what a good result looks like. <strong>Give it that context — the more you
+                hand
+                over, the less it has to guess.</strong></p>
             <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that is almost always a
               context problem — not a Claude problem.</p>
           </div>
           <div class="prompt-rule__compare">
             <div class="prompt-rule__example prompt-rule__example--bad">
-              <p class="prompt-rule__tag prompt-rule__tag--bad">Without context</p>
-              <p class="prompt-rule__quote">"Write a follow-up email."</p>
+              <p class="prompt-rule__tag prompt-rule__tag--bad">Polished prompt, nothing shared</p>
+              <p class="prompt-rule__quote">"Analyze our sales data and turn it into a slide deck with charts. Keep it
+                accurate and clear."</p>
             </div>
             <div class="prompt-rule__example prompt-rule__example--good">
-              <p class="prompt-rule__tag prompt-rule__tag--good">With context</p>
-              <p class="prompt-rule__quote">"Write a follow-up email to a client who missed our Monday check-in. We
-                manage their calendar. Warm but professional. Under 5 sentences. Save to my Magic folder."</p>
+              <p class="prompt-rule__tag prompt-rule__tag--good">The file, pointed to</p>
+              <p class="prompt-rule__quote">"Go to my Q2 Reports folder and open regional_sales.csv. Read every row,
+                analyze the trends, and turn the key insights into charts for the quarterly business review. Build it
+                into a slide deck — and double-check every figure against the sheet before you finalize."</p>
             </div>
           </div>
         </div>
@@ -910,9 +938,10 @@
 
         <article class="card habit-card">
           <p class="habit-num">01</p>
-          <p class="habit-title">Provide the complete context.</p>
-          <p class="habit-body">Who, what, format, tone, where to save. The more context you give, the less it has to
-            guess.</p>
+          <p class="habit-title">Link and feed the raw materials.</p>
+          <p class="habit-body">Connect your apps and folders, attach files, paste the email, share screenshots or other
+            data. What you hand over
+            matters far more than how you word the ask.</p>
         </article>
 
         <article class="card habit-card">
@@ -940,35 +969,42 @@
       <article class="prompt-pair pp-collapsible">
         <div class="prompt-pair__bad">
           <p class="prompt-pair__tag">Don't say</p>
-          <p class="prompt-pair__line">"Research [Company Name]."</p>
+          <p class="prompt-pair__line">"Research this company before my call."</p>
         </div>
         <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
           <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"I'm prepping for a discovery call with [Company]. They're in [industry]. Pull
-              their recent news, key people, and any funding history. Format as a one-page briefing doc."</p>
+            <p class="prompt-pair__line">"[pastes client's instructions] Investor meeting on Thu with Acme Corp —
+              they're a Series B
+              fintech. Pull their recent news and funding history from the web, use /calendar-management to cross-chek
+              the attendees against our
+              notes ("Meeting Insights - 2026.docx") in the Clients folder, and write it up using our call-prep template
+              in the
+              same file. Goal is to initiate talks on new projects for Q4 this year."</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">Claude needs the who and why, not just the what. Context turns a
-          generic search into a targeted briefing.</p>
+        <p class="prompt-pair__why pp-reveal-why">Client comms, web search, your local folder and files, and a clear
+          goal. You're directing Claude where everything lives and where to execute.</p>
       </article>
 
       <article class="prompt-pair pp-collapsible">
         <div class="prompt-pair__bad">
           <p class="prompt-pair__tag">Don't say</p>
-          <p class="prompt-pair__line">"Write an email."</p>
+          <p class="prompt-pair__line">"Write a follow-up email to the client about the call."</p>
         </div>
         <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
           <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"Write a follow-up to a client who missed our Monday call. Warm but
-              professional. Under 5 sentences. Save to my folder."</p>
+            <p class="prompt-pair__line">"[screenshots email thread] They no-showed our Monday call. Use
+              /calendar-management to pull two open slots from my Google Calendar next week, use /email-management to
+              draft a warm reply
+              offering both, and match the voice in our email guide. Under 5 sentences."</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">Who the client is + what you need + format + delivery = a usable
-          result on the first try.</p>
+        <p class="prompt-pair__why pp-reveal-why">Inputs external conversation history, uses two skills at once, and
+          identifies the guideline to use. Point at all three and the reply almost writes itself.</p>
       </article>
 
       <article class="prompt-pair pp-collapsible">
@@ -980,46 +1016,58 @@
           <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"Check emails from the last 24 hours from clients or flagged senders.
-              One-sentence summary each."</p>
+            <p class="prompt-pair__line">"Use /email-management to go through my Gmail from the last 24 hours. Flag only
+              client emails or anything urgent, cross-check each sender against the active-accounts list in our team
+              Google
+              drive, and summarize each in one line with what it needs and the account it ties to. Save each into a
+              word doc in /active accounts/2026-06/week 1"</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">Scoping the task prevents it from pulling in far more than you need
-          and slowing the whole task down.</p>
+        <p class="prompt-pair__why pp-reveal-why">Uses two connectors, a skill, the task methodology, output
+          format & location. You make it aware where to get the data and how to process the result.</p>
       </article>
 
       <article class="prompt-pair pp-collapsible">
         <div class="prompt-pair__bad">
           <p class="prompt-pair__tag">Don't say</p>
-          <p class="prompt-pair__line">"Summarize this."</p>
+          <p class="prompt-pair__line">"Summarize this weekly."</p>
         </div>
         <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
           <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"Summarize this meeting transcript. Pull out action items, owners, and
-              deadlines as a table."</p>
+            <p class="prompt-pair__line">"Every Monday before 8am Pacific time, open the latest fathom transcript of the
+              Marketing Team Sync in my inbox.
+              Pull every action item
+              with its owner and due date into a table, add them to our team Notion then notify all members on
+              #core-marketing. Save the summary into a spreadsheet in the "Core Team Archives" folder for client John
+              Doe."</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">Telling it what structure you want gets a result you can use — not a
-          wall of text you still have to process.</p>
+        <p class="prompt-pair__why pp-reveal-why">Simple recurring task that works end-to-end. Once set up correctly,
+          Claude gets familiar with the routing and automates for you - freeing you up from tedious re-prompting and
+          execution.</p>
       </article>
 
       <article class="prompt-pair pp-collapsible">
         <div class="prompt-pair__bad">
           <p class="prompt-pair__tag">Don't say</p>
-          <p class="prompt-pair__line">"Don't make it sound too corporate."</p>
+          <p class="prompt-pair__line">"Write a proposal for this client."</p>
         </div>
         <div class="prompt-pair__good pp-toggle" role="button" tabindex="0" aria-expanded="false">
           <p class="prompt-pair__tag">Say instead <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"Write in a warm, direct tone — like a trusted colleague, not a PR statement."
-            </p>
+            <p class="prompt-pair__line">"Use the proposal template in our Google Drive and the pricing in our Sales
+              Playbook (sales folder). Draft one for Acme Corp from the discovery notes in their client sub-folder and
+              the draft presentation they sent
+              [attached]. Run it through /writing so it sounds human and on-brand, then export a clean PDF."</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">Tell it what to hit, not what to avoid. Positive instructions are
-          clearer and easier to follow.</p>
+        <p class="prompt-pair__why pp-reveal-why">Connects to client's SOP, directs to guidelines and notes, pastes
+          their
+          temporary file, and instructs to export to a specific format. Your knowledge base does the
+          heavy lifting, and /writing keeps it sounding human.</p>
       </article>
 
       <article class="prompt-pair pp-collapsible">
@@ -1031,12 +1079,15 @@
           <p class="prompt-pair__tag">Reprompt <span class="pp-caret">&#8250;</span></p>
           <p class="pp-hint">Tap to reveal</p>
           <div class="pp-reveal">
-            <p class="prompt-pair__line">"That's too generic. The client is in [industry] and this is for [specific
-              context]. Rewrite with that in mind."</p>
+            <p class="prompt-pair__line">"That's too generic. This is for a healthcare client preparing a board update —
+              lead with the compliance risks from our Q2 deck, frame them against the targets in our KPI sheet, and
+              keep it to the three slides that matter."</p>
           </div>
         </div>
-        <p class="prompt-pair__why pp-reveal-why">A generic result almost always means not enough context. It is not
-          broken — it just needs a better brief.</p>
+        <p class="prompt-pair__why pp-reveal-why">Clarifies audience, two source files, and a frame to enhance the
+          initial response.
+          Generic
+          almost always means Claude couldn't see what you could.</p>
       </article>
 
     </div>
@@ -1057,8 +1108,13 @@
             <li>For tasks touching your <strong>inbox or calendar</strong>, define the scope —<br><em
                 class="tip-quote">"only emails from the last 48 hours"</em> or <em class="tip-quote">"just the three
                 meetings on Thursday"</em>.</li>
-            <li><strong>Don't interrupt mid-step</strong> unless it is clearly going wrong. Wait for Claude to surface a
+            <li>Claude makes changes in real-time. <strong>Don't interrupt mid-step</strong> unless it is clearly going
+              wrong. Wait for Claude to surface a
               result, then redirect.</li>
+            <li>There's no one-size-fits-all prompt anatomy that works for everyone due to the wide range of tasks and
+              goals. Given the right context, Claude even understands <strong>voice-to-text, Taglish, abbreviations, or
+                half-finished sentences</strong>. Claude
+              needs to understand the situation more than receiving polished wording.</li>
           </ul>
         </article>
         <article class="card tips-card--trip">
@@ -1088,8 +1144,7 @@
       <p class="kicker">Choosing the right model</p>
       <h2 class="h2">Start on Opus. Step down only when <span class="grad">limits</span> push you.</h2>
       <p class="body body--lead">Opus is your default for all EA work — best quality, richest output, strongest
-        reasoning. Switch to Sonnet only if you’re hitting Opus rate limits. If you hit Sonnet limits too, escalate to
-        your account lead rather than dropping to Haiku.</p>
+        reasoning. Switch to Sonnet only if you’re hitting Opus rate limits.</p>
 
       <div class="card picker" id="picker">
         <fieldset class="picker__field">
@@ -1098,7 +1153,7 @@
             <label><input type="radio" name="task" value="opus" checked=""><span>Everyday EA work — the
                 default</span></label>
             <label><input type="radio" name="task" value="sonnet"><span>Hitting Opus rate limits</span></label>
-            <label><input type="radio" name="task" value="haiku"><span>Bulk data, high-volume extraction
+            <label><input type="radio" name="task" value="haiku"><span>High-volume extraction or very quick summaries
                 (rare)</span></label>
           </div>
         </fieldset>
@@ -1125,8 +1180,7 @@
           <tbody>
             <tr data-model="opus">
               <td>Opus</td>
-              <td>Everything by default — all EA work, research, writing, Cowork, complex reasoning. Your starting
-                point, not a special-occasion model.</td>
+              <td>Everything by default — all EA work, research, writing, Cowork, complex reasoning.</td>
               <td>Nothing. Start here unless rate limits stop you.</td>
             </tr>
             <tr data-model="sonnet">
@@ -1136,8 +1190,8 @@
             </tr>
             <tr class="row-haiku">
               <td>Haiku</td>
-              <td>High-volume rote data only — bulk categorization, simple extraction at scale across many rows.</td>
-              <td>Almost all EA work. Never for reasoning, writing, or anything needing judgement.</td>
+              <td>High-volume rote data only — bulk categorization, simple extraction at scale.</td>
+              <td>Almost everything. Never use for reasoning, writing, or anything needing judgement.</td>
             </tr>
           </tbody>
         </table>
@@ -1174,12 +1228,13 @@
         <div class="card risk-card" style="margin-top:0;flex:0 0 70%;min-width:0;">
           <p class="kicker kicker--violet">To minimize risks</p>
           <ul class="bullets">
-            <li>Avoid granting access to local files with sensitive information, like financial documents.</li>
-            <li>Be especially cautious with computer use — Claude clicks, types, and navigates your screen directly,
-              without the permission checks that gate other Cowork tools.</li>
-            <li>Cowork may have direct access to Claude in Chrome. We strongly advise against using it to manage or take
-              actions involving sensitive information, purchases, and critical processes that may break things for your
-              client.</li>
+            <li>Avoid granting access to local files with sensitive information, like financial documents and passwords.
+            </li>
+            <li>Be especially cautious with computer use — Claude makes changes on your computer directly and bypass
+              permission checks when you allow it to.</li>
+            <li>Cowork may have direct access to Claude in Chrome. We strongly advise against using anything that takes
+              control over your screen since it's a massive risk and wastes tokens. <strong>Keep
+                everything in Claude itself.</strong></li>
           </ul>
         </div>
       </div>
@@ -1201,39 +1256,37 @@
         <div class="protect"><span class="protect__num">2</span>
           <p>Monitor tasks, not just commands.</p>
           <div class="protect-tip">
-            <p>Watch for unexpected patterns rather than validating every command — is Claude accessing files or sites
-              you didn't mention? Is scope creeping beyond what you asked for? If something feels off, stop the task
-              immediately.</p>
+            <p>Watch out for unexpected patterns rather than validating every command — is Claude accessing files or
+              sites you didn't mention? Is scope creeping beyond what you asked for? If something feels off, stop the
+              task immediately.</p>
           </div>
         </div>
         <div class="protect"><span class="protect__num">3</span>
           <p>Be cautious with scheduled tasks.</p>
           <div class="protect-tip">
             <p>Scheduled tasks run without you watching. Start with low-risk tasks, avoid scheduling anything involving
-              messages, purchases, or hard-to-undo actions, and review results regularly from the Scheduled page in the
-              sidebar.</p>
+              messages, purchases, or hard-to-undo actions, and review results regularly.</p>
           </div>
         </div>
         <div class="protect"><span class="protect__num">4</span>
           <p>Be cautious with computer use.</p>
           <div class="protect-tip">
-            <p>Claude interacts directly with your screen, apps, and browser. Start with low-stakes tasks, avoid
-              sensitive apps (banking, healthcare), and monitor what it clicks — if it follows a link, that link opens.
+            <p>Avoid anything that interacts directly with your screen, apps, and browser.
             </p>
           </div>
         </div>
         <div class="protect"><span class="protect__num">5</span>
-          <p>Be especially cautious with unfamiliar plugins.</p>
+          <p>Avoid unfamiliar third-party plugins or skills.</p>
           <div class="protect-tip">
-            <p>Each plugin expands Claude's scope and introduces new attack surfaces. Stick to verified extensions from
-              the Claude Desktop directory and review permissions carefully before installing.</p>
+            <p>Stick to Anthropic verified connectors from Desktop directory and review permissions during installation.
+            </p>
           </div>
         </div>
         <div class="protect"><span class="protect__num">6</span>
-          <p>Be mindful of cross-app data sharing.</p>
+          <p>Be careful of using Claude as an add-in to official apps.</p>
           <div class="protect-tip">
-            <p>Claude can pass data between apps (Excel, PowerPoint) without you explicitly directing it. Avoid working
-              with sensitive information in these add-ins while Cowork is active.</p>
+            <p>Claude can share data across apps (Excel, PowerPoint) without you explicitly directing it. Avoid working
+              with sensitive information while Cowork is active.</p>
           </div>
         </div>
 
@@ -1245,7 +1298,7 @@
           <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle>
           <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
         </svg>
-        <p><strong>Important.</strong> While Anthropic enacted these measures to reduce risk, you are still responsible
+        <p><strong>Important.</strong> While Anthropic enacted measures to reduce risk, you are still responsible
           for your own use of Claude. Always exercise caution when using Cowork. Report any suspicious behaviour or
           critical issues to <a href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a>.</p>
       </div>
@@ -1259,11 +1312,11 @@
             <li><strong>Never paste passwords, API keys, or credentials</strong> into a Cowork prompt. Don't ask it to
               access private data or scrape personal information, especially your client's.</li>
             <li><strong>Never connect a client's email, calendar, or cloud storage</strong> without their explicit
-              written approval.</li>
+              approval.</li>
             <li><strong>Never impersonate someone</strong> — say "based on their communication style, how would they
               respond?"</li>
             <li><strong>Don't modify security settings directly</strong> — Claude will refuse.</li>
-            <li><strong>Don't use Claude for clients</strong> whose confidentiality clauses cover AI tools — ask your AL
+            <li><strong>Don't use Claude for clients whose confidentiality clauses cover AI tools</strong> — ask your AL
               first.</li>
             <li><strong>Aerospace, defense, or government clients:</strong> don't connect any client accounts — personal
               productivity only.</li>
@@ -1423,12 +1476,12 @@
     <div class="container container--narrow">
       <div class="cta">
         <div class="aurora aurora--cta" aria-hidden="true"></div>
-        <p class="kicker kicker--cyan">End of week one</p>
+        <p class="kicker kicker--cyan">You've finished your onboarding.</p>
         <h2 class="h2 h2--inverse">Tell us what's <span class="grad">working</span>.</h2>
-        <p class="lede lede--inverse">At the end of your first week, the Product Team sends a short feedback form — five
-          minutes, max. It covers which tasks you ran in Cowork, what worked, what was frustrating, whether you used
-          Chat or other AI tools as a fallback, and what would make you use Cowork more in week two. Your answers
-          directly shape what we cascade for the next group of EAs.</p>
+        <p class="lede lede--inverse">After some usage, please answer our <strong>short feedback form</strong> (~5 mins)
+          which covers tasks you ran in Cowork, what worked, what was frustrating, and what would make you use Cowork
+          more. Your answers directly shape what we implement for the next group of assistants.</p>
+        <p class="lede lede--inverse">Welcome to your Claude Cowork journey!</p>
         <a class="btn btn--light" href="https://forms.gle/placeholder">Open the feedback form</a>
       </div>
     </div>
