@@ -3054,6 +3054,15 @@ button {
   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.30);
 }
 
+.skills-yt-thumb iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(82, 0, 227, 0.18);
+  border: none;
+}
+
 .skills-yt-thumb__caption {
   margin-top: 8px;
   margin-bottom: 12px;
