@@ -309,10 +309,15 @@
   });
 
   /* ── Animation loop ──────────────────────────────────────────────────── */
+  /* Reduced-motion: kill auto-animation (float + auto-rotate). Drag/hover still work. */
+  var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (reduceMotion && controls) controls.autoRotate = false;
+
   var LERP = 0.042;
+  var rafId = null;
   function tick(t) {
-    requestAnimationFrame(tick);
-    var time = t*0.001, amp=0.07, spd=0.15;
+    rafId = requestAnimationFrame(tick);
+    var time = t*0.001, amp = reduceMotion ? 0 : 0.07, spd=0.15;
     nodes.forEach(function (n) {
       if (!n.dragging) {
         n.mesh.position.set(
@@ -333,5 +338,17 @@
     if (controls) controls.update();
     renderer.render(scene, camera);
   }
-  requestAnimationFrame(tick);
+
+  function start() { if (rafId === null) rafId = requestAnimationFrame(tick); }
+  function stop()  { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  /* Only run the rAF loop while the graph is actually on screen. */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+    }, { threshold: 0.01 });
+    io.observe(canvas);
+  } else {
+    start();
+  }
 })();

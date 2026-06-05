@@ -13,90 +13,60 @@
 
 /* ---- */
 
-/* Model picker: update recommendation + highlight matching table row */
-  (function() {
-    var recs = {
-      opus:   { model: 'Opus',   why: 'Your default. Best quality and reasoning for all EA work — research, writing, Cowork, complex tasks. Start here and only step down if rate limits actually stop you.' },
-      sonnet: { model: 'Sonnet', why: 'Rate-limit fallback. Switch here only when Opus tells you you\'ve hit your daily limit. Still strong for most tasks, lighter on quota.' },
-      haiku:  { model: 'Haiku',  why: 'Bulk data only. High-volume rote tasks — bulk categorization, simple extraction at scale. Almost never the right choice for day-to-day EA work.' }
-    };
-    var rowMap = { opus: 0, sonnet: 1, haiku: 2 };
-    function initModelPicker() {
-      var radios  = document.querySelectorAll('input[name="task"]');
-      var rows    = document.querySelectorAll('.dtable--model tbody tr');
-      var modelEl = document.getElementById('pickerModel');
-      var whyEl   = document.getElementById('pickerWhy');
-      if (!radios.length || !rows.length || !modelEl || !whyEl) { setTimeout(initModelPicker, 200); return; }
-      function update(val) {
-        var rec = recs[val];
-        if (rec) { modelEl.textContent = rec.model; whyEl.textContent = rec.why; }
-        document.querySelectorAll('.dtable--model tbody tr').forEach(function(r) {
-          r.classList.remove('is-selected');
-        });
-        if (val === 'opus' || val === 'sonnet') {
-          var target = document.querySelector('.dtable--model tbody tr[data-model="' + val + '"]');
-          if (target) target.classList.add('is-selected');
-        }
-      }
-      radios.forEach(function(r) {
-        r.addEventListener('change', function() { update(this.value); });
-        if (r.checked) update(r.value);
-      });
-    }
-    setTimeout(initModelPicker, 100);
-  })();
-
-/* ---- */
-
-/* Model table: highlight row matching selected radio */
+/* Model picker: single source — update recommendation + highlight matching row.
+   Copy aligns with the page guidance ("Start on Opus"). */
 (function() {
-  function initModelHighlight() {
-    var radios = document.querySelectorAll('input[name="task"]');
-    var rows   = document.querySelectorAll('.dtable--model tbody tr');
-    if (!radios.length || !rows.length) { setTimeout(initModelHighlight, 200); return; }
-    var map = { opus: 0, sonnet: 1 };
-    function highlight(val) {
-      rows.forEach(function(r) { r.classList.remove('is-selected'); });
-      var idx = map[val];
-      if (idx !== undefined && rows[idx]) rows[idx].classList.add('is-selected');
-    }
-    radios.forEach(function(r) {
-      r.addEventListener('change', function() { highlight(this.value); });
-      if (r.checked) highlight(r.value);
+  var recs = {
+    opus:   { model: 'Opus',   why: 'Your default. Best quality and reasoning for all EA work — research, writing, Cowork, complex tasks. Start here and only step down if rate limits actually stop you.' },
+    sonnet: { model: 'Sonnet', why: 'Rate-limit fallback. Switch here only when Opus tells you you\'ve hit your daily limit. Still strong for most tasks, lighter on quota.' },
+    haiku:  { model: 'Haiku',  why: 'Bulk data only. High-volume rote tasks — bulk categorization, simple extraction at scale. Almost never the right choice for day-to-day EA work.' }
+  };
+  var radios  = document.querySelectorAll('input[name="task"]');
+  var modelEl = document.getElementById('pickerModel');
+  var whyEl   = document.getElementById('pickerWhy');
+  if (!radios.length || !modelEl || !whyEl) return;
+  function update(val) {
+    var rec = recs[val];
+    if (rec) { modelEl.textContent = rec.model; whyEl.textContent = rec.why; }
+    document.querySelectorAll('.dtable--model tbody tr').forEach(function(r) {
+      r.classList.remove('is-selected');
     });
+    if (val === 'opus' || val === 'sonnet') {
+      var target = document.querySelector('.dtable--model tbody tr[data-model="' + val + '"]');
+      if (target) target.classList.add('is-selected');
+    }
   }
-  setTimeout(initModelHighlight, 100);
+  radios.forEach(function(r) {
+    r.addEventListener('change', function() { update(this.value); });
+    if (r.checked) update(r.value);
+  });
 })();
 
 /* ---- */
 
 /* ToC active-state tracker */
 (function() {
-  var tocLinks, ids;
-  function initToc() {
-    tocLinks = Array.from(document.querySelectorAll('.toc__item a'));
-    ids = tocLinks.map(function(a) { return a.getAttribute('href').slice(1); });
-    function update() {
-      var y = window.scrollY + 130, active = null;
-      for (var i = 0; i < ids.length; i++) {
-        var el = document.getElementById(ids[i]);
-        if (el && el.offsetTop <= y) active = ids[i];
-      }
-      tocLinks.forEach(function(a) {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + active);
-      });
+  var tocLinks = Array.from(document.querySelectorAll('.toc__item a'));
+  if (!tocLinks.length) return;
+  var ids = tocLinks.map(function(a) { return a.getAttribute('href').slice(1); });
+  function update() {
+    var y = window.scrollY + 130, active = null;
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && el.offsetTop <= y) active = ids[i];
     }
-    window.addEventListener('scroll', update, {passive: true});
-    update();
+    tocLinks.forEach(function(a) {
+      a.classList.toggle('is-active', a.getAttribute('href') === '#' + active);
+    });
   }
-  setTimeout(initToc, 80);
+  window.addEventListener('scroll', update, {passive: true});
+  update();
 })();
 
 /* Next-button gate: require all checkboxes in active panel */
 (function() {
-  function initGate() {
-    var btn = document.getElementById('setupNext');
-    if (!btn) { setTimeout(initGate, 200); return; }
+  var btn = document.getElementById('setupNext');
+  if (btn) {
     btn.addEventListener('click', function(e) {
       var panel = document.querySelector('.setup-panel.is-active');
       if (!panel) return;
@@ -120,7 +90,6 @@
       }
     }, true);
   }
-  setTimeout(initGate, 80);
 })();
 
 /* ---- */
@@ -231,9 +200,12 @@
 
   function applyTabGating(state) {
     var unlockedTabs = getUnlockedTabs(state);
+    var doneTabs = field(state, 'setupTabs', []);
     var btns = document.querySelectorAll('.setup-tab[data-tab]');
     btns.forEach(function(btn) {
-      btn.classList.toggle('setup-tab--locked', !unlockedTabs[btn.getAttribute('data-tab')]);
+      var id = btn.getAttribute('data-tab');
+      btn.classList.toggle('setup-tab--locked', !unlockedTabs[id]);
+      btn.classList.toggle('is-done', doneTabs.indexOf(id) >= 0);
     });
   }
 
@@ -270,7 +242,7 @@
     var completed = field(state, 'completed', []);
     if (completed.indexOf('need') >= 0) return;
     var boxes = field(state, 'checkboxes', {});
-    var all = ['need-0','need-1','need-2','need-3'].every(function(k) { return boxes[k]; });
+    var all = ['need-0','need-1','need-2','need-3','need-4'].every(function(k) { return boxes[k]; });
     if (!all) return;
     state.completed = completed.concat(['need']);
     saveState(state);
@@ -324,8 +296,17 @@
   /* ── Init ────────────────────────────────────────────────── */
 
   /* ── Progress bar ────────────────────────────────────────── */
-  var TOTAL_STEPS = 39; /* 32 checkboxes + 7 Mark-as-Read sections */
   var TEXT_GATE_SECTIONS = ['intro','cowork-intro','cowork','prompting','model','safety','learn'];
+  /* Computed from the DOM in init() — never hardcode (the page count drifts). */
+  var TOTAL_STEPS = 0;
+
+  function computeTotalSteps() {
+    var keys = {};
+    document.querySelectorAll('[data-cb-key]').forEach(function(cb) {
+      keys[cb.getAttribute('data-cb-key')] = true;
+    });
+    return Object.keys(keys).length + TEXT_GATE_SECTIONS.length;
+  }
 
   function countDone(state) {
     var completed = field(state, 'completed', []);
@@ -358,9 +339,13 @@
   }
 
   function updateProgress(state) {
-    var done  = countDone(state);
-    var total = TOTAL_STEPS;
-    var pct   = Math.min(100, Math.round(done / total * 100));
+    var target = getContinueTarget(state);
+    var total  = TOTAL_STEPS;
+    /* When the guide is fully complete, force 100% — countDone() can lag behind
+       getContinueTarget() when localStorage was migrated from an older key scheme. */
+    var done = !target ? total : countDone(state);
+    /* Cap in-progress at 99% so the bar never accidentally rounds to 100%. */
+    var pct  = !target ? 100 : Math.min(99, Math.round(done / total * 100));
 
     var elDone   = document.getElementById('progressDone');
     var elTotal  = document.getElementById('progressTotal');
@@ -372,24 +357,27 @@
     if (elDone)  elDone.textContent  = done;
     if (elTotal) elTotal.textContent = total;
     if (elFill)  elFill.style.width  = pct + '%';
-
-    var target = getContinueTarget(state);
     if (elJump) {
       if (!target) {
-        elJump.textContent = 'Guide complete ✓';
-        elJump.removeAttribute('href');
-        elJump.style.pointerEvents = 'none';
-        elJump.style.opacity = '0.6';
+        /* 100% complete — turn the link into the certificate hand-off (opens a new tab). */
+        elJump.textContent = 'Get your certificate →';
+        elJump.setAttribute('href', 'certificate.html');
+        elJump.setAttribute('target', '_blank');
+        elJump.setAttribute('rel', 'noopener');
+        elJump.style.pointerEvents = '';
+        elJump.style.opacity = '';
       } else {
         elJump.textContent = done === 0 ? 'Get started →' : 'Continue →';
         elJump.setAttribute('href', target);
+        elJump.removeAttribute('target');
+        elJump.removeAttribute('rel');
         elJump.style.pointerEvents = '';
         elJump.style.opacity = '';
       }
     }
 
     if (elStatus) {
-      if (!target)       { elStatus.textContent = "You're ready for client work!"; }
+      if (!target)       { elStatus.textContent = "You're ready for client work — grab your certificate."; }
       else if (done === 0) { elStatus.textContent = "Start with What’s Different below."; }
       else               { elStatus.textContent = pct + '% complete'; }
     }
@@ -415,6 +403,7 @@
   }
 
   function init() {
+    TOTAL_STEPS = computeTotalSteps();
     var state = loadState();
     var boxes = field(state, 'checkboxes', {});
 
@@ -475,7 +464,7 @@
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else setTimeout(init, 100);
+  else init();
 })();
 
 /* ── Demo carousel: tab switching + fullscreen ───────────── */
