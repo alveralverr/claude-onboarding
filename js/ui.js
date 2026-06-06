@@ -467,6 +467,156 @@
   else init();
 })();
 
+/* ── Quickstart tabs: "What you need" / "Interface guide" ── */
+(function () {
+  function initQuickstartTabs() {
+    var wrap = document.getElementById('quickstartTabs');
+    if (!wrap) return;
+    var tabs   = Array.from(wrap.querySelectorAll('.qs-tab'));
+    var panels = Array.from(wrap.querySelectorAll('.qs-panel'));
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-qs');
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach(function (p) {
+          p.classList.toggle('is-active', p.getAttribute('data-qs') === target);
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuickstartTabs);
+  } else {
+    initQuickstartTabs();
+  }
+})();
+
+/* ── Interface guide: screen switcher + pin popup tooltips ── */
+(function () {
+  function initInterfaceGuide() {
+    var ig = document.getElementById('interfaceGuide');
+    if (!ig) return;
+
+    var screens = Array.from(ig.querySelectorAll('.ig-screen'));
+
+    /* Screen switcher — each screen carries its own copy of the control, so
+       sync the active state across all copies. Switching closes any tooltip. */
+    var btns = Array.from(ig.querySelectorAll('.ig-switch__btn'));
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-screen');
+        btns.forEach(function (b) {
+          var on = b.getAttribute('data-screen') === target;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        screens.forEach(function (s) {
+          s.classList.toggle('is-active', s.getAttribute('data-screen') === target);
+        });
+        closeAll();
+      });
+    });
+
+    /* One tooltip controller per screen. Each owns its pins, its hidden
+       .ig-items data source, and its single .ig-tip element. */
+    var controllers = screens.map(function (screen) {
+      var shot = screen.querySelector('.ig__shot');
+      var tip  = shot && shot.querySelector('.ig-tip');
+      var data = screen.querySelector('.ig-items');
+      if (!shot || !tip || !data) return { close: function () {} };
+
+      var pins = Array.from(shot.querySelectorAll('.ig-pin'));
+      var openPin = null;
+
+      function close() {
+        if (!openPin) return;
+        tip.classList.remove('is-open', 'is-flash', 'ig-tip--left');
+        tip.setAttribute('aria-hidden', 'true');
+        openPin.classList.remove('is-selected');
+        openPin = null;
+      }
+
+      function open(pin) {
+        var n = pin.getAttribute('data-pin');
+        var src = data.querySelector('.ig-item[data-item="' + n + '"]');
+        if (!src) return;
+
+        tip.querySelector('.ig-tip__num').textContent = n;
+        tip.querySelector('.ig-tip__title').innerHTML = src.querySelector('.ig-item__title').innerHTML;
+        tip.querySelector('.ig-tip__desc').innerHTML  = src.querySelector('.ig-item__desc').innerHTML;
+
+        /* Position: to the right of the pin, flipping left near the edge.
+           Pins use translate(-50%,-50%), so offsetLeft/Top is the visual
+           centre. Measure the tip while still invisible (visibility:hidden
+           keeps layout) before revealing. */
+        tip.classList.remove('ig-tip--left');
+        var cx = pin.offsetLeft, cy = pin.offsetTop;
+        var pinHalf = pin.offsetWidth / 2;
+        var gap = 12;
+        var tipW = tip.offsetWidth, tipH = tip.offsetHeight;
+        var maxX = shot.clientWidth, maxY = shot.clientHeight;
+
+        var left = cx + pinHalf + gap;
+        if (left + tipW > maxX - 6) {
+          left = cx - pinHalf - gap - tipW;       /* flip to the left */
+          tip.classList.add('ig-tip--left');
+        }
+        var top = Math.max(6, Math.min(cy - tipH / 2, maxY - tipH - 6));
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+        tip.style.setProperty('--arrow-y', (cy - top) + 'px');
+
+        tip.classList.add('is-open');
+        tip.setAttribute('aria-hidden', 'false');
+        pin.classList.add('is-selected');
+
+        /* blink twice */
+        tip.classList.remove('is-flash');
+        void tip.offsetWidth;
+        tip.classList.add('is-flash');
+
+        openPin = pin;
+      }
+
+      pins.forEach(function (pin) {
+        pin.addEventListener('click', function (e) {
+          e.stopPropagation();           /* don't trip the outside-click close */
+          if (openPin === pin) { close(); return; }   /* same pin → toggle off */
+          close();
+          open(pin);
+        });
+      });
+
+      /* clicks inside the tooltip shouldn't close it */
+      tip.addEventListener('click', function (e) { e.stopPropagation(); });
+
+      return { close: close };
+    });
+
+    function closeAll() {
+      controllers.forEach(function (c) { c.close(); });
+    }
+
+    /* Click anywhere outside an open tooltip/pin → close. Esc also closes. */
+    document.addEventListener('click', closeAll);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initInterfaceGuide);
+  } else {
+    initInterfaceGuide();
+  }
+})();
+
 /* ── Demo carousel: tab switching + fullscreen ───────────── */
 (function () {
   function initDemoCarousel() {

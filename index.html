@@ -240,22 +240,194 @@
       <p class="kicker">Quickstart</p>
       <h2 class="h2">What you <span class="grad">need</span>.</h2>
 
-      <ul class="checklist" data-step-id="need">
-        <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>Claude.ai</strong> invite link.</span></label></li>
-        <li><label><input type="checkbox" data-cb-key="need-2"><span>Google Chrome.</span></label></li>
-        <li><label><input type="checkbox" data-cb-key="need-4"><span>System requirements met — <strong>macOS 11 (Big Sur) or higher</strong>, or <strong>Windows 10 or higher</strong>.</span></label></li>
-        <li><label><input type="checkbox" data-cb-key="need-1"><span>Claude desktop installed.</span></label></li>
-        <li><label><input type="checkbox" data-cb-key="need-3"><span>Your Google account signed in.</span></label></li>
-      </ul>
+      <!-- QUICKSTART TABS — tab 1: what you need (checklist + video);
+           tab 2: the Cowork interface guide (ported from the standalone
+           "Cowork UI Guide" artifact). Tab switching lives in js/ui.js;
+           styles are namespaced .qs-* / .ig-* in css/styles.css. -->
+      <div class="qs-tabs" id="quickstartTabs">
+        <div class="qs-tabs__rail" role="tablist" aria-label="Quickstart">
+          <button class="qs-tab is-active" data-qs="need" role="tab" aria-selected="true" type="button">Minimum requirements</button>
+          <button class="qs-tab" data-qs="interface" role="tab" aria-selected="false" type="button">Interface guide</button>
+        </div>
 
-      <!-- Single setup video: YouTube embed (no page-weight cost, lazy-loaded).
-           The local assets/setup-guide.mp4 (25 MB) was removed to avoid loading
-           two redundant setup videos — restore a <video> here if you prefer it. -->
-      <iframe src="https://www.youtube.com/embed/Lbml7IuGJYw" title="Getting started with Claude Cowork"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"
-        style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:48px auto 56px;position:relative;z-index:2;"></iframe>
+        <!-- TAB 1 · What you need (unchanged) -->
+        <div class="qs-panel is-active" data-qs="need" role="tabpanel">
+          <ul class="checklist" data-step-id="need">
+            <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>Claude.ai</strong> invite link.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-2"><span>Google Chrome.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-4"><span><strong>macOS 11 (Big Sur) or higher</strong>, or <strong>Windows 10 or higher</strong>.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-1"><span>Claude desktop installed.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-3"><span>Your Google account signed in.</span></label></li>
+          </ul>
+
+          <!-- Two setup videos: the local screen-recording walkthrough first,
+               then the YouTube overview below it. -->
+          <video src="assets/setup-guide.mp4" controls playsinline preload="metadata"
+            style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:48px auto 24px;position:relative;z-index:2;background:#000;"></video>
+
+          <iframe src="https://www.youtube.com/embed/Lbml7IuGJYw" title="Getting started with Claude Cowork"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"
+            style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:0 auto 56px;position:relative;z-index:2;"></iframe>
+        </div>
+
+        <!-- TAB 2 · Interface guide -->
+        <div class="qs-panel" data-qs="interface" role="tabpanel">
+          <div class="ig" id="interfaceGuide">
+
+            <!-- Each .ig-screen owns its own pins, hidden content source
+                 (.ig-items), one popup tooltip (.ig-tip), and its own copy of
+                 the screen switcher (below the image, bottom-right). Clicking a
+                 pin pops a tooltip to its right showing the matching item
+                 (data-pin → data-item); js/ui.js handles toggle / outside-click
+                 close / edge-flip / blink. Switcher copies stay in sync. -->
+
+            <!-- ───────── SCREEN 1 · Home / new task ───────── -->
+            <div class="ig-screen is-active" data-screen="home">
+              <header class="ig__head">
+                <h3 class="ig__title">The Cowork desktop app, <span class="grad">explained</span>.</h3>
+                <p class="ig__sub">Every part of the screen, labelled. Tap any number on the screenshot to reveal what it does — from the mode switcher to your project folder.</p>
+              </header>
+
+              <!-- Pin positions are percentages calibrated to the screenshot,
+                   so they track the image at any size. -->
+              <div class="ig__shot">
+                <img loading="lazy" src="assets/cowork-interface.png" alt="Claude Cowork desktop app interface, labelled 1–18">
+                <!-- sidebar pins -->
+                <button class="ig-pin" type="button" data-pin="1" aria-label="Reveal item 1" style="left:6.8%;top:2.3%;">1</button>
+                <button class="ig-pin" type="button" data-pin="2" aria-label="Reveal item 2" style="left:8.6%;top:7.4%;">2</button>
+                <button class="ig-pin" type="button" data-pin="3" aria-label="Reveal item 3" style="left:2.0%;top:12.4%;">3</button>
+                <button class="ig-pin" type="button" data-pin="4" aria-label="Reveal item 4" style="left:2.0%;top:15.5%;">4</button>
+                <button class="ig-pin" type="button" data-pin="5" aria-label="Reveal item 5" style="left:2.0%;top:18.6%;">5</button>
+                <button class="ig-pin" type="button" data-pin="6" aria-label="Reveal item 6" style="left:2.0%;top:21.7%;">6</button>
+                <button class="ig-pin" type="button" data-pin="7" aria-label="Reveal item 7" style="left:2.0%;top:24.9%;">7</button>
+                <button class="ig-pin" type="button" data-pin="8" aria-label="Reveal item 8" style="left:11.0%;top:30.3%;">8</button>
+                <button class="ig-pin" type="button" data-pin="9" aria-label="Reveal item 9" style="left:1.8%;top:96.8%;">9</button>
+                <!-- main-area pins -->
+                <button class="ig-pin" type="button" data-pin="10" aria-label="Reveal item 10" style="left:93.0%;top:2.3%;">10</button>
+                <button class="ig-pin" type="button" data-pin="11" aria-label="Reveal item 11" style="left:31.5%;top:24.8%;">11</button>
+                <button class="ig-pin" type="button" data-pin="12" aria-label="Reveal item 12" style="left:33.5%;top:29.3%;">12</button>
+                <button class="ig-pin" type="button" data-pin="13" aria-label="Reveal item 13" style="left:53.5%;top:37.0%;">13</button>
+                <button class="ig-pin" type="button" data-pin="14" aria-label="Reveal item 14" style="left:40.0%;top:43.8%;">14</button>
+                <button class="ig-pin" type="button" data-pin="15" aria-label="Reveal item 15" style="left:82.0%;top:43.8%;">15</button>
+                <button class="ig-pin" type="button" data-pin="16" aria-label="Reveal item 16" style="left:39.5%;top:50.4%;">16</button>
+                <button class="ig-pin" type="button" data-pin="17" aria-label="Reveal item 17" style="left:74.5%;top:50.4%;">17</button>
+                <button class="ig-pin" type="button" data-pin="18" aria-label="Reveal item 18" style="left:39.2%;top:55.7%;">18</button>
+
+                <!-- zone labels -->
+                <span class="ig-zone" style="left:9.5%;top:60%;">Sidebar</span>
+                <span class="ig-zone" style="left:60%;top:14%;">Composer &amp; Main Area</span>
+
+                <!-- popup tooltip (JS-populated + positioned) -->
+                <div class="ig-tip" role="dialog" aria-hidden="true">
+                  <span class="ig-tip__num"></span>
+                  <div class="ig-tip__body">
+                    <p class="ig-tip__title"></p>
+                    <p class="ig-tip__desc"></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen switcher: below the image, bottom-right -->
+              <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                <button class="ig-switch__btn is-active" data-screen="home" role="tab" aria-selected="true" type="button">Home screen</button>
+                <button class="ig-switch__btn" data-screen="task" role="tab" aria-selected="false" type="button">Inside a task</button>
+              </div>
+
+              <!-- Hidden content source for the tooltips -->
+              <div class="ig-items" hidden>
+                <div class="ig-item" data-item="1"><p class="ig-item__title">Window bar</p><p class="ig-item__desc">Close or resize the app, collapse this sidebar, and search across your chats and tasks.</p></div>
+                <div class="ig-item" data-item="2"><p class="ig-item__title">Mode switcher</p><p class="ig-item__desc">Switch between Chat, Cowork, and Code. Cowork is the mode that takes on whole tasks for you.</p></div>
+                <div class="ig-item" data-item="3"><p class="ig-item__title">New task</p><p class="ig-item__desc">Start a fresh Cowork task with a clean slate.</p></div>
+                <div class="ig-item" data-item="4"><p class="ig-item__title">Projects</p><p class="ig-item__desc">Workspaces tied to a folder on your computer, each with its own files, instructions, and memory.</p></div>
+                <div class="ig-item" data-item="5"><p class="ig-item__title">Scheduled</p><p class="ig-item__desc">Tasks Claude runs automatically on a cadence you set — daily, weekly, or monthly.</p></div>
+                <div class="ig-item" data-item="6"><p class="ig-item__title">Live artifacts</p><p class="ig-item__desc">Dashboards and trackers Claude builds that refresh with current data each time you open them.</p></div>
+                <div class="ig-item" data-item="7"><p class="ig-item__title">Customize</p><p class="ig-item__desc">Add skills and connectors, set instructions, and manage your plugins and settings.</p></div>
+                <div class="ig-item" data-item="8"><p class="ig-item__title">Recents</p><p class="ig-item__desc">Your recent tasks and chats. Click any one to pick up where you left off.</p></div>
+                <div class="ig-item" data-item="9"><p class="ig-item__title">Account &amp; profile</p><p class="ig-item__desc">Your name, plan, and settings live here. Sign out from this menu.</p></div>
+                <div class="ig-item" data-item="10"><p class="ig-item__title">What's new</p><p class="ig-item__desc">Release notes for the latest Claude features and updates.</p></div>
+                <div class="ig-item" data-item="11"><p class="ig-item__title">Home greeting</p><p class="ig-item__desc">Your starting point each time you open a new task.</p></div>
+                <div class="ig-item" data-item="12"><p class="ig-item__title">Usage &amp; safety banner</p><p class="ig-item__desc">Shows your current usage allowance and a link to learn how to use Cowork safely.</p></div>
+                <div class="ig-item" data-item="13"><p class="ig-item__title">Prompt input field</p><p class="ig-item__desc">Type what you want done here. Be specific about the output and where to save it.</p></div>
+                <div class="ig-item" data-item="14"><p class="ig-item__title">Add context</p><p class="ig-item__desc">Attach files, screenshots, or other context to your prompt with the plus button.</p></div>
+                <div class="ig-item" data-item="15"><p class="ig-item__title">Dictation</p><p class="ig-item__desc">Speak your prompt out loud instead of typing it.</p></div>
+                <div class="ig-item" data-item="16"><p class="ig-item__title">Work in a project</p><p class="ig-item__desc">Pick the folder Claude reads from and saves finished work back to.</p></div>
+                <div class="ig-item" data-item="17"><p class="ig-item__title">Model &amp; reasoning</p><p class="ig-item__desc">Choose the Claude model and how hard it thinks. Higher effort uses more of your usage limit.</p></div>
+                <div class="ig-item" data-item="18"><p class="ig-item__title">Project picker</p><p class="ig-item__desc">Search your projects, create a new one, or point Claude at a different folder.</p></div>
+              </div>
+            </div>
+
+            <!-- ───────── SCREEN 2 · Inside a running task ───────── -->
+            <div class="ig-screen" data-screen="task">
+              <header class="ig__head">
+                <h3 class="ig__title">Inside a Cowork <span class="grad">task</span>.</h3>
+                <p class="ig__sub">What you'll see once a task is running — Claude's replies, the tools it uses, the skills it suggests, and the panel that tracks its progress.</p>
+              </header>
+
+              <div class="ig__shot">
+                <img loading="lazy" src="assets/cowork-session.png" alt="Claude Cowork active task session, labelled 1–14">
+                <!-- conversation pins -->
+                <button class="ig-pin" type="button" data-pin="1" aria-label="Reveal item 1" style="left:21.8%;top:2.6%;">1</button>
+                <button class="ig-pin" type="button" data-pin="2" aria-label="Reveal item 2" style="left:22.5%;top:13.6%;">2</button>
+                <button class="ig-pin" type="button" data-pin="3" aria-label="Reveal item 3" style="left:21.5%;top:19.8%;">3</button>
+                <button class="ig-pin" type="button" data-pin="4" aria-label="Reveal item 4" style="left:25.8%;top:32.8%;">4</button>
+                <button class="ig-pin" type="button" data-pin="5" aria-label="Reveal item 5" style="left:67.5%;top:41.2%;">5</button>
+                <button class="ig-pin" type="button" data-pin="6" aria-label="Reveal item 6" style="left:25.0%;top:49.6%;">6</button>
+                <!-- composer pins -->
+                <button class="ig-pin" type="button" data-pin="7" aria-label="Reveal item 7" style="left:29.1%;top:90.4%;">7</button>
+                <button class="ig-pin" type="button" data-pin="8" aria-label="Reveal item 8" style="left:25.2%;top:95.2%;">8</button>
+                <button class="ig-pin" type="button" data-pin="9" aria-label="Reveal item 9" style="left:68.1%;top:95.2%;">9</button>
+                <button class="ig-pin" type="button" data-pin="10" aria-label="Reveal item 10" style="left:73.8%;top:95.2%;">10</button>
+                <!-- task-panel pins -->
+                <button class="ig-pin" type="button" data-pin="11" aria-label="Reveal item 11" style="left:76.4%;top:2.6%;">11</button>
+                <button class="ig-pin" type="button" data-pin="12" aria-label="Reveal item 12" style="left:78.7%;top:9.0%;">12</button>
+                <button class="ig-pin" type="button" data-pin="13" aria-label="Reveal item 13" style="left:78.8%;top:29.8%;">13</button>
+                <button class="ig-pin" type="button" data-pin="14" aria-label="Reveal item 14" style="left:78.8%;top:46.5%;">14</button>
+
+                <!-- zone labels -->
+                <span class="ig-zone" style="left:46%;top:4.5%;">Conversation</span>
+                <span class="ig-zone" style="left:48%;top:85%;">Composer</span>
+                <span class="ig-zone" style="left:88%;top:60%;">Task Panel</span>
+
+                <!-- popup tooltip (JS-populated + positioned) -->
+                <div class="ig-tip" role="dialog" aria-hidden="true">
+                  <span class="ig-tip__num"></span>
+                  <div class="ig-tip__body">
+                    <p class="ig-tip__title"></p>
+                    <p class="ig-tip__desc"></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen switcher: below the image, bottom-right -->
+              <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                <button class="ig-switch__btn" data-screen="home" role="tab" aria-selected="false" type="button">Home screen</button>
+                <button class="ig-switch__btn is-active" data-screen="task" role="tab" aria-selected="true" type="button">Inside a task</button>
+              </div>
+
+              <!-- Hidden content source for the tooltips -->
+              <div class="ig-items" hidden>
+                <div class="ig-item" data-item="1"><p class="ig-item__title">Task title &amp; switcher</p><p class="ig-item__desc">The name of the current task. Click the chevron to rename it, switch tasks, or start a new one.</p></div>
+                <div class="ig-item" data-item="2"><p class="ig-item__title">Conversation thread</p><p class="ig-item__desc">Your prompts and Claude's replies appear here, newest at the bottom — just like a chat.</p></div>
+                <div class="ig-item" data-item="3"><p class="ig-item__title">Tool call</p><p class="ig-item__desc">Whenever Claude runs a command or uses a tool, it shows here. Click to expand and see exactly what it did.</p></div>
+                <div class="ig-item" data-item="4"><p class="ig-item__title">Suggestion card</p><p class="ig-item__desc">Claude proposes a plugin or skill it thinks will help. Dismiss it with the <code>✕</code> if you don't need it.</p></div>
+                <div class="ig-item" data-item="5"><p class="ig-item__title">Add a plugin</p><p class="ig-item__desc">Installs a bundle of related skills (here, Marketing) so Claude can call them in this task.</p></div>
+                <div class="ig-item" data-item="6"><p class="ig-item__title">Skill command</p><p class="ig-item__desc">Each <code>/skill</code> is a ready-made task. Hit <strong>Try it</strong> to run one, or type its slash command yourself.</p></div>
+                <div class="ig-item" data-item="7"><p class="ig-item__title">Message box</p><p class="ig-item__desc">Reply, redirect, or give Claude your next instruction. Press Enter to send.</p></div>
+                <div class="ig-item" data-item="8"><p class="ig-item__title">Add context</p><p class="ig-item__desc">Attach files, screenshots, or other context to send along with your message.</p></div>
+                <div class="ig-item" data-item="9"><p class="ig-item__title">Model selector</p><p class="ig-item__desc">Switch the Claude model for this task. Heavier models use more of your usage limit.</p></div>
+                <div class="ig-item" data-item="10"><p class="ig-item__title">Dictation</p><p class="ig-item__desc">Speak your message out loud instead of typing it.</p></div>
+                <div class="ig-item" data-item="11"><p class="ig-item__title">Panel toggle</p><p class="ig-item__desc">Show or hide the right-hand panel that tracks this task.</p></div>
+                <div class="ig-item" data-item="12"><p class="ig-item__title">Progress</p><p class="ig-item__desc">The task's step-by-step checklist. Completed steps get ticked off so you can see what's left.</p></div>
+                <div class="ig-item" data-item="13"><p class="ig-item__title">Working folder</p><p class="ig-item__desc">View and open the files Claude created or edited during this task.</p></div>
+                <div class="ig-item" data-item="14"><p class="ig-item__title">Context</p><p class="ig-item__desc">Tracks the tools Claude used and the files it referenced while working.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 

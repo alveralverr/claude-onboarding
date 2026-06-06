@@ -4499,3 +4499,313 @@ img:not(.mark) {
   transform: translateX(0) !important;
   pointer-events: auto !important;
 }
+
+/* ════════════════════════════════════════════════════════════
+   QUICKSTART TABS  (#quickstartTabs)
+   In-section tabs that swap "What you need" and the Interface
+   guide. Switching is wired in js/ui.js (initQuickstartTabs).
+   ════════════════════════════════════════════════════════════ */
+.qs-tabs { margin-top: 28px; }
+
+.qs-tabs__rail {
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  background: rgba(82, 0, 227, 0.05);
+  border-radius: 14px;
+  margin-bottom: 36px;
+}
+.qs-tab {
+  appearance: none;
+  border: none;
+  background: none;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-support);
+  padding: 10px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.qs-tab:hover { color: var(--ink); }
+.qs-tab.is-active {
+  background: #fff;
+  color: var(--violet);
+  box-shadow: 0 2px 8px rgba(7, 0, 200, 0.10);
+}
+.qs-panel { display: none; }
+.qs-panel.is-active { display: block; animation: qsFade 0.3s ease; }
+@keyframes qsFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   INTERFACE GUIDE  (.ig — ported from the standalone artifact)
+   All classes namespaced .ig* to avoid colliding with the
+   existing .panel / .item / .foot / .legend / .pin styles.
+   ════════════════════════════════════════════════════════════ */
+.ig { position: relative; }
+
+/* Screen switcher (segmented control) — mirrors the Skills demo-carousel
+   tabs: Claude-orange active pill. Container + inactive colours are tuned
+   for this light surface (the demo tabs sit on a dark stage).
+   Sits below the screenshot, pushed to the bottom-right. */
+.ig-switch {
+  display: flex;
+  width: fit-content;
+  gap: 6px;
+  padding: 5px;
+  background: rgba(10, 11, 25, 0.05);
+  border: 1px solid rgba(10, 11, 25, 0.07);
+  border-radius: 12px;
+  margin: 18px 0 28px auto; /* auto-left → bottom-right under the image */
+}
+.ig-switch__btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink-support);
+  padding: 8px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+.ig-switch__btn:hover {
+  color: var(--ink);
+  background: rgba(10, 11, 25, 0.05);
+}
+.ig-switch__btn.is-active {
+  background: var(--claude-orange);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(217, 119, 87, 0.45);
+}
+
+/* Screens: one visible at a time */
+.ig-screen { display: none; text-align: left; }
+.ig-screen.is-active { display: block; animation: qsFade 0.3s ease; }
+
+.ig__head { text-align: center; margin-bottom: 36px; }
+.ig__title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.ig__sub {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-support);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Screenshot + pins */
+.ig__shot {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 0 0 1.5px rgba(82, 0, 227, 0.08),
+    0 30px 70px rgba(7, 0, 200, 0.15),
+    0 8px 22px rgba(7, 0, 200, 0.06);
+  margin-bottom: 40px;
+}
+.ig__shot img { display: block; width: 100%; height: auto; }
+
+.ig-pin {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--sphere);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 9px rgba(7, 0, 200, 0.32), 0 0 0 3px rgba(255, 255, 255, 0.95);
+  z-index: 5;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+/* Hover / focus: grow + brighten + glow */
+.ig-pin:hover,
+.ig-pin:focus-visible {
+  transform: translate(-50%, -50%) scale(1.28);
+  filter: brightness(1.18) saturate(1.15);
+  box-shadow:
+    0 4px 14px rgba(82, 0, 227, 0.45),
+    0 0 18px rgba(155, 0, 255, 0.55),
+    0 0 0 3px rgba(255, 255, 255, 0.98);
+  z-index: 6;
+  outline: none;
+}
+.ig-pin:active { transform: translate(-50%, -50%) scale(1.12); }
+/* Selected: the pin whose tooltip is open stays grown + glowing */
+.ig-pin.is-selected {
+  transform: translate(-50%, -50%) scale(1.24);
+  filter: brightness(1.14) saturate(1.12);
+  box-shadow:
+    0 4px 14px rgba(82, 0, 227, 0.45),
+    0 0 18px rgba(155, 0, 255, 0.55),
+    0 0 0 3px rgba(255, 255, 255, 0.98);
+  z-index: 7;
+}
+
+/* Zone labels — small Magic-violet pills naming the major UI regions,
+   overlaid on the screenshot. Non-interactive so they never block pins. */
+.ig-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--violet);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(82, 0, 227, 0.38), 0 0 0 2px rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+  z-index: 4;
+}
+@media (max-width: 720px) {
+  .ig-zone { font-size: 9px; padding: 3px 8px; letter-spacing: 0.03em; }
+}
+
+/* The legend content now lives hidden — it is the data source the tooltip
+   reads from. js/ui.js clones each item's title/desc into .ig-tip. */
+.ig-items { display: none; }
+
+/* ── Popup tooltip ─────────────────────────────────────────
+   Absolutely positioned inside .ig__shot; placed to the right of the
+   clicked pin (flips left near the right edge — see js/ui.js). */
+.ig-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 248px;
+  max-width: 70%;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid rgba(82, 0, 227, 0.10);
+  border-radius: 14px;
+  box-shadow: 0 14px 38px rgba(7, 0, 200, 0.20), 0 3px 10px rgba(7, 0, 200, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  pointer-events: none;
+}
+.ig-tip.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+/* little arrow pointing back at the pin (vertical offset set via --arrow-y) */
+.ig-tip::before {
+  content: "";
+  position: absolute;
+  top: var(--arrow-y, 50%);
+  left: -6px;
+  width: 11px;
+  height: 11px;
+  background: #fff;
+  border-left: 1px solid rgba(82, 0, 227, 0.10);
+  border-bottom: 1px solid rgba(82, 0, 227, 0.10);
+  transform: translateY(-50%) rotate(45deg);
+}
+.ig-tip.ig-tip--left::before {
+  left: auto;
+  right: -6px;
+  border-left: none;
+  border-bottom: none;
+  border-right: 1px solid rgba(82, 0, 227, 0.10);
+  border-top: 1px solid rgba(82, 0, 227, 0.10);
+}
+.ig-tip__num {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--sphere);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.ig-tip__title {
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.ig-tip__desc {
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.42;
+  color: var(--ink-support);
+  text-wrap: pretty;
+}
+.ig-tip__desc code {
+  font-size: 0.9em;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(82, 0, 227, 0.07);
+  color: var(--violet-deep);
+}
+
+/* Blink twice when the tooltip appears (preserved highlight feedback) */
+.ig-tip.is-flash { animation: igTipFlash 0.5s ease 2; }
+@keyframes igTipFlash {
+  0%, 100% { box-shadow: 0 14px 38px rgba(7, 0, 200, 0.20), 0 0 0 0 rgba(82, 0, 227, 0); }
+  50%      { box-shadow: 0 14px 38px rgba(7, 0, 200, 0.20), 0 0 0 3px rgba(82, 0, 227, 0.40); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ig-tip { transition: none; }
+  .ig-tip.is-flash { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ig-item.is-flash { animation: none; background: rgba(82, 0, 227, 0.10); }
+}
+
+.ig__foot {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+.ig__foot strong { color: var(--ink-support); font-weight: 600; }
+
+/* Responsive: shrink pins + tooltip on narrow viewports */
+@media (max-width: 720px) {
+  .ig__title { font-size: 27px; }
+  .ig-pin { width: 21px; height: 21px; font-size: 11px; }
+  .ig-tip { width: 200px; padding: 12px 13px; gap: 10px; }
+  .qs-tab { padding: 9px 16px; font-size: 14px; }
+}
