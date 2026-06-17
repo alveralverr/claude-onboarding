@@ -1054,6 +1054,298 @@
           <p>Skills that depend on a missing connector won't run until it's added. If a connector isn't set up yet,
             Claude will flag it.</p>
         </div>
+
+        <!-- ===========================================================
+             CONNECTOR CAPABILITIES REFERENCE
+             Integrated from the "Connector Capabilities" standalone.
+             All styles/scripts are scoped under .cc-root and the cc-
+             namespace so they never touch the rest of the page.
+        ============================================================ -->
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 40px;">
+        <p class="kicker" style="margin-top:0">Capabilities reference</p>
+        <h3 class="h3 h3--block">What each connector can do.</h3>
+        <p class="body">The approved connectors for Magic assistants, and exactly where each one can read, write, or
+          act. Filter by access level, then check a tool before you ask Claude to use it.</p>
+
+        <div class="cc-root">
+          <style>
+            .cc-root { --cc-green:#14A05A; --cc-green-bg:rgba(20,160,90,0.08); position:relative; margin-top:24px; }
+            .cc-root *, .cc-root *::before, .cc-root *::after { box-sizing:border-box; margin:0; padding:0; }
+
+            /* ── Guide band ── */
+            .cc-guide {
+              background:rgba(255,255,255,0.94); border:1.5px solid #fff; border-radius:16px;
+              box-shadow:var(--shadow-card-sm); padding:16px 20px; margin-bottom:24px;
+              display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+            }
+            .cc-guide__path { display:flex; flex-direction:column; gap:6px; flex:1 1 230px; min-width:220px; }
+            .cc-guide__label { font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--violet); }
+            .cc-guide__crumbs { font-size:13.5px; font-weight:500; color:var(--ink-soft); line-height:1.5; }
+            .cc-guide__crumbs b { font-weight:600; color:var(--ink); }
+            .cc-guide__crumbs em { color:var(--ink-muted); font-style:normal; margin:0 6px; }
+            .cc-guide__states { display:flex; gap:14px; flex-wrap:wrap; flex:2 1 420px; }
+            .cc-gstate { display:flex; align-items:flex-start; gap:9px; flex:1 1 165px; min-width:155px; }
+            .cc-gstate__icon { width:22px; height:22px; border-radius:6px; display:grid; place-items:center; flex-shrink:0; margin-top:1px; }
+            .cc-gstate__icon svg { width:13px; height:13px; }
+            .cc-gstate__txt { display:flex; flex-direction:column; gap:1px; }
+            .cc-gstate__txt strong { font-size:13.5px; font-weight:600; color:var(--ink); }
+            .cc-gstate__txt span { font-size:12px; font-weight:400; color:var(--ink-support); line-height:1.35; text-wrap:pretty; }
+            .cc-gstate--allow .cc-gstate__icon { background:var(--cc-green-bg); color:var(--cc-green); }
+            .cc-gstate--approve .cc-gstate__icon { background:rgba(82,0,227,0.09); color:var(--violet); }
+            .cc-gstate--blocked .cc-gstate__icon { background:rgba(145,143,169,0.16); color:var(--ink-muted); }
+
+            /* ── Filter bar ── */
+            .cc-filters { display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:28px; }
+            .cc-filters__row { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:9px; }
+            .cc-filter-label { font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-muted); margin-right:2px; min-width:66px; text-align:right; }
+            .cc-chip {
+              appearance:none; font-family:inherit; cursor:pointer; font-size:13px; font-weight:500;
+              letter-spacing:-0.005em; color:var(--ink-soft); background:rgba(255,255,255,0.88);
+              border:1.5px solid rgba(82,0,227,0.16); border-radius:9999px; padding:7px 14px;
+              display:inline-flex; align-items:center; gap:7px;
+              transition:border-color 140ms, color 140ms, background 140ms, transform 120ms;
+            }
+            .cc-chip:hover { border-color:var(--violet); color:var(--violet); }
+            .cc-chip__dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+            .cc-chip__count { font-size:11px; font-weight:600; color:var(--ink-muted); background:rgba(82,0,227,0.06); border-radius:9999px; padding:1px 7px; }
+            .cc-chip.cc-active { background:var(--ink); color:#fff; border-color:var(--ink); transform:translateY(-1px); }
+            .cc-chip.cc-active .cc-chip__count { background:rgba(255,255,255,0.18); color:rgba(255,255,255,0.85); }
+            .cc-chip.cc-active:hover { color:#fff; }
+            .cc-chip[data-filter="rw"].cc-active { background:var(--cc-green); border-color:var(--cc-green); }
+            .cc-chip[data-filter="interactive"].cc-active { background:var(--violet); border-color:var(--violet); }
+            .cc-chip[data-filter="ro"].cc-active { background:var(--claude-orange-dk); border-color:var(--claude-orange-dk); }
+            .cc-chip[data-type="category"].cc-active { background:var(--violet); border-color:var(--violet); }
+
+            /* ── Grid + cards ── */
+            .cc-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+            .cc-card {
+              background:rgba(255,255,255,0.94); border:1.5px solid #fff; border-radius:18px;
+              box-shadow:var(--shadow-card-sm); padding:20px 22px 18px; display:flex; flex-direction:column;
+            }
+            .cc-card.cc-hidden { display:none; }
+            .cc-card__head { display:flex; align-items:center; gap:13px; padding-bottom:15px; margin-bottom:15px; border-bottom:1px solid rgba(82,0,227,0.09); }
+            .cc-tile { width:40px; height:40px; border-radius:11px; flex-shrink:0; display:grid; place-items:center; font-size:17px; font-weight:700; color:#fff; box-shadow:0 3px 9px rgba(7,0,200,0.12); }
+            .cc-card__id { flex:1; min-width:0; }
+            .cc-card__name { font-size:18px; font-weight:700; letter-spacing:-0.015em; color:var(--ink); line-height:1.1; margin-bottom:6px; }
+            .cc-badge { display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600; letter-spacing:0.02em; border-radius:9999px; padding:3px 9px; white-space:nowrap; }
+            .cc-badge__dot { width:6px; height:6px; border-radius:50%; }
+            .cc-badge--rw { color:var(--cc-green); background:var(--cc-green-bg); }
+            .cc-badge--rw .cc-badge__dot { background:var(--cc-green); }
+            .cc-badge--interactive { color:var(--violet); background:rgba(82,0,227,0.07); }
+            .cc-badge--interactive .cc-badge__dot { background:var(--violet); }
+            .cc-badge--ro { color:var(--claude-orange-dk); background:rgba(217,119,87,0.10); }
+            .cc-badge--ro .cc-badge__dot { background:var(--claude-orange); }
+            .cc-card__note { font-size:11.5px; font-weight:500; color:var(--claude-orange-dk); background:rgba(217,119,87,0.09); border-radius:7px; padding:6px 10px; margin-bottom:14px; line-height:1.4; }
+
+            /* ── Capabilities (collapsible) ── */
+            .cc-caps__toggle { display:flex; align-items:center; gap:9px; width:100%; appearance:none; background:none; border:none; font-family:inherit; cursor:pointer; padding:0; text-align:left; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-muted); transition:opacity 140ms; }
+            .cc-caps__toggle:hover { opacity:0.7; }
+            .cc-caps__toggle .cc-lbl { flex-shrink:0; white-space:nowrap; }
+            .cc-caps__pills { display:flex; align-items:center; gap:6px; }
+            .cc-caps__pill { font-size:10.5px; font-weight:600; letter-spacing:0; padding:1px 7px; border-radius:9999px; white-space:nowrap; }
+            .cc-caps__pill--can { color:var(--cc-green); background:var(--cc-green-bg); }
+            .cc-caps__pill--cant { color:var(--ink-muted); background:rgba(145,143,169,0.12); }
+            .cc-caps__chev { width:12px; height:12px; margin-left:auto; flex-shrink:0; color:var(--ink-muted); transition:transform 240ms ease; }
+            .cc-caps[data-collapsed="true"] .cc-caps__chev { transform:rotate(-90deg); }
+            .cc-caps__wrap { display:block; }
+            .cc-caps[data-collapsed="true"] .cc-caps__wrap { display:none; }
+            .cc-caps__grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; padding-top:14px; }
+            .cc-caps__col { min-width:0; }
+            .cc-caps__h { display:flex; align-items:center; gap:7px; font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:11px; }
+            .cc-caps__h--can { color:var(--cc-green); }
+            .cc-caps__h--cant { color:var(--ink-muted); }
+            .cc-caps__icon { width:15px; height:15px; flex-shrink:0; }
+            .cc-caps__list { list-style:none; display:flex; flex-direction:column; gap:7px; }
+            .cc-caps__list li { font-size:13.5px; line-height:1.38; color:var(--ink-soft); padding-left:18px; position:relative; text-wrap:pretty; }
+            .cc-caps__col--can li::before { content:""; position:absolute; left:0; top:6px; width:8px; height:8px; border-radius:50%; background:var(--sphere); }
+            .cc-caps__col--cant li { color:var(--ink-support); }
+            .cc-caps__col--cant li::before { content:""; position:absolute; left:1px; top:9px; width:8px; height:2px; border-radius:2px; background:var(--ink-muted); opacity:0.7; }
+
+            /* ── Footer + empty ── */
+            .cc-foot { text-align:center; margin-top:28px; font-size:12.5px; color:var(--ink-muted); line-height:1.6; }
+            .cc-foot strong { color:var(--ink-support); font-weight:600; }
+            .cc-empty { grid-column:1 / -1; text-align:center; padding:48px 0; font-size:16px; color:var(--ink-muted); }
+
+            @media (max-width:760px) {
+              .cc-grid { grid-template-columns:1fr; }
+              .cc-caps__grid { grid-template-columns:1fr; gap:14px; }
+              .cc-filter-label { min-width:0; text-align:center; width:100%; margin:0 0 2px; }
+            }
+          </style>
+
+          <!-- GUIDE BAND -->
+          <section class="cc-guide">
+            <div class="cc-guide__path">
+              <span class="cc-guide__label">Where to find this</span>
+              <span class="cc-guide__crumbs"><b>Customize</b> <em>›</em> <b>Connectors</b> <em>›</em> select a connector <em>›</em> <b>Tool permissions</b></span>
+            </div>
+            <div class="cc-guide__states">
+              <div class="cc-gstate cc-gstate--allow">
+                <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                <span class="cc-gstate__txt"><strong>Always allow</strong><span>Claude runs the tool without asking.</span></span>
+              </div>
+              <div class="cc-gstate cc-gstate--approve">
+                <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none"><rect x="4" y="3" width="2.6" height="10" rx="1.3" fill="currentColor"></rect><rect x="9.4" y="3" width="2.6" height="10" rx="1.3" fill="currentColor"></rect></svg></span>
+                <span class="cc-gstate__txt"><strong>Needs approval</strong><span>Claude pauses for your OK each time.</span></span>
+              </div>
+              <div class="cc-gstate cc-gstate--blocked">
+                <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 4l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
+                <span class="cc-gstate__txt"><strong>Blocked</strong><span>Claude can't use the tool at all.</span></span>
+              </div>
+            </div>
+          </section>
+
+          <!-- FILTERS -->
+          <div class="cc-filters">
+            <div class="cc-filters__row">
+              <span class="cc-filter-label">Access</span>
+              <button class="cc-chip cc-active" data-type="access" data-filter="all" type="button">All connectors <span class="cc-chip__count" id="cc-count-all">10</span></button>
+              <button class="cc-chip" data-type="access" data-filter="rw" type="button"><span class="cc-chip__dot" style="background:var(--cc-green)"></span>Read &amp; write <span class="cc-chip__count" id="cc-count-rw">7</span></button>
+              <button class="cc-chip" data-type="access" data-filter="interactive" type="button"><span class="cc-chip__dot" style="background:var(--violet)"></span>Interactive <span class="cc-chip__count" id="cc-count-interactive">1</span></button>
+              <button class="cc-chip" data-type="access" data-filter="ro" type="button"><span class="cc-chip__dot" style="background:var(--claude-orange)"></span>Read only <span class="cc-chip__count" id="cc-count-ro">2</span></button>
+            </div>
+            <div class="cc-filters__row">
+              <span class="cc-filter-label">Category</span>
+              <button class="cc-chip" data-type="category" data-filter="gws" type="button">Google Workspace <span class="cc-chip__count" id="cc-count-gws">3</span></button>
+              <button class="cc-chip" data-type="category" data-filter="productivity" type="button">Productivity <span class="cc-chip__count" id="cc-count-productivity">4</span></button>
+              <button class="cc-chip" data-type="category" data-filter="pm" type="button">Project Management <span class="cc-chip__count" id="cc-count-pm">2</span></button>
+              <button class="cc-chip" data-type="category" data-filter="design" type="button">Design <span class="cc-chip__count" id="cc-count-design">1</span></button>
+            </div>
+          </div>
+
+          <!-- GRID -->
+          <div class="cc-grid" id="cc-grid"></div>
+
+          <p class="cc-foot"><strong>Read &amp; write</strong> tools can change data in the app · <strong>Interactive</strong> tools act inside their own workspace · <strong>Read only</strong> tools can look but never change anything.<br>Capabilities reflect the current Magic connector set and may expand over time. Always review Claude's actions before they reach a client.</p>
+        </div>
+
+        <script>
+          (function () {
+            var root = document.querySelector('.cc-root');
+            if (!root) return;
+            var CONNECTORS = [
+              { id: "gmail", name: "Gmail", access: "rw", category: "gws", tile: "M", color: "#EA4335",
+                can: ["Search threads & messages", "Read thread content", "Create & list draft emails", "Create, update & delete labels", "Label / unlabel threads & messages", "Trash emails (via TRASH label)", "List labels"],
+                cant: ["Send emails directly (drafts only)", "Permanently delete emails (trash only)", "Read attachment contents directly", "Remove CATEGORY_PRIMARY via API"] },
+              { id: "gcal", name: "Google Calendar", access: "rw", category: "gws", tile: "C", color: "#1A73E8",
+                can: ["List calendars & events", "Get event details", "Create events", "Update events", "Delete events (hard delete)", "Respond to event invites", "Suggest available times"],
+                cant: ["Create or delete calendars", "Manage recurring event series (instances only)", "Set calendar permissions"] },
+              { id: "gdrive", name: "Google Drive", access: "rw", category: "gws", tile: "D", color: "#34A853",
+                can: ["Search & list files", "Read & download file content", "Get file metadata & permissions", "Copy files", "Create new files (auto-converts to Google Docs)", "Upload files"],
+                cant: ["Delete files", "Edit / overwrite existing files", "Move files between folders"] },
+              { id: "slack", name: "Slack", access: "rw", category: "productivity", tile: "S", color: "#4A154B",
+                can: ["Send & schedule messages", "Create message drafts", "Read channels, threads & files", "Search channels (public + private)", "List channel members & user profiles", "Create conversations", "Create, read & update canvases", "Add / get reactions", "Search emojis & users"],
+                cant: ["Edit or delete sent messages", "Upload files", "Delete channels"] },
+              { id: "notion", name: "Notion", access: "rw", category: "productivity", tile: "N", color: "#0A0B19",
+                can: ["Search pages & databases", "Create & update pages", "Create databases & views", "Duplicate & move pages", "Create & get comments", "Get teams & users", "Fetch page content", "Update views & data sources"],
+                cant: ["Permanently delete pages", "Upload file attachments", "Manage workspace permissions"] },
+              { id: "canva", name: "Canva", access: "interactive", category: "design", tile: "C", color: "#00C4CC",
+                can: ["Search, create, copy & export designs", "Generate designs with AI", "Resize & merge designs", "Import designs from URL", "Move designs between folders", "Manage folders & brand kits", "Edit design content & elements", "Upload assets", "Comment on & reply to designs", "Publish brand templates"],
+                cant: ["Delete designs or files", "Delete folders"] },
+              { id: "asana", name: "Asana", access: "rw", category: "pm", tile: "A", color: "#F06A6A",
+                can: ["View & search tasks, projects & goals", "Create & update tasks with owners & due dates", "Set task priority & assignees", "Delete tasks", "Add comments to tasks", "Create & update goals & metrics", "Set task dependencies, dependents & parent", "Add or remove task followers", "Create projects & project status"],
+                cant: ["Delete projects or goals", "Manage billing or workspace settings"] },
+              { id: "clickup", name: "ClickUp", access: "rw", category: "pm", tile: "C", color: "#7B68EE",
+                can: ["Create, update & delete tasks", "Set task priority & details", "Add tags, links & dependencies", "Attach files to tasks", "Merge & move tasks", "Create folders, lists & reminders", "Create & manage documents & pages", "Track time on tasks", "Add comments & send team chat messages"],
+                cant: ["Delete spaces or folders", "Manage billing or workspace-level settings"] },
+              { id: "fathom", name: "Fathom", access: "ro", category: "productivity", tile: "F", color: "#4F46E5",
+                can: ["List & search past meetings", "Get meeting summaries", "Get full transcripts", "Get recordings by URL or call ID", "Find persons", "List teams & identity"],
+                cant: ["Schedule or create meetings", "Delete meetings or recordings", "Edit transcripts", "Any write operations (read-only connector)"] },
+              { id: "ms365", name: "Microsoft 365", access: "ro", category: "productivity", tile: "M", color: "#D83B01",
+                note: "Available on Team / Enterprise plans only.",
+                can: ["Search documents across SharePoint & OneDrive", "Analyze email threads in Outlook", "Get calendar event insights", "Review Teams chat conversations", "Summarize documents & communications"],
+                cant: ["Send emails or Teams messages", "Create or edit documents", "Create calendar events", "Any write operations (read-only connector)"] }
+            ];
+            var ACCESS_LABEL = { rw: "Read & write", interactive: "Interactive", ro: "Read only" };
+            var grid = root.querySelector('#cc-grid');
+
+            function cardHTML(c) {
+              var canLis = c.can.map(function (t) { return '<li>' + t + '</li>'; }).join("");
+              var cantLis = c.cant.map(function (t) { return '<li>' + t + '</li>'; }).join("");
+              var note = c.note ? '<div class="cc-card__note">⊘ ' + c.note + '</div>' : "";
+              return '' +
+                '<article class="cc-card" data-access="' + c.access + '" data-category="' + c.category + '">' +
+                  '<div class="cc-card__head">' +
+                    '<div class="cc-tile" style="background:' + c.color + '">' + c.tile + '</div>' +
+                    '<div class="cc-card__id">' +
+                      '<div class="cc-card__name">' + c.name + '</div>' +
+                      '<span class="cc-badge cc-badge--' + c.access + '"><span class="cc-badge__dot"></span>' + ACCESS_LABEL[c.access] + '</span>' +
+                    '</div>' +
+                  '</div>' +
+                  note +
+                  '<div class="cc-caps" data-collapsed="true">' +
+                    '<button class="cc-caps__toggle" type="button" aria-expanded="false">' +
+                      '<span class="cc-lbl">Capabilities</span>' +
+                      '<span class="cc-caps__pills">' +
+                        '<span class="cc-caps__pill cc-caps__pill--can">' + c.can.length + ' can</span>' +
+                        '<span class="cc-caps__pill cc-caps__pill--cant">' + c.cant.length + ' can’t</span>' +
+                      '</span>' +
+                      '<svg class="cc-caps__chev" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+                    '</button>' +
+                    '<div class="cc-caps__wrap"><div class="cc-caps__inner"><div class="cc-caps__grid">' +
+                      '<div class="cc-caps__col cc-caps__col--can">' +
+                        '<div class="cc-caps__h cc-caps__h--can">' +
+                          '<svg class="cc-caps__icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(20,160,90,0.12)"/><path d="M6 10.4l2.6 2.6L14 7.4" stroke="#14A05A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+                          'Can do' +
+                        '</div>' +
+                        '<ul class="cc-caps__list">' + canLis + '</ul>' +
+                      '</div>' +
+                      '<div class="cc-caps__col cc-caps__col--cant">' +
+                        '<div class="cc-caps__h cc-caps__h--cant">' +
+                          '<svg class="cc-caps__icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(145,143,169,0.14)"/><path d="M6.6 6.6l6.8 6.8M13.4 6.6l-6.8 6.8" stroke="#918FA9" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+                          'Can’t do' +
+                        '</div>' +
+                        '<ul class="cc-caps__list">' + cantLis + '</ul>' +
+                      '</div>' +
+                    '</div></div></div>' +
+                  '</div>' +
+                '</article>';
+            }
+
+            grid.innerHTML = CONNECTORS.map(cardHTML).join("");
+
+            // one toggle per card shows/hides both lists together
+            grid.addEventListener("click", function (e) {
+              var btn = e.target.closest(".cc-caps__toggle");
+              if (!btn) return;
+              var caps = btn.closest(".cc-caps");
+              var collapsed = caps.getAttribute("data-collapsed") === "true";
+              caps.setAttribute("data-collapsed", String(!collapsed));
+              btn.setAttribute("aria-expanded", String(collapsed));
+            });
+
+            // counts
+            var counts = { all: CONNECTORS.length, rw: 0, interactive: 0, ro: 0, gws: 0, productivity: 0, pm: 0, design: 0 };
+            CONNECTORS.forEach(function (c) { counts[c.access]++; counts[c.category]++; });
+            ["all", "rw", "interactive", "ro", "gws", "productivity", "pm", "design"].forEach(function (k) {
+              var el = root.querySelector("#cc-count-" + k);
+              if (el) el.textContent = counts[k];
+            });
+
+            // filtering — single active filter across access & category groups
+            var chips = root.querySelectorAll(".cc-chip");
+            chips.forEach(function (chip) {
+              chip.addEventListener("click", function () {
+                chips.forEach(function (c) { c.classList.remove("cc-active"); });
+                chip.classList.add("cc-active");
+                var type = chip.dataset.type;
+                var f = chip.dataset.filter;
+                var shown = 0;
+                root.querySelectorAll(".cc-card").forEach(function (card) {
+                  var match = (f === "all") ||
+                    (type === "category" ? card.dataset.category === f : card.dataset.access === f);
+                  card.classList.toggle("cc-hidden", !match);
+                  if (match) shown++;
+                });
+                var empty = root.querySelector("#cc-empty");
+                if (empty) empty.remove();
+                if (shown === 0) {
+                  grid.insertAdjacentHTML("beforeend", '<p class="cc-empty" id="cc-empty">No connectors in this group.</p>');
+                }
+              });
+            });
+          })();
+        </script>
       </div>
     </div>
 
