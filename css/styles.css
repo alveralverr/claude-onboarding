@@ -4233,6 +4233,49 @@ img:not(.mark) {
   opacity: 0.14 !important;
 }
 
+/* ── Scatter the faint glow down the tall Skills + Connectors band ──
+   Same gradient palette, blur and faint opacity as the existing dark
+   glows — just distributed through the vertical middle (the connectors
+   area) so the band no longer goes dark below the skills section. */
+.dark-band--scatter .aurora--dark-mid {
+  width: 1500px;
+  height: 850px;
+  left: 50%;
+  top: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  filter: blur(100px);
+}
+
+.dark-band--scatter .aurora--dark-mid1 {
+  top: 34%;
+  opacity: 0.13 !important;
+  background: linear-gradient(135deg,
+      rgba(255, 70, 0, 0.65) 0%,
+      rgba(140, 50, 255, 1.00) 44%,
+      rgba(0, 180, 255, 0.65) 100%) !important;
+}
+
+.dark-band--scatter .aurora--dark-mid2 {
+  top: 55%;
+  left: 38%;
+  opacity: 0.12 !important;
+  background: linear-gradient(315deg,
+      rgba(0, 180, 255, 0.55) 0%,
+      rgba(140, 50, 255, 0.85) 50%,
+      rgba(255, 70, 0, 0.55) 100%) !important;
+}
+
+.dark-band--scatter .aurora--dark-mid3 {
+  top: 76%;
+  left: 62%;
+  opacity: 0.13 !important;
+  background: linear-gradient(135deg,
+      rgba(255, 70, 0, 0.65) 0%,
+      rgba(140, 50, 255, 1.00) 44%,
+      rgba(0, 180, 255, 0.65) 100%) !important;
+}
+
 /* ============================================================
    PATCH v8 — restore real aurora divs in .dark-band
    ============================================================ */
