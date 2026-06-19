@@ -1,9 +1,56 @@
 (function() {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Typewriter reveal for the "Context-rich version" line. Runs once, the
+     first time a card is opened. Preserves inline markup (strong/code/em) by
+     clearing every text node up front, then refilling them character by
+     character across the whole line. */
+  function typeLine(pair) {
+    var line = pair.querySelector('.prompt-pair__line');
+    if (!line || line.dataset.typed) return;
+    line.dataset.typed = '1';
+    if (reduce) return;            /* show the finished line immediately */
+
+    var walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], total = 0, n;
+    while ((n = walker.nextNode())) {
+      nodes.push({ node: n, full: n.nodeValue, len: n.nodeValue.length });
+      total += n.nodeValue.length;
+      n.nodeValue = '';
+    }
+    if (!total) return;
+
+    line.classList.add('pp-typing');
+
+    function reveal(count) {
+      var rem = count;
+      for (var i = 0; i < nodes.length; i++) {
+        var it = nodes[i];
+        if (rem <= 0)            { it.node.nodeValue = ''; }
+        else if (rem >= it.len)  { it.node.nodeValue = it.full; rem -= it.len; }
+        else                     { it.node.nodeValue = it.full.slice(0, rem); rem = 0; }
+      }
+    }
+
+    /* Fast: whole line types in ~0.5–1.1s regardless of length. */
+    var duration = Math.min(1100, Math.max(500, total * 7));
+    var start = null;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / duration);
+      reveal(Math.round(p * total));
+      if (p < 1) requestAnimationFrame(frame);
+      else line.classList.remove('pp-typing');
+    }
+    requestAnimationFrame(frame);
+  }
+
   document.querySelectorAll('.pp-toggle').forEach(function(toggle) {
     toggle.addEventListener('click', function() {
       var pair = toggle.closest('.pp-collapsible');
       var open = pair.classList.toggle('pp-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) typeLine(pair);
     });
     toggle.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' || e.key === ' ') { toggle.click(); e.preventDefault(); }

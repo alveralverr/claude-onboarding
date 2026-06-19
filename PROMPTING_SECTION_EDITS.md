@@ -8,20 +8,27 @@ Section headers (h2, h3, kickers) are to be retained. Only body copy, tags, and 
 
 File to edit: `index.html`
 
+## Refinements applied in this revision
+
+- `Find:` blocks now reproduce the source's exact whitespace and line wrapping so each change is a reliable, copy-pastable match.
+- Added **Change 4b**: the *good* example tag is updated alongside the *bad* one so the A/B contrast pivots on context, not on file-specificity.
+- Reworded **Change 10** so it no longer repeats Change 3's "Don't rephrase. Add more information." verbatim while keeping the same lesson.
+
 ---
 
 ## Change 1 — Lead paragraph (under the h2)
 
 **Find:**
 ```
-Two things get you something usable: share the situation — attach the file,
-screenshot the thread, paste the email — and say what you want out of it. The wording is important but the
-context you provide matters the most.
+      <p class="body body--lead">Two things get you something usable: share the situation — attach the file,
+        screenshot the thread, paste the email — and say what you want out of it. The wording is important but the
+        context you provide matters the most.</p>
 ```
 
 **Replace with:**
 ```
-Context does the heavy lifting. Attach the file, screenshot the thread, paste the email, or just speak it out loud — then tell Claude what you need out of it. Don't stress over the wording.
+      <p class="body body--lead">Context does the heavy lifting. Attach the file, screenshot the thread, paste the
+        email, or just speak it out loud — then tell Claude what you need out of it. Don't stress over the wording.</p>
 ```
 
 ---
@@ -30,15 +37,18 @@ Context does the heavy lifting. Attach the file, screenshot the thread, paste th
 
 **Find:**
 ```
-It knows every language, industry, and format. What it doesn't know
-is your client, your task, and what a good result looks like. <strong>Give it that context — the more you
-hand
-over, the less it has to guess.</strong>
+            <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know
+              is your client, your task, and what a good result looks like. <strong>Give it that context — the more you
+                hand
+                over, the less it has to guess.</strong></p>
 ```
 
 **Replace with:**
 ```
-It knows every language, industry, and format. What it doesn't know is your client, your task, and what a good result looks like. <strong>Give it that — the more you hand over, the less it has to guess.</strong> A voice-to-text rant about what you need will get you further than any perfectly worded prompt.
+            <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know
+              is your client, your task, and what a good result looks like. <strong>Give it that — the more you hand
+                over, the less it has to guess.</strong> A voice-to-text rant about what you need will get you further
+              than any perfectly worded prompt.</p>
 ```
 
 ---
@@ -47,13 +57,14 @@ It knows every language, industry, and format. What it doesn't know is your clie
 
 **Find:**
 ```
-If the output wasn't what you wanted, that is almost always a
-context problem — not a Claude problem.
+            <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that is almost always a
+              context problem — not a Claude problem.</p>
 ```
 
 **Replace with:**
 ```
-If the output wasn't what you wanted, that's almost always a context problem — not a Claude problem. Don't rephrase. Add more information.
+            <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that's almost always a
+              context problem — not a Claude problem. Don't rephrase. Add more information.</p>
 ```
 
 ---
@@ -62,12 +73,28 @@ If the output wasn't what you wanted, that's almost always a context problem —
 
 **Find:**
 ```
-Polished prompt, nothing shared
+              <p class="prompt-rule__tag prompt-rule__tag--bad">Polished prompt, nothing shared</p>
 ```
 
 **Replace with:**
 ```
-Good wording, no context
+              <p class="prompt-rule__tag prompt-rule__tag--bad">Good wording, no context</p>
+```
+
+---
+
+## Change 4b — Good example tag label (new)
+
+Parallels Change 4 so the contrast reads "no context" vs. "context handed over."
+
+**Find:**
+```
+              <p class="prompt-rule__tag prompt-rule__tag--good">The file, pointed to</p>
+```
+
+**Replace with:**
+```
+              <p class="prompt-rule__tag prompt-rule__tag--good">The context, handed over</p>
 ```
 
 ---
@@ -76,14 +103,15 @@ Good wording, no context
 
 **Find:**
 ```
-Connect your apps and folders, attach files, paste the email, share screenshots or other
-data. What you hand over
-matters far more than how you word the ask.
+          <p class="habit-body">Connect your apps and folders, attach files, paste the email, share screenshots or other
+            data. What you hand over
+            matters far more than how you word the ask.</p>
 ```
 
 **Replace with:**
 ```
-Connect your apps and folders, attach files, paste the email, screenshot the Slack thread, or just speak out what you need. What you hand over matters far more than how you word the ask.
+          <p class="habit-body">Connect your apps and folders, attach files, paste the email, screenshot the Slack
+            thread, or just speak out what you need. What you hand over matters far more than how you word the ask.</p>
 ```
 
 ---
@@ -92,15 +120,17 @@ Connect your apps and folders, attach files, paste the email, screenshot the Sla
 
 **Find:**
 ```
-<p class="habit-title">Refine the first draft if needed.</p>
-<p class="habit-body">Claude iterates. If the result isn't right, redirect it — just like you would with a
-colleague.</p>
+          <p class="habit-title">Refine the first draft if needed.</p>
+          <p class="habit-body">Claude iterates. If the result isn't right, redirect it — just like you would with a
+            colleague.</p>
 ```
 
 **Replace with:**
 ```
-<p class="habit-title">Redirect, don't give up.</p>
-<p class="habit-body">If the result isn't right, don't assume Claude can't do it — it probably just didn't have enough to go on. Add more context and redirect it, the same way you would with a colleague who needed more of the story.</p>
+          <p class="habit-title">Redirect, don't give up.</p>
+          <p class="habit-body">If the result isn't right, don't assume Claude can't do it — it probably just didn't
+            have enough to go on. Add more context and redirect it, the same way you would with a colleague who needed
+            more of the story.</p>
 ```
 
 ---
@@ -109,14 +139,16 @@ colleague.</p>
 
 **Find:**
 ```
-Try the task. Claude will flag it if something is outside what it can do. Most
-assistants stop short of what is actually possible — the people who get the most out of it are the ones who
-keep asking.
+          <p class="habit-body">Try the task. Claude will flag it if something is outside what it can do. Most
+            assistants stop short of what is actually possible — the people who get the most out of it are the ones who
+            keep asking.</p>
 ```
 
 **Replace with:**
 ```
-Try the task — don't overthink whether it can handle it. Claude will flag it if something is out of reach, and if it needs more from you, it'll ask clarifying questions before it proceeds. The people who get the most out of it are the ones who just try.
+          <p class="habit-body">Try the task — don't overthink whether it can handle it. Claude will flag it if
+            something is out of reach, and if it needs more from you, it'll ask clarifying questions before it proceeds.
+            The people who get the most out of it are the ones who just try.</p>
 ```
 
 ---
@@ -125,15 +157,17 @@ Try the task — don't overthink whether it can handle it. Claude will flag it i
 
 **Find:**
 ```
-There's no one-size-fits-all prompt anatomy. Given the right context, Claude even
-understands <strong>voice-to-text, Taglish, abbreviations, or half-finished sentences</strong> — it
-needs
-to understand the situation more than receive polished wording.
+              <p class="tip-body">There's no one-size-fits-all prompt anatomy. Given the right context, Claude even
+                understands <strong>voice-to-text, Taglish, abbreviations, or half-finished sentences</strong> — it
+                needs
+                to understand the situation more than receive polished wording.</p>
 ```
 
 **Replace with:**
 ```
-You don't need polished prompts. A voice-to-text rant, a pasted Slack thread, a screenshot, a half-sentence — if Claude has the context, it figures out the rest. <strong>Worry less about how you phrase it and more about whether Claude has what it needs.</strong>
+              <p class="tip-body">You don't need polished prompts. A voice-to-text rant, a pasted Slack thread, a
+                screenshot, a half-sentence — if Claude has the context, it figures out the rest. <strong>Worry less
+                about how you phrase it and more about whether Claude has what it needs.</strong></p>
 ```
 
 ---
@@ -143,10 +177,12 @@ You don't need polished prompts. A voice-to-text rant, a pasted Slack thread, a 
 After the closing `</li>` of tip #5, insert a new list item:
 
 ```html
-<li class="tip-row">
-  <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
-  <p class="tip-body"><strong>Switch to a new chat when switching topics.</strong> Long conversations where you've jumped between subjects can confuse Claude — it has to read all of that history first. Finish one topic, take what you need, then start fresh.</p>
-</li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body"><strong>Switch to a new chat when switching topics.</strong> Long conversations where
+                you've jumped between subjects can confuse Claude — it has to read all of that history first. Finish one
+                topic, take what you need, then start fresh.</p>
+            </li>
 ```
 
 ---
@@ -156,10 +192,12 @@ After the closing `</li>` of tip #5, insert a new list item:
 After the last `</li>` in the trip-card list (the "always confirm the folder or file path" tip), insert:
 
 ```html
-<li class="tip-row">
-  <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
-  <p class="tip-body">If Claude <strong>goes off track</strong>, don't just rephrase — add more information. Generic or wrong outputs almost always mean Claude couldn't see what you could. Screenshot it, paste it, explain it.</p>
-</li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
+              <p class="tip-body">If Claude <strong>goes off track</strong>, resist the urge to reword the same ask —
+                show it more instead. Generic or wrong outputs almost always mean Claude couldn't see what you could.
+                Screenshot it, paste it, explain it.</p>
+            </li>
 ```
 
 ---
@@ -171,9 +209,10 @@ After making all changes, open `index.html` in a browser and:
 1. Confirm the lead paragraph no longer says "The wording is important"
 2. Confirm Rule #1 mentions voice-to-text rant
 3. Confirm Rule #1 second paragraph ends with "Don't rephrase. Add more information."
-4. Confirm Principle 02 title reads "Redirect, don't give up."
-5. Confirm Principle 03 mentions clarifying questions
-6. Confirm tip #5 leads with "You don't need polished prompts."
-7. Confirm the new tip about switching chats appears in the Cowork tips list
-8. Confirm the new "goes off track" item appears in the trip list
-9. Confirm all section headers (h2, h3, kickers) are unchanged
+4. Confirm the bad tag reads "Good wording, no context" and the good tag reads "The context, handed over"
+5. Confirm Principle 02 title reads "Redirect, don't give up."
+6. Confirm Principle 03 mentions clarifying questions
+7. Confirm tip #5 leads with "You don't need polished prompts."
+8. Confirm the new tip about switching chats appears in the Cowork tips list
+9. Confirm the new "goes off track" item appears in the trip list
+10. Confirm all section headers (h2, h3, kickers) are unchanged
