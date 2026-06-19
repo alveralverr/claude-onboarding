@@ -587,6 +587,7 @@
       pins.forEach(function (pin) {
         pin.addEventListener('click', function (e) {
           e.stopPropagation();           /* don't trip the outside-click close */
+          ig.classList.add('is-discovered');  /* retire the attention cues */
           if (openPin === pin) { close(); return; }   /* same pin → toggle off */
           close();
           open(pin);
@@ -742,5 +743,490 @@
     document.addEventListener('DOMContentLoaded', initTocHover);
   } else {
     initTocHover();
+  }
+})();
+
+/* ── Context window — interactive step-by-step diagram ────── */
+(function () {
+  function initContextWindow() {
+    var root = document.getElementById('cwAnim');
+    if (!root) return;
+
+    var stage = document.getElementById('cwStage');
+    var truncWrap = document.getElementById('cwTrunc');
+    var caption = document.getElementById('cwCaption');
+    var dotsWrap = document.getElementById('cwDots');
+    var meter = document.getElementById('cwMeter');
+    var meterPct = document.getElementById('cwMeterPct');
+    var btnPlay = document.getElementById('cwPlay');
+    var btnPlayIco = document.getElementById('cwPlayIco');
+    var btnPrev = document.getElementById('cwPrev');
+    var btnNext = document.getElementById('cwNext');
+
+    /* Block types map to the exact diagram palette (see CSS vars). */
+    var T = 'terra', D = 'dark', L = 'light';
+
+    /* Data model — one entry per turn, faithful to the original diagram. */
+    var TURNS = [
+      {
+        title: 'Turn 1',
+        minPhase: 1,
+        input:  { phase: 1, blocks: [['Tools', T], ['User message', T]] },
+        output: { phase: 2, blocks: [['Extended thinking', D], ['Text response', L], ['Tool use', L]] }
+      },
+      {
+        title: 'Turn 2',
+        minPhase: 3,
+        input:  { phase: 3, blocks: [['Tools', T], ['User message', T], ['Extended thinking', D], ['Text response', L], ['Tool use', L], ['Tool result', T]] },
+        output: { phase: 4, blocks: [['Text response', L]] }
+      },
+      {
+        title: 'Turn 3',
+        minPhase: 5,
+        input:  { phase: 5, blocks: [['Tools', T], ['User message', T], ['Text response', L], ['Tool use', L], ['Tool result', T], ['Text response', L], ['User message', T]] },
+        output: { phase: 6, blocks: [['Extended thinking', D]] }
+      }
+    ];
+
+    var CAPTIONS = [
+      'Press play to watch the context window fill, turn by turn.',
+      '<strong>Turn 1 — Input.</strong> Your available tools and first message enter the window.',
+      '<strong>Turn 1 — Output.</strong> Claude thinks, replies, and calls a tool — all of it stays in the window.',
+      '<strong>Turn 2 — Input.</strong> Everything from Turn 1 carries forward. Nothing is dropped yet.',
+      '<strong>Turn 2 — Output.</strong> A fresh response is generated and stacked on top.',
+      '<strong>Turn 3 — Input.</strong> The full history carries forward again, and the window keeps growing.',
+      '<strong>Turn 3 — Output.</strong> The reply now reaches the very edge of the context window.',
+      '<strong>Limit reached.</strong> The window is full, so the final reply is cut off — no text response due to truncation.'
+    ];
+
+    var METER = [0, 12, 26, 48, 58, 84, 94, 100];
+    var MAX = 7;
+
+    /* ---- build group DOM ---- */
+    function buildGroup(turnIdx, kind, group) {
+      var g = document.createElement('div');
+      g.className = 'cw-group cw-group--' + kind;
+      g.setAttribute('data-phase', group.phase);
+
+      var lbl = document.createElement('span');
+      lbl.className = 'cw-group__label';
+      lbl.textContent = kind === 'input' ? 'Input' : 'Output';
+      g.appendChild(lbl);
+
+      var blocks = document.createElement('div');
+      blocks.className = 'cw-group__blocks';
+      group.blocks.forEach(function (b, i) {
+        var el = document.createElement('div');
+        el.className = 'cw-block cw-block--' + b[1];
+        el.setAttribute('data-phase', group.phase);
+        el.style.setProperty('--i', i);
+        el.textContent = b[0];
+        blocks.appendChild(el);
+      });
+      g.appendChild(blocks);
+      return g;
+    }
+
+    TURNS.forEach(function (turn, idx) {
+      var col = document.createElement('div');
+      col.className = 'cw-turn';
+      col.setAttribute('data-min', turn.minPhase);
+
+      var title = document.createElement('p');
+      title.className = 'cw-turn__title';
+      title.textContent = turn.title;
+      col.appendChild(title);
+
+      col.appendChild(buildGroup(idx, 'input', turn.input));
+      col.appendChild(buildGroup(idx, 'output', turn.output));
+      stage.appendChild(col);
+    });
+
+    /* ---- connector arrows ---- */
+    var ARROW_SVG = '<svg viewBox="0 0 30 22" fill="none">' +
+      '<line class="cw-arrow__line" x1="2" y1="11" x2="22" y2="11"/>' +
+      '<path class="cw-arrow__head" d="M21 6 L30 11 L21 16 Z"/>' +
+      '<circle class="cw-arrow__pulse" cx="4" cy="11" r="3"/></svg>';
+
+    var arrowA = document.createElement('div');
+    arrowA.className = 'cw-arrow cw-arrow--a';
+    arrowA.setAttribute('data-phase', 3);
+    arrowA.innerHTML = ARROW_SVG;
+    var arrowB = document.createElement('div');
+    arrowB.className = 'cw-arrow cw-arrow--b';
+    arrowB.setAttribute('data-phase', 5);
+    arrowB.innerHTML = ARROW_SVG;
+    stage.appendChild(arrowA);
+    stage.appendChild(arrowB);
+
+    /* ---- truncation zone ---- */
+    var slot = document.createElement('div');
+    slot.className = 'cw-trunc-slot';
+    var tbox = document.createElement('div');
+    tbox.className = 'cw-trunc-box';
+    var tlbl = document.createElement('span');
+    tlbl.className = 'cw-group__label';
+    tlbl.textContent = 'Output';
+    var tblk = document.createElement('div');
+    tblk.className = 'cw-trunc-block';
+    tblk.innerHTML = 'No text response<br>due to truncation';
+    tbox.appendChild(tlbl);
+    tbox.appendChild(tblk);
+    slot.appendChild(tbox);
+    truncWrap.appendChild(slot);
+
+    /* ---- dots (steps 1..MAX) ---- */
+    var dots = [];
+    for (var s = 1; s <= MAX; s++) {
+      (function (step) {
+        var d = document.createElement('button');
+        d.className = 'cw-dot';
+        d.type = 'button';
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-label', 'Step ' + step);
+        d.addEventListener('click', function () { stop(); setStep(step); });
+        dotsWrap.appendChild(d);
+        dots.push(d);
+      })(s);
+    }
+
+    var allBlocks = Array.prototype.slice.call(stage.querySelectorAll('.cw-block'));
+    var allGroups = Array.prototype.slice.call(stage.querySelectorAll('.cw-group'));
+    var allTurns = Array.prototype.slice.call(stage.querySelectorAll('.cw-turn'));
+
+    var current = 0;
+    var timer = null;
+
+    function setStep(n) {
+      n = Math.max(0, Math.min(MAX, n));
+      current = n;
+      root.setAttribute('data-active', n);
+
+      allBlocks.forEach(function (el) {
+        el.classList.toggle('is-in', parseInt(el.getAttribute('data-phase'), 10) <= n);
+      });
+      allGroups.forEach(function (el) {
+        el.classList.toggle('is-on', parseInt(el.getAttribute('data-phase'), 10) <= n);
+      });
+      allTurns.forEach(function (el) {
+        el.classList.toggle('is-on', parseInt(el.getAttribute('data-min'), 10) <= n);
+      });
+
+      arrowA.classList.toggle('is-on', n >= 3);
+      arrowB.classList.toggle('is-on', n >= 5);
+
+      caption.innerHTML = CAPTIONS[n];
+      meter.style.width = METER[n] + '%';
+      meterPct.textContent = METER[n] + '%';
+
+      dots.forEach(function (d, i) {
+        var step = i + 1;
+        d.classList.toggle('is-active', step === n);
+        d.classList.toggle('is-done', step < n);
+      });
+
+      btnPrev.disabled = n <= 0;
+      btnNext.disabled = n >= MAX;
+    }
+
+    function setPlayIcon(playing) {
+      btnPlayIco.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
+      btnPlay.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    }
+
+    function stop() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      setPlayIcon(false);
+    }
+
+    function tick() {
+      if (current >= MAX) { stop(); return; }
+      setStep(current + 1);
+      timer = setTimeout(tick, current >= MAX ? 0 : 1700);
+    }
+
+    function play() {
+      if (timer) { stop(); return; }
+      if (current >= MAX) setStep(0);
+      setPlayIcon(true);
+      timer = setTimeout(tick, 650);
+    }
+
+    btnPlay.addEventListener('click', play);
+    btnPrev.addEventListener('click', function () { stop(); setStep(current - 1); });
+    btnNext.addEventListener('click', function () { stop(); setStep(current + 1); });
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      setStep(MAX);
+      return;
+    }
+
+    setStep(0);
+
+    /* auto-play once when scrolled into view */
+    var started = false;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !started) {
+            started = true;
+            play();
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContextWindow);
+  } else {
+    initContextWindow();
+  }
+})();
+
+/* ── "How a Cowork task runs" — step-by-step flow animation ─── */
+(function () {
+  function initDelegateRun() {
+    var root = document.getElementById('delegateRun');
+    if (!root) return;
+
+    var steps = Array.prototype.slice.call(root.querySelectorAll('.dr-step'));
+    var subs = Array.prototype.slice.call(root.querySelectorAll('.dr-sub__item'));
+    var replay = document.getElementById('drReplay');
+    var MAX = 7;            /* last stop index */
+    var timer = null;
+    var current = -1;
+
+    function apply() {
+      steps.forEach(function (st, i) {
+        var s = parseInt(st.getAttribute('data-stop'), 10);
+        st.classList.toggle('is-on', current >= s);
+        st.classList.toggle('is-active', current === s);
+        if (i < steps.length - 1) {
+          var nextStop = parseInt(steps[i + 1].getAttribute('data-stop'), 10);
+          st.classList.toggle('is-filled', current >= nextStop);
+        }
+      });
+      subs.forEach(function (su) {
+        var s = parseInt(su.getAttribute('data-stop'), 10);
+        su.classList.toggle('is-on', current >= s);
+        su.classList.toggle('is-active', current === s);
+      });
+    }
+
+    function stop() {
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+
+    function play() {
+      stop();
+      current = -1;
+      root.classList.remove('is-complete');
+      apply();
+      var n = 0;
+      function advance() {
+        current = n;
+        apply();
+        if (n >= MAX) {
+          timer = setTimeout(function () { root.classList.add('is-complete'); }, 1000);
+          return;
+        }
+        n++;
+        timer = setTimeout(advance, 1560);
+      }
+      timer = setTimeout(advance, 1100);
+    }
+
+    if (replay) replay.addEventListener('click', play);
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      current = MAX;
+      apply();
+      root.classList.add('is-complete');
+      return;
+    }
+
+    apply();
+
+    var started = false;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !started) {
+            started = true;
+            play();
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(root);
+    } else {
+      play();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDelegateRun);
+  } else {
+    initDelegateRun();
+  }
+
+  /* ── Chat vs Cowork — animated comparison ─────────────────────────
+     The looping timeline lives in CSS; this just arms the layers to
+     hidden and flips on the loop when the diagram scrolls into view.
+     Reduced motion is left untouched (CSS shows the finished diagram). */
+  function initChatVsCowork() {
+    var el = document.getElementById('chatVsCowork');
+    if (!el) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    el.classList.add('is-armed');
+
+    function start() { el.classList.add('is-on'); }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { start(); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(el);
+    } else {
+      start();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChatVsCowork);
+  } else {
+    initChatVsCowork();
+  }
+
+  /* ── Minimize-risks card — brain → bullet arrows ──────────────────
+     Arrow geometry is computed from live element positions so it stays
+     connected at any width / on reflow; the loop timeline lives in CSS. */
+  function initRiskViz() {
+    var root = document.getElementById('riskViz');
+    var svg = document.getElementById('riskWires');
+    if (!root || !svg) return;
+
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    var brain = root.querySelector('.risk-viz__brain');
+    var bullets = Array.prototype.slice.call(root.querySelectorAll('.rv-bullet'));
+    if (!brain || !bullets.length) return;
+
+    svg.innerHTML = '';
+    var lines = [];
+    var heads = [];
+    bullets.forEach(function (b, i) {
+      var line = document.createElementNS(SVGNS, 'path');
+      line.setAttribute('class', 'rv-arrow rv-anim rv-arrow--' + (i + 1));
+      svg.appendChild(line);
+      lines.push(line);
+
+      var head = document.createElementNS(SVGNS, 'path');
+      head.setAttribute('class', 'rv-head rv-anim rv-head--' + (i + 1));
+      /* tip at the origin so it lands exactly on the target point; wings
+         trail back along the line. Sized up from the original 9px head. */
+      head.setAttribute('d', 'M0 0 L-15 -9 L-15 9 Z');
+      svg.appendChild(head);
+      heads.push(head);
+    });
+
+    function compute() {
+      var cr = root.getBoundingClientRect();
+      svg.setAttribute('viewBox', '0 0 ' + cr.width + ' ' + cr.height);
+      svg.setAttribute('width', cr.width);
+      svg.setAttribute('height', cr.height);
+
+      var br = brain.getBoundingClientRect();
+      var bx = br.left + br.width / 2 - cr.left;
+      var by = br.top + br.height / 2 - cr.top;
+
+      bullets.forEach(function (b, i) {
+        var r = b.getBoundingClientRect();
+        var tx = r.left - cr.left - 15;          /* land on the bullet dot, not the text */
+        var ty = r.top - cr.top + Math.min(r.height / 2, 13);
+        var dx = tx - bx;
+        var c1x = bx + dx * 0.45;
+        var c1y = by + (ty - by) * 0.06;
+        var c2x = tx - Math.min(64, Math.abs(dx) * 0.4);
+        var c2y = ty;
+        lines[i].setAttribute('d', 'M' + bx + ' ' + by + ' C' + c1x + ' ' + c1y +
+          ' ' + c2x + ' ' + c2y + ' ' + tx + ' ' + ty);
+        var ang = Math.atan2(ty - c2y, tx - c2x) * 180 / Math.PI;
+        heads[i].setAttribute('transform', 'translate(' + tx + ' ' + ty + ') rotate(' + ang + ')');
+      });
+    }
+
+    compute();
+    // re-measure once images/fonts settle and on resize
+    window.addEventListener('load', compute);
+    setTimeout(compute, 400);
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(compute, 120);
+    });
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;          /* CSS shows the static, fully-drawn state */
+
+    root.classList.add('is-armed');
+
+    function start() { compute(); root.classList.add('is-on'); }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { start(); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root);
+    } else {
+      start();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRiskViz);
+  } else {
+    initRiskViz();
+  }
+
+  /* ── Guide lists — staggered reveal on scroll ─────────────────────
+     Rows are armed (hidden) then revealed in sequence when each list
+     scrolls into view. Reduced motion / no-JS leaves them fully shown. */
+  function initGuideReveal() {
+    var lists = Array.prototype.slice.call(document.querySelectorAll('[data-guide]'));
+    if (!lists.length) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    lists.forEach(function (l) { l.classList.add('is-armed'); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    lists.forEach(function (l) { io.observe(l); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGuideReveal);
+  } else {
+    initGuideReveal();
   }
 })();
