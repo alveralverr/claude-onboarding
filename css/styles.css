@@ -268,8 +268,8 @@ button {
 
 .container--two {
   display: grid;
-  grid-template-columns: 1fr 1.36fr;
-  gap: 80px;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 44px;
   align-items: start;
 }
 
@@ -700,6 +700,16 @@ button {
 
 .compare__table thead th.is-claude {
   color: var(--claude-orange-dk);
+}
+
+.compare__table td:first-child,
+.compare__table thead th:first-child {
+  width: 23%;
+}
+
+.compare__table th:nth-child(4),
+.compare__table td:nth-child(4) {
+  width: 31%;
 }
 
 .compare__table td:first-child {
@@ -2362,7 +2372,7 @@ button {
 }
 
 .cowork-hero__img {
-  flex: 0 0 55%;
+  flex: 0 0 62%;
 }
 
 .cowork-hero__img img {
@@ -2572,6 +2582,18 @@ button {
   line-height: 1.52;
   color: var(--ink-support);
   margin: 0;
+}
+
+/* "How to manage it" — solid Claude-orange callout card */
+.cw-grid .card.card--manage {
+  background: var(--claude-orange);
+  border-color: transparent;
+  box-shadow: 0 10px 28px rgba(217, 119, 87, 0.28);
+}
+.cw-grid .card.card--manage .kicker,
+.cw-grid .card.card--manage .kicker strong,
+.cw-grid .card.card--manage p {
+  color: #fff;
 }
 
 .cw-caption {
@@ -6116,14 +6138,19 @@ img:not(.mark) {
   margin: 0 auto 18px;
   text-align: center;
 }
+.prompt-pairs-head .kicker {
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+}
 .pp-headarrow {
   color: var(--aurora-cy);
   font-weight: 700;
-  margin: 0 2px;
+  margin: 0 4px;
 }
 .prompt-pairs-sub {
-  margin: 6px 0 0;
-  font-size: 14.5px;
+  margin: 10px 0 0;
+  font-size: 16.5px;
   color: var(--ink-support);
 }
 
@@ -6186,7 +6213,7 @@ img:not(.mark) {
 
 .pp-idx {
   flex: 0 0 auto;
-  font-size: 27px;
+  font-size: 29px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -6203,7 +6230,7 @@ img:not(.mark) {
 
 .pp-head__main { flex: 1 1 auto; min-width: 0; }
 .pp-cat {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -6215,7 +6242,7 @@ img:not(.mark) {
 
 .pp-before {
   margin: 0;
-  font-size: 16.5px;
+  font-size: 18.5px;
   line-height: 1.4;
   color: var(--ink-support);
   display: flex;
@@ -6226,7 +6253,7 @@ img:not(.mark) {
   flex: 0 0 auto;
   color: #C9275D;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   transform: translateY(-1px);
 }
 .pp-x--fix { color: #B65C3E; }
@@ -6242,7 +6269,7 @@ img:not(.mark) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: .01em;
   color: var(--violet);
@@ -6260,7 +6287,7 @@ img:not(.mark) {
 }
 .pp-caret {
   display: inline-block;
-  font-size: 14px;
+  font-size: 16px;
   transition: transform .32s cubic-bezier(.22,.61,.36,1);
 }
 .pp-open .pp-caret { transform: rotate(90deg); }
@@ -6287,7 +6314,7 @@ img:not(.mark) {
   padding: 16px 18px;
 }
 .pp-after-tag {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -6296,7 +6323,7 @@ img:not(.mark) {
 }
 .pp-after-tag span { color: var(--aurora-cy); }
 .pp-after .prompt-pair__line {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.55;
 }
 
@@ -6305,7 +6332,7 @@ img:not(.mark) {
   gap: 11px;
   align-items: flex-start;
   margin: 13px 4px 0;
-  font-size: 13.5px;
+  font-size: 15.5px;
   line-height: 1.5;
   color: var(--ink-support);
 }
@@ -6318,7 +6345,7 @@ img:not(.mark) {
   border-radius: 50%;
   background: rgba(82,0,227,0.10);
   color: var(--violet);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   font-style: italic;
   font-family: Georgia, "Times New Roman", serif;
@@ -6397,5 +6424,330 @@ img:not(.mark) {
   .pp-head { flex-wrap: wrap; gap: 12px 14px; padding: 16px 18px; }
   .pp-cta { order: 3; width: 100%; justify-content: center; }
   .pp-reveal__inner { padding: 2px 18px 18px; }
-  .pp-idx { font-size: 22px; }
+  .pp-idx { font-size: 24px; }
+}
+
+/* ============================================================
+   WHAT'S DIFFERENT — interactive comparison table (v9)
+   Click a tool chip to spotlight its column (Claude by default).
+   JS-free: driven by CSS :has() + :checked. Rows stagger in on
+   scroll (armed by initGuideReveal; static without JS).
+   ============================================================ */
+.compare__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.compare__head .kicker { margin: 0; }
+
+.compare__focus {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(110, 107, 123, 0.10);
+  padding: 4px;
+  border-radius: 999px;
+}
+.cmp-radio {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.cmp-chip {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  padding: 6px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  transition: color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.cmp-chip:hover { color: var(--ink-support); }
+.cmp-radio:checked + .cmp-chip {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(7, 0, 200, 0.10);
+}
+.cmp-radio:checked + .cmp-chip--claude { color: var(--claude-orange-dk); }
+.cmp-radio:focus-visible + .cmp-chip { outline: 2px solid rgba(82, 0, 227, 0.4); outline-offset: 1px; }
+
+/* smooth column emphasis */
+.compare__table th,
+.compare__table td { transition: opacity .35s ease, background .35s ease; }
+
+/* dim the two non-spotlit tool columns (1 = feature, 2 = MagicGPT, 3 = ChatGPT, 4 = Claude) */
+.compare:has(#cmp-claude:checked) .compare__table :is(th, td):nth-child(2),
+.compare:has(#cmp-claude:checked) .compare__table :is(th, td):nth-child(3),
+.compare:has(#cmp-magic:checked) .compare__table :is(th, td):nth-child(3),
+.compare:has(#cmp-magic:checked) .compare__table :is(th, td):nth-child(4),
+.compare:has(#cmp-chat:checked) .compare__table :is(th, td):nth-child(2),
+.compare:has(#cmp-chat:checked) .compare__table :is(th, td):nth-child(4) {
+  opacity: .4;
+}
+/* soft spotlight on a focused competitor column */
+.compare:has(#cmp-magic:checked) .compare__table :is(th, td):nth-child(2),
+.compare:has(#cmp-chat:checked) .compare__table :is(th, td):nth-child(3) {
+  background: rgba(82, 0, 227, 0.04);
+}
+
+/* crisper yes indicator */
+.compare__table td.y::before {
+  content: "\2713";
+  color: #14A85E;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: 1px;
+  padding-right: 4px;
+}
+.compare__table td.is-claude.y::before { color: var(--claude-orange); }
+
+/* row hover highlight */
+.compare__table tbody tr:hover td { background: rgba(82, 0, 227, 0.035); }
+.compare__table tbody tr:hover td.is-claude { background: var(--claude-beige-2); }
+
+/* staggered row reveal */
+.compare.is-armed tbody tr { opacity: 0; transform: translateY(10px); }
+.compare.is-in tbody tr { animation: guideIn .5s cubic-bezier(.22, .61, .36, 1) forwards; }
+.compare.is-in tbody tr:nth-child(1) { animation-delay: .04s; }
+.compare.is-in tbody tr:nth-child(2) { animation-delay: .10s; }
+.compare.is-in tbody tr:nth-child(3) { animation-delay: .16s; }
+.compare.is-in tbody tr:nth-child(4) { animation-delay: .22s; }
+.compare.is-in tbody tr:nth-child(5) { animation-delay: .28s; }
+.compare.is-in tbody tr:nth-child(6) { animation-delay: .34s; }
+
+/* ============================================================
+   COWORK "only" cards — microinteractions (v9)
+   Hover lifts the card and plays an icon animation that mirrors
+   the feature: a save-arrow drops into the folder, parallel
+   lanes sweep at once, the clock hand sweeps.
+   ============================================================ */
+.cw-only li {
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1), border-color .3s ease, background .3s ease;
+}
+.cw-only li:hover {
+  transform: translateY(-5px);
+  border-color: rgba(217, 119, 87, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+}
+.cw-only__icon {
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1), background .3s ease, border-color .3s ease, color .3s ease;
+}
+.cw-only li:hover .cw-only__icon {
+  background: rgba(217, 119, 87, 0.16);
+  border-color: rgba(217, 119, 87, 0.40);
+  color: #E8896B;
+  transform: translateY(-2px);
+}
+
+/* folder: output save-arrow drops in */
+.cw-fold-arrow { opacity: 0; }
+.cw-mi--folder:hover .cw-fold-arrow { animation: cwSave 1.4s ease-in-out infinite; }
+@keyframes cwSave {
+  0%   { opacity: 0; transform: translateY(-3px); }
+  35%  { opacity: 1; transform: translateY(0); }
+  72%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(2px); }
+}
+
+/* parallel lanes: fills sweep in simultaneously, slightly offset */
+.cw-lane { transform-box: fill-box; transform-origin: left center; transform: scaleX(0); }
+.cw-mi--parallel:hover .cw-lane { animation: cwLane 1.5s ease-in-out infinite; }
+.cw-mi--parallel:hover .cw-lane--2 { animation-delay: .07s; }
+.cw-mi--parallel:hover .cw-lane--3 { animation-delay: .14s; }
+@keyframes cwLane {
+  0%   { transform: scaleX(0); }
+  45%  { transform: scaleX(1); }
+  80%  { transform: scaleX(1); }
+  100% { transform: scaleX(0); }
+}
+
+/* clock: minute hand sweeps while hovered */
+.cw-hand--m { transform-box: view-box; transform-origin: 12px 12px; }
+.cw-mi--clock:hover .cw-hand--m { animation: cwSpin 1.6s linear infinite; }
+@keyframes cwSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .compare.is-armed tbody tr { opacity: 1; transform: none; }
+  .compare.is-in tbody tr { animation: none; }
+  .cw-mi--folder:hover .cw-fold-arrow,
+  .cw-mi--parallel:hover .cw-lane,
+  .cw-mi--clock:hover .cw-hand--m { animation: none; }
+  .cw-fold-arrow { opacity: 1; }
+  .cw-lane { transform: scaleX(1); }
+}
+
+/* ============================================================
+   PROMPTING — "Three things to focus on" cards (v9.1)
+   Watermark index, gradient number, sweep-in top accent,
+   hover lift + staggered scroll reveal.
+   ============================================================ */
+.habit-card { position: relative; overflow: hidden; }
+.habit-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--sphere);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .45s cubic-bezier(.22, .61, .36, 1);
+}
+.habit-card:hover::before { transform: scaleX(1); }
+.habit-card::after {
+  content: attr(data-n);
+  position: absolute;
+  right: 18px; top: 0;
+  font-size: 86px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--violet);
+  opacity: .055;
+  pointer-events: none;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.22, .61, .36, 1);
+}
+.habit-card:hover::after { opacity: .10; transform: translateY(-3px) scale(1.04); }
+
+.habit-num {
+  background: var(--sphere);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.habit-num::after { opacity: .9; }
+.habit-title,
+.habit-body,
+.habit-num { position: relative; z-index: 1; }
+.habit-title { transition: color .25s ease; }
+.habit-card:hover .habit-title { color: var(--violet-deep); }
+
+.habit-grid.is-armed .habit-card { opacity: 0; transform: translateY(16px); }
+.habit-grid.is-in .habit-card { animation: guideIn .55s cubic-bezier(.22, .61, .36, 1) forwards; }
+.habit-grid.is-in .habit-card:nth-child(1) { animation-delay: .05s; }
+.habit-grid.is-in .habit-card:nth-child(2) { animation-delay: .13s; }
+.habit-grid.is-in .habit-card:nth-child(3) { animation-delay: .21s; }
+@media (prefers-reduced-motion: reduce) {
+  .habit-grid.is-armed .habit-card { opacity: 1; transform: none; }
+  .habit-grid.is-in .habit-card { animation: none; }
+  .habit-card::before { transform: scaleX(1); }
+}
+
+/* ============================================================
+   GETTING HELP — selectable issue router (v9.1)
+   Dropdown replaced by a clickable issue list + live answer
+   panel with a contact action. Driven by js/app.js.
+   ============================================================ */
+.router { align-items: start; }
+
+.router__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.router__list .router__label { margin-bottom: 6px; }
+
+.router__opt {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  text-align: left;
+  padding: 13px 15px;
+  border: 1px solid rgba(82, 0, 227, 0.10);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.router__opt:hover {
+  border-color: rgba(82, 0, 227, 0.25);
+  background: #fff;
+  transform: translateX(2px);
+}
+.router__opt:focus-visible {
+  outline: 2px solid rgba(82, 0, 227, 0.4);
+  outline-offset: 2px;
+}
+.router__opt.is-active {
+  border-color: rgba(82, 0, 227, 0.30);
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(7, 0, 200, 0.09), inset 3px 0 0 var(--violet);
+}
+.router__opt-ic {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(82, 0, 227, 0.07);
+  color: var(--violet);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.router__opt-ic svg { width: 19px; height: 19px; }
+.router__opt:hover .router__opt-ic { transform: scale(1.06); }
+.router__opt.is-active .router__opt-ic { background: var(--violet); color: #fff; }
+.router__opt-txt { flex: 1 1 auto; min-width: 0; }
+.router__opt-go {
+  flex: 0 0 auto;
+  color: var(--violet);
+  font-size: 16px;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.router__opt:hover .router__opt-go,
+.router__opt.is-active .router__opt-go { opacity: .75; transform: none; }
+
+.router__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 18px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--violet);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.router__action:hover {
+  background: var(--violet-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(82, 0, 227, 0.25);
+}
+.router__action[hidden] { display: none; }
+
+.router__answer.is-swap .router__who,
+.router__answer.is-swap .router__why,
+.router__answer.is-swap .router__action {
+  animation: routerSwap .34s cubic-bezier(.22, .61, .36, 1) both;
+}
+.router__answer.is-swap .router__why { animation-delay: .04s; }
+.router__answer.is-swap .router__action { animation-delay: .08s; }
+@keyframes routerSwap {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .router__answer.is-swap .router__who,
+  .router__answer.is-swap .router__why,
+  .router__answer.is-swap .router__action { animation: none; }
+}
+
+@media (max-width: 760px) {
+  .router { grid-template-columns: 1fr; }
 }

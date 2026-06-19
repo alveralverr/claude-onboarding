@@ -66,10 +66,12 @@
     invite: {
       who: "Product Team",
       why: "Can't accept the invite or sign in? Email the Product Team — product-team@getmagicea.com.",
+      email: "product-team@getmagicea.com",
     },
     templates: {
       who: "Product Team",
       why: "Can't see Magic templates or skills? That's usually a permissions issue. Email the Product Team.",
+      email: "product-team@getmagicea.com",
     },
     google: {
       who: "Connectors, then your AL",
@@ -90,18 +92,46 @@
     tech: {
       who: "Product Team",
       why: "Technical issues with the extension or desktop app go to the Product Team.",
+      email: "product-team@getmagicea.com",
     },
   };
-  const select = document.getElementById("routerSelect");
-  function updateRouter() {
-    const r = ROUTES[select.value];
+  const routerOpts = Array.from(document.querySelectorAll(".router__opt"));
+  const routerWho = document.getElementById("routerWho");
+  const routerWhy = document.getElementById("routerWhy");
+  const routerAnswer = document.getElementById("routerAnswer");
+  const routerAction = document.getElementById("routerAction");
+
+  function selectRoute(key) {
+    const r = ROUTES[key];
     if (!r) return;
-    document.getElementById("routerWho").textContent = r.who;
-    document.getElementById("routerWhy").textContent = r.why;
+    routerOpts.forEach((o) => {
+      const on = o.dataset.route === key;
+      o.classList.toggle("is-active", on);
+      o.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    if (routerWho) routerWho.textContent = r.who;
+    if (routerWhy) routerWhy.textContent = r.why;
+    if (routerAction) {
+      if (r.email) {
+        routerAction.href = "mailto:" + r.email;
+        routerAction.innerHTML = 'Email ' + r.who + ' <span aria-hidden="true">→</span>';
+        routerAction.hidden = false;
+      } else {
+        routerAction.hidden = true;
+      }
+    }
+    if (routerAnswer) {
+      routerAnswer.classList.remove("is-swap");
+      void routerAnswer.offsetWidth;
+      routerAnswer.classList.add("is-swap");
+    }
   }
-  if (select) {
-    select.addEventListener("change", updateRouter);
-    updateRouter();
+
+  if (routerOpts.length) {
+    routerOpts.forEach((o) => {
+      o.addEventListener("click", () => selectRoute(o.dataset.route));
+    });
+    selectRoute("invite");
   }
 
   /* ---------- smooth scroll for in-page anchor links ---------- */

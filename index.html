@@ -108,14 +108,21 @@
         <p class="body">You may have used MagicGPT and ChatGPT. Claude sits in the same
           place — you chat, it answers — with one difference that changes how you'll work day to day.</p>
         <p class="body"><strong>Claude Cowork runs on your own machine, with your real files and tools.</strong>
-          ChatGPT can act too, but inside a capped cloud sandbox built for consumer tasks. Cowork is built for
-          the work you actually do, with pre-built Magic skill templates ready from day one.</p>
+          It is built for the work you do, with pre-built Magic skill templates ready from day one.</p>
       </div>
 
       <div class="col col--table">
-        <div class="card compare">
+        <div class="card compare" data-guide>
           <div class="compare__head">
             <p class="kicker kicker--muted">How it stacks up</p>
+            <div class="compare__focus" role="radiogroup" aria-label="Spotlight one tool">
+              <input type="radio" name="cmp-focus" id="cmp-magic" class="cmp-radio">
+              <label for="cmp-magic" class="cmp-chip">MagicGPT</label>
+              <input type="radio" name="cmp-focus" id="cmp-chat" class="cmp-radio">
+              <label for="cmp-chat" class="cmp-chip">ChatGPT</label>
+              <input type="radio" name="cmp-focus" id="cmp-claude" class="cmp-radio" checked>
+              <label for="cmp-claude" class="cmp-chip cmp-chip--claude">Claude</label>
+            </div>
           </div>
           <table class="compare__table">
             <thead>
@@ -190,10 +197,12 @@
         style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
 
       <ul class="cw-only">
-        <li>
+        <li class="cw-mi cw-mi--folder">
           <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+              <path class="cw-fold-arrow" stroke-linecap="round" stroke-linejoin="round"
+                d="M12 9.6v4.4m0 0l-1.8-1.8M12 14l1.8-1.8" />
             </svg></div>
           <div>
             <strong>Access your local folders</strong>
@@ -201,20 +210,25 @@
               inputs.</span>
           </div>
         </li>
-        <li>
-          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M13 3l-5 8h5l-1 10 7-11h-5l1-7zM3 12h2M3 8l1.5 1.5M3 16l1.5-1.5" />
+        <li class="cw-mi cw-mi--parallel">
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect x="3" y="10.5" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect class="cw-lane cw-lane--1" x="3" y="5" width="18" height="3" rx="1.5" fill="currentColor" />
+              <rect class="cw-lane cw-lane--2" x="3" y="10.5" width="18" height="3" rx="1.5" fill="currentColor" />
+              <rect class="cw-lane cw-lane--3" x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" />
             </svg></div>
           <div>
             <strong>Delegate parallel work</strong>
             <span>Splits multi-part tasks and runs the independent pieces simultaneously.</span>
           </div>
         </li>
-        <li>
+        <li class="cw-mi cw-mi--clock">
           <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="12" cy="12" r="9" />
-              <path stroke-linecap="round" d="M12 7v5l3.5 3.5" />
+              <line class="cw-hand cw-hand--h" x1="12" y1="12" x2="12" y2="7.8" stroke-linecap="round" />
+              <line class="cw-hand cw-hand--m" x1="12" y1="12" x2="15.4" y2="13.6" stroke-linecap="round" />
             </svg></div>
           <div>
             <strong>Run tasks on a schedule</strong>
@@ -318,11 +332,11 @@
                 <!-- Lead-in arrow: flows from the hint chip (top-centre) down to pin 11.
                      viewBox matches the screenshot pixels, so coords track the pins. -->
                 <svg class="ig-arrow" viewBox="0 0 2904 1710" fill="none" aria-hidden="true">
-                  <path class="ig-arrow__halo" d="M1452 40 C1560 210 1230 250 1000 360"/>
-                  <path class="ig-arrow__line" d="M1452 40 C1560 210 1230 250 1000 360"/>
+                  <path class="ig-arrow__halo" d="M1452 40 C1560 210 1230 250 1000 360" />
+                  <path class="ig-arrow__line" d="M1452 40 C1560 210 1230 250 1000 360" />
                   <g class="ig-arrow__head">
-                    <path class="ig-arrow__head-halo" d="M1099 371 L1000 360 L1054 276"/>
-                    <path class="ig-arrow__head-line" d="M1099 371 L1000 360 L1054 276"/>
+                    <path class="ig-arrow__head-halo" d="M1099 371 L1000 360 L1054 276" />
+                    <path class="ig-arrow__head-line" d="M1099 371 L1000 360 L1054 276" />
                   </g>
                 </svg>
                 <!-- sidebar pins -->
@@ -665,7 +679,8 @@
             <li><label><input type="checkbox" data-cb-key="s1-4"><span>Confirm you can see the Claude
                   homepage.</span></label></li>
           </ul>
-          <div style="display:flex;flex-direction:column;gap:5px;align-items:stretch;margin-top:8px;padding-bottom:10px;">
+          <div
+            style="display:flex;flex-direction:column;gap:5px;align-items:stretch;margin-top:8px;padding-bottom:10px;">
             <img loading="lazy" src="assets/webmail-login.png" alt="Sign in to your webmail"
               style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
             <img loading="lazy" src="assets/webmail-claude-invite.jpeg" alt="Open the Claude invite email"
@@ -833,9 +848,10 @@
 
           <p class="body body--small">Once a skill is added, use it in Cowork by typing its slash command — for example
             <code class="prompt-inline">/email-management</code> or <code
-              class="prompt-inline">/calendar-management</code> — then combine it with your own prompt. Sometimes,
-            Claude chooses the right skill automatically if the task is clear without you having to use the slash
-            commands.
+              class="prompt-inline">/calendar-management</code> — then combine it with your own prompt.
+          </p>
+          <p class="body body--small">Sometimes, Claude chooses the right skill automatically if the task is clear
+            without you having to use the slash commands.
           </p>
           <p class="body body--small">You can even ask Claude to explain what a specific skill does and how to use it.
           </p>
@@ -861,7 +877,8 @@
           <ol class="bullets bullets--num">
             <li>Set the <strong>working folder</strong> to send with your prompt.</li>
             <li>Type clear, <strong>specific instructions</strong> for what you need.</li>
-            <li>If Claude shows a plan or asks <strong>clarifying questions</strong>, approve it if it's right — redirect
+            <li>If Claude shows a plan or asks <strong>clarifying questions</strong>, approve it if it's right —
+              redirect
               if not.</li>
             <li>Watch it work, or step away and come back.</li>
             <li><strong>Always review</strong> the output before sending anything to a client.</li>
@@ -929,10 +946,9 @@
 
             <!-- ══════════════ CHAT (serial) ══════════════ -->
             <g class="cvc-chat a-dim cvc-anim">
-              <text x="300" y="42" text-anchor="middle" font-size="32" font-weight="700"
-                fill="#2E2A25">Chat</text>
-              <text x="300" y="76" text-anchor="middle" font-size="20" font-style="italic"
-                fill="#6E6A60">You drive every step</text>
+              <text x="300" y="42" text-anchor="middle" font-size="32" font-weight="700" fill="#2E2A25">Chat</text>
+              <text x="300" y="76" text-anchor="middle" font-size="20" font-style="italic" fill="#6E6A60">You drive
+                every step</text>
 
               <rect x="22" y="112" width="556" height="508" rx="22" fill="#ECE7DC" />
 
@@ -943,12 +959,9 @@
               </g>
               <!-- response 1 -->
               <g class="cvc-a a-r1 cvc-anim">
-                <rect x="38" y="208" width="348" height="46" rx="23" fill="#FFFFFF"
-                  stroke="rgba(0,0,0,.05)" />
-                <line x1="62" y1="227" x2="332" y2="227" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
-                <line x1="62" y1="240" x2="296" y2="240" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
+                <rect x="38" y="208" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="227" x2="332" y2="227" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="240" x2="296" y2="240" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
               </g>
               <!-- You follow up -->
               <g class="cvc-a a-follow cvc-anim">
@@ -957,12 +970,9 @@
               </g>
               <!-- response 2 -->
               <g class="cvc-a a-r2 cvc-anim">
-                <rect x="38" y="324" width="348" height="46" rx="23" fill="#FFFFFF"
-                  stroke="rgba(0,0,0,.05)" />
-                <line x1="62" y1="343" x2="332" y2="343" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
-                <line x1="62" y1="356" x2="290" y2="356" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
+                <rect x="38" y="324" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="343" x2="332" y2="343" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="356" x2="290" y2="356" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
               </g>
               <!-- You refine -->
               <g class="cvc-a a-refine cvc-anim">
@@ -971,12 +981,9 @@
               </g>
               <!-- response 3 -->
               <g class="cvc-a a-r3 cvc-anim">
-                <rect x="38" y="440" width="348" height="46" rx="23" fill="#FFFFFF"
-                  stroke="rgba(0,0,0,.05)" />
-                <line x1="62" y1="459" x2="332" y2="459" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
-                <line x1="62" y1="472" x2="300" y2="472" stroke="#D2CBBD" stroke-width="4"
-                  stroke-linecap="round" />
+                <rect x="38" y="440" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="459" x2="332" y2="459" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="472" x2="300" y2="472" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
               </g>
               <!-- still going… -->
               <g class="cvc-a a-dots cvc-anim">
@@ -985,41 +992,38 @@
                 <circle class="a-dot cvc-anim" cx="300" cy="548" r="4" fill="#B8B0A0" />
               </g>
 
-              <text x="300" y="648" text-anchor="middle" font-size="19" fill="#6E6A60"><tspan
-                  font-weight="700" fill="#3D3A34">Serial</tspan> · you assemble the output</text>
+              <text x="300" y="648" text-anchor="middle" font-size="19" fill="#6E6A60">
+                <tspan font-weight="700" fill="#3D3A34">Serial</tspan> · you assemble the output
+              </text>
             </g>
 
             <!-- ══════════════ COWORK (parallel) ══════════════ -->
             <g class="cvc-cowork">
-              <text x="928" y="42" text-anchor="middle" font-size="32" font-weight="700"
-                fill="#2E2A25">Cowork</text>
-              <text x="928" y="76" text-anchor="middle" font-size="20" font-style="italic"
-                fill="#6E6A60">You delegate, it delivers</text>
+              <text x="928" y="42" text-anchor="middle" font-size="32" font-weight="700" fill="#2E2A25">Cowork</text>
+              <text x="928" y="76" text-anchor="middle" font-size="20" font-style="italic" fill="#6E6A60">You delegate,
+                it delivers</text>
 
               <!-- orange emphasis ring (drawn under the panel fill so only a rim shows) -->
-              <rect class="a-glow cvc-anim" x="650" y="112" width="556" height="508" rx="22"
-                fill="none" stroke="#D97757" stroke-width="3"
-                style="filter:drop-shadow(0 0 12px rgba(217,119,87,.6));" />
+              <rect class="a-glow cvc-anim" x="650" y="112" width="556" height="508" rx="22" fill="none"
+                stroke="#D97757" stroke-width="3" style="filter:drop-shadow(0 0 12px rgba(217,119,87,.6));" />
               <rect x="650" y="112" width="556" height="508" rx="22" fill="#ECE7DC" />
 
               <!-- You give a goal -->
               <g class="cvc-a a-goal cvc-anim">
-                <rect x="778" y="150" width="300" height="46" rx="23" fill="#F0CDBA"
-                  stroke="#E3B49B" />
-                <text x="928" y="180" text-anchor="middle" font-size="20" font-weight="600"
-                  fill="#A8512F">You give a goal</text>
+                <rect x="778" y="150" width="300" height="46" rx="23" fill="#F0CDBA" stroke="#E3B49B" />
+                <text x="928" y="180" text-anchor="middle" font-size="20" font-weight="600" fill="#A8512F">You give a
+                  goal</text>
               </g>
 
               <!-- branch wires (goal → three tasks) -->
               <path class="cvc-wire a-wire1 cvc-anim" pathLength="100"
-                d="M928 196 V214 M737 214 H1119 M737 214 V242 M928 214 V242 M1119 214 V242"
-                fill="none" stroke="#C2BAAB" stroke-width="2.5" stroke-linecap="round" />
+                d="M928 196 V214 M737 214 H1119 M737 214 V242 M928 214 V242 M1119 214 V242" fill="none" stroke="#C2BAAB"
+                stroke-width="2.5" stroke-linecap="round" />
 
               <!-- three tasks, in parallel -->
               <g class="cvc-a a-cards cvc-anim">
                 <g>
-                  <rect x="662" y="244" width="150" height="96" rx="12" fill="#FFFFFF"
-                    stroke="rgba(0,0,0,.05)" />
+                  <rect x="662" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
                   <text x="678" y="280" font-size="17" font-weight="600" fill="#44413B">Read files</text>
                   <line x1="678" y1="302" x2="788" y2="302" stroke="#D6CFC1" stroke-width="3.5"
                     stroke-linecap="round" />
@@ -1027,8 +1031,7 @@
                     stroke-linecap="round" />
                 </g>
                 <g>
-                  <rect x="853" y="244" width="150" height="96" rx="12" fill="#FFFFFF"
-                    stroke="rgba(0,0,0,.05)" />
+                  <rect x="853" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
                   <text x="869" y="280" font-size="17" font-weight="600" fill="#44413B">Search Drive</text>
                   <line x1="869" y1="302" x2="979" y2="302" stroke="#D6CFC1" stroke-width="3.5"
                     stroke-linecap="round" />
@@ -1036,8 +1039,7 @@
                     stroke-linecap="round" />
                 </g>
                 <g>
-                  <rect x="1044" y="244" width="150" height="96" rx="12" fill="#FFFFFF"
-                    stroke="rgba(0,0,0,.05)" />
+                  <rect x="1044" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
                   <text x="1060" y="280" font-size="17" font-weight="600" fill="#44413B">Draft report</text>
                   <line x1="1060" y1="302" x2="1170" y2="302" stroke="#D6CFC1" stroke-width="3.5"
                     stroke-linecap="round" />
@@ -1047,20 +1049,16 @@
               </g>
 
               <!-- converge wire (tasks → finished work) -->
-              <path class="cvc-wire a-wire2 cvc-anim" pathLength="100" d="M928 340 V368"
-                fill="none" stroke="#C2BAAB" stroke-width="2.5" stroke-linecap="round" />
+              <path class="cvc-wire a-wire2 cvc-anim" pathLength="100" d="M928 340 V368" fill="none" stroke="#C2BAAB"
+                stroke-width="2.5" stroke-linecap="round" />
 
               <!-- finished work -->
               <g class="cvc-a a-done cvc-anim">
-                <rect x="778" y="368" width="300" height="94" rx="14" fill="#FFFFFF"
-                  stroke="rgba(0,0,0,.06)" />
+                <rect x="778" y="368" width="300" height="94" rx="14" fill="#FFFFFF" stroke="rgba(0,0,0,.06)" />
                 <rect x="798" y="388" width="46" height="46" rx="11" fill="#F4EEE4" />
-                <rect x="811" y="399" width="20" height="24" rx="3" fill="none" stroke="#8A8475"
-                  stroke-width="1.8" />
-                <line x1="816" y1="407" x2="826" y2="407" stroke="#8A8475" stroke-width="1.6"
-                  stroke-linecap="round" />
-                <line x1="816" y1="413" x2="826" y2="413" stroke="#8A8475" stroke-width="1.6"
-                  stroke-linecap="round" />
+                <rect x="811" y="399" width="20" height="24" rx="3" fill="none" stroke="#8A8475" stroke-width="1.8" />
+                <line x1="816" y1="407" x2="826" y2="407" stroke="#8A8475" stroke-width="1.6" stroke-linecap="round" />
+                <line x1="816" y1="413" x2="826" y2="413" stroke="#8A8475" stroke-width="1.6" stroke-linecap="round" />
                 <text x="862" y="406" font-size="20" font-weight="700" fill="#2E2A25">Finished work</text>
                 <text x="862" y="432" font-size="16" fill="#6E6A60">Ready in your folder</text>
               </g>
@@ -1068,19 +1066,20 @@
               <!-- celebratory check on the finished card -->
               <g class="cvc-a a-pop cvc-anim">
                 <circle cx="1048" cy="415" r="16" fill="#D97757" />
-                <path d="M1040 415 l6 6 l11 -13" fill="none" stroke="#FFFFFF" stroke-width="3"
-                  stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M1040 415 l6 6 l11 -13" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </g>
 
               <!-- "Always use Cowork" badge -->
               <g class="cvc-a a-pop cvc-anim">
                 <rect x="1004" y="122" width="194" height="30" rx="15" fill="#D97757" />
-                <text x="1101" y="142" text-anchor="middle" font-size="14" font-weight="700"
-                  fill="#FFFFFF">★ Always use Cowork</text>
+                <text x="1101" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">★ Always use
+                  Cowork</text>
               </g>
 
-              <text x="928" y="648" text-anchor="middle" font-size="19" fill="#6E6A60"><tspan
-                  font-weight="700" fill="#B65C3E">Parallel</tspan> · it assembles the output</text>
+              <text x="928" y="648" text-anchor="middle" font-size="19" fill="#6E6A60">
+                <tspan font-weight="700" fill="#B65C3E">Parallel</tspan> · it assembles the output
+              </text>
             </g>
           </svg>
         </div>
@@ -1123,7 +1122,8 @@
               <div class="dr-step__body">
                 <p class="dr-step__title">You delegate the work</p>
                 <p class="dr-step__desc">Send a prompt describing the objective — what you need done and what
-                  <em>done</em> looks like.</p>
+                  <em>done</em> looks like.
+                </p>
               </div>
             </li>
             <li class="dr-step" data-stop="1">
@@ -1131,15 +1131,20 @@
               <div class="dr-step__body">
                 <p class="dr-step__title">Claude takes it from there</p>
                 <ul class="dr-sub" id="drSub">
-                  <li class="dr-sub__item" data-stop="2"><span class="dr-sub__dot"></span><span class="dr-sub__txt"><strong>Understand</strong>
+                  <li class="dr-sub__item" data-stop="2"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Understand</strong>
                       — asks clarifying questions to make sure it's clear on your goal</span></li>
-                  <li class="dr-sub__item" data-stop="3"><span class="dr-sub__dot"></span><span class="dr-sub__txt"><strong>Plan</strong>
+                  <li class="dr-sub__item" data-stop="3"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Plan</strong>
                       — breaks the work into steps you can see in the sidebar</span></li>
-                  <li class="dr-sub__item" data-stop="4"><span class="dr-sub__dot"></span><span class="dr-sub__txt"><strong>Execute</strong>
+                  <li class="dr-sub__item" data-stop="4"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Execute</strong>
                       — works across your files, tools, and the web</span></li>
-                  <li class="dr-sub__item" data-stop="5"><span class="dr-sub__dot"></span><span class="dr-sub__txt"><strong>Verify</strong>
+                  <li class="dr-sub__item" data-stop="5"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Verify</strong>
                       — checks its own output for quality and accuracy</span></li>
-                  <li class="dr-sub__item" data-stop="6"><span class="dr-sub__dot"></span><span class="dr-sub__txt"><strong>Deliver</strong>
+                  <li class="dr-sub__item" data-stop="6"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Deliver</strong>
                       — produces finished files and a summary of what it did</span></li>
                 </ul>
               </div>
@@ -1147,8 +1152,8 @@
             <li class="dr-step" data-stop="7">
               <span class="dr-node dr-node--check">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M6 12.5l3.6 3.6L18 7.5" stroke="currentColor" stroke-width="2.2"
-                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M6 12.5l3.6 3.6L18 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </span>
               <div class="dr-step__body">
@@ -1178,7 +1183,8 @@
           <video src="assets/claude-usecase-3.mp4" autoplay loop muted playsinline preload="metadata"
             aria-label="Data extraction use case"
             style="width:100%;height:auto;padding:0;border:none;background:none;display:block;border-radius:20px;"></video>
-          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.45;">Hand Claude a pile of receipts, invoices,
+          <p style="margin-top:8px;font-size:14px;color:#888;line-height:1.45;">Hand Claude a pile of receipts,
+            invoices,
             or screenshots. Come back to a formatted spreadsheet with all the data extracted and organized.</p>
         </div>
         <div style="width:50%;flex-shrink:0;">
@@ -1213,7 +1219,7 @@
           <p>Claude loses sight of earlier instructions and context. Responses become shorter, repetitive, or miss
             details you've already given.</p>
         </div>
-        <div class="card">
+        <div class="card card--manage">
           <p class="kicker"><strong>How to manage it</strong></p>
           <p>Start a fresh session for each new task. Don't chain unrelated work in one conversation. Paste a brief
             summary if context needs to carry over.</p>
@@ -2572,9 +2578,9 @@
     <!-- THREE PRINCIPLES -->
     <div class="container container--narrow">
       <p class="kicker" style="margin-top:72px">Three things to focus on</p>
-      <div class="habit-grid">
+      <div class="habit-grid" data-guide>
 
-        <article class="card habit-card">
+        <article class="card habit-card" data-n="01">
           <p class="habit-num">01</p>
           <p class="habit-title">Link and feed the raw materials.</p>
           <p class="habit-body">Connect your apps and folders, attach files, paste the email, share screenshots or other
@@ -2582,14 +2588,14 @@
             matters far more than how you word the ask.</p>
         </article>
 
-        <article class="card habit-card">
+        <article class="card habit-card" data-n="02">
           <p class="habit-num">02</p>
           <p class="habit-title">Refine the first draft if needed.</p>
           <p class="habit-body">Claude iterates. If the result isn't right, redirect it — just like you would with a
             colleague.</p>
         </article>
 
-        <article class="card habit-card habit-card--wide">
+        <article class="card habit-card habit-card--wide" data-n="03">
           <p class="habit-num">03</p>
           <p class="habit-title">Assume it can do anything until it tells you otherwise.</p>
           <p class="habit-body">Try the task. Claude will flag it if something is outside what it can do. Most
@@ -2614,7 +2620,8 @@
             <span class="pp-idx">01</span>
             <div class="pp-head__main">
               <p class="pp-cat">Pre-call research</p>
-              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span class="pp-before__txt">"Research this company before my call."</span></p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Research this company before my call."</span></p>
             </div>
             <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2622,16 +2629,21 @@
             <div class="pp-reveal__inner">
               <div class="pp-after">
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
-                <p class="prompt-pair__line">"<em class="pp-action">[pastes booking email]</em> Investor meeting Thu with
-                  <strong>Acme Corp</strong> — they're a Series B fintech. Pull their recent news and funding history from
+                <p class="prompt-pair__line">"<em class="pp-action">[pastes booking email]</em> Investor meeting Thu
+                  with
+                  <strong>Acme Corp</strong> — they're a Series B fintech. Pull their recent news and funding history
+                  from
                   the web, use <code>/calendar-management</code> to cross-check the attendees against our notes
-                  (<strong>Meeting Insights - 2026.docx</strong>) in the <strong>Clients folder</strong>, and write it up
-                  using our <strong>call-prep template</strong> in the same file. Goal is to initiate talks on new projects
+                  (<strong>Meeting Insights - 2026.docx</strong>) in the <strong>Clients folder</strong>, and write it
+                  up
+                  using our <strong>call-prep template</strong> in the same file. Goal is to initiate talks on new
+                  projects
                   for <strong>Q4</strong>."
                 </p>
               </div>
               <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
-                <p>Client comms, web search, your local folder and files, and a clear goal. You're directing Claude where
+                <p>Client comms, web search, your local folder and files, and a clear goal. You're directing Claude
+                  where
                   everything lives and where to execute.</p>
               </div>
             </div>
@@ -2643,7 +2655,8 @@
             <span class="pp-idx">02</span>
             <div class="pp-head__main">
               <p class="pp-cat">Follow-up email</p>
-              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span class="pp-before__txt">"Write a follow-up email to the client about the call."</span></p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Write a follow-up email to the client about the call."</span></p>
             </div>
             <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2651,9 +2664,11 @@
             <div class="pp-reveal__inner">
               <div class="pp-after">
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
-                <p class="prompt-pair__line">"<em class="pp-action">[screenshots the thread]</em> They no-showed our Monday
+                <p class="prompt-pair__line">"<em class="pp-action">[screenshots the thread]</em> They no-showed our
+                  Monday
                   call. Use <code>/calendar-management</code> to pull two open slots from my <strong>Google
-                    Calendar</strong> next week, use <code>/email-management</code> to draft a warm reply offering both, and
+                    Calendar</strong> next week, use <code>/email-management</code> to draft a warm reply offering both,
+                  and
                   match the voice in our <strong>email guide</strong>. Under 5 sentences."</p>
               </div>
               <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
@@ -2669,7 +2684,8 @@
             <span class="pp-idx">03</span>
             <div class="pp-head__main">
               <p class="pp-cat">Inbox triage</p>
-              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span class="pp-before__txt">"Check my inbox for anything important."</span></p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Check my inbox for anything important."</span></p>
             </div>
             <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2678,8 +2694,10 @@
               <div class="pp-after">
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
                 <p class="prompt-pair__line">"Use <code>/email-management</code> to go through my <strong>Gmail</strong>
-                  from the last 24 hours. Flag only client emails or anything urgent, cross-check each sender against the
-                  <strong>active-accounts list</strong> in our team <strong>Google Drive</strong>, and summarize each in one
+                  from the last 24 hours. Flag only client emails or anything urgent, cross-check each sender against
+                  the
+                  <strong>active-accounts list</strong> in our team <strong>Google Drive</strong>, and summarize each in
+                  one
                   line with what it needs and the account it ties to. Save each into a word doc in <strong>/active
                     accounts/2026-06/week 1</strong>"
                 </p>
@@ -2697,7 +2715,8 @@
             <span class="pp-idx">04</span>
             <div class="pp-head__main">
               <p class="pp-cat">Recurring task</p>
-              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span class="pp-before__txt">"Summarize this weekly."</span></p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Summarize this weekly."</span></p>
             </div>
             <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2707,7 +2726,8 @@
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
                 <p class="prompt-pair__line">"<strong>Every Monday before 8am Pacific</strong>, open the latest
                   <strong>Fathom transcript</strong> of the <strong>Marketing Team Sync</strong> in my inbox. Pull every
-                  action item with its owner and due date into a table, add them to our team <strong>Notion</strong> then
+                  action item with its owner and due date into a table, add them to our team <strong>Notion</strong>
+                  then
                   notify all members on <code>#core-marketing</code>. Save the summary into a spreadsheet in the
                   <strong>Core Team Archives</strong> folder for client <strong>John Doe</strong>."
                 </p>
@@ -2725,7 +2745,8 @@
             <span class="pp-idx">05</span>
             <div class="pp-head__main">
               <p class="pp-cat">Client proposal</p>
-              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span class="pp-before__txt">"Write a proposal for this client."</span></p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Write a proposal for this client."</span></p>
             </div>
             <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2735,8 +2756,10 @@
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
                 <p class="prompt-pair__line">"Use the <strong>proposal template</strong> in our <strong>Google
                     Drive</strong> and the pricing in our <strong>Sales Playbook</strong> (sales folder). Draft one for
-                  <strong>Acme Corp</strong> from the discovery notes in their client sub-folder and the draft presentation
-                  they sent <em class="pp-action">[attached]</em>. Run it through <code>/writing</code> so it sounds human
+                  <strong>Acme Corp</strong> from the discovery notes in their client sub-folder and the draft
+                  presentation
+                  they sent <em class="pp-action">[attached]</em>. Run it through <code>/writing</code> so it sounds
+                  human
                   and on-brand, then export a clean <strong>PDF</strong>."
                 </p>
               </div>
@@ -2754,7 +2777,9 @@
             <span class="pp-idx">06</span>
             <div class="pp-head__main">
               <p class="pp-cat pp-cat--fix">Too generic?</p>
-              <p class="pp-before"><span class="pp-x pp-x--fix" aria-hidden="true">!</span><span class="pp-before__txt pp-before__txt--plain">The output exists — it just needs more to go on.</span></p>
+              <p class="pp-before"><span class="pp-x pp-x--fix" aria-hidden="true">!</span><span
+                  class="pp-before__txt pp-before__txt--plain">The output exists — it just needs more to go on.</span>
+              </p>
             </div>
             <span class="pp-cta">See the reprompt<span class="pp-caret">&#8594;</span></span>
           </div>
@@ -2762,8 +2787,10 @@
             <div class="pp-reveal__inner">
               <div class="pp-after">
                 <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Reprompt with context</p>
-                <p class="prompt-pair__line">"That's too generic. This is for a <strong>healthcare client</strong> preparing
-                  a board update — lead with the compliance risks from our <strong>Q2 deck</strong>, frame them against the
+                <p class="prompt-pair__line">"That's too generic. This is for a <strong>healthcare client</strong>
+                  preparing
+                  a board update — lead with the compliance risks from our <strong>Q2 deck</strong>, frame them against
+                  the
                   targets in our <strong>KPI sheet</strong>, and keep it to the three slides that matter."</p>
               </div>
               <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
@@ -2785,18 +2812,18 @@
           <ul class="tip-list" data-guide>
             <li class="tip-row">
               <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
-              <p class="tip-body">State the <strong>output format</strong> upfront — <em class="tip-quote">"save as a .md
-                  file"</em>, <em class="tip-quote">"create a table"</em>, <em class="tip-quote">"write bullet
+              <p class="tip-body">State the <strong>output format</strong> upfront —<br><em class="tip-quote">"save as a
+                  .md file"</em>, <em class="tip-quote">"create a table"</em>, <em class="tip-quote">"write bullet
                   points"</em>.</p>
             </li>
             <li class="tip-row">
               <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
-              <p class="tip-body">State the <strong>output location</strong> — <em class="tip-quote">"save to my Magic
-                  Work folder in Google Drive"</em>.</p>
+              <p class="tip-body">State the <strong>output location</strong> —<br><em class="tip-quote">"save to my
+                  Magic Work folder in Google Drive"</em>.</p>
             </li>
             <li class="tip-row">
               <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
-              <p class="tip-body">For tasks touching your <strong>inbox or calendar</strong>, define the scope — <em
+              <p class="tip-body">For tasks touching your <strong>inbox or calendar</strong>, define the scope —<br><em
                   class="tip-quote">"only emails from the last 48 hours"</em> or <em class="tip-quote">"just the three
                   meetings on Thursday"</em>.</p>
             </li>
@@ -2808,7 +2835,8 @@
             <li class="tip-row">
               <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
               <p class="tip-body">There's no one-size-fits-all prompt anatomy. Given the right context, Claude even
-                understands <strong>voice-to-text, Taglish, abbreviations, or half-finished sentences</strong> — it needs
+                understands <strong>voice-to-text, Taglish, abbreviations, or half-finished sentences</strong> — it
+                needs
                 to understand the situation more than receive polished wording.</p>
             </li>
           </ul>
@@ -2941,10 +2969,11 @@
         <div class="card risk-card risk-viz__card">
           <p class="kicker kicker--violet">To minimize risks</p>
           <ul class="bullets">
-            <li class="rv-bullet rv-anim rv-bullet--1">Avoid granting access to local files with sensitive information,
-              like financial documents and passwords.</li>
-            <li class="rv-bullet rv-anim rv-bullet--2">Be especially cautious with computer use — Claude makes changes on
-              your computer directly and bypass permission checks when you allow it to.</li>
+            <li class="rv-bullet rv-anim rv-bullet--1">Avoid granting access to local files with <strong>sensitive
+                information</strong>, like financial documents and passwords.</li>
+            <li class="rv-bullet rv-anim rv-bullet--2">Be especially cautious with computer use — Claude makes changes
+              on
+              your computer directly and bypass <strong>permission checks</strong> when you allow it to.</li>
             <li class="rv-bullet rv-anim rv-bullet--3">Cowork may have direct access to Claude in Chrome. We strongly
               advise to be extremely careful on anything that takes control of your screen. Avoid automating risky and
               irreversible actions such as <strong>logins, payments, or deletions</strong> that require human
@@ -3032,7 +3061,8 @@
             <li class="guide-item">
               <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
               <span class="guide-txt"><span class="guide-lead">Never paste passwords, API keys, or
-                  credentials</span><span class="guide-desc">into a Cowork prompt. Don't ask it to access private data or
+                  credentials</span><span class="guide-desc">into a Cowork prompt. Don't ask it to access private data
+                  or
                   scrape personal information, especially your client's.</span></span>
             </li>
             <li class="guide-item">
@@ -3053,7 +3083,8 @@
             </li>
             <li class="guide-item">
               <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
-              <span class="guide-txt"><span class="guide-lead">Don't use Claude for clients whose confidentiality clauses
+              <span class="guide-txt"><span class="guide-lead">Don't use Claude for clients whose confidentiality
+                  clauses
                   cover AI tools</span><span class="guide-desc">Ask your AL first.</span></span>
             </li>
             <li class="guide-item">
@@ -3214,22 +3245,91 @@
       <h2 class="h2">Pick the issue. We'll point to the right <span class="grad">person</span>.</h2>
 
       <div class="card router" id="router">
-        <label class="router__label" for="routerSelect">What's wrong?</label>
-        <select class="router__select" id="routerSelect">
-          <option value="invite">Can't accept invite or sign in</option>
-          <option value="templates">Can't see Magic templates or Skills</option>
-          <option value="google">Google account not connecting</option>
-          <option value="refuse">Claude refuses a task</option>
-          <option value="limit">Hit the rate limit</option>
-          <option value="general">General Claude questions</option>
-          <option value="tech">Technical issue — extension or desktop app</option>
-        </select>
+        <div class="router__list" role="tablist" aria-label="What's wrong?">
+          <span class="router__label">What's wrong?</span>
+          <button class="router__opt is-active" type="button" data-route="invite" role="tab" aria-selected="true">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path stroke-linecap="round" d="M7 11V8a5 5 0 0110 0v3" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Can't accept invite or sign in</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="templates" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="4" y="4" width="7" height="7" rx="1.5" />
+                <rect x="13" y="4" width="7" height="7" rx="1.5" />
+                <rect x="4" y="13" width="7" height="7" rx="1.5" />
+                <rect x="13" y="13" width="7" height="7" rx="1.5" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Can't see Magic templates or Skills</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="google" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12l2 2 4-4M5 5h14a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Google account not connecting</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="refuse" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" d="M9 9l6 6M15 9l-6 6" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Claude refuses a task</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="limit" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" d="M12 7v5l3 2" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Hit the rate limit</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="general" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.5 9.5a2.5 2.5 0 113.5 2.3c-.8.4-1 .8-1 1.7M12 17h.01" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">General Claude questions</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="tech" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M10.3 4.3l1 2.3 2.4.3 1-2.2 2 1.2-.9 2.3 1.6 1.8 2.3-.8.7 2.2-2.1 1.1.2 2.4 2.2 1-1 2-2.4-.4-1.6 1.8.8 2.3-2 1-1.4-2-2.4.3-.6 2.3-2.2-.5.1-2.4-2.2-1 .9-2.2-1.5-1.9-2.3.7-.6-2.2 2.1-1.2-.3-2.4z" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Technical issue — extension or app</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
 
-        <div class="router__answer" id="routerAnswer">
-          <p class="kicker kicker--violet">Contact</p>
+        <div class="router__answer" id="routerAnswer" role="tabpanel" aria-live="polite">
+          <p class="kicker kicker--violet">Who to contact</p>
           <p class="router__who" id="routerWho">Product Team</p>
           <p class="router__why" id="routerWhy">Can't accept the invite or sign in? Email the Product Team —
             product-team@getmagicea.com.</p>
+          <a class="router__action" id="routerAction" href="mailto:product-team@getmagicea.com">Email Product Team
+            <span aria-hidden="true">&#8594;</span></a>
         </div>
       </div>
     </div>
