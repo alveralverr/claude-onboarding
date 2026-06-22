@@ -100,7 +100,10 @@
     var y = window.scrollY + 130, active = null;
     for (var i = 0; i < ids.length; i++) {
       var el = document.getElementById(ids[i]);
-      if (el && el.offsetTop <= y) active = ids[i];
+      // Use the element's absolute document top (works for nested anchors like
+      // #skills / #connectors, whose offsetTop is relative to a positioned
+      // ancestor rather than the page).
+      if (el && el.getBoundingClientRect().top + window.scrollY <= y) active = ids[i];
     }
     tocLinks.forEach(function(a) {
       a.classList.toggle('is-active', a.getAttribute('href') === '#' + active);
@@ -533,6 +536,12 @@
         panels.forEach(function (p) {
           p.classList.toggle('is-active', p.getAttribute('data-qs') === target);
         });
+        // Reflect active tab for the inline voiceover control, and stop any
+        // playback so the previous tab's narration doesn't carry over.
+        wrap.setAttribute('data-active-qs', target);
+        if (window.Voiceover && typeof window.Voiceover.stop === 'function') {
+          window.Voiceover.stop();
+        }
       });
     });
   }
@@ -567,6 +576,10 @@
           s.classList.toggle('is-active', s.getAttribute('data-screen') === target);
         });
         closeAll();
+        // Stop any narration so the previous screen's clip doesn't carry over.
+        if (window.Voiceover && typeof window.Voiceover.stop === 'function') {
+          window.Voiceover.stop();
+        }
       });
     });
 

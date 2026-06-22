@@ -85,6 +85,21 @@
       <div class="benefit-showcase">
         <div class="benefit-card">
           <div class="benefit-card__glow"></div>
+
+          <button class="voiceover-btn voiceover-btn--benefit" type="button"
+            data-voiceover-src="assets/voice/00 - intro.mp3"
+            data-voiceover-label="the intro and your Magic benefit"
+            aria-pressed="false"
+            aria-label="Play voiceover for the intro and your Magic benefit">
+            <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+              <path class="vo-cone"
+                d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+              <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+              <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+              <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+            </svg>
+          </button>
+
           <p class="benefit-card__kicker">Your Magic benefit</p>
           <p class="benefit-card__label" style="margin-bottom:10px;margin-top:2px;">access to a Claude Team Standard
             seat worth</p>
@@ -117,6 +132,20 @@
           place — you chat, it answers — with one difference that changes how you'll work day to day.</p>
         <p class="body"><strong>Claude Cowork runs on your own machine, with your real files and tools.</strong>
           It is built for the work you do, with pre-built Magic skill templates ready from day one.</p>
+
+        <button class="voiceover-btn voiceover-btn--inline" type="button"
+          data-voiceover-src="assets/voice/01 - whats different.mp3"
+          data-voiceover-label="what's different about Claude"
+          aria-pressed="false"
+          aria-label="Play voiceover for what's different about Claude">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
       </div>
 
       <div class="col col--table">
@@ -201,8 +230,25 @@
       <p class="lede lede--inverse">Cowork completes tasks end-to-end — reading your files, working through each step,
         and saving finished results. Think of it as a coworker who can think, click, and get things done.</p>
 
-      <img loading="lazy" src="assets/cowork-thumbnail.gif" alt="Cowork in action" class="shot shot--wide"
-        style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+      <div class="cw-gif-wrap">
+        <!-- Voiceover, tucked just above the gif's top-right corner so it sits
+             inline with the lede paragraph above without displacing any element. -->
+        <button class="voiceover-btn voiceover-btn--cw-lede voiceover-btn--on-dark" type="button"
+          data-voiceover-src="assets/voice/02 - intro to cowork.mp3"
+          data-voiceover-label="the introduction to Claude Cowork"
+          aria-pressed="false"
+          aria-label="Play voiceover for the introduction to Claude Cowork">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+        <img loading="lazy" src="assets/cowork-thumbnail.gif" alt="Cowork in action" class="shot shot--wide"
+          style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+      </div>
 
       <ul class="cw-only">
         <li class="cw-mi cw-mi--folder">
@@ -266,12 +312,14 @@
            tab 2: the Cowork interface guide (ported from the standalone
            "Cowork UI Guide" artifact). Tab switching lives in js/ui.js;
            styles are namespaced .qs-* / .ig-* in css/styles.css. -->
-      <div class="qs-tabs" id="quickstartTabs">
-        <div class="qs-tabs__rail" role="tablist" aria-label="Quickstart">
-          <button class="qs-tab is-active" data-qs="need" role="tab" aria-selected="true" type="button">Minimum
-            requirements</button>
-          <button class="qs-tab" data-qs="interface" role="tab" aria-selected="false" type="button">Interface
-            guide</button>
+      <div class="qs-tabs" id="quickstartTabs" data-active-qs="need">
+        <div class="qs-tabs__head">
+          <div class="qs-tabs__rail" role="tablist" aria-label="Quickstart">
+            <button class="qs-tab is-active" data-qs="need" role="tab" aria-selected="true" type="button">Minimum
+              requirements</button>
+            <button class="qs-tab" data-qs="interface" role="tab" aria-selected="false" type="button">Interface
+              guide</button>
+          </div>
         </div>
 
         <!-- TAB 1 · What you need (unchanged) -->
@@ -292,8 +340,27 @@
 
           <!-- Two setup videos: the local screen-recording walkthrough first,
                then the YouTube overview below it. -->
-          <video src="assets/setup-guide.mp4" controls playsinline preload="metadata"
-            style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:48px auto 12px;position:relative;z-index:2;background:#000;"></video>
+          <div class="qs-need-vid">
+            <!-- Voiceover, tucked just above the first video's top-right corner
+                 (in line with the last checklist item) without displacing the
+                 checklist or the video — it is out of flow, anchored to the
+                 video. Lives in this panel, so it only shows on this tab. -->
+            <button class="voiceover-btn voiceover-btn--qs-need" data-qs="need" type="button"
+              data-voiceover-src="assets/voice/03- requirements.mp3"
+              data-voiceover-label="the minimum requirements"
+              aria-pressed="false"
+              aria-label="Play voiceover for the minimum requirements">
+              <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                <path class="vo-cone"
+                  d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+              </svg>
+            </button>
+            <video src="assets/setup-guide.mp4" controls playsinline preload="metadata"
+              style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:48px auto 12px;position:relative;z-index:2;background:#000;"></video>
+          </div>
           <p class="cw-caption" style="margin-bottom:24px;">Setup demo will be updated soon. Getting the Claude
             invite link from your magicassistant.ai webmail is the correct and current process.</p>
 
@@ -400,12 +467,29 @@
                 </div>
               </div>
 
-              <!-- Screen switcher: below the image, bottom-right -->
-              <div class="ig-switch" role="tablist" aria-label="Interface screens">
-                <button class="ig-switch__btn is-active" data-screen="home" role="tab" aria-selected="true"
-                  type="button">Home screen</button>
-                <button class="ig-switch__btn" data-screen="task" role="tab" aria-selected="false" type="button">Inside
-                  a task</button>
+              <!-- Screen switcher: below the image, bottom-right. Voiceover
+                   sits inline to its left and narrates THIS screen; audio
+                   stops when the screen switches (js/ui.js Voiceover.stop). -->
+              <div class="ig-switch-row">
+                <button class="voiceover-btn voiceover-btn--ig" type="button"
+                  data-voiceover-src="assets/voice/04 - home interface.mp3"
+                  data-voiceover-label="the home screen"
+                  aria-pressed="false"
+                  aria-label="Play voiceover for the home screen">
+                  <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                    <path class="vo-cone"
+                      d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                    <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                    <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                    <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+                  </svg>
+                </button>
+                <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                  <button class="ig-switch__btn is-active" data-screen="home" role="tab" aria-selected="true"
+                    type="button">Home screen</button>
+                  <button class="ig-switch__btn" data-screen="task" role="tab" aria-selected="false" type="button">Inside
+                    a task</button>
+                </div>
               </div>
 
               <!-- Hidden content source for the tooltips -->
@@ -554,12 +638,29 @@
                 </div>
               </div>
 
-              <!-- Screen switcher: below the image, bottom-right -->
-              <div class="ig-switch" role="tablist" aria-label="Interface screens">
-                <button class="ig-switch__btn" data-screen="home" role="tab" aria-selected="false" type="button">Home
-                  screen</button>
-                <button class="ig-switch__btn is-active" data-screen="task" role="tab" aria-selected="true"
-                  type="button">Inside a task</button>
+              <!-- Screen switcher: below the image, bottom-right. Voiceover
+                   sits inline to its left and narrates THIS screen; audio
+                   stops when the screen switches (js/ui.js Voiceover.stop). -->
+              <div class="ig-switch-row">
+                <button class="voiceover-btn voiceover-btn--ig" type="button"
+                  data-voiceover-src="assets/voice/05 - inside a task.mp3"
+                  data-voiceover-label="inside a task"
+                  aria-pressed="false"
+                  aria-label="Play voiceover for inside a task">
+                  <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                    <path class="vo-cone"
+                      d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                    <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                    <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                    <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+                  </svg>
+                </button>
+                <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                  <button class="ig-switch__btn" data-screen="home" role="tab" aria-selected="false" type="button">Home
+                    screen</button>
+                  <button class="ig-switch__btn is-active" data-screen="task" role="tab" aria-selected="true"
+                    type="button">Inside a task</button>
+                </div>
               </div>
 
               <!-- Hidden content source for the tooltips -->
@@ -1092,6 +1193,19 @@
           </svg>
         </div>
         <div class="cowork-hero__card">
+          <button class="voiceover-btn voiceover-btn--corner" type="button"
+            data-voiceover-src="assets/voice/06 - using cowork.mp3"
+            data-voiceover-label="using Claude Cowork"
+            aria-pressed="false"
+            aria-label="Play voiceover for using Claude Cowork">
+            <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+              <path class="vo-cone"
+                d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+              <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+              <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+              <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+            </svg>
+          </button>
           <article class="card reach reach--cowork">
             <p class="reach__tag">Always use Cowork</p>
             <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes.
@@ -1120,7 +1234,22 @@
 
     <div class="container container--narrow">
       <p class="kicker" style="margin-top:96px">How a Cowork task runs</p>
-      <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
+      <div class="dr-head">
+        <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
+        <button class="voiceover-btn" type="button"
+          data-voiceover-src="assets/voice/07 - how a task runs.mp3"
+          data-voiceover-label="how a Cowork task runs"
+          aria-pressed="false"
+          aria-label="Play voiceover for how a Cowork task runs">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+      </div>
       <div style="display:flex;gap:20px;align-items:center;margin-top:24px;margin-bottom:40px;">
         <div class="dr" id="delegateRun" style="width:57%;"
           aria-label="Interactive: how a Cowork task runs, step by step">
@@ -1213,10 +1342,28 @@
     <div class="container container--narrow" style="margin-top:96px;">
       <p class="kicker">Context Window</p>
       <h3 class="h3 h3--block">Claude's working memory. It has a <span class="grad">limit</span>.</h3>
-      <p class="body body--lead">Every session holds a fixed amount of input. When it fills, older context drops off and
-        quality degrades.</p>
+      <div class="cw-lead-head">
+        <p class="body body--lead">Every session holds a fixed amount of input. When it fills, older context drops off and
+          quality degrades.</p>
+      </div>
 
       <div class="cw-grid">
+        <!-- Voiceover, anchored directly above the top-right corner of the
+             "How to manage it" card (the rightmost grid card). Out of flow, so
+             the cards and lead paragraph don't move. -->
+        <button class="voiceover-btn voiceover-btn--cw-grid" type="button"
+          data-voiceover-src="assets/voice/08 - context window.mp3"
+          data-voiceover-label="the context window"
+          aria-pressed="false"
+          aria-label="Play voiceover for the context window">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
         <div class="card">
           <p class="kicker">What it is</p>
           <p>A rolling window of everything Claude can see — your prompts, its replies, attached files, tool calls.
@@ -1282,7 +1429,7 @@
       <div class="aurora aurora--dark-mid aurora--dark-mid1" aria-hidden="true"></div>
       <div class="aurora aurora--dark-mid aurora--dark-mid2" aria-hidden="true"></div>
       <div class="aurora aurora--dark-mid aurora--dark-mid3" aria-hidden="true"></div>
-      <div class="container container--narrow">
+      <div class="container container--narrow" id="skills">
         <p class="kicker" style="margin-top:0">Skills</p>
         <h3 class="h3 h3--block">Reusable task templates, ready to call.</h3>
         <p class="body">Instead of prompting from scratch every time, call a skill and Claude loads the right approach
@@ -1432,7 +1579,7 @@
       </div>
 
 
-      <div class="container container--narrow">
+      <div class="container container--narrow" id="connectors">
         <!-- CONNECTORS subsection -->
         <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 44px;">
         <p class="kicker" style="margin-top:0">Connectors</p>
@@ -3400,6 +3547,7 @@
        copy buttons, help router, smooth-scroll. Both run after the DOM is parsed. -->
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/voiceover.js"></script>
 
 
 
@@ -3419,6 +3567,10 @@
       </li>
       <li class="toc__item"><a href="#cowork"><span class="toc__dot"></span><span class="toc__label">Using
             Cowork</span></a></li>
+      <li class="toc__item"><a href="#skills"><span class="toc__dot"></span><span
+            class="toc__label">Skills</span></a></li>
+      <li class="toc__item"><a href="#connectors"><span class="toc__dot"></span><span
+            class="toc__label">Connectors</span></a></li>
       <li class="toc__item"><a href="#prompting"><span class="toc__dot"></span><span
             class="toc__label">Prompting</span></a></li>
       <li class="toc__item"><a href="#model"><span class="toc__dot"></span><span class="toc__label">Model</span></a>

@@ -4479,10 +4479,20 @@ button {
 .toc {
   position: fixed;
   right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
+  /* Bottom-anchored: the list's bottom edge (Feedback) stays fixed where the
+     original 11-item list ended, so adding items extends the list UPWARD
+     (What's Different moves up) without shifting Feedback. */
+  top: auto;
+  bottom: calc(50% - 314px);
   z-index: 900;
   padding: 16px 4px 16px 12px;
+}
+
+/* Subsection anchor targets (TOC: Skills / Connectors) — clear the fixed
+   topbar so the heading isn't hidden when jumped to. */
+#skills,
+#connectors {
+  scroll-margin-top: 90px;
 }
 
 .toc__list {
@@ -5086,6 +5096,12 @@ body {
   margin: 0 auto;
 }
 
+/* What's different: pull the "Completed" button up so it sits directly beneath
+   the comparison table rather than floating below the voice-button whitespace. */
+#intro .section-gate-footer {
+  padding-top: 12px;
+}
+
 .section-complete-btn {
   display: inline-flex;
   align-items: center;
@@ -5435,9 +5451,13 @@ img:not(.mark) {
   background-image: none !important;
 }
 
-/* Restore overflow:hidden so aurora clips to dark-band bounds */
+/* Clip the aurora glows to the dark-band bounds. Use `clip` rather than
+   `hidden`: both clip identically, but `hidden` makes the band a scroll
+   container, so jumping to an in-band anchor (#skills / #connectors) scrolled
+   the band internally and shoved/cropped its content. `clip` is not a scroll
+   container, so anchor navigation only scrolls the page. */
 .dark-band {
-  overflow: hidden !important;
+  overflow: clip !important;
 }
 
 /* Lift content above aurora */
@@ -7587,4 +7607,296 @@ html.cd-unlocked .cd-lock { display: none !important; }
   .cd-lock__card { padding: 32px 24px 26px; }
   .cd-lock__field { flex-direction: column; }
   .cd-lock__btn { justify-content: center; }
+}
+
+
+/* ============================ Voiceover button ============================ */
+/* Reusable narration control — a perfect circle holding only the speaker
+   icon (see js/voiceover.js). The three sound-wave arcs animate while the
+   clip plays. The --on-dark modifier flips it for dark bands. */
+.voiceover-btn {
+  --vo-accent: var(--violet);
+  --vo-size: 53px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--vo-size);
+  height: var(--vo-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--vo-accent);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.voiceover-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-lift);
+}
+
+.voiceover-btn:active {
+  transform: translateY(0) scale(1);
+}
+
+.voiceover-btn:focus-visible {
+  outline: 3px solid var(--aurora-cy);
+  outline-offset: 3px;
+}
+
+/* Inside the Magic Benefit card — upper-right corner, inline with the
+   "YOUR MAGIC BENEFIT" kicker. Colours are inverted vs the default button
+   in its normal state: white fill, violet icon. (Playing state still flips
+   to the shared Claude-orange so "now playing" reads the same everywhere.) */
+.voiceover-btn--benefit {
+  position: absolute;
+  top: 37px; /* vertically centred on the kicker */
+  right: 44px;
+  z-index: 2;
+  background: #fff;
+  color: var(--violet);
+}
+
+.voiceover-btn--benefit.is-playing {
+  background: var(--claude-orange);
+  color: #fff;
+}
+
+/* Keep the kicker clear of the button on narrow cards. */
+.benefit-card__kicker { padding-right: 60px; }
+
+/* Inline placement (What's different copy column) — pinned to the bottom of
+   the copy text and taken out of flow so it never makes the copy column taller
+   than the comparison table beside it (which would push the "Completed"
+   footer button away from the table). The button still renders just below the
+   last paragraph, exactly as before. */
+.col--copy { position: relative; }
+.voiceover-btn--inline {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 16px;
+}
+
+/* Cowork lede voiceover — tucked just above the gif's top-right corner so it
+   reads as inline with the lede paragraph above, without displacing the gif,
+   the lede, or the feature cards (it is out of flow, anchored to the gif). */
+.cw-gif-wrap { position: relative; }
+.voiceover-btn--cw-lede {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 14px;
+  z-index: 2;
+}
+
+/* Quickstart "What you need" voiceover — tucked just above the first setup
+   video's top-right corner (in line with the last checklist item). The wrapper
+   carries the video's top margin, so the video and checklist don't move; the
+   button is out of flow, anchored to the video. */
+.qs-need-vid { position: relative; }
+.voiceover-btn--qs-need {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 18px; /* in the gap above the video, in line with the last item */
+  z-index: 3;
+}
+
+/* Corner placement — right-aligned and tucked just above the top-right
+   corner of the card it precedes (e.g. the "Always use Cowork" card). The
+   negative top margin offsets the positive bottom margin so the button adds the
+   same height as before: the card and image beside it don't move, but there is
+   now clear padding between the button and the card instead of an overlap. */
+.voiceover-btn--corner {
+  display: flex;
+  margin-left: auto;
+  margin-top: -26px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Quickstart header — tab rail on the left, voiceover inline on the right.
+   The voiceover is taken out of flow and centred on the rail so the header
+   keeps the rail's exact height and the panel below doesn't move at all. */
+.qs-tabs__head {
+  position: relative;
+  margin-bottom: 36px; /* the gap the rail used to carry */
+}
+
+.qs-tabs__head .qs-tabs__rail {
+  margin-bottom: 0;
+}
+
+.qs-tabs__vo {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+}
+
+/* Narrow screens: drop the voiceover into flow (right-aligned, below the
+   rail) so it can never overlap the tab pill. */
+@media (max-width: 760px) {
+  .qs-tabs__head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .qs-tabs__vo { position: static; transform: none; margin-left: auto; }
+}
+
+/* Only the active tab's voiceover button is shown; the other is hidden
+   so switching tabs can't leave a stale control or stray playback. */
+.qs-tabs__vo .voiceover-btn { display: none; }
+
+.qs-tabs[data-active-qs="need"] .qs-tabs__vo .voiceover-btn[data-qs="need"],
+.qs-tabs[data-active-qs="interface"] .qs-tabs__vo .voiceover-btn[data-qs="interface"] {
+  display: inline-flex;
+}
+
+/* Interface-guide screen switcher row — voiceover inline to the left of the
+   switcher, both grouped bottom-right. Row carries the switcher's old
+   margins so nothing below shifts. */
+.ig-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin: 18px 0 28px; /* was on .ig-switch */
+}
+
+.ig-switch-row .ig-switch {
+  margin: 0; /* spacing now lives on the row */
+}
+
+.voiceover-btn--ig {
+  --vo-size: 46px; /* trimmer, to pair with the compact switcher pill */
+  flex: none;
+}
+
+/* "Delegate, but stay in control." heading row — voiceover sits inline at
+   the right edge, vertically centred on the heading. Taken out of flow so
+   the heading and everything around it stay exactly put. */
+.dr-head {
+  position: relative;
+}
+
+.dr-head .voiceover-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 760px) {
+  .dr-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px; /* carry the heading's bottom gap */
+  }
+  .dr-head .h3--block { margin-bottom: 0; }
+  .dr-head .voiceover-btn { position: static; transform: none; }
+}
+
+/* Context Window lead paragraph — voiceover sits inline at the right, in the
+   container's side gutter, vertically centred on the paragraph. Out of flow
+   so nothing around it moves. */
+.cw-lead-head {
+  position: relative;
+}
+
+/* Voiceover anchored directly above the top-right corner of the "How to manage
+   it" card (the rightmost grid card). The grid is the positioning context; the
+   button is out of flow, so the cards and lead paragraph don't move. */
+.cw-grid { position: relative; }
+.voiceover-btn--cw-grid {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 21px; /* 1.5x the standard gap, per request */
+  z-index: 3;
+}
+
+/* Speaker icon — fills ~52% of the circle */
+.voiceover-btn__icon {
+  width: 52%;
+  height: 52%;
+  display: block;
+  overflow: visible;
+}
+
+.vo-cone {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.vo-wave {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.45;             /* dimmed at rest, lit up when playing */
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: opacity .2s ease;
+}
+
+/* Playing — accent shifts and the waves pulse outward in sequence */
+.voiceover-btn.is-playing {
+  --vo-accent: var(--claude-orange);
+}
+
+.voiceover-btn.is-playing .vo-wave {
+  opacity: 1;
+  animation: vo-wave 1.3s ease-in-out infinite;
+}
+
+.voiceover-btn.is-playing .vo-wave--1 { animation-delay: 0s; }
+.voiceover-btn.is-playing .vo-wave--2 { animation-delay: 0.18s; }
+.voiceover-btn.is-playing .vo-wave--3 { animation-delay: 0.36s; }
+
+@keyframes vo-wave {
+  0%, 100% { opacity: 0.3; transform: scale(0.92); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voiceover-btn,
+  .voiceover-btn:hover { transition: none; transform: none; }
+  .voiceover-btn.is-playing .vo-wave { animation: none; opacity: 1; }
+}
+
+/* Unavailable (missing audio) — muted, non-interactive */
+.voiceover-btn.is-unavailable,
+.voiceover-btn:disabled {
+  background: var(--bg-wash);
+  color: var(--ink-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.voiceover-btn.is-unavailable .vo-wave { opacity: 0.45; animation: none; }
+
+.voiceover-btn.is-unavailable:hover,
+.voiceover-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* On dark bands (e.g. #cowork-intro) */
+.voiceover-btn--on-dark:focus-visible { outline-color: #fff; }
+
+.voiceover-btn--on-dark.is-unavailable,
+.voiceover-btn--on-dark:disabled {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--on-dark-mute);
 }
