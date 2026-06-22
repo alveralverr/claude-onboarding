@@ -2390,9 +2390,9 @@ button {
 }
 
 .cowork-hero__img {
-  /* +5px vs the card: the chat-vs-Cowork animation expands, the
-     "Always use Cowork" card (flex:1) gives up 5px to match. */
-  flex: 0 0 calc(62% + 5px);
+  /* +10px vs the card: the chat-vs-Cowork animation expands, the
+     "Always use Cowork" card (flex:1) gives up 10px to match. */
+  flex: 0 0 calc(62% + 10px);
 }
 
 .cowork-hero__img img {
