@@ -1,25 +1,44 @@
 # Paths excluded from the Cloudflare Workers static-assets upload.
-# wrangler scans the assets directory (the repo root) and rejects any single
-# file >25 MiB. Git internals contain the large media history (a ~110 MiB pack),
-# so .git must be excluded or the deploy fails with "Asset too large".
-# Patterns use .gitignore syntax.
+#
+# wrangler deploy scans the assets directory (here, the repo root) and rejects
+# any single file > 25 MiB. When Cloudflare clones the repo it can create a Git
+# pack file > 25 MiB inside .git/objects/pack/ (the large media lives in
+# history), which fails the build with "Asset too large" even though no served
+# file is that big. See cloudflare/workerd#4336.
+#
+# Patterns use .gitignore syntax. We exclude .git every way it can match AND the
+# pack files by extension (belt-and-suspenders — the extension rules guarantee
+# the oversized pack is dropped regardless of directory-match edge cases).
 
-# Git internals (the cause of the "Asset too large" 110 MiB pack error)
+# --- Git internals (the actual cause of the error) ---
 .git
+.git/
+**/.git
+**/.git/
+**/.git/**
+*.pack
+*.idx
+*.rev
+*.bitmap
 
-# Wrangler's own files / config (not part of the site)
+# --- Wrangler / tooling files (not part of the site) ---
+.wrangler
+.wrangler/
+**/.wrangler/**
 .gitignore
 .assetsignore
 wrangler.jsonc
 wrangler.toml
 node_modules
+node_modules/
+**/node_modules/**
 
-# Editor / OS cruft
+# --- Editor / OS cruft ---
 .DS_Store
 **/.DS_Store
 
-# Internal docs — not served to users
+# --- Internal docs — not served to users ---
 *.md
 
-# Archived originals kept for reversibility, but not served (saves ~35 MB)
+# --- Archived originals kept for reversibility, but not served (saves ~35 MB) ---
 assets/_archive
