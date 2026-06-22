@@ -1290,3 +1290,57 @@
     initGuideReveal();
   }
 })();
+
+/* ── "How it stacks up" compare table — auto-cycle the spotlight ── */
+(function () {
+  function initCompareCycle() {
+    var group = document.querySelector('.compare__focus');
+    if (!group) return;
+    var radios = Array.prototype.slice.call(group.querySelectorAll('.cmp-radio'));
+    if (radios.length < 2) return;
+
+    var INTERVAL = 2000;   /* switch every 2.0s */
+    var timer = null;
+    var userTookOver = false;
+
+    function checkedIndex() {
+      for (var i = 0; i < radios.length; i++) { if (radios[i].checked) return i; }
+      return -1;
+    }
+    function advance() {
+      var next = radios[(checkedIndex() + 1) % radios.length];
+      next.checked = true;
+      /* spotlight is driven by :checked CSS; notify any listeners just in case */
+      next.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    function start() { if (!timer && !userTookOver) { timer = setInterval(advance, INTERVAL); } }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    /* if the user picks a tool themselves, stop fighting them */
+    radios.forEach(function (r) {
+      r.addEventListener('change', function (e) {
+        if (e.isTrusted) { userTookOver = true; stop(); }
+      });
+    });
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;    /* honor reduced-motion: no auto-switching */
+
+    /* run only while the table is on screen */
+    if ('IntersectionObserver' in window) {
+      var card = group.closest('.compare') || group;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { start(); } else { stop(); } });
+      }, { threshold: 0.25 });
+      io.observe(card);
+    } else {
+      start();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompareCycle);
+  } else {
+    initCompareCycle();
+  }
+})();
