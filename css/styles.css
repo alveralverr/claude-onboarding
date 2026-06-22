@@ -273,6 +273,15 @@ button {
   align-items: start;
 }
 
+/* Nudge the column boundary 5px toward the table: copy card +5px wide,
+   table card -5px wide. Net shift is zero so the 44px gap is preserved, the
+   "How it stacks up" table shrinks 5px and the left paragraph expands.
+   Two-column layout only (stacks below 1025px). */
+@media (min-width: 1025px) {
+  .container--two > .col--copy  { width: calc(100% + 5px); justify-self: start; }
+  .container--two > .col--table { width: calc(100% - 5px); justify-self: end; }
+}
+
 /* ============================ Type ============================ */
 .kicker {
   font-size: 14px;
@@ -1987,12 +1996,12 @@ button {
   color: var(--violet);
 }
 
-/* Nudge the column boundary 5px toward the tips card: trip card +5px wide,
-   tip card -5px wide. Net shift is zero so the 12px gap is preserved.
+/* Nudge the column boundary 10px toward the tips card: trip card +10px wide,
+   tip card -10px wide. Net shift is zero so the 12px gap is preserved.
    Two-column layout only (stacked layout below 1024px resets to full width). */
 @media (min-width: 1025px) {
-  .tips-grid .tips-card--tip  { width: calc(100% - 5px); justify-self: start; }
-  .tips-grid .tips-card--trip { width: calc(100% + 5px); justify-self: end; }
+  .tips-grid .tips-card--tip  { width: calc(100% - 10px); justify-self: start; }
+  .tips-grid .tips-card--trip { width: calc(100% + 10px); justify-self: end; }
 }
 
 /* 2-col resource grid */
@@ -2381,7 +2390,9 @@ button {
 }
 
 .cowork-hero__img {
-  flex: 0 0 62%;
+  /* +5px vs the card: the chat-vs-Cowork animation expands, the
+     "Always use Cowork" card (flex:1) gives up 5px to match. */
+  flex: 0 0 calc(62% + 5px);
 }
 
 .cowork-hero__img img {
@@ -3400,7 +3411,7 @@ button {
 /* ---------- Flow (how a task runs) ---------- */
 .flow-note {
   margin-top: 16px;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--ink-support);
   line-height: 1.55;
 }
