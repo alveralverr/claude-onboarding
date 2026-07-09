@@ -1,0 +1,3601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Claude for Magic Assistants — Onboarding Playbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
+</head>
+
+<body>
+
+  <!-- =========================================================
+     EDITING NOTES (v5)
+     - Content is the v5 source of truth. All copy lives in this
+       file as semantic HTML — search the phrase and edit in place.
+     - SETUP is a tabbed element (.setup-tabs). Each tab pairs a
+       button[data-tab] with a panel[data-panel]; panels carry a
+       data-step-id used to persist checkbox state + mark the tab
+       "done" when fully checked.
+     - IMAGE PLACEHOLDERS are <div class="shot"> blocks. The user
+       will drop real screenshots in. The monospace label names the
+       source file from the Notion export (image.png, image 1.png…).
+     - Subtle Claude co-brand: --claude-orange + --claude-beige are
+       used sparingly (Claude wordmark, compare column, setup tab
+       rail, one callout style). Magic violet stays dominant.
+     - Copy-prompt blocks are <code class="prompt" data-copy>.
+     - State/progress/gating live in js/ui.js (single source of truth).
+       Tab nav, copy buttons, help router, smooth-scroll live in js/app.js.
+     ========================================================= -->
+
+  <!-- ============== HERO ============== -->
+  <header class="hero">
+    <div class="aurora aurora--hero" aria-hidden="true"></div>
+    <div class="hero__wash" aria-hidden="true"></div>
+
+    <nav class="topbar">
+      <a class="topbar__brand" href="#" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Back to top">
+        <svg class="mark mark--claude" viewBox="75 223 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="Claude">
+          <path fill="currentColor"
+            d="m 105.01,322.07 29.14,-16.35 0.49,-1.42 -0.49,-0.79 h -1.42 l -4.87,-0.3 -16.65,-0.45 -14.44,-0.6 -13.99,-0.75 -3.52,-0.75 -3.3,-4.35 0.34,-2.17 2.96,-1.99 4.24,0.37 9.37,0.64 14.06,0.97 10.2,0.6 15.11,1.57 h 2.4 l 0.34,-0.97 -0.82,-0.6 -0.64,-0.6 -14.55,-9.86 -15.75,-10.42 -8.25,-6 -4.46,-3.04 -2.25,-2.85 -0.97,-6.22 4.05,-4.46 5.44,0.37 1.39,0.37 5.51,4.24 11.77,9.11 15.37,11.32 2.25,1.87 0.9,-0.64 0.11,-0.45 -1.01,-1.69 -8.36,-15.11 -8.92,-15.37 -3.97,-6.37 -1.05,-3.82 c -0.37,-1.57 -0.64,-2.89 -0.64,-4.5 l 4.61,-6.26 2.55,-0.82 6.15,0.82 2.59,2.25 3.82,8.74 6.19,13.76 9.6,18.71 2.81,5.55 1.5,5.14 0.56,1.57 h 0.97 v -0.9 l 0.79,-10.54 1.46,-12.94 1.42,-16.65 0.49,-4.69 2.32,-5.62 4.61,-3.04 3.6,1.72 2.96,4.24 -0.41,2.74 -1.76,11.44 -3.45,17.92 -2.25,12 h 1.31 l 1.5,-1.5 6.07,-8.06 10.2,-12.75 4.5,-5.06 5.25,-5.59 3.37,-2.66 h 6.37 l 4.69,6.97 -2.1,7.2 -6.56,8.32 -5.44,7.05 -7.8,10.5 -4.87,8.4 0.45,0.67 1.16,-0.11 17.62,-3.75 9.52,-1.72 11.36,-1.95 5.14,2.4 0.56,2.44 -2.02,4.99 -12.15,3 -14.25,2.85 -21.22,5.02 -0.26,0.19 0.3,0.37 9.56,0.9 4.09,0.22 h 10.01 l 18.64,1.39 4.87,3.22 2.92,3.94 -0.49,3 -7.5,3.82 -10.12,-2.4 -23.62,-5.62 -8.1,-2.02 h -1.12 v 0.67 l 6.75,6.6 12.37,11.17 15.49,14.4 0.79,3.56 -1.99,2.81 -2.1,-0.3 -13.61,-10.24 -5.25,-4.61 -11.89,-10.01 h -0.79 v 1.05 l 2.74,4.01 14.47,21.75 0.75,6.67 -1.05,2.17 -3.75,1.31 -4.12,-0.75 -8.47,-11.89 -8.74,-13.39 -7.05,-12 -0.86,0.49 -4.16,44.81 -1.95,2.29 -4.5,1.72 -3.75,-2.85 -1.99,-4.61 1.99,-9.11 2.4,-11.89 1.95,-9.45 1.76,-11.74 1.05,-3.9 -0.07,-0.26 -0.86,0.11 -8.85,12.15 -13.46,18.19 -10.65,11.4 -2.55,1.01 -4.42,-2.29 0.41,-4.09 2.47,-3.64 14.74,-18.75 8.89,-11.62 5.74,-6.71 -0.04,-0.97 h -0.34 l -39.15,25.42 -6.97,0.9 -3,-2.81 0.37,-4.61 1.42,-1.5 11.77,-8.1 -0.04,0.04 z">
+          </path>
+        </svg>
+        <span class="topbar__x" aria-hidden="true">×</span>
+        <img loading="lazy" class="mark mark--magic" src="assets/magic-logo.png" alt="Magic">
+      </a>
+
+      <ul class="topbar__nav">
+        <li><a href="./">Home</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#cowork">Cowork</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#connectors">Connectors</a></li>
+        <li><a href="#prompting">Prompting</a></li>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#safety">Safety</a></li>
+        <li><a href="#learn">Learn</a></li>
+        <li><a href="#help">Help</a></li>
+        <li><a href="claude-design.html" class="topbar__nav-cta"><svg class="cta-spark" viewBox="0 0 24 24" fill="none"
+              aria-hidden="true">
+              <path
+                d="M12 2.5c.4 3.9 1.6 5.1 5.5 5.5-3.9.4-5.1 1.6-5.5 5.5-.4-3.9-1.6-5.1-5.5-5.5 3.9-.4 5.1-1.6 5.5-5.5Z"
+                fill="#fff" />
+              <path d="M18.5 13.5c.2 1.8.7 2.3 2.5 2.5-1.8.2-2.3.7-2.5 2.5-.2-1.8-.7-2.3-2.5-2.5 1.8-.2 2.3-.7 2.5-2.5Z"
+                fill="#fff" opacity=".75" />
+            </svg>Claude Design for MEA</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero__body">
+      <h1 class="display">Claude Cowork for Magic Assistants <span class="grad">Onboarding Guide</span></h1>
+      <p class="lede">Claude Cowork is Magic's new primary AI tool. This guide takes you from invite email to your first
+        real task. Complete every step before using Claude for client work.</p>
+
+      <div class="benefit-showcase">
+        <div class="benefit-card">
+          <div class="benefit-card__glow"></div>
+
+          <button class="voiceover-btn voiceover-btn--benefit" type="button"
+            data-voiceover-src="assets/voice/00 - intro.mp3"
+            data-voiceover-label="the intro and your Magic benefit"
+            aria-pressed="false"
+            aria-label="Play voiceover for the intro and your Magic benefit">
+            <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+              <path class="vo-cone"
+                d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+              <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+              <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+              <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+            </svg>
+          </button>
+
+          <p class="benefit-card__kicker">Your Magic benefit</p>
+          <p class="benefit-card__label" style="margin-bottom:10px;margin-top:2px;">access to a Claude Team Standard
+            seat worth</p>
+          <div class="benefit-card__value">
+            <span class="benefit-card__currency">₱</span>
+            <span class="benefit-card__amount">1,500</span>
+            <span class="benefit-card__period">/month</span>
+          </div>
+          <div class="benefit-card__chips">
+            <span class="benefit-card__chip">Claude Cowork</span>
+            <span class="benefit-card__chip">Your local files as context</span>
+            <span class="benefit-card__chip">Latest frontier models</span>
+            <span class="benefit-card__chip">All Magic skills</span>
+            <span class="benefit-card__chip">App Connectors</span>
+            <span class="benefit-card__chip">Claude Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ============== WHAT'S DIFFERENT ============== -->
+  <section class="section section--intro" id="intro" data-gate-section="intro">
+    <div class="container container--two">
+      <div class="col col--copy">
+        <p class="kicker" style="font-size:16px">What's different about Claude</p>
+        <h2 class="h2">Claude <span class="grad">does things</span>, not just answers requests.</h2>
+        <p class="body">You may have used MagicGPT and ChatGPT. Claude sits in the same
+          place — you chat, it answers — with one difference that changes how you'll work day to day.</p>
+        <p class="body"><strong>Claude Cowork runs on your own machine, with your real files and tools.</strong>
+          It is built for the work you do, with pre-built Magic skill templates ready from day one.</p>
+
+        <button class="voiceover-btn voiceover-btn--inline" type="button"
+          data-voiceover-src="assets/voice/01 - whats different.mp3"
+          data-voiceover-label="what's different about Claude"
+          aria-pressed="false"
+          aria-label="Play voiceover for what's different about Claude">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="col col--table">
+        <div class="card compare" data-guide>
+          <div class="compare__head">
+            <p class="kicker kicker--muted">How it stacks up</p>
+            <div class="compare__focus" role="radiogroup" aria-label="Spotlight one tool">
+              <input type="radio" name="cmp-focus" id="cmp-magic" class="cmp-radio">
+              <label for="cmp-magic" class="cmp-chip">MagicGPT</label>
+              <input type="radio" name="cmp-focus" id="cmp-chat" class="cmp-radio">
+              <label for="cmp-chat" class="cmp-chip">ChatGPT</label>
+              <input type="radio" name="cmp-focus" id="cmp-claude" class="cmp-radio" checked>
+              <label for="cmp-claude" class="cmp-chip cmp-chip--claude">Claude</label>
+            </div>
+          </div>
+          <table class="compare__table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>MagicGPT</th>
+                <th>ChatGPT</th>
+                <th class="is-claude">Claude</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Works in your browser</td>
+                <td class="y">Yes</td>
+                <td class="y">Yes</td>
+                <td class="y is-claude">Yes</td>
+              </tr>
+              <tr>
+                <td>Works on your desktop</td>
+                <td class="n">—</td>
+                <td class="n">Companion window</td>
+                <td class="y is-claude">Full desktop app</td>
+              </tr>
+              <tr>
+                <td>Executes multi-step tasks</td>
+                <td class="n">—</td>
+                <td class="n">Cloud sandbox, capped monthly</td>
+                <td class="y is-claude">On your machine, built for sustained work</td>
+              </tr>
+              <tr>
+                <td>Works with your real files</td>
+                <td class="n">Upload or read your screen</td>
+                <td class="n">Upload or read your screen</td>
+                <td class="y is-claude">Reads and writes across your folders</td>
+              </tr>
+              <tr>
+                <td>Connected tools<br><small>Gmail · Calendar · Drive · Notion · Slack · Asana</small></td>
+                <td class="n">—</td>
+                <td class="n">Mostly read-only, one source at a time</td>
+                <td class="y is-claude">Reads and takes action, across sources</td>
+              </tr>
+              <tr>
+                <td>Tuned for EA work</td>
+                <td class="n">General</td>
+                <td class="n">Consumer tasks</td>
+                <td class="y is-claude">Pre-built Magic skill templates</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="intro">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== INTRODUCING COWORK — DARK BAND ============== -->
+  <section class="section section--dark" id="cowork-intro" data-gate-section="cowork-intro">
+    <div class="aurora aurora--dark" aria-hidden="true"></div>
+    <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+    <div class="container">
+      <p class="kicker kicker--cyan">Introducing Claude Cowork</p>
+      <h2 class="h2 h2--inverse">Less chatbot, more like a <span class="grad">colleague</span>.</h2>
+      <p class="lede lede--inverse">Cowork completes tasks end-to-end — reading your files, working through each step,
+        and saving finished results. Think of it as a coworker who can think, click, and get things done.</p>
+
+      <div class="cw-gif-wrap">
+        <!-- Voiceover, tucked just above the gif's top-right corner so it sits
+             inline with the lede paragraph above without displacing any element. -->
+        <button class="voiceover-btn voiceover-btn--cw-lede voiceover-btn--on-dark" type="button"
+          data-voiceover-src="assets/voice/02 - intro to cowork.mp3"
+          data-voiceover-label="the introduction to Claude Cowork"
+          aria-pressed="false"
+          aria-label="Play voiceover for the introduction to Claude Cowork">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+        <img loading="lazy" src="assets/cowork-thumbnail.gif" alt="Cowork in action" class="shot shot--wide"
+          style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+      </div>
+
+      <ul class="cw-only">
+        <li class="cw-mi cw-mi--folder">
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+              <path class="cw-fold-arrow" stroke-linecap="round" stroke-linejoin="round"
+                d="M12 9.6v4.4m0 0l-1.8-1.8M12 14l1.8-1.8" />
+            </svg></div>
+          <div>
+            <strong>Access your local folders</strong>
+            <span>Reads and writes files directly on your computer. No uploading — output saves next to your
+              inputs.</span>
+          </div>
+        </li>
+        <li class="cw-mi cw-mi--parallel">
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect x="3" y="10.5" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.22" />
+              <rect class="cw-lane cw-lane--1" x="3" y="5" width="18" height="3" rx="1.5" fill="currentColor" />
+              <rect class="cw-lane cw-lane--2" x="3" y="10.5" width="18" height="3" rx="1.5" fill="currentColor" />
+              <rect class="cw-lane cw-lane--3" x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" />
+            </svg></div>
+          <div>
+            <strong>Delegate parallel work</strong>
+            <span>Splits multi-part tasks and runs the independent pieces simultaneously.</span>
+          </div>
+        </li>
+        <li class="cw-mi cw-mi--clock">
+          <div class="cw-only__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="9" />
+              <line class="cw-hand cw-hand--h" x1="12" y1="12" x2="12" y2="7.8" stroke-linecap="round" />
+              <line class="cw-hand cw-hand--m" x1="12" y1="12" x2="15.4" y2="13.6" stroke-linecap="round" />
+            </svg></div>
+          <div>
+            <strong>Run tasks on a schedule</strong>
+            <span>Set a cadence once — recurring work runs automatically.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="cowork-intro">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== QUICKSTART — WHAT YOU NEED ============== -->
+  <section class="section" id="need" data-gate-section="need" style="position:relative;min-height:820px;">
+    <!-- HERO GRAPH: remove canvas#heroGraph3D + script#heroGraph3D-init to disable -->
+    <canvas id="heroGraph3D" aria-hidden="true"
+      style="position:absolute;top:0;left:0;width:100%;height:calc(100% + 420px);z-index:0;opacity:0.25;"></canvas>
+    <div class="container container--narrow" style="position:relative;z-index:2;">
+      <p class="kicker">Quickstart</p>
+      <h2 class="h2">What you <span class="grad">need</span>.</h2>
+
+      <!-- QUICKSTART TABS — tab 1: what you need (checklist + video);
+           tab 2: the Cowork interface guide (ported from the standalone
+           "Cowork UI Guide" artifact). Tab switching lives in js/ui.js;
+           styles are namespaced .qs-* / .ig-* in css/styles.css. -->
+      <div class="qs-tabs" id="quickstartTabs" data-active-qs="need">
+        <div class="qs-tabs__head">
+          <div class="qs-tabs__rail" role="tablist" aria-label="Quickstart">
+            <button class="qs-tab is-active" data-qs="need" role="tab" aria-selected="true" type="button">Minimum
+              requirements</button>
+            <button class="qs-tab" data-qs="interface" role="tab" aria-selected="false" type="button">Interface
+              guide</button>
+          </div>
+        </div>
+
+        <!-- TAB 1 · What you need (unchanged) -->
+        <div class="qs-panel is-active" data-qs="need" role="tabpanel">
+          <ul class="checklist" data-step-id="need">
+            <li><label><input type="checkbox" data-cb-key="need-2"><span>Google Chrome</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>magicassistant.ai</strong>
+                  webmail (receive login credentials from your ALs)</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-0"><span>Your <strong>Claude.ai</strong> invite
+                  (follow link from inside your webmail inbox)</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-4"><span><strong>macOS 11 (Big Sur)</strong> or higher,
+                  or <strong>Windows 10</strong> or higher</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-1"><span><strong>Claude desktop</strong> installed
+                  (<a href="https://claude.com/download" target="_blank">claude.com/download</a>)</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="need-3"><span>Your webmail account signed into
+                  Claude desktop</span></label></li>
+          </ul>
+
+          <!-- Two setup videos: the local screen-recording walkthrough first,
+               then the YouTube overview below it. -->
+          <div class="qs-need-vid">
+            <!-- Voiceover, tucked just above the first video's top-right corner
+                 (in line with the last checklist item) without displacing the
+                 checklist or the video — it is out of flow, anchored to the
+                 video. Lives in this panel, so it only shows on this tab. -->
+            <button class="voiceover-btn voiceover-btn--qs-need" data-qs="need" type="button"
+              data-voiceover-src="assets/voice/03- requirements.mp3"
+              data-voiceover-label="the minimum requirements"
+              aria-pressed="false"
+              aria-label="Play voiceover for the minimum requirements">
+              <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                <path class="vo-cone"
+                  d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+              </svg>
+            </button>
+            <video src="assets/setup-guide.mp4" controls playsinline preload="metadata"
+              style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:48px auto 12px;position:relative;z-index:2;background:#000;"></video>
+          </div>
+          <p class="cw-caption" style="margin-bottom:24px;">Setup demo will be updated soon. Getting the Claude
+            invite link from your magicassistant.ai webmail is the correct and current process.</p>
+
+          <iframe src="https://www.youtube.com/embed/Lbml7IuGJYw" title="Getting started with Claude Cowork"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"
+            style="display:block;width:100%;aspect-ratio:1150/647;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);margin:0 auto 56px;position:relative;z-index:2;"></iframe>
+        </div>
+
+        <!-- TAB 2 · Interface guide -->
+        <div class="qs-panel" data-qs="interface" role="tabpanel">
+          <div class="ig" id="interfaceGuide">
+
+            <!-- Each .ig-screen owns its own pins, hidden content source
+                 (.ig-items), one popup tooltip (.ig-tip), and its own copy of
+                 the screen switcher (below the image, bottom-right). Clicking a
+                 pin pops a tooltip to its right showing the matching item
+                 (data-pin → data-item); js/ui.js handles toggle / outside-click
+                 close / edge-flip / blink. Switcher copies stay in sync. -->
+
+            <!-- ───────── SCREEN 1 · Home / new task ───────── -->
+            <div class="ig-screen is-active" data-screen="home">
+              <header class="ig__head">
+                <h3 class="ig__title">The Cowork desktop app, <span class="grad">explained</span>.</h3>
+                <p class="ig__sub">Every part of the screen, labelled — from the mode switcher to your project
+                  folder.</p>
+                <p class="ig__hint">
+                  <span class="ig__hint-cursor" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M5 2.5l13.5 7.8-5.8 1.4-1.6 6L5 2.5z" fill="currentColor" stroke="#fff"
+                        stroke-width="1.1" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <span class="ig__hint-text"><b>Tap any number</b> on the screenshot to reveal what it does.</span>
+                </p>
+              </header>
+
+              <!-- Pin positions are percentages calibrated to the screenshot,
+                   so they track the image at any size. -->
+              <div class="ig__shot">
+                <img loading="lazy" src="assets/cowork-interface.png"
+                  alt="Claude Cowork desktop app interface, labelled 1–18">
+                <!-- Lead-in arrow: flows from the hint chip (top-centre) down to pin 11.
+                     viewBox matches the screenshot pixels, so coords track the pins. -->
+                <svg class="ig-arrow" viewBox="0 0 2904 1710" fill="none" aria-hidden="true">
+                  <path class="ig-arrow__halo" d="M1452 40 C1560 210 1230 250 1000 360" />
+                  <path class="ig-arrow__line" d="M1452 40 C1560 210 1230 250 1000 360" />
+                  <g class="ig-arrow__head">
+                    <path class="ig-arrow__head-halo" d="M1099 371 L1000 360 L1054 276" />
+                    <path class="ig-arrow__head-line" d="M1099 371 L1000 360 L1054 276" />
+                  </g>
+                </svg>
+                <!-- sidebar pins -->
+                <button class="ig-pin" type="button" data-pin="1" aria-label="Reveal item 1"
+                  style="left:6.8%;top:2.3%;">1</button>
+                <button class="ig-pin" type="button" data-pin="2" aria-label="Reveal item 2"
+                  style="left:8.6%;top:7.4%;">2</button>
+                <button class="ig-pin" type="button" data-pin="3" aria-label="Reveal item 3"
+                  style="left:2.0%;top:12.4%;">3</button>
+                <button class="ig-pin" type="button" data-pin="4" aria-label="Reveal item 4"
+                  style="left:2.0%;top:15.5%;">4</button>
+                <button class="ig-pin" type="button" data-pin="5" aria-label="Reveal item 5"
+                  style="left:2.0%;top:18.6%;">5</button>
+                <button class="ig-pin" type="button" data-pin="6" aria-label="Reveal item 6"
+                  style="left:2.0%;top:21.7%;">6</button>
+                <button class="ig-pin" type="button" data-pin="7" aria-label="Reveal item 7"
+                  style="left:2.0%;top:24.9%;">7</button>
+                <button class="ig-pin" type="button" data-pin="8" aria-label="Reveal item 8"
+                  style="left:11.0%;top:30.3%;">8</button>
+                <button class="ig-pin" type="button" data-pin="9" aria-label="Reveal item 9"
+                  style="left:1.8%;top:96.8%;">9</button>
+                <!-- main-area pins -->
+                <button class="ig-pin" type="button" data-pin="10" aria-label="Reveal item 10"
+                  style="left:93.0%;top:2.3%;">10</button>
+                <button class="ig-pin ig-pin--lead" type="button" data-pin="11" aria-label="Reveal item 11"
+                  style="left:31.5%;top:24.8%;">11</button>
+                <button class="ig-pin" type="button" data-pin="12" aria-label="Reveal item 12"
+                  style="left:33.5%;top:29.3%;">12</button>
+                <button class="ig-pin" type="button" data-pin="13" aria-label="Reveal item 13"
+                  style="left:53.5%;top:37.0%;">13</button>
+                <button class="ig-pin" type="button" data-pin="14" aria-label="Reveal item 14"
+                  style="left:40.0%;top:43.8%;">14</button>
+                <button class="ig-pin" type="button" data-pin="15" aria-label="Reveal item 15"
+                  style="left:82.0%;top:43.8%;">15</button>
+                <button class="ig-pin" type="button" data-pin="16" aria-label="Reveal item 16"
+                  style="left:39.5%;top:50.4%;">16</button>
+                <button class="ig-pin" type="button" data-pin="17" aria-label="Reveal item 17"
+                  style="left:74.5%;top:50.4%;">17</button>
+                <button class="ig-pin" type="button" data-pin="18" aria-label="Reveal item 18"
+                  style="left:39.2%;top:55.7%;">18</button>
+
+                <!-- zone labels -->
+                <span class="ig-zone" style="left:9.5%;top:60%;">Sidebar</span>
+                <span class="ig-zone" style="left:60%;top:14%;">Composer &amp; Main Area</span>
+
+                <!-- popup tooltip (JS-populated + positioned) -->
+                <div class="ig-tip" role="dialog" aria-hidden="true">
+                  <span class="ig-tip__num"></span>
+                  <div class="ig-tip__body">
+                    <p class="ig-tip__title"></p>
+                    <p class="ig-tip__desc"></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen switcher: below the image, bottom-right. Voiceover
+                   sits inline to its left and narrates THIS screen; audio
+                   stops when the screen switches (js/ui.js Voiceover.stop). -->
+              <div class="ig-switch-row">
+                <button class="voiceover-btn voiceover-btn--ig" type="button"
+                  data-voiceover-src="assets/voice/04 - home interface.mp3"
+                  data-voiceover-label="the home screen"
+                  aria-pressed="false"
+                  aria-label="Play voiceover for the home screen">
+                  <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                    <path class="vo-cone"
+                      d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                    <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                    <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                    <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+                  </svg>
+                </button>
+                <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                  <button class="ig-switch__btn is-active" data-screen="home" role="tab" aria-selected="true"
+                    type="button">Home screen</button>
+                  <button class="ig-switch__btn" data-screen="task" role="tab" aria-selected="false" type="button">Inside
+                    a task</button>
+                </div>
+              </div>
+
+              <!-- Hidden content source for the tooltips -->
+              <div class="ig-items" hidden>
+                <div class="ig-item" data-item="1">
+                  <p class="ig-item__title">Window bar</p>
+                  <p class="ig-item__desc">Close or resize the app, collapse this sidebar, and search across your chats
+                    and tasks.</p>
+                </div>
+                <div class="ig-item" data-item="2">
+                  <p class="ig-item__title">Mode switcher</p>
+                  <p class="ig-item__desc">Switch between Chat, Cowork, and Code. Cowork is the mode that takes on whole
+                    tasks for you.</p>
+                </div>
+                <div class="ig-item" data-item="3">
+                  <p class="ig-item__title">New task</p>
+                  <p class="ig-item__desc">Start a fresh Cowork task with a clean slate.</p>
+                </div>
+                <div class="ig-item" data-item="4">
+                  <p class="ig-item__title">Projects</p>
+                  <p class="ig-item__desc">Workspaces tied to a folder on your computer, each with its own files,
+                    instructions, and memory.</p>
+                </div>
+                <div class="ig-item" data-item="5">
+                  <p class="ig-item__title">Scheduled</p>
+                  <p class="ig-item__desc">Tasks Claude runs automatically on a cadence you set — daily, weekly, or
+                    monthly.</p>
+                </div>
+                <div class="ig-item" data-item="6">
+                  <p class="ig-item__title">Live artifacts</p>
+                  <p class="ig-item__desc">Dashboards and trackers Claude builds that refresh with current data each
+                    time you open them.</p>
+                </div>
+                <div class="ig-item" data-item="7">
+                  <p class="ig-item__title">Customize</p>
+                  <p class="ig-item__desc">Add skills and connectors, set instructions, and manage your plugins and
+                    settings.</p>
+                </div>
+                <div class="ig-item" data-item="8">
+                  <p class="ig-item__title">Recents</p>
+                  <p class="ig-item__desc">Your recent tasks and chats. Click any one to pick up where you left off.</p>
+                </div>
+                <div class="ig-item" data-item="9">
+                  <p class="ig-item__title">Account &amp; profile</p>
+                  <p class="ig-item__desc">Your name, plan, and settings live here. Sign out from this menu.</p>
+                </div>
+                <div class="ig-item" data-item="10">
+                  <p class="ig-item__title">What's new</p>
+                  <p class="ig-item__desc">Release notes for the latest Claude features and updates.</p>
+                </div>
+                <div class="ig-item" data-item="11">
+                  <p class="ig-item__title">Home greeting</p>
+                  <p class="ig-item__desc">Your starting point each time you open a new task.</p>
+                </div>
+                <div class="ig-item" data-item="12">
+                  <p class="ig-item__title">Usage &amp; safety banner</p>
+                  <p class="ig-item__desc">Shows your current usage allowance and a link to learn how to use Cowork
+                    safely.</p>
+                </div>
+                <div class="ig-item" data-item="13">
+                  <p class="ig-item__title">Prompt input field</p>
+                  <p class="ig-item__desc">Type what you want done here. Be specific about the output and where to save
+                    it.</p>
+                </div>
+                <div class="ig-item" data-item="14">
+                  <p class="ig-item__title">Add context</p>
+                  <p class="ig-item__desc">Attach files, screenshots, or other context to your prompt with the plus
+                    button.</p>
+                </div>
+                <div class="ig-item" data-item="15">
+                  <p class="ig-item__title">Dictation</p>
+                  <p class="ig-item__desc">Speak your prompt out loud instead of typing it.</p>
+                </div>
+                <div class="ig-item" data-item="16">
+                  <p class="ig-item__title">Work in a project</p>
+                  <p class="ig-item__desc">Pick the folder Claude reads from and saves finished work back to.</p>
+                </div>
+                <div class="ig-item" data-item="17">
+                  <p class="ig-item__title">Model &amp; reasoning</p>
+                  <p class="ig-item__desc">Choose the Claude model and how hard it thinks. Higher effort uses more of
+                    your usage limit.</p>
+                </div>
+                <div class="ig-item" data-item="18">
+                  <p class="ig-item__title">Project picker</p>
+                  <p class="ig-item__desc">Search your projects, create a new one, or point Claude at a different
+                    folder.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ───────── SCREEN 2 · Inside a running task ───────── -->
+            <div class="ig-screen" data-screen="task">
+              <header class="ig__head">
+                <h3 class="ig__title">Inside a Cowork <span class="grad">task</span>.</h3>
+                <p class="ig__sub">What you'll see once a task is running — Claude's replies, the tools it uses, the
+                  skills it suggests, and the panel that tracks its progress.</p>
+              </header>
+
+              <div class="ig__shot">
+                <img loading="lazy" src="assets/cowork-session.png"
+                  alt="Claude Cowork active task session, labelled 1–14">
+                <!-- conversation pins -->
+                <button class="ig-pin" type="button" data-pin="1" aria-label="Reveal item 1"
+                  style="left:21.8%;top:2.6%;">1</button>
+                <button class="ig-pin" type="button" data-pin="2" aria-label="Reveal item 2"
+                  style="left:22.5%;top:13.6%;">2</button>
+                <button class="ig-pin" type="button" data-pin="3" aria-label="Reveal item 3"
+                  style="left:21.5%;top:19.8%;">3</button>
+                <button class="ig-pin" type="button" data-pin="4" aria-label="Reveal item 4"
+                  style="left:25.8%;top:32.8%;">4</button>
+                <button class="ig-pin" type="button" data-pin="5" aria-label="Reveal item 5"
+                  style="left:67.5%;top:41.2%;">5</button>
+                <button class="ig-pin" type="button" data-pin="6" aria-label="Reveal item 6"
+                  style="left:25.0%;top:49.6%;">6</button>
+                <!-- composer pins -->
+                <button class="ig-pin" type="button" data-pin="7" aria-label="Reveal item 7"
+                  style="left:29.1%;top:90.4%;">7</button>
+                <button class="ig-pin" type="button" data-pin="8" aria-label="Reveal item 8"
+                  style="left:25.2%;top:95.2%;">8</button>
+                <button class="ig-pin" type="button" data-pin="9" aria-label="Reveal item 9"
+                  style="left:68.1%;top:95.2%;">9</button>
+                <button class="ig-pin" type="button" data-pin="10" aria-label="Reveal item 10"
+                  style="left:73.8%;top:95.2%;">10</button>
+                <!-- task-panel pins -->
+                <button class="ig-pin" type="button" data-pin="11" aria-label="Reveal item 11"
+                  style="left:76.4%;top:2.6%;">11</button>
+                <button class="ig-pin" type="button" data-pin="12" aria-label="Reveal item 12"
+                  style="left:78.7%;top:9.0%;">12</button>
+                <button class="ig-pin" type="button" data-pin="13" aria-label="Reveal item 13"
+                  style="left:78.8%;top:29.8%;">13</button>
+                <button class="ig-pin" type="button" data-pin="14" aria-label="Reveal item 14"
+                  style="left:78.8%;top:46.5%;">14</button>
+
+                <!-- zone labels -->
+                <span class="ig-zone" style="left:46%;top:4.5%;">Conversation</span>
+                <span class="ig-zone" style="left:48%;top:85%;">Composer</span>
+                <span class="ig-zone" style="left:88%;top:60%;">Task Panel</span>
+
+                <!-- popup tooltip (JS-populated + positioned) -->
+                <div class="ig-tip" role="dialog" aria-hidden="true">
+                  <span class="ig-tip__num"></span>
+                  <div class="ig-tip__body">
+                    <p class="ig-tip__title"></p>
+                    <p class="ig-tip__desc"></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen switcher: below the image, bottom-right. Voiceover
+                   sits inline to its left and narrates THIS screen; audio
+                   stops when the screen switches (js/ui.js Voiceover.stop). -->
+              <div class="ig-switch-row">
+                <button class="voiceover-btn voiceover-btn--ig" type="button"
+                  data-voiceover-src="assets/voice/05 - inside a task.mp3"
+                  data-voiceover-label="inside a task"
+                  aria-pressed="false"
+                  aria-label="Play voiceover for inside a task">
+                  <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+                    <path class="vo-cone"
+                      d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+                    <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+                    <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+                    <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+                  </svg>
+                </button>
+                <div class="ig-switch" role="tablist" aria-label="Interface screens">
+                  <button class="ig-switch__btn" data-screen="home" role="tab" aria-selected="false" type="button">Home
+                    screen</button>
+                  <button class="ig-switch__btn is-active" data-screen="task" role="tab" aria-selected="true"
+                    type="button">Inside a task</button>
+                </div>
+              </div>
+
+              <!-- Hidden content source for the tooltips -->
+              <div class="ig-items" hidden>
+                <div class="ig-item" data-item="1">
+                  <p class="ig-item__title">Task title &amp; switcher</p>
+                  <p class="ig-item__desc">The name of the current task. Click the chevron to rename it, switch tasks,
+                    or start a new one.</p>
+                </div>
+                <div class="ig-item" data-item="2">
+                  <p class="ig-item__title">Conversation thread</p>
+                  <p class="ig-item__desc">Your prompts and Claude's replies appear here, newest at the bottom — just
+                    like a chat.</p>
+                </div>
+                <div class="ig-item" data-item="3">
+                  <p class="ig-item__title">Tool call</p>
+                  <p class="ig-item__desc">Whenever Claude runs a command or uses a tool, it shows here. Click to expand
+                    and see exactly what it did.</p>
+                </div>
+                <div class="ig-item" data-item="4">
+                  <p class="ig-item__title">Suggestion card</p>
+                  <p class="ig-item__desc">Claude proposes a plugin or skill it thinks will help. Dismiss it with the
+                    <code>✕</code> if you don't need it.
+                  </p>
+                </div>
+                <div class="ig-item" data-item="5">
+                  <p class="ig-item__title">Add a plugin</p>
+                  <p class="ig-item__desc">Installs a bundle of related skills (here, Marketing) so Claude can call them
+                    in this task.</p>
+                </div>
+                <div class="ig-item" data-item="6">
+                  <p class="ig-item__title">Skill command</p>
+                  <p class="ig-item__desc">Each <code>/skill</code> is a ready-made task. Hit <strong>Try it</strong> to
+                    run one, or type its slash command yourself.</p>
+                </div>
+                <div class="ig-item" data-item="7">
+                  <p class="ig-item__title">Message box</p>
+                  <p class="ig-item__desc">Reply, redirect, or give Claude your next instruction. Press Enter to send.
+                  </p>
+                </div>
+                <div class="ig-item" data-item="8">
+                  <p class="ig-item__title">Add context</p>
+                  <p class="ig-item__desc">Attach files, screenshots, or other context to send along with your message.
+                  </p>
+                </div>
+                <div class="ig-item" data-item="9">
+                  <p class="ig-item__title">Model selector</p>
+                  <p class="ig-item__desc">Switch the Claude model for this task. Heavier models use more of your usage
+                    limit.</p>
+                </div>
+                <div class="ig-item" data-item="10">
+                  <p class="ig-item__title">Dictation</p>
+                  <p class="ig-item__desc">Speak your message out loud instead of typing it.</p>
+                </div>
+                <div class="ig-item" data-item="11">
+                  <p class="ig-item__title">Panel toggle</p>
+                  <p class="ig-item__desc">Show or hide the right-hand panel that tracks this task.</p>
+                </div>
+                <div class="ig-item" data-item="12">
+                  <p class="ig-item__title">Progress</p>
+                  <p class="ig-item__desc">The task's step-by-step checklist. Completed steps get ticked off so you can
+                    see what's left.</p>
+                </div>
+                <div class="ig-item" data-item="13">
+                  <p class="ig-item__title">Working folder</p>
+                  <p class="ig-item__desc">View and open the files Claude created or edited during this task.</p>
+                </div>
+                <div class="ig-item" data-item="14">
+                  <p class="ig-item__title">Context</p>
+                  <p class="ig-item__desc">Tracks the tools Claude used and the files it referenced while working.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== SETUP — TABBED ============== -->
+  <section class="section section--steps" id="setup" data-gate-section="setup">
+    <div class="container container--narrow">
+      <p class="kicker">Setup</p>
+      <h2 class="h2">Get up and <span class="grad">running</span>.</h2>
+      <p class="body body--lead">Work through the tabs in order and tick each item as you
+        Your progress saves automatically.</p>
+    </div>
+
+    <div class="container container--narrow">
+      <div class="setup-tabs" id="setupTabs">
+
+        <div class="setup-tabs__rail" role="tablist" aria-label="Setup steps">
+          <button class="setup-tab is-active" data-tab="s1" type="button"><span class="setup-tab__num">01</span><span
+              class="setup-tab__label">Accept invite</span></button>
+          <button class="setup-tab" data-tab="s2" type="button"><span class="setup-tab__num">02</span><span
+              class="setup-tab__label">Desktop app</span></button>
+          <button class="setup-tab" data-tab="s3" type="button"><span class="setup-tab__num">03</span><span
+              class="setup-tab__label">Connectors</span></button>
+          <button class="setup-tab" data-tab="s4" type="button"><span class="setup-tab__num">04</span><span
+              class="setup-tab__label">Skills</span></button>
+          <button class="setup-tab" data-tab="s5" type="button"><span class="setup-tab__num">05</span><span
+              class="setup-tab__label">First task</span></button>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="setup-panel is-active" data-panel="s1" data-step-id="step-1">
+          <div class="setup-panel__head">
+            <p class="kicker">Step one</p>
+            <span class="setup-panel__time">~3 min</span>
+          </div>
+          <h3 class="h3">Accept your invite.</h3>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s1-0"><span>Get your webmail credentials from your
+                  ALs.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-1"><span>Go to <a href="http://magicassistant.ai/webmail"
+                    target="_blank" rel="noopener"
+                    style="font-weight:700;color:var(--violet,#5200e3);text-decoration:none;">magicassistant.ai/webmail</a>
+                  and login using your new webmail username and password.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-2"><span>Open your inbox and find the Claude invite
+                  link.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-3"><span>Click <strong>Accept invite</strong> and follow
+                  the steps.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s1-4"><span>Confirm you can see the Claude
+                  homepage.</span></label></li>
+          </ul>
+          <div
+            style="display:flex;flex-direction:column;gap:5px;align-items:stretch;margin-top:8px;padding-bottom:10px;">
+            <img loading="lazy" src="assets/webmail-login.png" alt="Sign in to your webmail"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+            <img loading="lazy" src="assets/webmail-claude-invite.jpeg" alt="Open the Claude invite email"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+          </div>
+          <div style="display:flex;justify-content:center;margin-top:8px;">
+            <div class="callout callout--warn"
+              style="display:inline-block;width:auto;max-width:100%;text-align:center;">
+              <p><strong>Heads up.</strong> The invite may expire without notice. If this happens and you need
+                access,<br>email <a href="mailto:product-team@getmagicea.com"
+                  style="font-weight:700;color:var(--violet,#5200e3);text-decoration:none;">product-team@getmagicea.com</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="setup-panel" data-panel="s2" data-step-id="step-2">
+          <div class="setup-panel__head">
+            <p class="kicker">Step two</p>
+            <span class="setup-panel__time">~8 min</span>
+          </div>
+          <h3 class="h3">Download the desktop app and open Cowork.</h3>
+          <p class="body">The desktop app unlocks <strong>Cowork</strong> — Claude's ability to access your files and
+            execute tasks, not just answer questions.</p>
+
+          <p class="setup-sub">Installation</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-0"><span>Go to <strong>claude.ai/download</strong> (or
+                  follow the link on your first sign-in).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-1"><span>Download for your OS — Mac or
+                  Windows.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-2"><span>Open the installer and follow the
+                  steps.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-3"><span>Sign in with the <strong>same account</strong>
+                  from step one.</span></label></li>
+          </ul>
+          <img loading="lazy" src="assets/cowork-homescreen.png" alt="Cowork home screen"
+            style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;">
+
+          <p class="setup-sub">Getting started with Cowork</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-4"><span>When the desktop app opens, switch to
+                  <strong>Cowork</strong> in the mode picker (left sidebar).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-5"><span>In your first Cowork session, type <code
+                    class="prompt-inline">/setup-cowork</code> and press enter to run guided setup.</span></label></li>
+          </ul>
+          <img loading="lazy" src="assets/setup-cowork.png" alt="Setup Cowork"
+            style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
+
+          <p class="setup-sub">Connect your project folder</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s2-6"><span>Select <strong>Work in a project</strong> in the
+                  chat bar to pick where Claude reads context from and saves finished work back to.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s2-7"><span>Choose an existing folder or create a new project
+                  — we recommend a dedicated <em>Magic Work</em> or <em>Claude Tasks</em> folder. Avoid pointing it at
+                  your Desktop or Downloads.</span></label></li>
+          </ul>
+          <div class="explain-grid">
+            <div class="explain">
+              <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A folder</p>
+              <p>A folder on your computer. Cowork reads what's there and saves new files alongside it. Scope it to one
+                piece of work, or point it at a broader directory several tasks share.</p>
+            </div>
+            <div class="explain">
+              <p class="explain__tag" style="color: var(--claude-orange, #D97757);">A project</p>
+              <p>A workspace that carries its own files, instructions, and memory across sessions. Create one in
+                Cowork's sidebar, or import a project you already use in Chat.</p>
+            </div>
+          </div>
+          <img loading="lazy" src="assets/project-folder.png" alt="Project folder"
+            style="display:block;max-width:50%;height:auto;min-height:0;padding:0;border:none;background:none;margin:auto;">
+
+          <div class="callout callout--claude">
+            <svg class="callout__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle>
+              <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+            <p><strong>Keep the desktop app open while you work.</strong> Cowork only runs through the desktop app, not
+              the browser.<br>The folder you select is Claude's workspace where it can read, write, or delete files.</p>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="setup-panel" data-panel="s3" data-step-id="step-3">
+          <div class="setup-panel__head">
+            <p class="kicker">Step three</p>
+            <span class="setup-panel__time">~6 min</span>
+          </div>
+          <h3 class="h3">Connect your apps.</h3>
+          <p class="body">Claude connects to popular apps — Microsoft 365, Notion, Slack, Canva, Asana,
+            HubSpot, QuickBooks, and many more — so you can bring agentic AI into your real workflows. Cowork's real
+            power comes from connecting the apps your client already uses.</p>
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s3-0"><span>In the desktop app, click
+                  <strong>Customize</strong> (left sidebar).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-1"><span>Go to <strong>Connectors</strong> and click
+                  <strong>Add Connector</strong> (the plus sign).</span></label></li>
+            <img loading="lazy" src="assets/connectors-1.png" alt="Connectors panel"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+            <li><label><input type="checkbox" data-cb-key="s3-2"><span>Find <strong>Google Workspace apps</strong> and
+                  add them.</span></label></li>
+            <img loading="lazy" src="assets/connectors-2.png" alt="Add Google apps"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+            <li><label><input type="checkbox" data-cb-key="s3-3"><span>The added app appears in your Connectors list,
+                  under Not Connected.</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s3-4"><span>Click <strong>Connect</strong> and sign in with
+                  your Google account to allow permissions.</span></label></li>
+            <img loading="lazy" src="assets/connectors-4.png" alt="Sign-in with Google account"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+            <li><label><input type="checkbox" data-cb-key="s3-5"><span>Repeat for <strong>Gmail</strong>, <strong>Google
+                    Calendar</strong>, <strong>Google Drive</strong>, or other apps.</span></label></li>
+            <img loading="lazy" src="assets/connectors-5.png" alt="Confirm connected app"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+          </ul>
+
+          <p class="setup-sub">Test it</p>
+          <p class="body body--small">If you're connected to your calendar, open a new Cowork session and type:</p>
+          <code class="prompt" data-copy="">What meetings do I have tomorrow?</code>
+          <p class="body body--small">If Claude lists your calendar events, you're connected. If it says it doesn't have
+            access, go back to Connectors and check.</p>
+
+          <div class="callout callout--warn">
+            <p><strong>⚠️ Connect your own Google account only.</strong> Never connect a client's email or calendar
+              without their explicit permission.</p>
+          </div>
+        </div>
+
+        <!-- Panel 4 -->
+        <div class="setup-panel" data-panel="s4" data-step-id="step-4">
+          <div class="setup-panel__head">
+            <p class="kicker">Step four</p>
+            <span class="setup-panel__time">~4 min</span>
+          </div>
+          <h3 class="h3">Find your Magic skill templates.</h3>
+          <p class="body">Magic made pre-built skill templates for the most common EA tasks. Always start from a
+            template for related tasks.</p>
+
+          <div class="template-grid" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+              <span class="template">Email Management</span>
+              <span class="template">Calendar Management</span>
+              <span class="template">Writing</span>
+              <span class="template"><span class="coming">more coming soon</span></span>
+            </div>
+          </div>
+
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s4-0"><span>In the desktop app, click
+                  <strong>Customize</strong> (left sidebar).</span></label></li>
+            <li><label><input type="checkbox" data-cb-key="s4-1"><span>Go to <strong>Skills</strong> and click
+                  <strong>Add Skill</strong> (the plus sign), then <strong>Browse Skills</strong>.</span></label></li>
+            <img loading="lazy" src="assets/skills-1.png" alt="Browse Skills"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+            <li><label><input type="checkbox" data-cb-key="s4-2"><span>Navigate to the <strong>Your organization
+                    tab</strong> and <strong>add the skill</strong> available to you.</span></label></li>
+            <img loading="lazy" src="assets/skills-2.png" alt="Add Skill"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+            <li><label><input type="checkbox" data-cb-key="s4-3"><span>Confirm that the skill has been added to
+                  your <strong>skills list</strong>.</span></label></li>
+            <img loading="lazy" src="assets/skills-3.png" alt="Skills List"
+              style="display:block;width:100%;height:auto;min-height:0;padding:0;border:none;background:none;margin-bottom:24px;">
+          </ul>
+
+
+          <p class="body body--small">Once a skill is added, use it in Cowork by typing its slash command — for example
+            <code class="prompt-inline">/email-management</code> or <code
+              class="prompt-inline">/calendar-management</code> — then combine it with your own prompt.
+          </p>
+          <p class="body body--small">Sometimes, Claude chooses the right skill automatically if the task is clear
+            without you having to use the slash commands.
+          </p>
+          <p class="body body--small">You can even ask Claude to explain what a specific skill does and how to use it.
+          </p>
+
+          <div class="callout callout--warn">
+            <p>If you don't see any skill, message your Account Lead or email the Product Team — there may be a
+              permissions issue on your account.
+            </p>
+          </div>
+        </div>
+
+        <!-- Panel 5 -->
+        <div class="setup-panel" data-panel="s5" data-step-id="step-5">
+          <div class="setup-panel__head">
+            <p class="kicker">Step five</p>
+            <span class="setup-panel__time">~10 min</span>
+          </div>
+          <h3 class="h3">Try your first Cowork task.</h3>
+          <p class="body">Open a new Cowork session and pick something real from your to-do list — ideally a task that
+            spans several tools or steps.</p>
+
+          <p class="setup-sub">How to run it</p>
+          <ol class="bullets bullets--num">
+            <li>Set the <strong>working folder</strong> to send with your prompt.</li>
+            <li>Type clear, <strong>specific instructions</strong> for what you need.</li>
+            <li>If Claude shows a plan or asks <strong>clarifying questions</strong>, approve it if it's right —
+              redirect
+              if not.</li>
+            <li>Watch it work, or step away and come back.</li>
+            <li><strong>Always review</strong> the output before sending anything to a client.</li>
+            <li>If it's off, <strong>re-prompt</strong> until you get the outcome you want.</li>
+          </ol>
+
+          <p class="setup-sub">Sample first tasks</p>
+          <p class="body">Link the right folders, files, connectors, or skills first — always think "what does the AI
+            need to know".</p>
+          <div class="prompt-grid">
+            <code class="prompt"
+              data-copy="">Go through my inbox, find unread client emails from the last 24 hours, and draft a reply for each one that needs a response. Save the drafts to my Magic Work folder.</code>
+            <code class="prompt"
+              data-copy="">Check my Google Calendar for next week and write a summary of my client's availability. Save it as availability.md in my folder.</code>
+            <code class="prompt"
+              data-copy="">Research [company name] — their industry, recent news, and key people. Write a one-page briefing and save it to my folder.</code>
+            <code class="prompt"
+              data-copy="">Summarize these meeting notes and pull out every action item with the owner and deadline.</code>
+          </div>
+
+          <div class="callout callout--warn" style="margin-bottom:28px;">
+            <p><strong>To get more practice,</strong> try doing tasks in Cowork using the connectors or skills for your
+              real-world tasks.</p>
+          </div>
+
+          <ul class="checklist">
+            <li><label><input type="checkbox" data-cb-key="s5-0"><span>Ran my first real Cowork task and reviewed the
+                  output.</span></label></li>
+          </ul>
+        </div>
+
+        <!-- shared nav -->
+        <div class="setup-nav">
+          <button class="setup-nav__btn" id="setupPrev" type="button" disabled="">← Previous</button>
+          <button class="setup-nav__btn setup-nav__btn--next" id="setupNext" type="button"><span
+              data-next-label="">Next</span> →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== USING COWORK ============== -->
+  <section class="section" id="cowork" data-gate-section="cowork">
+    <div class="container container--narrow">
+      <p class="kicker">Using Claude Cowork</p>
+      <h2 class="h2">The mode where Claude stops answering and starts <span class="grad">doing</span>.</h2>
+      <p class="body body--lead">Cowork is the agentic mode in Claude Desktop — it runs on your computer and completes
+        work across your files, browser, and tools. As a Magic assistant, always use Cowork as your default mode.</p>
+    </div>
+
+    <div class="container container--narrow">
+      <div class="cowork-hero">
+        <div class="cowork-hero__img">
+          <!-- Animated recreation of chat-vs-cowork.png. Chat plays out slowly
+               and serially; Cowork resolves in parallel, finishes first, then the
+               frame tilts toward Cowork (glow + badge, Chat recedes). Hover pauses.
+               Timeline + viewport-trigger handled in js/ui.js → initChatVsCowork. -->
+          <svg class="cvc" id="chatVsCowork" viewBox="0 0 1228 673" role="img" tabindex="0"
+            aria-label="Animated comparison. Chat is serial: you ask, follow up and refine step by step and assemble the output yourself. Cowork is parallel: you give one goal and it reads files, searches Drive and drafts the report at once, then delivers finished work to your folder. Always use Cowork.">
+
+            <!-- centre divider -->
+            <line x1="614" y1="40" x2="614" y2="650" stroke="#DCD5C7" stroke-width="1.5" />
+
+            <!-- ══════════════ CHAT (serial) ══════════════ -->
+            <g class="cvc-chat a-dim cvc-anim">
+              <text x="300" y="42" text-anchor="middle" font-size="32" font-weight="700" fill="#2E2A25">Chat</text>
+              <text x="300" y="76" text-anchor="middle" font-size="20" font-style="italic" fill="#6E6A60">You drive
+                every step</text>
+
+              <rect x="22" y="112" width="556" height="508" rx="22" fill="#ECE7DC" />
+
+              <!-- You ask -->
+              <g class="cvc-a a-ask cvc-anim">
+                <rect x="306" y="150" width="256" height="46" rx="23" fill="#F5DECF" />
+                <text x="328" y="180" font-size="20" font-weight="600" fill="#B65C3E">You ask</text>
+              </g>
+              <!-- response 1 -->
+              <g class="cvc-a a-r1 cvc-anim">
+                <rect x="38" y="208" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="227" x2="332" y2="227" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="240" x2="296" y2="240" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+              </g>
+              <!-- You follow up -->
+              <g class="cvc-a a-follow cvc-anim">
+                <rect x="306" y="266" width="256" height="46" rx="23" fill="#F5DECF" />
+                <text x="328" y="296" font-size="20" font-weight="600" fill="#B65C3E">You follow up</text>
+              </g>
+              <!-- response 2 -->
+              <g class="cvc-a a-r2 cvc-anim">
+                <rect x="38" y="324" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="343" x2="332" y2="343" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="356" x2="290" y2="356" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+              </g>
+              <!-- You refine -->
+              <g class="cvc-a a-refine cvc-anim">
+                <rect x="306" y="382" width="256" height="46" rx="23" fill="#F5DECF" />
+                <text x="328" y="412" font-size="20" font-weight="600" fill="#B65C3E">You refine</text>
+              </g>
+              <!-- response 3 -->
+              <g class="cvc-a a-r3 cvc-anim">
+                <rect x="38" y="440" width="348" height="46" rx="23" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                <line x1="62" y1="459" x2="332" y2="459" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+                <line x1="62" y1="472" x2="300" y2="472" stroke="#D2CBBD" stroke-width="4" stroke-linecap="round" />
+              </g>
+              <!-- still going… -->
+              <g class="cvc-a a-dots cvc-anim">
+                <circle class="a-dot cvc-anim" cx="300" cy="516" r="4" fill="#B8B0A0" />
+                <circle class="a-dot cvc-anim" cx="300" cy="532" r="4" fill="#B8B0A0" />
+                <circle class="a-dot cvc-anim" cx="300" cy="548" r="4" fill="#B8B0A0" />
+              </g>
+
+              <text x="300" y="648" text-anchor="middle" font-size="19" fill="#6E6A60">
+                <tspan font-weight="700" fill="#3D3A34">Serial</tspan> · you assemble the output
+              </text>
+            </g>
+
+            <!-- ══════════════ COWORK (parallel) ══════════════ -->
+            <g class="cvc-cowork">
+              <text x="928" y="42" text-anchor="middle" font-size="32" font-weight="700" fill="#2E2A25">Cowork</text>
+              <text x="928" y="76" text-anchor="middle" font-size="20" font-style="italic" fill="#6E6A60">You delegate,
+                it delivers</text>
+
+              <!-- orange emphasis ring (drawn under the panel fill so only a rim shows) -->
+              <rect class="a-glow cvc-anim" x="650" y="112" width="556" height="508" rx="22" fill="none"
+                stroke="#D97757" stroke-width="3" style="filter:drop-shadow(0 0 12px rgba(217,119,87,.6));" />
+              <rect x="650" y="112" width="556" height="508" rx="22" fill="#ECE7DC" />
+
+              <!-- You give a goal -->
+              <g class="cvc-a a-goal cvc-anim">
+                <rect x="778" y="150" width="300" height="46" rx="23" fill="#F0CDBA" stroke="#E3B49B" />
+                <text x="928" y="180" text-anchor="middle" font-size="20" font-weight="600" fill="#A8512F">You give a
+                  goal</text>
+              </g>
+
+              <!-- branch wires (goal → three tasks) -->
+              <path class="cvc-wire a-wire1 cvc-anim" pathLength="100"
+                d="M928 196 V214 M737 214 H1119 M737 214 V242 M928 214 V242 M1119 214 V242" fill="none" stroke="#C2BAAB"
+                stroke-width="2.5" stroke-linecap="round" />
+
+              <!-- three tasks, in parallel -->
+              <g class="cvc-a a-cards cvc-anim">
+                <g>
+                  <rect x="662" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                  <text x="678" y="280" font-size="17" font-weight="600" fill="#44413B">Read files</text>
+                  <line x1="678" y1="302" x2="788" y2="302" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                  <line x1="678" y1="316" x2="760" y2="316" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                </g>
+                <g>
+                  <rect x="853" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                  <text x="869" y="280" font-size="17" font-weight="600" fill="#44413B">Search Drive</text>
+                  <line x1="869" y1="302" x2="979" y2="302" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                  <line x1="869" y1="316" x2="951" y2="316" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                </g>
+                <g>
+                  <rect x="1044" y="244" width="150" height="96" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,.05)" />
+                  <text x="1060" y="280" font-size="17" font-weight="600" fill="#44413B">Draft report</text>
+                  <line x1="1060" y1="302" x2="1170" y2="302" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                  <line x1="1060" y1="316" x2="1142" y2="316" stroke="#D6CFC1" stroke-width="3.5"
+                    stroke-linecap="round" />
+                </g>
+              </g>
+
+              <!-- converge wire (tasks → finished work) -->
+              <path class="cvc-wire a-wire2 cvc-anim" pathLength="100" d="M928 340 V368" fill="none" stroke="#C2BAAB"
+                stroke-width="2.5" stroke-linecap="round" />
+
+              <!-- finished work -->
+              <g class="cvc-a a-done cvc-anim">
+                <rect x="778" y="368" width="300" height="94" rx="14" fill="#FFFFFF" stroke="rgba(0,0,0,.06)" />
+                <rect x="798" y="388" width="46" height="46" rx="11" fill="#F4EEE4" />
+                <rect x="811" y="399" width="20" height="24" rx="3" fill="none" stroke="#8A8475" stroke-width="1.8" />
+                <line x1="816" y1="407" x2="826" y2="407" stroke="#8A8475" stroke-width="1.6" stroke-linecap="round" />
+                <line x1="816" y1="413" x2="826" y2="413" stroke="#8A8475" stroke-width="1.6" stroke-linecap="round" />
+                <text x="862" y="406" font-size="20" font-weight="700" fill="#2E2A25">Finished work</text>
+                <text x="862" y="432" font-size="16" fill="#6E6A60">Ready in your folder</text>
+              </g>
+
+              <!-- celebratory check on the finished card -->
+              <g class="cvc-a a-pop cvc-anim">
+                <circle cx="1048" cy="415" r="16" fill="#D97757" />
+                <path d="M1040 415 l6 6 l11 -13" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </g>
+
+              <!-- "Always use Cowork" badge -->
+              <g class="cvc-a a-pop cvc-anim">
+                <rect x="1004" y="122" width="194" height="30" rx="15" fill="#D97757" />
+                <text x="1101" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">★ Always use
+                  Cowork</text>
+              </g>
+
+              <text x="928" y="648" text-anchor="middle" font-size="19" fill="#6E6A60">
+                <tspan font-weight="700" fill="#B65C3E">Parallel</tspan> · it assembles the output
+              </text>
+            </g>
+          </svg>
+        </div>
+        <div class="cowork-hero__card">
+          <button class="voiceover-btn voiceover-btn--corner" type="button"
+            data-voiceover-src="assets/voice/06 - using cowork.mp3"
+            data-voiceover-label="using Claude Cowork"
+            aria-pressed="false"
+            aria-label="Play voiceover for using Claude Cowork">
+            <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+              <path class="vo-cone"
+                d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+              <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+              <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+              <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+            </svg>
+          </button>
+          <article class="card reach reach--cowork">
+            <p class="reach__tag">Always use Cowork</p>
+            <p class="reach__lead" style="font-weight:700;">Your job is task execution. Cowork is how Claude executes.
+            </p>
+            <p style="font-size:18px;color:var(--on-dark-mute);margin:0 0 10px;">Use it whenever:</p>
+            <ul class="bullets">
+              <li>You have a clear deliverable or outcome.</li>
+              <li>The work touches your files or connected tools.</li>
+              <li>You'd rather hand off the job and review the output.</li>
+              <li>You're running recurring tasks on a schedule.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container container--narrow" style="margin-top:48px;">
+      <iframe src="https://www.youtube.com/embed/-AkiUPvAqbU?list=PLmWCw1CzcFilOIgUYuMIJ2iZMo09Ho0va"
+        title="Cowork is now generally available" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"
+        style="display:block;width:100%;aspect-ratio:1177/662;border-radius:16px;border:none;box-shadow:0 6px 40px rgba(82,0,227,0.14);"></iframe>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:96px">How a Cowork task runs</p>
+      <div class="dr-head">
+        <h3 class="h3 h3--block">Delegate, but stay in control.</h3>
+        <button class="voiceover-btn" type="button"
+          data-voiceover-src="assets/voice/07 - how a task runs.mp3"
+          data-voiceover-label="how a Cowork task runs"
+          aria-pressed="false"
+          aria-label="Play voiceover for how a Cowork task runs">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+      </div>
+      <div style="display:flex;gap:20px;align-items:center;margin-top:24px;margin-bottom:40px;">
+        <div class="dr" id="delegateRun" style="width:57%;"
+          aria-label="Interactive: how a Cowork task runs, step by step">
+          <ol class="dr__steps" id="drSteps">
+            <li class="dr-step" data-stop="0">
+              <span class="dr-node"><span class="dr-node__num">1</span></span>
+              <div class="dr-step__body">
+                <p class="dr-step__title">You delegate the work</p>
+                <p class="dr-step__desc">Send a prompt describing the objective — what you need done and what
+                  <em>done</em> looks like.
+                </p>
+              </div>
+            </li>
+            <li class="dr-step" data-stop="1">
+              <span class="dr-node"><span class="dr-node__num">2</span></span>
+              <div class="dr-step__body">
+                <p class="dr-step__title">Claude takes it from there</p>
+                <ul class="dr-sub" id="drSub">
+                  <li class="dr-sub__item" data-stop="2"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Understand</strong>
+                      — asks clarifying questions to make sure it's clear on your goal</span></li>
+                  <li class="dr-sub__item" data-stop="3"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Plan</strong>
+                      — breaks the work into steps you can see in the sidebar</span></li>
+                  <li class="dr-sub__item" data-stop="4"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Execute</strong>
+                      — works across your files, tools, and the web</span></li>
+                  <li class="dr-sub__item" data-stop="5"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Verify</strong>
+                      — checks its own output for quality and accuracy</span></li>
+                  <li class="dr-sub__item" data-stop="6"><span class="dr-sub__dot"></span><span
+                      class="dr-sub__txt"><strong>Deliver</strong>
+                      — produces finished files and a summary of what it did</span></li>
+                </ul>
+              </div>
+            </li>
+            <li class="dr-step" data-stop="7">
+              <span class="dr-node dr-node--check">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 12.5l3.6 3.6L18 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div class="dr-step__body">
+                <p class="dr-step__title">You come back to completed work</p>
+                <p class="dr-step__desc">Finished files in your folder, actions taken in your tools, and a record of
+                  everything that happened.</p>
+              </div>
+            </li>
+          </ol>
+          <button class="dr__replay" id="drReplay" type="button" aria-label="Replay animation">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 11a8 8 0 1 0-.5 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              <path d="M20 5v5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span>Replay</span>
+          </button>
+        </div>
+        <img loading="lazy" src="assets/claude-task-runs.png" alt="Claude task runs"
+          style="width:43%;height:auto;padding:0;border:none;background:none;">
+      </div>
+      <p class="flow-note">Every action appears in the sidebar. Claude pauses and asks for your approval before doing
+        anything consequential on your working folder.</p>
+
+      <div style="display:flex;gap:20px;align-items:flex-start;margin-top:32px;">
+        <div style="width:50%;flex-shrink:0;">
+          <video src="assets/claude-usecase-3.mp4" autoplay loop muted playsinline preload="metadata"
+            aria-label="Data extraction use case"
+            style="width:100%;height:auto;padding:0;border:none;background:none;display:block;border-radius:20px;"></video>
+          <p style="margin-top:8px;font-size:16px;color:#888;line-height:1.45;">Hand Claude a pile of receipts,
+            invoices,
+            or screenshots. Come back to a formatted spreadsheet with all the data extracted and organized.</p>
+        </div>
+        <div style="width:50%;flex-shrink:0;">
+          <video src="assets/claude-usecase-4.mp4" autoplay loop muted playsinline preload="metadata"
+            aria-label="Document generation use case"
+            style="width:100%;height:auto;padding:0;border:none;background:none;display:block;border-radius:20px;"></video>
+          <p style="margin-top:8px;font-size:16px;color:#888;line-height:1.45;">Give Claude your templates and source
+            materials. It produces polished docs, decks, or reports — and can run on a schedule to keep them current.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="container container--narrow" style="margin-top:96px;">
+      <p class="kicker">Context Window</p>
+      <h3 class="h3 h3--block">Claude's working memory. It has a <span class="grad">limit</span>.</h3>
+      <div class="cw-lead-head">
+        <p class="body body--lead">Every session holds a fixed amount of input. When it fills, older context drops off and
+          quality degrades.</p>
+      </div>
+
+      <div class="cw-grid">
+        <!-- Voiceover, anchored directly above the top-right corner of the
+             "How to manage it" card (the rightmost grid card). Out of flow, so
+             the cards and lead paragraph don't move. -->
+        <button class="voiceover-btn voiceover-btn--cw-grid" type="button"
+          data-voiceover-src="assets/voice/08 - context window.mp3"
+          data-voiceover-label="the context window"
+          aria-pressed="false"
+          aria-label="Play voiceover for the context window">
+          <svg class="voiceover-btn__icon" viewBox="0 0 75 75" aria-hidden="true" focusable="false">
+            <path class="vo-cone"
+              d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" />
+            <path class="vo-wave vo-wave--1" d="M48,27.6a19.5,19.5 0 0 1 0,21.4" />
+            <path class="vo-wave vo-wave--2" d="M55.1,20.5a30,30 0 0 1 0,35.6" />
+            <path class="vo-wave vo-wave--3" d="M61.6,14a38.8,38.8 0 0 1 0,48.6" />
+          </svg>
+        </button>
+        <div class="card">
+          <p class="kicker">What it is</p>
+          <p>A rolling window of everything Claude can see — your prompts, its replies, attached files, tool calls.
+            Fixed in size and doesn't grow mid-session.</p>
+        </div>
+        <div class="card">
+          <p class="kicker">When it fills</p>
+          <p>Claude loses sight of earlier instructions and context. Responses become shorter, repetitive, or miss
+            details you've already given.</p>
+        </div>
+        <div class="card card--manage">
+          <p class="kicker"><strong>How to manage it</strong></p>
+          <p>Start a fresh session for each new task. Don't chain unrelated work in one conversation. Paste a brief
+            summary if context needs to carry over.</p>
+        </div>
+      </div>
+
+      <div class="cw-anim" id="cwAnim" data-active="0"
+        aria-label="Interactive diagram: how Claude's context window fills across turns">
+        <div class="cw-anim__scroll">
+          <div class="cw-anim__plot">
+            <div class="cw-anim__rule cw-anim__rule--top">
+              <span class="cw-anim__rule-label">0 tokens</span>
+            </div>
+
+            <div class="cw-anim__stage" id="cwStage"><!-- turns injected by JS --></div>
+
+            <div class="cw-anim__rule cw-anim__rule--limit">
+              <span class="cw-anim__rule-label cw-anim__rule-label--limit">Context window<br>1M (or 200k) tokens</span>
+              <span class="cw-anim__scissors" aria-hidden="true">&#9986;</span>
+            </div>
+
+            <div class="cw-anim__trunc" id="cwTrunc"><!-- truncation zone injected by JS --></div>
+          </div>
+        </div>
+
+        <div class="cw-anim__hud">
+          <p class="cw-anim__caption" id="cwCaption" aria-live="polite">Press play to watch the context window fill,
+            turn by turn.</p>
+          <div class="cw-anim__controls">
+            <button class="cw-anim__btn" id="cwPrev" type="button" aria-label="Previous step">&#8249;</button>
+            <button class="cw-anim__btn cw-anim__btn--play" id="cwPlay" type="button" aria-label="Play">
+              <span class="cw-anim__btn-ico" id="cwPlayIco">&#9654;</span>
+            </button>
+            <button class="cw-anim__btn" id="cwNext" type="button" aria-label="Next step">&#8250;</button>
+            <div class="cw-anim__dots" id="cwDots" role="tablist" aria-label="Steps"></div>
+            <div class="cw-anim__meter" aria-hidden="true">
+              <span class="cw-anim__meter-track"><span class="cw-anim__meter-fill" id="cwMeter"></span></span>
+              <span class="cw-anim__meter-pct" id="cwMeterPct">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="cw-caption">Context window, extended thinking, and tool access — how they interact in a Cowork
+          session.</p>
+      </div>
+    </div>
+
+
+    <div class="dark-band dark-band--scatter">
+      <div class="aurora aurora--dark" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-mid aurora--dark-mid1" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-mid aurora--dark-mid2" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-mid aurora--dark-mid3" aria-hidden="true"></div>
+      <div class="container container--narrow" id="skills">
+        <p class="kicker" style="margin-top:0">Skills</p>
+        <h3 class="h3 h3--block">Reusable task templates, ready to call.</h3>
+        <p class="body">Instead of prompting from scratch every time, call a skill and Claude loads the right approach
+          automatically. Type <code class="prompt-inline">/skill-name</code> or just describe your task in plain English
+          — Claude recognizes when a skill applies.</p>
+        <p class="body">We developed pre-made skills for the most common EA tasks. Always check if a skill exists before
+          prompting from scratch.</p>
+        <div class="skills-row">
+
+          <!-- Vertical video — LEFT -->
+          <figure class="skills-yt-thumb skills-yt-thumb--vertical">
+            <iframe src="https://www.youtube.com/embed/hRDoLqdfE7A" title="Claude Skills EXPLAINED!" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            <figcaption class="skills-yt-thumb__caption">How Skills impact your Workflow</figcaption>
+          </figure>
+
+          <!-- Right column: table + horizontal video -->
+          <div class="skills-right-col">
+
+            <div class="dtable-wrap skills-dtable-wrap">
+              <table class="dtable skills-dtable">
+                <thead>
+                  <tr>
+                    <th>Skill</th>
+                    <th>What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="pill-skill skill-tiphost">Email Management<span class="skill-tip">Triage inbox,
+                          summarize threads, draft replies and follow-ups, flag urgent items, apply client
+                          tone.</span></span></td>
+                    <td>Inbox triage, reply drafts, follow-ups</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill-skill skill-tiphost">Calendar Management<span class="skill-tip">Pull
+                          availability, summarize the week ahead, schedule across time zones, set recurring blocks, flag
+                          conflicts.</span></span></td>
+                    <td>Availability summaries, scheduling, conflict checks</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill-skill skill-tiphost">Writing<span class="skill-tip">Long-form drafts, memos,
+                          briefings, and formatted documents tailored to your voice and context.</span></span></td>
+                    <td>Long-form drafts, memos, reports, structured documents</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><span class="coming">More Skills Coming Soon</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <figure class="skills-yt-thumb skills-yt-thumb--wide">
+              <iframe src="https://www.youtube.com/embed/bjdBVZa66oU" title="What are skills?" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+              <figcaption class="skills-yt-thumb__caption">Watch a more in-depth explanation on Claude skills.
+              </figcaption>
+            </figure>
+
+          </div>
+
+        </div>
+
+
+        <!-- Demo Videos -->
+        <div class="demo-section">
+          <div class="aurora aurora--demo" aria-hidden="true"></div>
+          <p class="kicker" style="text-align:center">See it in action</p>
+          <h3 class="h3 h3--block" style="text-align:center">Watch <span class="grad">Magic</span> skills at work.</h3>
+
+          <div class="demo-carousel">
+
+            <!-- Tab selectors -->
+            <div class="demo-carousel__tabs" role="tablist">
+              <button class="demo-carousel__tab is-active" role="tab" aria-selected="true" data-demo="email">Email
+                Management</button>
+              <button class="demo-carousel__tab" role="tab" aria-selected="false" data-demo="calendar">Calendar
+                Management</button>
+              <button class="demo-carousel__tab" role="tab" aria-selected="false" data-demo="writing">Writing</button>
+            </div>
+
+            <!-- Jumbotron stage -->
+            <div class="demo-carousel__stage">
+
+              <!-- CHANGE URL: replace src with your video path or embed URL -->
+              <div class="demo-carousel__panel is-active" data-demo="email">
+                <iframe src="https://www.youtube.com/embed/pF11MNtnZ7Y" title="Magic x Claude Skills - Email Management"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- CHANGE URL: replace src with your video path or embed URL -->
+              <div class="demo-carousel__panel" data-demo="calendar">
+                <iframe src="https://www.youtube.com/embed/yalDIOSi6oU"
+                  title="Magic x Claude Skills - Calendar Management" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- CHANGE URL: replace src with your Loom or YouTube embed URL -->
+              <div class="demo-carousel__panel" data-demo="writing">
+                <iframe src="https://www.youtube.com/embed/cSfLvBQDkOU" title="Magic x Claude Skills - Writing"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                <button class="demo-fullscreen-btn" aria-label="Full screen" title="Full screen">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </button>
+              </div>
+
+            </div><!-- /.demo-carousel__stage -->
+          </div><!-- /.demo-carousel -->
+        </div><!-- /.demo-section -->
+        <div class="callout callout--warn" style="margin-top:16px">
+          <p>If you don't see Magic skills in your Projects sidebar, message your AL or email the Product Team — there
+            may be a
+            permissions issue.</p>
+        </div>
+      </div>
+
+
+      <div class="container container--narrow" id="connectors">
+        <!-- CONNECTORS subsection -->
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 44px;">
+        <p class="kicker" style="margin-top:0">Connectors</p>
+        <h3 class="h3 h3--block">The apps Claude works inside directly.</h3>
+        <p class="body">Connectors let Claude read data and take actions inside your tools on
+          your behalf — no copy-pasting between apps. Once connected, they're available in every conversation.</p>
+
+        <div class="skills-row" style="margin-top:24px;">
+
+          <!-- Vertical video — LEFT -->
+          <figure class="skills-yt-thumb skills-yt-thumb--vertical">
+            <iframe src="https://www.youtube.com/embed/lUF_bjBSgXM" title="Claude Connectors" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            <figcaption class="skills-yt-thumb__caption">How Connectors power your Workflow</figcaption>
+          </figure>
+
+          <!-- Right column: table + horizontal video -->
+          <div class="skills-right-col">
+
+            <div class="dtable-wrap skills-dtable-wrap connectors-dtable-wrap">
+              <table class="dtable skills-dtable">
+                <thead>
+                  <tr>
+                    <th>App</th>
+                    <th>What Claude can do</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Gmail</strong></td>
+                    <td>Read inbox, draft replies, send emails — powers <span class="pill-skill">Email Management</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Notion</strong></td>
+                    <td>Read and write pages and databases</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Google Calendar</strong></td>
+                    <td>Check availability, create events, send briefings — powers <span class="pill-skill">Calendar
+                        Management</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Google Drive</strong></td>
+                    <td>Retrieve and manage documents</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Slack</strong></td>
+                    <td>Summaries, notifications, follow-ups</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <figure class="skills-yt-thumb skills-yt-thumb--wide">
+              <iframe src="https://www.youtube.com/embed/_jjSS0qGFbI"
+                title="Getting started with connectors in Claude.ai" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+              <figcaption class="skills-yt-thumb__caption">Learn more on how Connectors work.</figcaption>
+            </figure>
+
+          </div>
+
+        </div>
+
+        <!-- Connectors browse gif -->
+        <div class="demo-section" style="margin-top:40px;">
+          <div class="aurora aurora--demo" aria-hidden="true"></div>
+          <p class="kicker" style="text-align:center">Browse hundreds of apps</p>
+          <h3 class="h3 h3--block" style="text-align:center">Search Claude Connectors <a
+              href="https://claude.com/connectors" target="_blank" rel="noopener" class="grad-link">here</a>.</h3>
+          <div class="connectors-browse-wrap">
+            <img src="assets/connectors-browse.gif" alt="Browse Claude Connectors" class="connectors-browse-gif"
+              loading="lazy">
+          </div>
+        </div>
+
+        <div class="callout callout--warn" style="margin-top:16px;text-align:center;">
+          <p>Skills that depend on a missing connector won't run until it's added. If a connector isn't set up yet,
+            Claude will flag it.</p>
+        </div>
+
+        <!-- ===========================================================
+             CONNECTOR CAPABILITIES REFERENCE
+             Integrated from the "Connector Capabilities" standalone.
+             All styles/scripts are scoped under .cc-root and the cc-
+             namespace so they never touch the rest of the page.
+        ============================================================ -->
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:52px 0 40px;">
+        <p class="kicker" style="margin-top:0">Capabilities reference</p>
+        <h3 class="h3 h3--block">What each connector can do.</h3>
+        <p class="body">The approved connectors for Magic assistants, and exactly where each one can read, write, or
+          act. Filter by access level, then check a tool before you ask Claude to use it.</p>
+
+        <div class="cc-root">
+          <style>
+            .cc-root {
+              --cc-green: #14A05A;
+              --cc-green-bg: rgba(20, 160, 90, 0.08);
+              position: relative;
+              margin-top: 24px;
+            }
+
+            .cc-root *,
+            .cc-root *::before,
+            .cc-root *::after {
+              box-sizing: border-box;
+              margin: 0;
+              padding: 0;
+            }
+
+            /* ── Guide cards (split: path + states) ── */
+            .cc-guides {
+              display: flex;
+              gap: 16px;
+              margin-bottom: 24px;
+              flex-wrap: wrap;
+              align-items: stretch;
+            }
+
+            .cc-guide {
+              background: rgba(255, 255, 255, 0.04);
+              border: 1px solid rgba(255, 255, 255, 0.09);
+              border-radius: 16px;
+              box-shadow: none;
+              padding: 16px 20px;
+              display: flex;
+              flex-direction: column;
+              gap: 11px;
+              transition: opacity .6s cubic-bezier(.22, .61, .36, 1), transform .6s cubic-bezier(.22, .61, .36, 1),
+                border-color .25s ease, background .25s ease, box-shadow .25s ease;
+            }
+
+            .cc-guide--path {
+              flex: 1 1 250px;
+              justify-content: center;
+            }
+
+            .cc-guide--states {
+              flex: 2.2 1 440px;
+            }
+
+            .cc-guide:hover {
+              border-color: rgba(255, 255, 255, 0.20);
+              background: rgba(255, 255, 255, 0.06);
+              box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+            }
+
+            .cc-guide__label {
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.16em;
+              text-transform: uppercase;
+              color: var(--violet-mid);
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            }
+
+            .cc-guide__label::before {
+              content: "";
+              width: 6px;
+              height: 6px;
+              border-radius: 50%;
+              background: var(--violet-mid);
+              flex-shrink: 0;
+            }
+
+            .cc-guide__crumbs {
+              font-size: 17px;
+              font-weight: 500;
+              color: var(--on-dark-mute);
+              line-height: 1.6;
+            }
+
+            .cc-guide__crumbs b {
+              font-weight: 600;
+              color: var(--on-dark);
+              transition: color .18s ease;
+              cursor: default;
+            }
+
+            .cc-guide__crumbs b:hover {
+              color: var(--violet-mid);
+            }
+
+            .cc-guide__crumbs em {
+              color: rgba(184, 181, 218, 0.55);
+              font-style: normal;
+              margin: 0 6px;
+            }
+
+            .cc-guide__states {
+              display: flex;
+              gap: 14px;
+              flex-wrap: wrap;
+            }
+
+            .cc-gstate {
+              display: flex;
+              align-items: flex-start;
+              gap: 9px;
+              flex: 1 1 130px;
+              min-width: 124px;
+              padding: 6px;
+              margin: -6px;
+              border-radius: 10px;
+              transition: background .2s ease;
+            }
+
+            .cc-gstate:hover {
+              background: rgba(255, 255, 255, 0.05);
+            }
+
+            .cc-gstate__icon {
+              width: 22px;
+              height: 22px;
+              border-radius: 6px;
+              display: grid;
+              place-items: center;
+              flex-shrink: 0;
+              margin-top: 1px;
+              transition: transform .2s cubic-bezier(.34, 1.56, .64, 1);
+            }
+
+            .cc-gstate:hover .cc-gstate__icon {
+              transform: scale(1.14);
+            }
+
+            .cc-gstate__icon svg {
+              width: 13px;
+              height: 13px;
+            }
+
+            .cc-gstate__txt {
+              display: flex;
+              flex-direction: column;
+              gap: 1px;
+            }
+
+            .cc-gstate__txt strong {
+              font-size: 17px;
+              font-weight: 600;
+              color: var(--on-dark);
+            }
+
+            .cc-gstate__txt span {
+              font-size: 15px;
+              font-weight: 400;
+              color: var(--on-dark-mute);
+              line-height: 1.4;
+              text-wrap: pretty;
+            }
+
+            .cc-gstate--allow .cc-gstate__icon {
+              background: rgba(20, 160, 90, 0.18);
+              color: #3FD98B;
+              --gsg: 63, 217, 139;
+            }
+
+            .cc-gstate--approve .cc-gstate__icon {
+              background: rgba(117, 78, 255, 0.20);
+              color: var(--violet-mid);
+              --gsg: 117, 78, 255;
+            }
+
+            .cc-gstate--blocked .cc-gstate__icon {
+              background: rgba(184, 181, 218, 0.16);
+              color: var(--on-dark-mute);
+              --gsg: 184, 181, 218;
+            }
+
+            /* passive animations — scroll-in reveal + ambient accent ping (motion-safe) */
+            @media (prefers-reduced-motion: no-preference) {
+              .cc-guides.cc-anim .cc-guide {
+                opacity: 0;
+                transform: translateY(16px);
+              }
+
+              .cc-guides.cc-anim .cc-gstate {
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity .5s ease, transform .5s ease, background .2s ease;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-guide {
+                opacity: 1;
+                transform: none;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-guide--states {
+                transition-delay: .1s;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate {
+                opacity: 1;
+                transform: none;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate:nth-child(1) {
+                transition-delay: .26s;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate:nth-child(2) {
+                transition-delay: .34s;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate:nth-child(3) {
+                transition-delay: .42s;
+              }
+
+              @keyframes ccPing {
+                0% {
+                  box-shadow: 0 0 0 0 rgba(var(--gsg), 0.30);
+                }
+
+                70%,
+                100% {
+                  box-shadow: 0 0 0 9px rgba(var(--gsg), 0);
+                }
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate__icon {
+                animation: ccPing 3.8s ease-out infinite;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate--approve .cc-gstate__icon {
+                animation-delay: .65s;
+              }
+
+              .cc-guides.cc-anim.cc-in .cc-gstate--blocked .cc-gstate__icon {
+                animation-delay: 1.3s;
+              }
+
+              .cc-guide__label::before {
+                animation: ccDot 2.6s ease-in-out infinite;
+              }
+
+              @keyframes ccDot {
+
+                0%,
+                100% {
+                  opacity: 1;
+                }
+
+                50% {
+                  opacity: .35;
+                }
+              }
+            }
+
+            /* ── Filter bar ── */
+            .cc-filters {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 28px;
+            }
+
+            .cc-filters__row {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              gap: 9px;
+            }
+
+            .cc-filter-label {
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.14em;
+              text-transform: uppercase;
+              color: var(--on-dark-mute);
+              margin-right: 2px;
+              min-width: 66px;
+              text-align: right;
+            }
+
+            .cc-chip {
+              appearance: none;
+              font-family: inherit;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: 500;
+              letter-spacing: -0.005em;
+              color: var(--on-dark-mute);
+              background: rgba(255, 255, 255, 0.05);
+              border: 1.5px solid rgba(255, 255, 255, 0.12);
+              border-radius: 9999px;
+              padding: 7px 14px;
+              display: inline-flex;
+              align-items: center;
+              gap: 7px;
+              transition: border-color 140ms, color 140ms, background 140ms, transform 120ms;
+            }
+
+            .cc-chip:hover {
+              border-color: var(--violet-mid);
+              color: var(--on-dark);
+            }
+
+            .cc-chip__dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              flex-shrink: 0;
+            }
+
+            .cc-chip__count {
+              font-size: 14px;
+              font-weight: 600;
+              color: var(--on-dark-mute);
+              background: rgba(255, 255, 255, 0.08);
+              border-radius: 9999px;
+              padding: 1px 7px;
+            }
+
+            .cc-chip.cc-active {
+              background: rgba(255, 255, 255, 0.14);
+              color: var(--on-dark);
+              border-color: rgba(255, 255, 255, 0.32);
+              transform: translateY(-1px);
+            }
+
+            .cc-chip.cc-active .cc-chip__count {
+              background: rgba(255, 255, 255, 0.18);
+              color: rgba(255, 255, 255, 0.85);
+            }
+
+            .cc-chip.cc-active:hover {
+              color: var(--on-dark);
+            }
+
+            .cc-chip[data-filter="rw"].cc-active {
+              background: var(--cc-green);
+              border-color: var(--cc-green);
+              color: #fff;
+            }
+
+            .cc-chip[data-filter="interactive"].cc-active {
+              background: var(--violet-mid);
+              border-color: var(--violet-mid);
+              color: #fff;
+            }
+
+            .cc-chip[data-filter="ro"].cc-active {
+              background: var(--claude-orange-dk);
+              border-color: var(--claude-orange-dk);
+              color: #fff;
+            }
+
+            .cc-chip[data-type="category"].cc-active {
+              background: var(--violet-mid);
+              border-color: var(--violet-mid);
+              color: #fff;
+            }
+
+            /* ── Grid + cards ── */
+            .cc-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 16px;
+            }
+
+            .cc-card {
+              background: rgba(255, 255, 255, 0.04);
+              border: 1px solid rgba(255, 255, 255, 0.09);
+              border-radius: 18px;
+              box-shadow: none;
+              padding: 20px 22px 18px;
+              display: flex;
+              flex-direction: column;
+            }
+
+            .cc-card.cc-hidden {
+              display: none;
+            }
+
+            .cc-card__head {
+              display: flex;
+              align-items: center;
+              gap: 13px;
+              padding-bottom: 15px;
+              margin-bottom: 15px;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .cc-tile {
+              width: 40px;
+              height: 40px;
+              border-radius: 11px;
+              flex-shrink: 0;
+              display: grid;
+              place-items: center;
+              font-size: 19px;
+              font-weight: 700;
+              color: #fff;
+              box-shadow: 0 3px 9px rgba(0, 0, 0, 0.35);
+            }
+
+            .cc-tile--logo {
+              background: #fff;
+              box-shadow: 0 3px 9px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+            }
+
+            .cc-tile--logo img {
+              width: 26px;
+              height: 26px;
+              object-fit: contain;
+              display: block;
+            }
+
+            .cc-card__id {
+              flex: 1;
+              min-width: 0;
+            }
+
+            .cc-card__name {
+              font-size: 22px;
+              font-weight: 700;
+              letter-spacing: -0.015em;
+              color: var(--on-dark);
+              line-height: 1.15;
+              margin-bottom: 6px;
+            }
+
+            .cc-badge {
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.02em;
+              border-radius: 9999px;
+              padding: 3px 9px;
+              white-space: nowrap;
+            }
+
+            .cc-badge__dot {
+              width: 6px;
+              height: 6px;
+              border-radius: 50%;
+            }
+
+            .cc-badge--rw {
+              color: #3FD98B;
+              background: rgba(20, 160, 90, 0.16);
+            }
+
+            .cc-badge--rw .cc-badge__dot {
+              background: #3FD98B;
+            }
+
+            .cc-badge--interactive {
+              color: var(--violet-mid);
+              background: rgba(117, 78, 255, 0.18);
+            }
+
+            .cc-badge--interactive .cc-badge__dot {
+              background: var(--violet-mid);
+            }
+
+            .cc-badge--ro {
+              color: var(--claude-orange);
+              background: rgba(217, 119, 87, 0.16);
+            }
+
+            .cc-badge--ro .cc-badge__dot {
+              background: var(--claude-orange);
+            }
+
+            .cc-card__note {
+              font-size: 14.5px;
+              font-weight: 500;
+              color: var(--claude-orange);
+              background: rgba(217, 119, 87, 0.14);
+              border-radius: 7px;
+              padding: 6px 10px;
+              margin-bottom: 14px;
+              line-height: 1.4;
+            }
+
+            /* ── Capabilities (collapsible) ── */
+            .cc-caps__toggle {
+              display: flex;
+              align-items: center;
+              gap: 9px;
+              width: 100%;
+              appearance: none;
+              background: none;
+              border: none;
+              font-family: inherit;
+              cursor: pointer;
+              padding: 0;
+              text-align: left;
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.14em;
+              text-transform: uppercase;
+              color: var(--on-dark-mute);
+            }
+
+            .cc-caps__toggle .cc-lbl {
+              flex-shrink: 0;
+              white-space: nowrap;
+              transition: color 180ms ease;
+            }
+
+            .cc-caps__toggle:hover .cc-lbl {
+              color: var(--on-dark);
+            }
+
+            .cc-caps__pills {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            }
+
+            .cc-caps__pill {
+              font-size: 13.5px;
+              font-weight: 600;
+              letter-spacing: 0;
+              padding: 1px 7px;
+              border-radius: 9999px;
+              white-space: nowrap;
+            }
+
+            .cc-caps__pill--can {
+              color: #3FD98B;
+              background: rgba(20, 160, 90, 0.16);
+            }
+
+            .cc-caps__pill--cant {
+              color: var(--on-dark-mute);
+              background: rgba(184, 181, 218, 0.14);
+            }
+
+            /* dropdown affordance — circular badge, high contrast + hover microinteraction */
+            .cc-caps__chev {
+              width: 28px;
+              height: 28px;
+              margin-left: auto;
+              flex-shrink: 0;
+              display: grid;
+              place-items: center;
+              border-radius: 50%;
+              color: var(--on-dark);
+              background: rgba(255, 255, 255, 0.09);
+              border: 1px solid rgba(255, 255, 255, 0.18);
+              transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms cubic-bezier(.34, 1.56, .64, 1), box-shadow 180ms ease;
+            }
+
+            .cc-caps__chev svg {
+              width: 16px;
+              height: 16px;
+              transition: transform 260ms ease;
+            }
+
+            .cc-caps[data-collapsed="true"] .cc-caps__chev svg {
+              transform: rotate(0deg);
+            }
+
+            .cc-caps:not([data-collapsed="true"]) .cc-caps__chev svg {
+              transform: rotate(180deg);
+            }
+
+            .cc-caps__toggle:hover .cc-caps__chev {
+              background: rgba(117, 78, 255, 0.24);
+              border-color: var(--violet-mid);
+              color: #fff;
+              transform: scale(1.1);
+              box-shadow: 0 0 0 4px rgba(117, 78, 255, 0.14);
+            }
+
+            .cc-caps__toggle:active .cc-caps__chev {
+              transform: scale(0.94);
+            }
+
+            .cc-caps__toggle:focus-visible {
+              outline: none;
+            }
+
+            .cc-caps__toggle:focus-visible .cc-caps__chev {
+              border-color: var(--violet-mid);
+              box-shadow: 0 0 0 4px rgba(117, 78, 255, 0.30);
+            }
+
+            .cc-caps__wrap {
+              display: block;
+            }
+
+            .cc-caps[data-collapsed="true"] .cc-caps__wrap {
+              display: none;
+            }
+
+            .cc-caps__grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 18px;
+              align-items: start;
+              padding-top: 14px;
+            }
+
+            .cc-caps__col {
+              min-width: 0;
+            }
+
+            .cc-caps__h {
+              display: flex;
+              align-items: center;
+              gap: 7px;
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.16em;
+              text-transform: uppercase;
+              margin-bottom: 11px;
+            }
+
+            .cc-caps__h--can {
+              color: #3FD98B;
+            }
+
+            .cc-caps__h--cant {
+              color: var(--on-dark-mute);
+            }
+
+            .cc-caps__icon {
+              width: 15px;
+              height: 15px;
+              flex-shrink: 0;
+            }
+
+            .cc-caps__list {
+              list-style: none;
+              display: flex;
+              flex-direction: column;
+              gap: 7px;
+            }
+
+            .cc-caps__list li {
+              font-size: 17px;
+              line-height: 1.45;
+              color: var(--on-dark-mute);
+              padding-left: 18px;
+              position: relative;
+              text-wrap: pretty;
+            }
+
+            .cc-caps__col--can li::before {
+              content: "";
+              position: absolute;
+              left: 0;
+              top: 6px;
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: var(--sphere);
+            }
+
+            .cc-caps__col--cant li {
+              color: rgba(184, 181, 218, 0.7);
+            }
+
+            .cc-caps__col--cant li::before {
+              content: "";
+              position: absolute;
+              left: 1px;
+              top: 9px;
+              width: 8px;
+              height: 2px;
+              border-radius: 2px;
+              background: var(--on-dark-mute);
+              opacity: 0.7;
+            }
+
+            /* ── Footer + empty ── */
+            .cc-foot {
+              text-align: center;
+              margin-top: 28px;
+              font-size: 15px;
+              color: var(--on-dark-mute);
+              line-height: 1.6;
+            }
+
+            .cc-foot strong {
+              color: var(--on-dark);
+              font-weight: 600;
+            }
+
+            .cc-empty {
+              grid-column: 1 / -1;
+              text-align: center;
+              padding: 48px 0;
+              font-size: 20px;
+              color: var(--on-dark-mute);
+            }
+
+            @media (max-width:760px) {
+              .cc-grid {
+                grid-template-columns: 1fr;
+              }
+
+              .cc-caps__grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+              }
+
+              .cc-filter-label {
+                min-width: 0;
+                text-align: center;
+                width: 100%;
+                margin: 0 0 2px;
+              }
+            }
+          </style>
+
+          <!-- GUIDE CARDS -->
+          <div class="cc-guides">
+            <section class="cc-guide cc-guide--path">
+              <span class="cc-guide__label">Where to find this</span>
+              <span class="cc-guide__crumbs"><b>Customize</b> <em>›</em> <b>Connectors</b> <em>›</em> select a connector
+                <em>›</em> <b>Tool permissions</b></span>
+            </section>
+            <section class="cc-guide cc-guide--states">
+              <span class="cc-guide__label">What each setting does</span>
+              <div class="cc-guide__states">
+                <div class="cc-gstate cc-gstate--allow">
+                  <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg></span>
+                  <span class="cc-gstate__txt"><strong>Always allow</strong><span>Claude runs the tool without
+                      asking.</span></span>
+                </div>
+                <div class="cc-gstate cc-gstate--approve">
+                  <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none">
+                      <rect x="4" y="3" width="2.6" height="10" rx="1.3" fill="currentColor"></rect>
+                      <rect x="9.4" y="3" width="2.6" height="10" rx="1.3" fill="currentColor"></rect>
+                    </svg></span>
+                  <span class="cc-gstate__txt"><strong>Needs approval</strong><span>Claude pauses for your OK each
+                      time.</span></span>
+                </div>
+                <div class="cc-gstate cc-gstate--blocked">
+                  <span class="cc-gstate__icon"><svg viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.8"></circle>
+                      <path d="M4 4l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg></span>
+                  <span class="cc-gstate__txt"><strong>Blocked</strong><span>Claude can't use the tool at
+                      all.</span></span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- FILTERS -->
+          <div class="cc-filters">
+            <div class="cc-filters__row">
+              <span class="cc-filter-label">Access</span>
+              <button class="cc-chip cc-active" data-type="access" data-filter="all" type="button">All connectors <span
+                  class="cc-chip__count" id="cc-count-all">10</span></button>
+              <button class="cc-chip" data-type="access" data-filter="rw" type="button"><span class="cc-chip__dot"
+                  style="background:var(--cc-green)"></span>Read &amp; write <span class="cc-chip__count"
+                  id="cc-count-rw">7</span></button>
+              <button class="cc-chip" data-type="access" data-filter="interactive" type="button"><span
+                  class="cc-chip__dot" style="background:var(--violet)"></span>Interactive <span class="cc-chip__count"
+                  id="cc-count-interactive">1</span></button>
+              <button class="cc-chip" data-type="access" data-filter="ro" type="button"><span class="cc-chip__dot"
+                  style="background:var(--claude-orange)"></span>Read only <span class="cc-chip__count"
+                  id="cc-count-ro">2</span></button>
+            </div>
+            <div class="cc-filters__row">
+              <span class="cc-filter-label">Category</span>
+              <button class="cc-chip" data-type="category" data-filter="gws" type="button">Google Workspace <span
+                  class="cc-chip__count" id="cc-count-gws">3</span></button>
+              <button class="cc-chip" data-type="category" data-filter="productivity" type="button">Productivity <span
+                  class="cc-chip__count" id="cc-count-productivity">4</span></button>
+              <button class="cc-chip" data-type="category" data-filter="pm" type="button">Project Management <span
+                  class="cc-chip__count" id="cc-count-pm">2</span></button>
+              <button class="cc-chip" data-type="category" data-filter="design" type="button">Design <span
+                  class="cc-chip__count" id="cc-count-design">1</span></button>
+            </div>
+          </div>
+
+          <!-- GRID -->
+          <div class="cc-grid" id="cc-grid"></div>
+
+        </div>
+
+        <script>
+          (function () {
+            var root = document.querySelector('.cc-root');
+            if (!root) return;
+
+            // Passive entrance reveal for the two guide cards (motion-safe).
+            var guides = root.querySelector('.cc-guides');
+            var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+            if (guides && !reduceMotion && 'IntersectionObserver' in window) {
+              guides.classList.add('cc-anim');
+              var gio = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                  if (e.isIntersecting) { guides.classList.add('cc-in'); gio.disconnect(); }
+                });
+              }, { threshold: 0.25 });
+              gio.observe(guides);
+            }
+
+            var CONNECTORS = [
+              {
+                id: "gmail", name: "Gmail", access: "rw", category: "gws", tile: "M", color: "#EA4335", logo: "assets/logo-gmail.png",
+                can: ["Search threads & messages", "Read thread content", "Create & list draft emails", "Create labels", "List labels", "Label / unlabel threads & messages", "Trash emails (via TRASH label)"],
+                cant: ["Rename or recolor labels", "Delete labels", "Send emails directly (drafts only)", "Permanently delete emails (trash only)", "Read attachment contents directly"]
+              },
+              {
+                id: "gcal", name: "Google Calendar", access: "rw", category: "gws", tile: "C", color: "#1A73E8", logo: "assets/logo-calendar.png",
+                can: ["List calendars & events", "Get event details", "Create events", "Update events", "Delete events (hard delete)", "Respond to event invites", "Suggest available times"],
+                cant: ["Create or delete calendars", "Manage recurring event series (instances only)", "Set calendar permissions"]
+              },
+              {
+                id: "gdrive", name: "Google Drive", access: "rw", category: "gws", tile: "D", color: "#34A853", logo: "assets/logo-drive.png",
+                can: ["Search & list files", "Read & download file content", "Get file metadata & permissions", "Copy files", "Create new files (auto-converts to Google Docs)", "Upload files"],
+                cant: ["Delete files", "Edit / overwrite existing files", "Move files between folders"]
+              },
+              {
+                id: "slack", name: "Slack", access: "rw", category: "productivity", tile: "S", color: "#4A154B", logo: "assets/logo-slack.svg",
+                can: ["Send & schedule messages", "Create message drafts", "Read channels, threads & files", "Search channels (public + private)", "List channel members & user profiles", "Create conversations", "Create, read & update canvases", "Add / get reactions", "Search emojis & users"],
+                cant: ["Edit or delete sent messages", "Upload files", "Delete channels"]
+              },
+              {
+                id: "notion", name: "Notion", access: "rw", category: "productivity", tile: "N", color: "#0A0B19", logo: "assets/logo-notion.png",
+                can: ["Search pages & databases", "Create & update pages", "Create databases & views", "Duplicate & move pages", "Create & get comments", "Get teams & users", "Fetch page content", "Update views & data sources"],
+                cant: ["Permanently delete pages", "Upload file attachments", "Manage workspace permissions"]
+              },
+              {
+                id: "canva", name: "Canva", access: "interactive", category: "design", tile: "C", color: "#00C4CC", logo: "assets/logo-canva.png",
+                can: ["Search, create, copy & export designs", "Generate designs with AI", "Resize & merge designs", "Import designs from URL", "Move designs between folders", "Manage folders & brand kits", "Edit design content & elements", "Upload assets", "Comment on & reply to designs", "Publish brand templates"],
+                cant: ["Delete designs or files", "Delete folders"]
+              },
+              {
+                id: "asana", name: "Asana", access: "rw", category: "pm", tile: "A", color: "#F06A6A", logo: "assets/logo-asana.png",
+                can: ["View & search tasks, projects & goals", "Create & update tasks with owners & due dates", "Set task priority & assignees", "Delete tasks", "Add comments to tasks", "Create & update goals & metrics", "Set task dependencies, dependents & parent", "Add or remove task followers", "Create projects & project status"],
+                cant: ["Delete projects or goals", "Manage billing or workspace settings"]
+              },
+              {
+                id: "clickup", name: "ClickUp", access: "rw", category: "pm", tile: "C", color: "#7B68EE", logo: "assets/logo-clickup.png",
+                can: ["Create, update & delete tasks", "Set task priority & details", "Add tags, links & dependencies", "Attach files to tasks", "Merge & move tasks", "Create folders, lists & reminders", "Create & manage documents & pages", "Track time on tasks", "Add comments & send team chat messages"],
+                cant: ["Delete spaces or folders", "Manage billing or workspace-level settings"]
+              },
+              {
+                id: "fathom", name: "Fathom", access: "ro", category: "productivity", tile: "F", color: "#4F46E5", logo: "assets/logo-fathom.webp",
+                can: ["List & search past meetings", "Get meeting summaries", "Get full transcripts", "Get recordings by URL or call ID", "Find persons", "List teams & identity"],
+                cant: ["Schedule or create meetings", "Delete meetings or recordings", "Edit transcripts", "Any write operations (read-only connector)"]
+              },
+              {
+                id: "ms365", name: "Microsoft 365", access: "ro", category: "productivity", tile: "M", color: "#D83B01", logo: "assets/logo-microsoft.png",
+                note: "Available on Team / Enterprise plans only.",
+                can: ["Search documents across SharePoint & OneDrive", "Analyze email threads in Outlook", "Get calendar event insights", "Review Teams chat conversations", "Summarize documents & communications"],
+                cant: ["Send emails or Teams messages", "Create or edit documents", "Create calendar events", "Any write operations (read-only connector)"]
+              }
+            ];
+            var ACCESS_LABEL = { rw: "Read & write", interactive: "Interactive", ro: "Read only" };
+            var grid = root.querySelector('#cc-grid');
+
+            function cardHTML(c) {
+              var canLis = c.can.map(function (t) { return '<li>' + t + '</li>'; }).join("");
+              var cantLis = c.cant.map(function (t) { return '<li>' + t + '</li>'; }).join("");
+              var note = c.note ? '<div class="cc-card__note">⊘ ' + c.note + '</div>' : "";
+              var tile = c.logo
+                ? '<div class="cc-tile cc-tile--logo"><img src="' + c.logo + '" alt="' + c.name + ' logo" loading="lazy"></div>'
+                : '<div class="cc-tile" style="background:' + c.color + '">' + c.tile + '</div>';
+              return '' +
+                '<article class="cc-card" data-access="' + c.access + '" data-category="' + c.category + '">' +
+                '<div class="cc-card__head">' +
+                tile +
+                '<div class="cc-card__id">' +
+                '<div class="cc-card__name">' + c.name + '</div>' +
+                '<span class="cc-badge cc-badge--' + c.access + '"><span class="cc-badge__dot"></span>' + ACCESS_LABEL[c.access] + '</span>' +
+                '</div>' +
+                '</div>' +
+                note +
+                '<div class="cc-caps" data-collapsed="true">' +
+                '<button class="cc-caps__toggle" type="button" aria-expanded="false">' +
+                '<span class="cc-lbl">Capabilities</span>' +
+                '<span class="cc-caps__pills">' +
+                '<span class="cc-caps__pill cc-caps__pill--can">' + c.can.length + ' can</span>' +
+                '<span class="cc-caps__pill cc-caps__pill--cant">' + c.cant.length + ' can’t</span>' +
+                '</span>' +
+                '<span class="cc-caps__chev"><svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+                '</button>' +
+                '<div class="cc-caps__wrap"><div class="cc-caps__inner"><div class="cc-caps__grid">' +
+                '<div class="cc-caps__col cc-caps__col--can">' +
+                '<div class="cc-caps__h cc-caps__h--can">' +
+                '<svg class="cc-caps__icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(20,160,90,0.12)"/><path d="M6 10.4l2.6 2.6L14 7.4" stroke="#14A05A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+                'Can do' +
+                '</div>' +
+                '<ul class="cc-caps__list">' + canLis + '</ul>' +
+                '</div>' +
+                '<div class="cc-caps__col cc-caps__col--cant">' +
+                '<div class="cc-caps__h cc-caps__h--cant">' +
+                '<svg class="cc-caps__icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(145,143,169,0.14)"/><path d="M6.6 6.6l6.8 6.8M13.4 6.6l-6.8 6.8" stroke="#918FA9" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+                'Can’t do' +
+                '</div>' +
+                '<ul class="cc-caps__list">' + cantLis + '</ul>' +
+                '</div>' +
+                '</div></div></div>' +
+                '</div>' +
+                '</article>';
+            }
+
+            grid.innerHTML = CONNECTORS.map(cardHTML).join("");
+
+            // Keep a fixed anchor element visually stationary across a layout
+            // change (expand/collapse or filter) so the view never jumps.
+            function keepInPlace(anchor, mutate) {
+              if (!anchor) { mutate(); return; }
+              var before = anchor.getBoundingClientRect().top;
+              mutate();
+              var delta = anchor.getBoundingClientRect().top - before;
+              if (delta) window.scrollBy(0, delta);
+            }
+
+            // one toggle per card shows/hides both lists together
+            grid.addEventListener("click", function (e) {
+              var btn = e.target.closest(".cc-caps__toggle");
+              if (!btn) return;
+              var caps = btn.closest(".cc-caps");
+              var card = btn.closest(".cc-card");
+              keepInPlace(card, function () {
+                var collapsed = caps.getAttribute("data-collapsed") === "true";
+                caps.setAttribute("data-collapsed", String(!collapsed));
+                btn.setAttribute("aria-expanded", String(collapsed));
+              });
+            });
+
+            // counts
+            var counts = { all: CONNECTORS.length, rw: 0, interactive: 0, ro: 0, gws: 0, productivity: 0, pm: 0, design: 0 };
+            CONNECTORS.forEach(function (c) { counts[c.access]++; counts[c.category]++; });
+            ["all", "rw", "interactive", "ro", "gws", "productivity", "pm", "design"].forEach(function (k) {
+              var el = root.querySelector("#cc-count-" + k);
+              if (el) el.textContent = counts[k];
+            });
+
+            // filtering — single active filter across access & category groups
+            var chips = root.querySelectorAll(".cc-chip");
+            var filterBar = root.querySelector(".cc-filters");
+            chips.forEach(function (chip) {
+              chip.addEventListener("click", function () {
+                chips.forEach(function (c) { c.classList.remove("cc-active"); });
+                chip.classList.add("cc-active");
+                var type = chip.dataset.type;
+                var f = chip.dataset.filter;
+                // Pin the filter bar so the grid growing/shrinking below it
+                // (or collapsing to the empty state) never scrolls the view.
+                keepInPlace(filterBar, function () {
+                  var shown = 0;
+                  root.querySelectorAll(".cc-card").forEach(function (card) {
+                    var match = (f === "all") ||
+                      (type === "category" ? card.dataset.category === f : card.dataset.access === f);
+                    card.classList.toggle("cc-hidden", !match);
+                    if (match) shown++;
+                  });
+                  var empty = root.querySelector("#cc-empty");
+                  if (empty) empty.remove();
+                  if (shown === 0) {
+                    grid.insertAdjacentHTML("beforeend", '<p class="cc-empty" id="cc-empty">No connectors in this group.</p>');
+                  }
+                });
+              });
+            });
+          })();
+        </script>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:96px">Scheduled tasks</p>
+      <h3 class="h3 h3--block">Have Claude run work on a cadence — without you starting it.</h3>
+      <p class="body">Type <code class="prompt-inline">/schedule</code> in Cowork. Claude asks a few questions — what,
+        when, how often — and confirms before anything is created. You define it once and it handles it from there.</p>
+      <div class="card schedule-card">
+        <p class="kicker kicker--violet">Sample prompts for scheduled tasks</p>
+        <div class="schedule-prompts">
+          <code class="prompt"
+            data-copy="">Every weekday morning at 8am, check my inbox and save a summary of unread client emails to my folder.</code>
+          <code class="prompt"
+            data-copy="">Every Friday at 4pm, pull my completed tasks for the week and create a short summary for my AL.</code>
+          <code class="prompt"
+            data-copy="">Every Monday, check my client's calendar for the week and flag any conflicts or gaps in scheduling.</code>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="cowork">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== PROMPTING ============== -->
+  <section class="section" id="prompting" data-gate-section="prompting">
+
+
+
+    <!-- HEADER -->
+    <div class="container container--narrow">
+      <p class="kicker">Prompting for Cowork</p>
+      <h2 class="h2">Provide Claude what it needs to know and what you want <span class="grad">delivered</span>.</h2>
+      <p class="body body--lead">Context does the heavy lifting. Add your Cowork files, attach screenshots, paste the
+        email, link your Connectors data, or trigger Skills — then tell Claude what you need out of it.</p>
+    </div>
+
+    <!-- RULE #1 DARK CARD -->
+    <div class="dark-band" style="width: calc(75vw - 120px); margin: 40px auto 0;">
+      <div class="aurora aurora--dark" aria-hidden="true"></div>
+      <div class="aurora aurora--dark-scatter" aria-hidden="true"></div>
+      <div class="container container--narrow">
+        <div class="prompt-rule">
+          <div>
+            <p class="kicker" style="margin-top:0">The #1 rule</p>
+            <h3 class="h3 h3--block">Claude is <span
+                style="background:var(--sphere,linear-gradient(135deg,#FF8EA9 0%,#9B00FF 50%,#14E9ED 100%));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">brilliant</span>
+              on day one. It just doesn't know your situation yet.</h3>
+            <p class="body" style="margin-top:16px;">It knows every language, industry, and format. What it doesn't know
+              is your client, your task, and what a good result looks like. <strong>Give it that context — the more
+                relevant data you hand over, the less it has to guess.</strong></p>
+            <p class="body" style="margin-top:10px;">If the output wasn't what you wanted, that's almost always a
+              context problem — not a Claude problem. Add more information instead of stressing over perfect wording.
+            </p>
+          </div>
+          <div class="prompt-rule__compare">
+            <div class="prompt-rule__example prompt-rule__example--bad">
+              <p class="prompt-rule__tag prompt-rule__tag--bad">Polished prompt, no context</p>
+              <p class="prompt-rule__quote">"Analyze our sales data and turn it into a slide deck with charts. Keep it
+                accurate and clear."</p>
+            </div>
+            <div class="prompt-rule__example prompt-rule__example--good">
+              <p class="prompt-rule__tag prompt-rule__tag--good">The context, handed over</p>
+              <p class="prompt-rule__quote">"Go to my Q2 Reports folder and open regional_sales.csv. Read every row,
+                analyze the trends, and turn the key insights into charts for the quarterly business review. Build it
+                into a slide deck — and double-check every figure against the sheet before you finalize."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THREE PRINCIPLES -->
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:72px">Three things to focus on</p>
+      <div class="habit-grid" data-guide>
+
+        <article class="card habit-card" data-n="01">
+          <p class="habit-num">01</p>
+          <p class="habit-title">Link and feed the raw data.</p>
+          <p class="habit-body">Connect your apps and folders, attach files, paste the email, share screenshots, then
+            speak out what you need. What you hand over matters far more than how you word the ask.</p>
+        </article>
+
+        <article class="card habit-card" data-n="02">
+          <p class="habit-num">02</p>
+          <p class="habit-title">Refine the first draft if needed.</p>
+          <p class="habit-body">Claude iterates. If the result isn't right, add more context and redirect with clearer
+            instructions, the same way you would with a colleague who needed
+            more of the story.</p>
+        </article>
+
+        <article class="card habit-card habit-card--wide" data-n="03">
+          <p class="habit-num">03</p>
+          <p class="habit-title">Assume it can do anything until it tells you otherwise.</p>
+          <p class="habit-body">Try the task — don't overthink whether it can handle it. Claude will flag it if
+            something is out of reach, and if it needs more from you, it'll ask clarifying questions before it proceeds.
+            Most assistants stop short of what is actually possible — the people who get the most out of it are the ones
+            who keep asking.</p>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- 6 PROMPT PAIRS -->
+    <div class="container container--narrow prompt-pairs-wrap">
+      <div class="prompt-pairs-head">
+        <p class="kicker" style="margin:0">Weak ask <span class="pp-headarrow">&#8594;</span> strong ask</p>
+        <p class="prompt-pairs-sub">Tap any card to see the same request, rewritten with context.</p>
+      </div>
+
+      <div class="prompt-pairs" data-guide>
+
+        <article class="prompt-pair pp-collapsible">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">01</span>
+            <div class="pp-head__main">
+              <p class="pp-cat">Pre-call research</p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Research this company before my call."</span></p>
+            </div>
+            <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
+                <p class="prompt-pair__line">"<em class="pp-action">[pastes booking email]</em> Investor call Thursday
+                  with <strong>Acme Corp</strong> — Series B fintech. Pull their latest news and funding history from
+                  the
+                  web, use <code>/calendar-management</code> to check the attendees against our notes (<strong>Meeting
+                    Insights - 2026.docx</strong>) in the <strong>Clients folder</strong>, and write me a
+                  <strong>one-page prep brief</strong> using our <strong>call-prep template</strong> in that same file.
+                  Goal: open <strong>Q4</strong> project talks."
+                </p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>A pasted email plus where the rest lives — web, calendar, your notes, a template — and a clear goal.
+                  You didn't word it perfectly; you pointed Claude at everything it needed.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt-pair pp-collapsible">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">02</span>
+            <div class="pp-head__main">
+              <p class="pp-cat">Follow-up email</p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Write a follow-up email to the client about the call."</span></p>
+            </div>
+            <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
+                <p class="prompt-pair__line">"<em class="pp-action">[screenshots the thread]</em> They no-showed our
+                  Monday
+                  call. Use <code>/calendar-management</code> to pull two open slots from my <strong>Google
+                    Calendar</strong> next week, use <code>/email-management</code> to draft a warm reply offering both,
+                  and
+                  match the voice in our <strong>email guide</strong>. Under 5 sentences."</p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>A screenshot of the thread, two skills, and your voice guide. Show Claude the history instead of
+                  retyping it — the reply almost writes itself.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt-pair pp-collapsible">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">03</span>
+            <div class="pp-head__main">
+              <p class="pp-cat">Inbox triage</p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Check my inbox for anything important."</span></p>
+            </div>
+            <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
+                <p class="prompt-pair__line">"Use <code>/email-management</code> to go through my <strong>Gmail</strong>
+                  from the last 24 hours. Flag only client emails or anything urgent, cross-check each sender against
+                  the
+                  <strong>active-accounts list</strong> in our team <strong>Google Drive</strong>, and summarize each in
+                  one
+                  line with what it needs and the account it ties to. <strong>Save them all into one Word doc</strong>
+                  in <strong>/active accounts/2026-06/week 1</strong>."
+                </p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>A connector, a cross-check file, and an exact output format and location. The scope — "last 24
+                  hours", "client or urgent" — keeps it focused.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt-pair pp-collapsible">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">04</span>
+            <div class="pp-head__main">
+              <p class="pp-cat">Recurring task</p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Summarize this weekly."</span></p>
+            </div>
+            <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
+                <p class="prompt-pair__line">"<strong>Every Monday before 8am Pacific</strong>, open the latest
+                  <strong>Fathom transcript</strong> of the <strong>Marketing Team Sync</strong> from my inbox. Pull
+                  every action item with its owner and due date into a table, add them to our team
+                  <strong>Notion</strong>,
+                  then notify the team in <code>#core-marketing</code>. Save the summary as a spreadsheet in the
+                  <strong>Core Team Archives</strong> folder for client <strong>John Doe</strong>."
+                </p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>Even a hands-off recurring task only works because you named the exact source, destination, and
+                  people. Set the context once and Claude runs it every week without you.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt-pair pp-collapsible">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">05</span>
+            <div class="pp-head__main">
+              <p class="pp-cat">Client proposal</p>
+              <p class="pp-before"><span class="pp-x" aria-hidden="true">&#10005;</span><span
+                  class="pp-before__txt">"Write a proposal for this client."</span></p>
+            </div>
+            <span class="pp-cta">See the upgrade<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Context-rich version</p>
+                <p class="prompt-pair__line">"Use the <strong>proposal template</strong> in our <strong>Google
+                    Drive</strong> and the pricing in our <strong>Sales Playbook</strong> (sales folder). Draft one for
+                  <strong>Acme Corp</strong> from the discovery notes in their client sub-folder and the draft
+                  presentation
+                  they sent <em class="pp-action">[attached]</em>. Run it through <code>/writing</code> so it sounds
+                  human
+                  and on-brand, then export a clean <strong>PDF</strong>."
+                </p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>A template, your pricing, the discovery notes, and their attached deck — plus the format you want
+                  out. Your files do the heavy lifting; /writing keeps it sounding human.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt-pair pp-collapsible pp-fix">
+          <div class="pp-head pp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <span class="pp-idx">06</span>
+            <div class="pp-head__main">
+              <p class="pp-cat pp-cat--fix">Too generic?</p>
+              <p class="pp-before"><span class="pp-x pp-x--fix" aria-hidden="true">!</span><span
+                  class="pp-before__txt pp-before__txt--plain">The output exists — it just needs more to go on.</span>
+              </p>
+            </div>
+            <span class="pp-cta">See the reprompt<span class="pp-caret">&#8594;</span></span>
+          </div>
+          <div class="pp-reveal">
+            <div class="pp-reveal__inner">
+              <div class="pp-after">
+                <p class="pp-after-tag"><span aria-hidden="true">&#10022;</span> Reprompt with context</p>
+                <p class="prompt-pair__line">"That's too generic. This is for a <strong>healthcare client</strong>
+                  preparing
+                  a board update — lead with the compliance risks from our <strong>Q2 deck</strong>, frame them against
+                  the
+                  targets in our <strong>KPI sheet</strong>, and keep it to the three slides that matter."</p>
+              </div>
+              <div class="pp-why"><span class="pp-why__ic" aria-hidden="true">i</span>
+                <p>Audience, two source files, and a sharper frame. You didn't rephrase the original ask — you added
+                  what Claude couldn't see.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="container container--narrow" style="margin-top:48px;">
+      <div class="tips-grid">
+        <article class="card tips-card--tip">
+          <p class="kicker">Cowork-specific tips</p>
+          <ul class="tip-list" data-guide>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body">State the <strong>output format</strong> upfront —<br><em class="tip-quote">"save as a
+                  .md file"</em>, <em class="tip-quote">"create a table"</em>, <em class="tip-quote">"write bullet
+                  points"</em>.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body">State the <strong>output location</strong> —<br><em class="tip-quote">"save to my
+                  Magic Work folder in Google Drive"</em>.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body">For tasks touching your <strong>inbox or calendar</strong>, define the scope —<br><em
+                  class="tip-quote">"only emails from the last 48 hours"</em> or <em class="tip-quote">"just the three
+                  meetings on Thursday"</em>.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body">Claude makes changes in real-time. <strong>Don't interrupt mid-step</strong> unless it
+                is clearly going wrong. Wait for Claude to surface a result, then redirect.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body">You don't need polished prompts. A voice-to-text input, Taglish, abbreviations, or
+                text with typos — if Claude has the context, it figures out the rest. <strong>Worry less
+                  about how you phrase it and more about whether Claude has what it needs.</strong></p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--vio" aria-hidden="true">&#10022;</span>
+              <p class="tip-body"><strong>Switch to a new chat when switching topics.</strong> Long conversations where
+                you've jumped between subjects can confuse Claude — it has to read all of that history first. Finish one
+                topic, take what you need, then start fresh.</p>
+            </li>
+          </ul>
+        </article>
+        <article class="card tips-card--trip">
+          <p class="kicker">Things that trip people up</p>
+          <ul class="tip-list" data-guide>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
+              <p class="tip-body">Claude <strong>can hit rate limits</strong> — <em class="tip-quote">"reset at
+                  5am"</em> means your usage cap was reached. Switch to a simpler task or step down to Sonnet.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
+              <p class="tip-body">If Claude <strong>goes quiet mid-task</strong>, it may be waiting on a permission
+                prompt — check the task sidebar before restarting.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
+              <p class="tip-body"><strong>Always confirm the right project folder, file path, skills or connectors
+                  linked</strong>
+                before a task runs — check if Claude saves or reads from exactly where you intend.</p>
+            </li>
+            <li class="tip-row">
+              <span class="tip-ic tip-ic--warn" aria-hidden="true">!</span>
+              <p class="tip-body">If Claude <strong>goes off track</strong>, resist the urge to reword the same ask —
+                redirect it with the right context instead. Generic or wrong outputs almost always mean Claude couldn't
+                see what you could.</p>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="prompting">Mark as read &#x2192;</button>
+    </div>
+  </section>
+
+
+  <!-- ============== MODEL ============== -->
+  <section class="section" id="model" data-gate-section="model">
+    <div class="container container--narrow">
+      <p class="kicker">Choosing the right model</p>
+      <h2 class="h2">Start on Opus. Step down only when <span class="grad">limits</span> push you.</h2>
+      <p class="body body--lead">Opus is your default for all EA work — best quality, richest output, strongest
+        reasoning. Switch to Sonnet only if you’re hitting Opus rate limits.</p>
+
+      <div class="card picker" id="picker">
+        <fieldset class="picker__field">
+          <legend class="kicker kicker--muted">What’s your situation?</legend>
+          <div class="picker__opts">
+            <label><input type="radio" name="task" value="opus" checked=""><span>Everyday EA work — the
+                default</span></label>
+            <label><input type="radio" name="task" value="sonnet"><span>Hitting Opus rate limits</span></label>
+            <label><input type="radio" name="task" value="haiku"><span>High-volume extraction or very quick summaries
+                (rare)</span></label>
+          </div>
+        </fieldset>
+
+        <div class="picker__result" id="pickerResult">
+          <p class="kicker kicker--violet">Recommended</p>
+          <p class="picker__model"><span id="pickerModel">Opus</span></p>
+          <p class="picker__why" id="pickerWhy">Your default. Best quality and reasoning for all EA work — research,
+            writing, Cowork, complex tasks. Start here and only step down if rate limits actually stop you.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container--narrow" style="margin-top:24px">
+      <div class="dtable-wrap">
+        <table class="dtable dtable--model">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Use for</th>
+              <th>Avoid for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-model="opus">
+              <td>Opus</td>
+              <td>Everything by default — all EA work, research, writing, Cowork, complex reasoning.</td>
+              <td>Nothing. Start here unless rate limits stop you.</td>
+            </tr>
+            <tr data-model="sonnet">
+              <td>Sonnet</td>
+              <td>When you’ve hit your Opus rate limit. Still strong for most work, lighter on quota.</td>
+              <td>Accuracy-critical or complex multi-step tasks where quality matters most.</td>
+            </tr>
+            <tr class="row-haiku">
+              <td>Haiku</td>
+              <td>High-volume rote data only — bulk categorization, simple extraction at scale.</td>
+              <td>Almost everything. Never use for reasoning, writing, or anything needing judgement.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--warn"
+        style="margin-top:16px; width:fit-content; margin-left:auto; margin-right:auto; text-align:center;">
+        <p><strong>Hitting Sonnet limits?</strong> Don't drop to Haiku — defaulting to a weaker model may affect the
+          quality of results.</p>
+        <p style="margin-top:8px;">Escalate to your account lead so your quota can be reviewed.</p>
+      </div>
+    </div>
+
+
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="model">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== SAFETY ============== -->
+  <section class="section" id="safety" data-gate-section="safety">
+    <div class="container container--narrow">
+      <p class="kicker">Use Claude Cowork safely</p>
+      <h2 class="h2">Read this before any <span class="grad">client</span> work.</h2>
+      <p class="body body--lead">Cowork works on your computer with access to your files, browser, connected services,
+        and apps. That capability comes with risks worth understanding.</p>
+
+      <!-- Animated risk card: thin orange arrows trace from the "brain" in the
+           logo out to each bullet, glowing and arriving one by one in a slow
+           loop. Arrow paths are computed from live element positions (so they
+           stay connected on any width) in js/ui.js → initRiskViz. Hover pauses;
+           reduced-motion / no-JS shows the static card. -->
+      <div class="risk-viz" id="riskViz">
+        <div class="risk-viz__logo">
+          <img loading="lazy" class="risk-viz__img" src="assets/claude-graphic.jpg" alt="">
+          <span class="risk-viz__glow rv-anim" aria-hidden="true"></span>
+          <span class="risk-viz__brain" aria-hidden="true"></span>
+        </div>
+
+        <div class="card risk-card risk-viz__card">
+          <p class="kicker kicker--violet">To minimize risks</p>
+          <ul class="bullets">
+            <li class="rv-bullet rv-anim rv-bullet--1">Avoid granting access to local files with <strong>sensitive
+                information</strong>, like financial documents and passwords.</li>
+            <li class="rv-bullet rv-anim rv-bullet--2">Be especially cautious with computer use — Claude makes changes
+              on
+              your computer directly and bypass <strong>permission checks</strong> when you allow it to.</li>
+            <li class="rv-bullet rv-anim rv-bullet--3">Cowork may have direct access to Claude in Chrome. We strongly
+              advise to be extremely careful on anything that takes control of your screen. Avoid automating risky and
+              irreversible actions such as <strong>logins, payments, or deletions</strong> that require human
+              oversight.</li>
+          </ul>
+        </div>
+
+        <svg class="risk-viz__wires" id="riskWires" aria-hidden="true"></svg>
+      </div>
+
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker" style="margin-top:80px">Responsible Use</p>
+      <p class="body body--lead">Understand Anthropic's safety measures — what they've built, what to watch for, and how
+        to protect yourself and your client.</p>
+      <div class="protect-grid">
+        <div class="protect"><span class="protect__num">1</span>
+          <p>Be selective about file access.</p>
+          <div class="protect-tip">
+            <p>Claude can read, write, and delete any files it has access to. Avoid pointing it at sensitive documents —
+              use a dedicated working folder instead, and keep backups of anything important.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">2</span>
+          <p>Monitor tasks, not just commands.</p>
+          <div class="protect-tip">
+            <p>Watch out for unexpected patterns rather than validating every command — is Claude accessing files or
+              sites you didn't mention? Is scope creeping beyond what you asked for? If something feels off, stop the
+              task immediately.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">3</span>
+          <p>Be cautious with scheduled tasks.</p>
+          <div class="protect-tip">
+            <p>Scheduled tasks run without you watching. Start with low-risk tasks, avoid scheduling anything involving
+              messages, purchases, or hard-to-undo actions, and review results regularly.</p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">4</span>
+          <p>Be cautious with computer use.</p>
+          <div class="protect-tip">
+            <p>Avoid anything that interacts directly with your screen, apps, and browser.
+            </p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">5</span>
+          <p>Avoid unfamiliar third-party plugins or skills.</p>
+          <div class="protect-tip">
+            <p>Stick to Anthropic verified connectors from Desktop directory and review permissions during installation.
+            </p>
+          </div>
+        </div>
+        <div class="protect"><span class="protect__num">6</span>
+          <p>Be careful of using Claude as an add-in to official apps.</p>
+          <div class="protect-tip">
+            <p>Claude can share data across apps (Excel, PowerPoint) without you explicitly directing it. Avoid working
+              with sensitive information while Cowork is active.</p>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="aside-important">
+        <svg class="aside-important__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle>
+          <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+        <p><strong>Important.</strong> While Anthropic enacted measures to reduce risk, you are still responsible
+          for your own use of Claude. Always exercise caution when using Cowork. Report any suspicious behaviour or
+          critical issues to <a href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a>.</p>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <!-- Both lists are rebuilt as scannable "guide" rows: a colour-coded
+           icon (✕ never / don't, ⚠ caution, ✓ always, ◆ responsibility), an
+           emphasised lead, and a quieter description. Rows stagger-reveal on
+           scroll and lift on hover. js/ui.js → initGuideReveal. -->
+      <div class="safety-cols">
+        <article class="card safety-card--magic">
+          <p class="kicker">Magic-specific guidelines</p>
+          <ul class="guide" data-guide>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
+              <span class="guide-txt"><span class="guide-lead">Never paste passwords, API keys, or
+                  credentials</span><span class="guide-desc">into a Cowork prompt. Don't ask it to access private data
+                  or
+                  scrape personal information, especially your client's.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
+              <span class="guide-txt"><span class="guide-lead">Never connect a client's email, calendar, or cloud
+                  storage</span><span class="guide-desc">without their explicit approval.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
+              <span class="guide-txt"><span class="guide-lead">Never impersonate someone</span><span
+                  class="guide-desc">Instead, ask: "based on their communication style, how would they
+                  respond?"</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
+              <span class="guide-txt"><span class="guide-lead">Don't modify security settings directly</span><span
+                  class="guide-desc">Claude will refuse.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--no" aria-hidden="true">✕</span>
+              <span class="guide-txt"><span class="guide-lead">Don't use Claude for clients whose confidentiality
+                  clauses
+                  cover AI tools</span><span class="guide-desc">Ask your AL first.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--warn" aria-hidden="true">⚠</span>
+              <span class="guide-txt"><span class="guide-lead">Aerospace, defense, or government clients</span><span
+                  class="guide-desc">Don't connect any client accounts — personal productivity only.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--yes" aria-hidden="true">✓</span>
+              <span class="guide-txt"><span class="guide-lead">Always review everything</span><span
+                  class="guide-desc">Before it goes to a client. Your sign-off is the last check.</span></span>
+            </li>
+          </ul>
+        </article>
+        <article class="card safety-card--resp">
+          <p class="kicker kicker--violet">Your responsibility</p>
+          <p class="body" style="font-size:18px;margin-bottom:14px">You remain responsible for all actions Claude takes
+            on your behalf:</p>
+          <ul class="guide guide--compact" data-guide>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Content published or messages sent.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Purchases or financial transactions.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Data accessed or modified.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Actions taken by scheduled tasks running on your
+                  behalf.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Actions taken through computer use on your desktop and
+                  apps.</span></span>
+            </li>
+            <li class="guide-item">
+              <span class="guide-ic guide-ic--resp" aria-hidden="true">◆</span>
+              <span class="guide-txt"><span class="guide-lead">Respecting third-party terms of service, including
+                  restrictions on automated access.</span></span>
+            </li>
+          </ul>
+        </article>
+      </div>
+      <p class="body body--small body--muted" style="margin-top:20px">Not sure if something is allowed? Ask your Account
+        Lead. They'll check with the Product Team if they don't know.</p>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="safety">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== LEARNING ============== -->
+  <section class="section" id="learn" data-gate-section="learn">
+    <div class="container container--narrow">
+      <p class="kicker">Learning resources &amp; certification</p>
+      <h2 class="h2">Go beyond the <span class="grad">basics</span>.</h2>
+      <p class="body body--lead">Anthropic's official resources. For a beginner-friendly overview, start with Claude for
+        Work — then use these to deepen your skills and earn your Claude certification.</p>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker kicker--muted resource-section-tag">Start here</p>
+      <div class="resource-grid resource-grid--2">
+        <a class="card resource" href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener">
+          <p class="resource__tag">Course</p>
+          <h3 class="resource__title">Claude 101.</h3>
+          <p class="resource__body">What Claude is, and organizing your work with projects, artifacts, and skills.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource resource--cert" href="https://anthropic.skilljar.com/ai-fluency-framework-foundations"
+          target="_blank" rel="noopener">
+          <p class="resource__tag">Course · Certificate</p>
+          <h3 class="resource__title">AI Fluency: Framework &amp; Foundations.</h3>
+          <p class="resource__body">How AI works, ethical grounding, and how to use it responsibly. Aligned with Magic's
+            Claude Certified program.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-claude-cowork" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Course · Free · ~1 hr</p>
+          <h3 class="resource__title">Introduction to Claude Cowork.</h3>
+          <p class="resource__body">The official Cowork course — task loop, skills, file and research workflows,
+            steering multi-step work.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+        <a class="card resource" href="https://anthropic.skilljar.com/introduction-to-agent-skills" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Course</p>
+          <h3 class="resource__title">Introduction to Skills.</h3>
+          <p class="resource__body">Learn what are Skills, how they work, and even how to create your own skill.</p>
+          <span class="resource__cta">Start the course →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <p class="kicker kicker--muted resource-section-tag">Go deeper</p>
+      <div class="resource-grid resource-grid--2 resource-grid--orange">
+        <a class="card resource" href="https://claude.com/resources/courses" target="_blank" rel="noopener">
+          <p class="resource__tag">Library</p>
+          <h3 class="resource__title">All courses.</h3>
+          <p class="resource__body">Structured learning paths with video lessons and assessments.</p>
+          <span class="resource__cta">Browse courses →</span>
+        </a>
+        <a class="card resource" href="https://claude.com/resources/tutorials" target="_blank" rel="noopener">
+          <p class="resource__tag">Library</p>
+          <h3 class="resource__title">All tutorials.</h3>
+          <p class="resource__body">Step-by-step guides for specific Claude features and workflows.</p>
+          <span class="resource__cta">Browse tutorials →</span>
+        </a>
+        <a class="card resource" href="https://claude.com/resources/tutorials/customize-claude-cowork" target="_blank"
+          rel="noopener">
+          <p class="resource__tag">Tutorial</p>
+          <h3 class="resource__title">Customize Claude Cowork.</h3>
+          <p class="resource__body">Tailor Cowork to your working style and recurring task patterns.</p>
+          <span class="resource__cta">Open tutorial →</span>
+        </a>
+        <a class="card resource" href="https://support.claude.com/en/articles/13837440-use-plugins-in-claude"
+          target="_blank" rel="noopener">
+          <p class="resource__tag">Guide</p>
+          <h3 class="resource__title">Use plugins with Cowork.</h3>
+          <p class="resource__body">Plugins customize how Claude works for your role, team, and company.</p>
+          <span class="resource__cta">Open guide →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="container container--narrow">
+      <div class="cert-callout">
+        <p class="kicker kicker--violet">Claude Certified</p>
+        <p class="body cert-callout__body">The official courses issue a certificate of completion from Anthropic which
+          are aligned with Magic's Claude Certified program — your AL will track it as part of your onboarding.</p>
+        <p class="body body--small body--muted cert-callout__al">For Account Leads — these same resources are your
+          coaching toolkit. Reach out to the Product team for support.</p>
+      </div>
+    </div>
+
+
+    <div class="section-gate-footer">
+      <button class="section-complete-btn" data-completes="learn">Mark as read →</button>
+    </div>
+  </section>
+
+
+  <!-- ============== HELP ============== -->
+  <section class="section" id="help" data-gate-section="help">
+    <div class="container container--narrow">
+      <p class="kicker">Getting help</p>
+      <h2 class="h2">Pick the issue. We'll point to the right <span class="grad">person</span>.</h2>
+
+      <div class="card router" id="router">
+        <div class="router__list" role="tablist" aria-label="What's wrong?">
+          <span class="router__label">What's wrong?</span>
+          <button class="router__opt is-active" type="button" data-route="invite" role="tab" aria-selected="true">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path stroke-linecap="round" d="M7 11V8a5 5 0 0110 0v3" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Can't accept invite or sign in</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="templates" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="4" y="4" width="7" height="7" rx="1.5" />
+                <rect x="13" y="4" width="7" height="7" rx="1.5" />
+                <rect x="4" y="13" width="7" height="7" rx="1.5" />
+                <rect x="13" y="13" width="7" height="7" rx="1.5" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Can't see Magic templates or Skills</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="google" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12l2 2 4-4M5 5h14a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Google account not connecting</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="refuse" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" d="M9 9l6 6M15 9l-6 6" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Claude refuses a task</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="limit" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" d="M12 7v5l3 2" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Hit the rate limit</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="general" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.5 9.5a2.5 2.5 0 113.5 2.3c-.8.4-1 .8-1 1.7M12 17h.01" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">General Claude questions</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="router__opt" type="button" data-route="tech" role="tab" aria-selected="false">
+            <span class="router__opt-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M10.3 4.3l1 2.3 2.4.3 1-2.2 2 1.2-.9 2.3 1.6 1.8 2.3-.8.7 2.2-2.1 1.1.2 2.4 2.2 1-1 2-2.4-.4-1.6 1.8.8 2.3-2 1-1.4-2-2.4.3-.6 2.3-2.2-.5.1-2.4-2.2-1 .9-2.2-1.5-1.9-2.3.7-.6-2.2 2.1-1.2-.3-2.4z" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+            </span>
+            <span class="router__opt-txt">Technical issue — extension or app</span>
+            <span class="router__opt-go" aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
+
+        <div class="router__answer" id="routerAnswer" role="tabpanel" aria-live="polite">
+          <p class="kicker kicker--violet">Who to contact</p>
+          <p class="router__who" id="routerWho">Product Team</p>
+          <p class="router__why" id="routerWhy">Can't accept the invite or sign in? Email the Product Team —
+            product-team@getmagicea.com.</p>
+          <a class="router__action" id="routerAction" href="mailto:product-team@getmagicea.com">Email Product Team
+            <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== CTA CLOSER ============== -->
+  <section class="section section--cta" id="feedback" data-gate-section="feedback">
+    <div class="container container--narrow">
+      <div class="cta">
+        <div class="aurora aurora--cta" aria-hidden="true"></div>
+        <p class="kicker kicker--cyan">You've finished your onboarding.</p>
+        <h2 class="h2 h2--inverse">Tell us what's <span class="grad">working</span>.</h2>
+        <p class="lede lede--inverse" style="font-size:22px">After some usage, please answer our <strong>short feedback form</strong> (~5 mins)
+          which covers tasks you ran in Cowork, what worked, what was frustrating, and what would make you use Cowork
+          more. Your answers directly shape what we implement for the next group of assistants.</p>
+        <p class="lede lede--inverse">Welcome to your Claude Cowork journey!</p>
+        <a class="btn btn--light" href="https://forms.gle/1sHmHWHQ7BpeKaUN7" target="_blank" rel="noopener">Open the
+          feedback form</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROGRESS BAR ═══ -->
+  <div class="container container--narrow" style="padding-top:26px;padding-bottom:40px;">
+    <div id="progressCard" style="display:flex;flex-direction:column;gap:10px;">
+      <span id="progressDone" style="display:none">0</span><span id="progressTotal" style="display:none">0</span>
+      <div class="progress-card__track" style="width:100%;">
+        <div class="progress-card__fill" id="progressFill"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <span id="progressStatus" style="font-size:17px;color:var(--ink-muted);">Start with step one below.</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="btn btn--ghost" id="resetProgress" type="button" style="font-size:17px;padding:7px 16px;">Reset
+            progress</button>
+          <a href="#setup" class="progress-card__jump" id="progressJump" style="font-size:17px;">Continue →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="footer">
+    <div class="container container--narrow">
+      <p class="footer__line">Claude for Magic Assistants onboarding playbook.</p>
+      <p class="footer__meta">v5 · May 2026 · Questions? <a
+          href="mailto:product-team@getmagicea.com">product-team@getmagicea.com</a></p>
+    </div>
+  </footer>
+
+
+  <!-- Load order matters: ui.js owns state/progress/gating; app.js wires tab nav,
+       copy buttons, help router, smooth-scroll. Both run after the DOM is parsed. -->
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/voiceover.js"></script>
+
+
+
+
+
+
+  <!-- Floating Table of Contents -->
+  <nav class="toc" aria-label="Page sections">
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#intro"><span class="toc__dot"></span><span class="toc__label">What's
+            Different</span></a></li>
+      <li class="toc__item"><a href="#cowork-intro"><span class="toc__dot"></span><span class="toc__label">Claude
+            Cowork</span></a></li>
+      <li class="toc__item"><a href="#need"><span class="toc__dot"></span><span class="toc__label">Quickstart</span></a>
+      </li>
+      <li class="toc__item"><a href="#setup"><span class="toc__dot"></span><span class="toc__label">Setup</span></a>
+      </li>
+      <li class="toc__item"><a href="#cowork"><span class="toc__dot"></span><span class="toc__label">Using
+            Cowork</span></a></li>
+      <li class="toc__item"><a href="#skills"><span class="toc__dot"></span><span
+            class="toc__label">Skills</span></a></li>
+      <li class="toc__item"><a href="#connectors"><span class="toc__dot"></span><span
+            class="toc__label">Connectors</span></a></li>
+      <li class="toc__item"><a href="#prompting"><span class="toc__dot"></span><span
+            class="toc__label">Prompting</span></a></li>
+      <li class="toc__item"><a href="#model"><span class="toc__dot"></span><span class="toc__label">Model</span></a>
+      </li>
+      <li class="toc__item"><a href="#safety"><span class="toc__dot"></span><span class="toc__label">Safety</span></a>
+      </li>
+      <li class="toc__item"><a href="#learn"><span class="toc__dot"></span><span class="toc__label">Learning</span></a>
+      </li>
+      <li class="toc__item"><a href="#help"><span class="toc__dot"></span><span class="toc__label">Help</span></a></li>
+      <li class="toc__item"><a href="#feedback"><span class="toc__dot"></span><span
+            class="toc__label">Feedback</span></a></li>
+    </ul>
+  </nav>
+
+
+
+
+
+
+
+
+  <!-- HERO GRAPH -->
+  <script src="js/hero-graph.js"></script>
+  <!-- /HERO GRAPH -->
+</body>
+
+</html>

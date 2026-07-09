@@ -42,3 +42,10 @@ node_modules/
 
 # --- Archived originals kept for reversibility, but not served (saves ~35 MB) ---
 assets/_archive
+
+# --- Funnel Dashboard reference material — not served (contains raw Cowork artifact,
+#     mockups, and per-assistant session notes; the deployed dashboard only needs data.json) ---
+funnel-dashboard/_source
+funnel-dashboard/_source/
+**/funnel-dashboard/_source/**
+funnel-dashboard/generate-data.py

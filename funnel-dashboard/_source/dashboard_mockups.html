@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pilot Command Center — dashboard mockups</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --text-primary:#1A1A1A; --text-secondary:#4A4A6A; --text-muted:#8A8A9A;
+  --text-success:#0F6E56; --text-warning:#8A5A12;
+  --surface-1:#FFFFFF; --surface-2:#F4F5FA;
+  --border:#E6E6EC; --border-strong:#C7C7D2; --border-warning:#E7D5A8;
+  --bg-success:#E1F5EE; --bg-warning:#FBF1DA; --radius:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#EEF0F5;color:#1A1A1A;margin:0;padding:28px}
+.wrap{max-width:900px;margin:0 auto}
+.mock{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:26px}
+.mock-kick{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#918FA9}
+h1{font-size:20px;font-weight:600;margin:0 0 4px}
+h2{font-size:16px;font-weight:600;margin:0}
+.note{font-size:12px;color:#6E6B7B;margin:0 0 4px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="margin-bottom:18px">
+    <p class="mock-kick">Concept mockups · not live</p>
+    <h1>Pilot command center — dashboard mockups</h1>
+    <p class="note">Built from the EA Pilot 62 tab (snapshot Jul 7, 2026). For review before a live build.</p>
+  </div>
+
+  <!-- ============ MOCKUP 1: COMMAND CENTER ============ -->
+  <div class="mock">
+    <h2 style="margin-bottom:14px">1 · Command center overview</h2>
+<style>
+.pcc-wrap{display:block;width:100%;font-size:13px;color:var(--text-secondary)}
+.pcc-card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.pcc-kick{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}
+.pcc-chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 10px;font-size:12px;margin:2px 4px 2px 0}
+.pcc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pcc-col{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.pcc-name{display:inline-block;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:11px;margin:2px 3px 0 0;color:var(--text-primary)}
+.pcc-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.pcc-track{flex:1;height:16px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.pcc-fill{height:100%;border-radius:4px}
+.pcc-lbl{width:150px;font-size:12px;color:var(--text-primary)}
+.pcc-num{width:28px;text-align:right;font-size:12px;color:var(--text-primary)}
+.pcc-h{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 8px}
+@media(max-width:640px){.pcc-grid{grid-template-columns:1fr}}
+</style>
+<div class="pcc-wrap">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+    <div><div class="pcc-kick">Mockup · concept only</div><h3 style="margin:0;font-size:16px;font-weight:600">Pilot command center</h3></div>
+    <div>
+      <span class="pcc-chip" style="background:var(--bg-success);color:var(--text-success)"><i class="ti ti-circle-check"></i>23 active</span>
+      <span class="pcc-chip" style="background:var(--bg-warning);color:var(--text-warning)">1 paused</span>
+      <span class="pcc-chip" style="background:#FAECE7;color:#993C1D">4 churned</span>
+      <span class="pcc-chip" style="background:#EEEDFE;color:#3C3489">1 to invite</span>
+    </div>
+  </div>
+  <div class="pcc-card">
+    <p class="pcc-h">Full lifecycle funnel — active cohort (n=23)</p>
+    <div class="pcc-row"><span class="pcc-lbl" style="color:#534AB7">Onboarding · Alver + AL</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Invited</span><span class="pcc-track"><span class="pcc-fill" style="width:100%;background:#534AB7"></span></span><span class="pcc-num">23</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Accessed</span><span class="pcc-track"><span class="pcc-fill" style="width:78%;background:#534AB7"></span></span><span class="pcc-num">18</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Access confirmed</span><span class="pcc-track"><span class="pcc-fill" style="width:74%;background:#534AB7"></span></span><span class="pcc-num">17</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Desktop installed</span><span class="pcc-track"><span class="pcc-fill" style="width:70%;background:#534AB7"></span></span><span class="pcc-num">16</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Cowork usage</span><span class="pcc-track"><span class="pcc-fill" style="width:65%;background:#7F77DD"></span></span><span class="pcc-num">15</span></div>
+    <div class="pcc-row" style="margin-top:10px"><span class="pcc-lbl" style="color:#0F6E56">Engagement · BizOps + Product</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Reached out</span><span class="pcc-track"><span class="pcc-fill" style="width:74%;background:#0F6E56"></span></span><span class="pcc-num">17</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Insight call in pipeline</span><span class="pcc-track"><span class="pcc-fill" style="width:74%;background:#0F6E56"></span></span><span class="pcc-num">17</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Reached Call 2</span><span class="pcc-track"><span class="pcc-fill" style="width:17%;background:#1D9E75"></span></span><span class="pcc-num">4</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Call completed</span><span class="pcc-track"><span class="pcc-fill" style="width:4%;background:#1D9E75"></span></span><span class="pcc-num">1</span></div>
+    <div class="pcc-row" style="margin-top:10px"><span class="pcc-lbl" style="color:#993C1D">Reward</span></div>
+    <div class="pcc-row"><span class="pcc-lbl">Incentive filed</span><span class="pcc-track"><span class="pcc-fill" style="width:17%;background:#993C1D"></span></span><span class="pcc-num">4</span></div>
+  </div>
+  <div class="pcc-grid">
+    <div class="pcc-card" style="margin:0">
+      <p class="pcc-h">Whose court is it in? — next open action</p>
+      <div class="pcc-col" style="margin-bottom:8px">
+        <div class="pcc-row" style="margin:0 0 4px"><i class="ti ti-video" style="color:#0F6E56"></i><span style="color:var(--text-primary)">Insight call · Product</span><span class="pcc-num" style="width:auto;margin-left:auto;color:#0F6E56">14</span></div>
+        <span class="pcc-name">Claire</span><span class="pcc-name">Ma. Jolaine</span><span class="pcc-name">Pamela</span><span class="pcc-name">Genevieve</span><span class="pcc-name">Kristin</span><span class="pcc-name">Judilyn</span><span class="pcc-name">Rhia</span><span class="pcc-name">Bhea</span><span class="pcc-name">Bleza</span><span class="pcc-name">Jasper</span><span class="pcc-name">Joshua</span><span class="pcc-name">Joan</span><span class="pcc-name">Daniel</span><span class="pcc-name">Ruan</span>
+      </div>
+      <div class="pcc-col" style="margin-bottom:8px">
+        <div class="pcc-row" style="margin:0 0 4px"><i class="ti ti-mail" style="color:#534AB7"></i><span style="color:var(--text-primary)">Access · Alver</span><span class="pcc-num" style="width:auto;margin-left:auto;color:#534AB7">6</span></div>
+        <span class="pcc-name">May Ann · accept invite</span><span class="pcc-name">John · confirm</span><span class="pcc-name">Mary Grace · accept</span><span class="pcc-name">Alliyah</span><span class="pcc-name">Leonard</span><span class="pcc-name">Angelica</span>
+      </div>
+      <div class="pcc-col">
+        <div class="pcc-row" style="margin:0 0 4px"><i class="ti ti-device-desktop" style="color:#534AB7"></i><span style="color:var(--text-primary)">Access · Account Lead</span><span class="pcc-num" style="width:auto;margin-left:auto;color:#534AB7">3</span></div>
+        <span class="pcc-name">Rosebeth · first Cowork msg</span><span class="pcc-name">Alexis · install desktop</span><span class="pcc-name">Bernard · first Cowork msg</span>
+      </div>
+    </div>
+    <div class="pcc-card" style="margin:0">
+      <p class="pcc-h">Insight-call pipeline</p>
+      <div class="pcc-col" style="margin-bottom:8px">
+        <div class="pcc-row" style="margin:0 0 4px"><span style="color:var(--text-primary)">Call 1 · scoping</span><span class="pcc-num" style="width:auto;margin-left:auto">13</span></div>
+        <span class="pcc-name">Claire</span><span class="pcc-name">Rosebeth</span><span class="pcc-name">Jasper</span><span class="pcc-name">Joshua</span><span class="pcc-name">Joan</span><span class="pcc-name">Ma. Jolaine</span><span class="pcc-name">Pamela</span><span class="pcc-name">Kristin</span><span class="pcc-name">Judilyn</span><span class="pcc-name">Bernard</span><span class="pcc-name">Rhia</span><span class="pcc-name">Alexis</span><span class="pcc-name">Bleza</span>
+      </div>
+      <div class="pcc-col" style="margin-bottom:8px">
+        <div class="pcc-row" style="margin:0 0 4px"><span style="color:var(--text-primary)">Call 2 · activation</span><span class="pcc-num" style="width:auto;margin-left:auto">4</span></div>
+        <span class="pcc-name">Daniel · Kat</span><span class="pcc-name">Ruan · Alver</span><span class="pcc-name">Genevieve · Kat</span><span class="pcc-name">Bhea · Kat</span>
+      </div>
+      <div class="pcc-col">
+        <div class="pcc-row" style="margin:0 0 4px"><span style="color:var(--text-primary)">Done</span><span class="pcc-num" style="width:auto;margin-left:auto">1</span></div>
+        <span class="pcc-name">Agnes · Alver</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-warning);margin:8px 0 0"><i class="ti ti-alert-triangle"></i> 13 calls still have no date set</p>
+    </div>
+  </div>
+  <div class="pcc-card" style="border-color:var(--border-warning);background:var(--bg-warning)">
+    <p class="pcc-h" style="color:var(--text-warning)">Attention flags</p>
+    <div style="font-size:12px;color:var(--text-warning);line-height:1.7">
+      Alexis — Cowork usage true but desktop not installed &nbsp;·&nbsp; Agnes — paused yet call done + bonus filed &nbsp;·&nbsp; 4 incentives filed but Date Filed blank (unpaid) &nbsp;·&nbsp; EA profile links 9/31, recording links 5/31 &nbsp;·&nbsp; Rainelle &amp; Neville — no Account Lead assigned
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- ============ MOCKUP 2: CENTERED % FUNNEL ============ -->
+  <div class="mock">
+    <h2 style="margin-bottom:4px">2 · Lifecycle funnel — centered, % of invited (approved style)</h2>
+    <p class="note">Each stage as a share of the top of the funnel (invited = 26 = 100%).</p>
+<style>
+.cf-wrap{width:100%;font-size:13px;color:var(--text-secondary)}
+.cf-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin:10px 0 6px}
+.cf-key{display:inline-flex;align-items:center;gap:6px}
+.cf-dot{width:10px;height:10px;border-radius:3px}
+.cf-phase{display:grid;grid-template-columns:200px 1fr;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:10px 0 4px}
+.cf-row{display:grid;grid-template-columns:200px 1fr;align-items:center;height:32px}
+.cf-lab{text-align:right;padding-right:12px;font-size:12px;color:var(--text-primary);white-space:nowrap}
+.cf-lab span{color:var(--text-muted)}
+.cf-barwrap{display:flex;justify-content:center;align-items:center;height:100%;border-left:1px dashed var(--border-strong)}
+.cf-bar{height:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;border-radius:2px}
+</style>
+<div class="cf-wrap">
+  <div class="cf-legend">
+    <span class="cf-key"><span class="cf-dot" style="background:#534AB7"></span>Onboarding</span>
+    <span class="cf-key"><span class="cf-dot" style="background:#0F6E56"></span>Engagement</span>
+    <span class="cf-key"><span class="cf-dot" style="background:#993C1D"></span>Reward</span>
+  </div>
+  <div class="cf-phase"><span></span><span>Onboarding · Alver + AL</span></div>
+  <div class="cf-row"><div class="cf-lab">Invited <span>100%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:100%;background:#534AB7">26</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Accessed <span>80.8%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:80.8%;background:#534AB7">21</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Access confirmed <span>76.9%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:76.9%;background:#534AB7">20</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Desktop installed <span>73.1%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:73.1%;background:#534AB7">19</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Cowork usage <span>61.5%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:61.5%;background:#6A61C9">16</div></div></div>
+  <div class="cf-phase"><span></span><span>Engagement · BizOps + Product</span></div>
+  <div class="cf-row"><div class="cf-lab">Reached out <span>69.2%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:69.2%;background:#0F6E56">18</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Insight call in pipeline <span>69.2%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:69.2%;background:#0F6E56">18</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Reached Call 2 <span>19.2%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:19.2%;background:#1D9E75">5</div></div></div>
+  <div class="cf-row"><div class="cf-lab">Call completed <span>3.8%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:3.8%;background:#1D9E75">1</div></div></div>
+  <div class="cf-phase"><span></span><span>Reward</span></div>
+  <div class="cf-row"><div class="cf-lab">Incentive filed <span>15.4%</span></div><div class="cf-barwrap"><div class="cf-bar" style="width:15.4%;background:#993C1D">4</div></div></div>
+  <p style="font-size:11px;color:var(--text-muted);margin-top:12px">Baseline = 26 invited. Of 31 nominated, 5 were never invited (churned, unassigned, or to-invite). Engagement runs partly in parallel with onboarding, so bars re-widen at reach-out.</p>
+</div>
+  </div>
+
+  <!-- ============ MOCKUP 3: MIRRORED FUNNEL ============ -->
+  <div class="mock">
+    <h2 style="margin-bottom:4px">3 · Lifecycle funnel — mirrored (share of 23 active)</h2>
+    <p class="note">Alternative style: bars symmetric about a center axis, width = share of active cohort.</p>
+<style>
+.fn-wrap{width:100%;font-size:13px;color:var(--text-secondary)}
+.fn-phase{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:10px 0 6px}
+.fn-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fn-label{width:150px;text-align:right;font-size:12px;color:var(--text-primary)}
+.fn-half{flex:1;display:flex}
+.fn-half.l{justify-content:flex-end}
+.fn-half.r{justify-content:flex-start}
+.fn-bar{height:22px}
+.fn-bar.l{border-radius:3px 0 0 3px}
+.fn-bar.r{border-radius:0 3px 3px 0}
+.fn-count{width:30px;text-align:center;font-size:12px;color:var(--text-primary)}
+.fn-pct{width:70px;font-size:11px;color:var(--text-muted)}
+.fn-axis{border-left:1px dashed var(--border-strong)}
+</style>
+<div class="fn-wrap">
+  <div class="fn-phase">Onboarding</div>
+  <div class="fn-row"><span class="fn-label">Invited</span><span class="fn-half l"><span class="fn-bar l" style="width:100%;background:#534AB7"></span></span><span class="fn-count">23</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:100%;background:#534AB7"></span></span><span class="fn-pct">100%</span></div>
+  <div class="fn-row"><span class="fn-label">Accessed</span><span class="fn-half l"><span class="fn-bar l" style="width:78%;background:#534AB7"></span></span><span class="fn-count">18</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:78%;background:#534AB7"></span></span><span class="fn-pct">78% · −5</span></div>
+  <div class="fn-row"><span class="fn-label">Access confirmed</span><span class="fn-half l"><span class="fn-bar l" style="width:74%;background:#534AB7"></span></span><span class="fn-count">17</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:74%;background:#534AB7"></span></span><span class="fn-pct">74% · −1</span></div>
+  <div class="fn-row"><span class="fn-label">Desktop installed</span><span class="fn-half l"><span class="fn-bar l" style="width:70%;background:#534AB7"></span></span><span class="fn-count">16</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:70%;background:#534AB7"></span></span><span class="fn-pct">70% · −1</span></div>
+  <div class="fn-row"><span class="fn-label">Cowork usage</span><span class="fn-half l"><span class="fn-bar l" style="width:65%;background:#7F77DD"></span></span><span class="fn-count">15</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:65%;background:#7F77DD"></span></span><span class="fn-pct">65% · −1</span></div>
+  <div class="fn-phase">Engagement</div>
+  <div class="fn-row"><span class="fn-label">Reached out</span><span class="fn-half l"><span class="fn-bar l" style="width:74%;background:#0F6E56"></span></span><span class="fn-count">17</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:74%;background:#0F6E56"></span></span><span class="fn-pct">74%</span></div>
+  <div class="fn-row"><span class="fn-label">Insight call</span><span class="fn-half l"><span class="fn-bar l" style="width:74%;background:#0F6E56"></span></span><span class="fn-count">17</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:74%;background:#0F6E56"></span></span><span class="fn-pct">74%</span></div>
+  <div class="fn-row"><span class="fn-label">Reached Call 2</span><span class="fn-half l"><span class="fn-bar l" style="width:17%;background:#1D9E75"></span></span><span class="fn-count">4</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:17%;background:#1D9E75"></span></span><span class="fn-pct">17%</span></div>
+  <div class="fn-row"><span class="fn-label">Call completed</span><span class="fn-half l"><span class="fn-bar l" style="width:4%;background:#1D9E75"></span></span><span class="fn-count">1</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:4%;background:#1D9E75"></span></span><span class="fn-pct">4%</span></div>
+  <div class="fn-phase">Reward</div>
+  <div class="fn-row"><span class="fn-label">Incentive filed</span><span class="fn-half l"><span class="fn-bar l" style="width:17%;background:#993C1D"></span></span><span class="fn-count">4</span><span class="fn-half r fn-axis"><span class="fn-bar r" style="width:17%;background:#993C1D"></span></span><span class="fn-pct">17%</span></div>
+</div>
+  </div>
+
+</div>
+</body>
+</html>
