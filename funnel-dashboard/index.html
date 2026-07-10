@@ -154,7 +154,7 @@ td.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.
 .legend b{margin:0;display:inline-flex;align-items:center;justify-content:center;width:15px;font-size:13px}
 
 /* ROSTER / LEADERBOARD shared grid — the table and the bar chart are the same rows */
-:root{--name-w:230px;--rcols:var(--name-w) minmax(110px,1fr) 104px 46px 46px 46px 46px 74px 66px}
+:root{--name-w:230px;--rcols:var(--name-w) minmax(110px,1fr) 104px 46px 46px 46px 46px 104px 66px}
 .rgrid{display:flex;flex-direction:column;min-width:760px}
 .rrow{display:grid;grid-template-columns:var(--rcols);column-gap:6px;align-items:center;min-height:43px;position:relative;border-bottom:1px solid #F2F2F6}
 .rrow.rhead{border-bottom:1px solid #EDEEF2;min-height:34px}
@@ -168,9 +168,8 @@ td.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.
 .rrow:not(.rhead):nth-of-type(even){background:#FAFAFD}
 .rrow:not(.rhead):hover{background:#F4F1FD}
 /* highlighted Cowork column (entry point to the leaderboard) */
-.rh.th-cowork{background:var(--violet);color:#fff;border-radius:8px 8px 0 0;text-align:center;padding:5px 2px}
-.rh.th-cowork:hover{color:#fff;background:var(--violet-mid)}
-.rh.th-cowork .cw-hint{display:block;font-size:9px;font-weight:700;letter-spacing:.05em;color:#D9CCFF;margin-top:1px}
+.rrow.rhead .rh.th-cowork{background:var(--violet);color:#fff;border-radius:8px 8px 0 0;text-align:center;padding:7px 10px;line-height:1.25;white-space:normal;letter-spacing:.05em}
+.rrow.rhead .rh.th-cowork:hover{color:#fff;background:var(--violet-mid)}
 .rrow .cell.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.14),inset -1px 0 0 rgba(82,0,227,.14)}
 .rrow:not(.rhead):hover .cell.cw-col{background:rgba(82,0,227,.11)}
 /* the usage bar overlay — hidden in roster mode, revealed as the table morphs */
@@ -510,7 +509,7 @@ function refresh(){
   document.getElementById('rosterCount').textContent=`(${list.length})`;
   const cols=[['name','Assistant','l'],['al','Lead','l'],['status','Status','l'],['invited','Inv','c'],['accessed','Acc','c'],['confirmed','Conf','c'],['desktop','Desk','c'],['cowork','Cowork','c'],['call','Call','c']];
   const head=cols.map(([k,l,cls])=>{
-    if(k==='cowork')return `<div class="rh th-cowork c" data-cowork="1" title="Open the Cowork usage leaderboard">${l}<span class="cw-hint">&#9656; leaderboard</span></div>`;
+    if(k==='cowork')return `<div class="rh th-cowork c" data-cowork="1" title="Open the Cowork usage leaderboard">Cowork usage</div>`;
     const car=state.sortKey===k?(state.sortDir>0?'▲':'▼'):'';return `<div class="rh ${k==='name'?'rh-name ':''}${cls||''}" data-sort="${k}">${l} <span class="car">${car}</span></div>`;}).join('');
   const ic={done:'<span class="ic-done">&#10003;</span>',stuck:'<span class="ic-stuck">!</span>',anom:'<span class="ic-anom">&#9888;</span>',pend:'<span class="ic-pend">&#8211;</span>'};
   const callChip=c=>c==='done'?'<span class="callchip" style="background:#E1F5EE;color:var(--teal)">Done</span>':c==='call2'?'<span class="callchip" style="background:#EAF7F1;color:var(--teal-lt)">Call 2</span>':c==='call1'?'<span class="callchip" style="background:#F1ECFF;color:var(--violet)">Call 1</span>':'<span class="ic-pend">&#8211;</span>';
@@ -629,7 +628,7 @@ function wire(){
 }
 async function init(){
   try{ALL=await fetchData();const now=new Date();
-    document.getElementById('metaLine').textContent=`EA Pilot 62 (Funnel Dashboard) · viewed ${now.toLocaleDateString('en-US',{month:'short',day:'numeric'})}, ${now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}.`;
+    document.getElementById('metaLine').textContent=`Viewed ${now.toLocaleDateString('en-US',{month:'short',day:'numeric'})}, ${now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}.`;
     renderOverview();wire();refresh();
     document.getElementById('loading').style.display='none';document.getElementById('dash').style.display='block';
     // start motion once the dashboard is visible: count-up numbers + grow funnel bars
