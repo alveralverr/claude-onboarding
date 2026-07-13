@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-14T05:20:30",
+ "generatedAt": "2026-07-14T05:36:56",
  "usageAsOf": "2026-07-13",
  "assistants": [
   {
@@ -1044,11 +1044,11 @@
    "dealCard": "https://app.hubspot.com/contacts/9309252/record/0-3/44687581516",
    "client": "Albert Mizrahi",
    "al": "Leonard Moog",
-   "status": "INVITED",
+   "status": "ACTIVE",
    "email": "erika.isidro@magicassistant.ai",
    "invited": true,
-   "accessed": false,
-   "confirmed": false,
+   "accessed": true,
+   "confirmed": true,
    "desktop": false,
    "cowork": false,
    "vertical": "",
@@ -1120,7 +1120,7 @@
    "al": "Gilberth Amaro",
    "status": "TO BE INVITED",
    "email": "frances.basilio@magicassistant.ai",
-   "invited": false,
+   "invited": true,
    "accessed": false,
    "confirmed": false,
    "desktop": false,
