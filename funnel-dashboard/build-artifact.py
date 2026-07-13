@@ -29,6 +29,12 @@ assert of in html and oh in html, "fetch signatures changed — update build-art
 html = html.replace(of, "const DATA=" + data + ";\nasync function fetchData(){return DATA;}")
 html = html.replace(oh, "const HIST=" + hist + ";\nasync function fetchHistory(){return HIST;}")
 html = re.sub(r'\s*<a href="\.\./"[^>]*>&larr; Back to home</a>', '', html)
+# drop the password gate entirely — the artifact is already private on claude.ai
+# (no double-gate). Remove the lock markup AND the gate script (so the password value
+# and the "password" word don't ride along); the dashboard just calls init() directly.
+html = re.sub(r'<div class="cd-lock" id="cdLock".*?</form>\s*</div>\s*', '', html, count=1, flags=re.S)
+html = re.sub(r'/\* ---- access gate.*?\}\)\(\);', 'init();', html, count=1, flags=re.S)
+html = re.sub(r'<script>try\{if\(localStorage\.getItem\(.funnel-unlocked.\).*?</script>\s*', '', html, count=1, flags=re.S)
 
 html = html.replace('<!DOCTYPE html>', '').replace('<html lang="en">', '')
 html = re.sub(r'<head>\s*', '', html, count=1)

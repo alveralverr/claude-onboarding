@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Funnel Dashboard</title>
+<script>try{if(localStorage.getItem('funnel-unlocked')==='1')document.documentElement.classList.add('funnel-unlocked');}catch(e){}</script>
 <style>
 @font-face{font-family:'League Spartan';font-weight:300 700;font-display:swap;src:url('../assets/fonts/league-spartan-3.woff2') format('woff2')}
 
@@ -21,6 +22,32 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);font-size:18px;background:var(--page);color:var(--soft);padding:28px;min-height:100vh;-webkit-font-smoothing:antialiased}
+/* ===== access gate (client-side wall) ===== */
+html.funnel-unlocked .cd-lock{display:none!important}
+.cd-lock{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:24px;overflow:hidden;background:rgba(243,245,250,.86);backdrop-filter:blur(22px) saturate(1.1);-webkit-backdrop-filter:blur(22px) saturate(1.1);transition:opacity .45s ease}
+.cd-lock--open{opacity:0;pointer-events:none}
+.cd-lock__aura{position:absolute;width:1100px;height:700px;left:50%;top:-180px;transform:translateX(-50%);background:var(--rainbow);filter:blur(120px);opacity:.45;pointer-events:none}
+.cd-lock__card{position:relative;width:100%;max-width:440px;padding:40px 40px 32px;text-align:center;background:rgba(255,255,255,.97);border:1px solid rgba(82,0,227,.14);border-radius:24px;box-shadow:0 30px 70px rgba(20,0,80,.22),0 2px 8px rgba(0,0,0,.05)}
+.cd-lock__card--shake{animation:cd-lock-shake .4s cubic-bezier(.36,.07,.19,.97)}
+@keyframes cd-lock-shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+.cd-lock__badge{width:56px;height:56px;margin:0 auto 18px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#5200E3,#7C4DFF 45%,#14C8D4);box-shadow:0 10px 26px rgba(82,0,227,.32)}
+.cd-lock__badge svg{width:26px;height:26px}
+.cd-lock__eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin:0 0 8px}
+.cd-lock__title{font-size:26px;font-weight:600;letter-spacing:-.01em;color:var(--soft);margin:0 0 10px;line-height:1.15}
+.cd-lock__msg{font-size:15.5px;line-height:1.55;color:var(--support);margin:0 auto 22px;max-width:34ch}
+.cd-lock__field{display:flex;gap:10px}
+.cd-lock__input{flex:1;min-width:0;font-family:var(--font);font-size:16px;letter-spacing:.14em;padding:13px 16px;border-radius:13px;border:1.5px solid rgba(82,0,227,.20);background:#fff;color:var(--soft);outline:none;transition:border-color .2s ease,box-shadow .2s ease}
+.cd-lock__input::placeholder{color:var(--muted);letter-spacing:.02em}
+.cd-lock__input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(82,0,227,.14)}
+.cd-lock__card[data-error="1"] .cd-lock__input{border-color:#E0466B;box-shadow:0 0 0 3px rgba(224,70,107,.14)}
+.cd-lock__btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;padding:13px 22px;border:0;cursor:pointer;font-family:var(--font);font-size:14.5px;font-weight:600;color:#fff;border-radius:13px;background:linear-gradient(110deg,#5200E3,#7C4DFF 50%,#14C8D4);background-size:180% 100%;background-position:0% 50%;box-shadow:0 6px 18px rgba(60,20,200,.30);transition:transform .18s ease,box-shadow .18s ease,background-position .4s ease}
+.cd-lock__btn:hover{transform:translateY(-1px);background-position:100% 50%;box-shadow:0 10px 24px rgba(60,20,200,.42)}
+.cd-lock__btn:active{transform:translateY(0)}
+.cd-lock__err{font-size:13.5px;font-weight:600;color:#E0466B;margin:14px 0 0;min-height:18px}
+.cd-lock__err[hidden]{display:none}
+.cd-lock__back{display:inline-block;margin-top:18px;font-size:14px;font-weight:600;color:var(--violet);text-decoration:none}
+.cd-lock__back:hover{text-decoration:underline}
+@media(max-width:460px){.cd-lock__card{padding:32px 24px 26px}.cd-lock__field{flex-direction:column}.cd-lock__btn{justify-content:center}}
 /* Center the dashboard content column (~70% of viewport, capped so it stays readable on wide screens) */
 #dash{width:70%;max-width:1400px;margin:0 auto}
 @media(max-width:1100px){#dash{width:100%}}
@@ -313,6 +340,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[r
 </style>
 </head>
 <body>
+<div class="cd-lock" id="cdLock" role="dialog" aria-modal="true" aria-labelledby="cdLockTitle">
+  <div class="cd-lock__aura" aria-hidden="true"></div>
+  <form class="cd-lock__card" id="cdLockForm" autocomplete="off">
+    <div class="cd-lock__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.6" fill="currentColor"/></svg></div>
+    <p class="cd-lock__eyebrow">Restricted &middot; MEA Ops</p>
+    <h2 class="cd-lock__title" id="cdLockTitle">Enter the access password</h2>
+    <p class="cd-lock__msg">The Funnel Dashboard shows internal pilot data. Enter the team password to view it.</p>
+    <div class="cd-lock__field">
+      <input class="cd-lock__input" id="cdLockInput" type="password" name="access" placeholder="Enter password" aria-label="Access password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <button class="cd-lock__btn" type="submit">Unlock</button>
+    </div>
+    <p class="cd-lock__err" id="cdLockErr" role="alert" hidden>Incorrect password &mdash; try again.</p>
+    <a class="cd-lock__back" href="../">&larr; Back to home</a>
+  </form>
+</div>
 <div id="loading"><div class="spinner"></div><span class="loading-text">Loading command center.</span></div>
 <div id="dash" style="display:none">
   <div class="hero"><div class="glow"></div>
@@ -776,7 +818,24 @@ async function init(){
     setTimeout(showCoach,400); // first-load nudges toward the Cowork column + names
   }catch(err){document.getElementById('loading').innerHTML=`<span style="color:#B4460E;font-size:15px">Failed to load. Try reopening.</span>`;console.error(err);}
 }
-init();
+/* ---- access gate: only fetch/render the dashboard after the password is entered ---- */
+(function(){
+  var KEY='funnel-unlocked', PASS='ClaudeMEAStats-26';
+  var lock=document.getElementById('cdLock'), form=document.getElementById('cdLockForm'),
+      input=document.getElementById('cdLockInput'), err=document.getElementById('cdLockErr');
+  if(!lock||!form||!input){init();return;}   // no gate present (e.g. the artifact build strips it)
+  var ok=false;try{ok=localStorage.getItem(KEY)==='1';}catch(e){}
+  function reveal(){document.documentElement.classList.add('funnel-unlocked');document.body.style.overflow='';lock.classList.add('cd-lock--open');setTimeout(function(){if(lock.parentNode)lock.parentNode.removeChild(lock);},500);init();}
+  if(ok){reveal();return;}
+  document.body.style.overflow='hidden';
+  try{input.focus();}catch(e){}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(input.value===PASS){try{localStorage.setItem(KEY,'1');}catch(e){}reveal();}
+    else{if(err)err.hidden=false;form.setAttribute('data-error','1');input.value='';form.classList.remove('cd-lock__card--shake');void form.offsetWidth;form.classList.add('cd-lock__card--shake');input.focus();}
+  });
+  input.addEventListener('input',function(){if(err)err.hidden=true;form.removeAttribute('data-error');});
+})();
 </script>
 </body>
 </html>
