@@ -56,7 +56,9 @@ body{font-family:var(--font);font-size:18px;background:var(--page);color:var(--s
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
 .kpi{position:relative;overflow:hidden;background:var(--dark);border:2px solid var(--dark);border-radius:0;box-shadow:var(--shadow-card);padding:14px 20px;cursor:pointer;transition:transform .14s ease,box-shadow .14s ease}
 /* dark aurora glow bleeding from the top of each card */
-.kpi::before{content:"";position:absolute;left:0;right:0;top:-70px;height:150px;background:var(--rainbow);filter:blur(85px);opacity:.55;pointer-events:none}
+.kpi::before{content:"";position:absolute;left:0;right:0;top:-70px;height:150px;background:var(--rainbow);filter:blur(85px);opacity:.55;pointer-events:none;transition:opacity .55s ease,filter .55s ease,height .55s ease}
+/* aurora intensifies while the leaderboard is open */
+#kpis.lb-on .kpi::before{opacity:.95;height:180px;filter:blur(70px)}
 .kpi:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift),0 0 0 2px rgba(20,233,237,.45)}
 .kpi:active{transform:translateY(-1px) scale(.99)}
 .kpi.active{box-shadow:var(--shadow-card),0 0 0 2px var(--cyan)}
@@ -127,6 +129,17 @@ body{font-family:var(--font);font-size:18px;background:var(--page);color:var(--s
 /* "all clear" empty states in the needs-action board */
 .allclear{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--teal);background:#E7F6EF;border:1px solid #CDEDDF;border-radius:14px;padding:14px 16px}
 .allclear-chip{display:inline-block;font-size:13px;font-weight:600;color:var(--teal);background:#E1F5EE;border-radius:9999px;padding:3px 11px;margin-top:3px}
+/* account-lead scorecard */
+.al-grid{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.al-row{display:grid;grid-template-columns:160px 1fr 46px auto;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:#F7F7FC;border-radius:12px;padding:10px 14px;cursor:pointer;font-family:inherit;transition:background .14s ease,box-shadow .14s ease,transform .12s ease}
+.al-row:hover{background:#F1ECFF;box-shadow:var(--shadow-sm)} .al-row:active{transform:scale(.995)}
+.al-row.active{outline:1.5px solid var(--violet);background:#F4F0FF}
+.al-name{font-weight:600;font-size:14.5px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.al-track{height:8px;background:#E6E3F2;border-radius:9999px;overflow:hidden}
+.al-bar{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--violet-mid));border-radius:9999px;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.al-pct{font-weight:700;font-size:13px;color:var(--violet);text-align:right;font-variant-numeric:tabular-nums}
+.al-meta{font-size:12.5px;color:var(--muted);white-space:nowrap}
+@media(max-width:640px){.al-row{grid-template-columns:1fr auto;gap:6px 12px}.al-track{grid-column:1/-1;order:3}.al-meta{grid-column:1/-1;order:4}}
 .tf-half{flex:1;display:flex}.tf-half.l{justify-content:flex-end}.tf-half.r{justify-content:flex-start}
 .tf-bar{height:22px;position:relative;overflow:hidden;transition:width .6s cubic-bezier(.2,.8,.2,1)}.tf-bar.l{border-radius:3.5px 0 0 3.5px}.tf-bar.r{border-radius:0 3.5px 3.5px 0}
 .tf-bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-120%);animation:shimmer 1.2s ease-out .35s 1 both}
@@ -199,6 +212,9 @@ td.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.
 .rbar-track{position:absolute;left:calc(var(--name-w) + 14px);right:10px;top:0;bottom:0;display:flex;align-items:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
 .rbar{height:22px;border-radius:3.5px;background:linear-gradient(90deg,var(--violet),var(--violet-mid));width:0;transition:width .55s cubic-bezier(.2,.8,.2,1)}
 .rbar-val{margin-left:10px;font-size:14px;font-weight:600;color:var(--soft);white-space:nowrap}
+.mover{color:var(--gold);margin-left:4px;font-size:13px;display:inline-block;animation:twinkle 1.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.6;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.mover{animation:none}}
 .rrow.zero .rbar-val{color:var(--muted)}
 /* leaderboard mode: fade the columns away, reveal the bars */
 .rgrid.lb .rrow .cell:not(.name){opacity:0;pointer-events:none}
@@ -268,7 +284,30 @@ td.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:820px){.two-col{grid-template-columns:1fr}}
 /* keyboard focus rings for interactive elements */
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:6px}
+.rh.th-cowork:focus-visible{outline-color:#fff;outline-offset:-3px}
+/* screen-reader-only live region */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* responsive: stack the roster into labeled cards on small screens (no horizontal scroll) */
+@media(max-width:700px){
+  .rgrid{min-width:0}
+  .rgrid-wrap{max-height:none;overflow:visible}
+  .rrow.rhead{display:none}
+  .rrow:not(.rhead){display:flex;flex-wrap:wrap;align-items:center;gap:7px 12px;padding:14px 4px;min-height:0}
+  .rrow .cell{opacity:1!important}
+  .rrow .cell.name{flex:1 1 100%;font-size:16px;order:0}
+  .rrow .cell.name .namebtn{flex:0 1 auto}
+  .rrow .cell.lead{flex:1 1 100%;order:1;font-size:13px;color:var(--support)}
+  .rrow .cell.lead::before{content:attr(data-label) ": ";color:var(--muted)}
+  .rrow .cell.l:not(.name):not(.lead){order:2}
+  .rrow .cell.c{flex:0 0 auto;order:3;font-size:13px;display:inline-flex;align-items:center;gap:4px;background:transparent!important;box-shadow:none!important}
+  .rrow .cell.c::before{content:attr(data-label);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+  .rrow .rpeek{opacity:1;margin-left:auto}
+  .rbar-track{display:none}
+  .rgrid.lb .rrow .cell:not(.name){opacity:1!important}
+  .rc-head,.controls{gap:8px}
+  .legend--controls{margin-left:0}
+}
 .copybtn{transition:background .15s ease,transform .12s ease}.copybtn:active{transform:scale(.96)}
 .lb-toggle button{transition:background .18s ease,color .18s ease,transform .12s ease}.lb-toggle button:active{transform:scale(.96)}
 </style>
@@ -304,6 +343,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
     <div class="bn-grid" id="bottlenecks"></div>
   </div>
 
+  <div class="card" id="alCard">
+    <p class="sl">Account lead scorecard <span class="sub" style="margin:0;text-transform:none;letter-spacing:0;font-weight:500">click a lead to filter the roster</span></p>
+    <div class="al-grid" id="alScore"></div>
+  </div>
+
   <div class="band" id="band"></div>
 
   <div class="card" id="rosterCard">
@@ -337,27 +381,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Assistant detail"></aside>
 <div class="toast" id="toast"></div>
+<div id="srLive" class="sr-only" aria-live="polite" role="status"></div>
 
 <script>
 const FILE_ID='1xp4GL55HcCfg3C8m6hlkMco74bl-GhlSX8ZAsfKt4fA';
-const USAGE={
- 'bhea.flores@magicassistant.ai':{sessions:23,active_days:11,cost:25.57,tokens:36245288},
- 'genevieve.auza@magicassistant.ai':{sessions:15,active_days:6,cost:59.77,tokens:23860651},
- 'kristin.tolentino@magicassistant.ai':{sessions:11,active_days:6,cost:110.37,tokens:175942809},
- 'ruan.tao-on@magicassistant.ai':{sessions:10,active_days:8,cost:5.23,tokens:4475469},
- 'agnes.luna@magicassistant.ai':{sessions:9,active_days:3,cost:6.30,tokens:9779851},
- 'daniel.aciego@magicassistant.ai':{sessions:5,active_days:3,cost:2.26,tokens:3444638},
- 'alexis.alzola@magicassistant.ai':{sessions:5,active_days:1,cost:2.08,tokens:1296672},
- 'jasper.ong@magicassistant.ai':{sessions:4,active_days:1,cost:27.29,tokens:12680754},
- 'joshua.marcelo@magicassistant.ai':{sessions:3,active_days:1,cost:8.91,tokens:9835379},
- 'pamela.balagtas@magicassistant.ai':{sessions:3,active_days:1,cost:2.50,tokens:2401559},
- 'claire.calayag@magicassistant.ai':{sessions:3,active_days:2,cost:0.96,tokens:713310},
- 'ma.palisoc@magicassistant.ai':{sessions:2,active_days:2,cost:1.87,tokens:3474208},
- 'judilyn.orpiana@magicassistant.ai':{sessions:2,active_days:1,cost:0.80,tokens:727415},
- 'joan.francisco@magicassistant.ai':{sessions:2,active_days:2,cost:0.60,tokens:570296},
- 'bleza.balicog@magicassistant.ai':{sessions:1,active_days:1,cost:0.36,tokens:284685},
- 'rhia.dizon@magicassistant.ai':{sessions:1,active_days:1,cost:0.11,tokens:46508},
-};
+// Cowork usage + trend history now come from data.json / history.json (refreshed by
+// generate-data.py), so nothing here goes stale. Populated in init().
+let USAGE={};
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const tb=v=>String(v).trim().toUpperCase()==='TRUE';
 const SK=['invited','accessed','confirmed','desktop','cowork'];
@@ -368,6 +398,8 @@ let ALL=[];
 const state={search:'',al:'ALL',click:null,sortKey:'al',sortDir:1,ac:'owner',view:'roster'};
 
 async function fetchData(){const r=await fetch('./data.json',{cache:'no-store'});if(!r.ok)throw new Error('data.json '+r.status);return await r.json();}
+async function fetchHistory(){try{const r=await fetch('./history.json',{cache:'no-store'});if(!r.ok)return[];const h=await r.json();return Array.isArray(h)?h:[];}catch(e){return[];}}
+function setSnapshotLabel(iso){const el=document.getElementById('lbBadge');if(!el)return;let lbl='snapshot';if(iso&&/^\d{4}-\d{2}-\d{2}/.test(iso)){const d=new Date(iso+'T00:00:00');if(!isNaN(d))lbl=d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' snapshot';}el.textContent=lbl;}
 function cleanAL(s){let a=(s||'').replace(/\s+Bot\s+/g,' ').replace(/\s*Kenreich\s*/g,' ').replace(/\s+/g,' ').trim();return(!a||a==='N/A')?'Unassigned':a;}
 function callCat(s){s=(s||'').trim();if(/Call 1/i.test(s))return'call1';if(/Call 2/i.test(s))return'call2';if(/Done|Completed/i.test(s))return'done';return'';}
 function parse(md){
@@ -403,12 +435,26 @@ function nextAction(p){
 }
 /* week-over-week via localStorage */
 function delta(cur){
-  let hist=[];try{hist=JSON.parse(localStorage.getItem('pcc_hist')||'[]');}catch(e){}
   const today=new Date().toISOString().slice(0,10);
-  const prior=[...hist].reverse().find(e=>e.date<today);
-  hist=hist.filter(e=>e.date!==today);hist.push({date:today,k:cur});if(hist.length>40)hist=hist.slice(-40);
-  try{localStorage.setItem('pcc_hist',JSON.stringify(hist));}catch(e){}
+  // keep a local record too, so trends still work if history.json is missing
+  let lh=[];try{lh=JSON.parse(localStorage.getItem('pcc_hist')||'[]');}catch(e){}
+  lh=lh.filter(e=>e.date!==today);lh.push({date:today,k:cur});if(lh.length>60)lh=lh.slice(-60);
+  try{localStorage.setItem('pcc_hist',JSON.stringify(lh));}catch(e){}
+  const H=(window.__HIST&&window.__HIST.length)?window.__HIST:lh;   // prefer shared server history
+  const prior=[...H].reverse().find(e=>e.date<today);
   return prior?{prior:prior.k,date:prior.date}:null;
+}
+/* "top movers" — emails whose Cowork sessions jumped notably vs the last daily snapshot */
+function usageMovers(){
+  let store=[];try{store=JSON.parse(localStorage.getItem('pcc_usage')||'[]');}catch(e){}
+  const today=new Date().toISOString().slice(0,10);
+  const cur={};Object.keys(USAGE).forEach(e=>cur[e]=USAGE[e].sessions||0);
+  const prior=[...store].reverse().find(s=>s.date<today);
+  store=store.filter(s=>s.date!==today);store.push({date:today,u:cur});if(store.length>40)store=store.slice(-40);
+  try{localStorage.setItem('pcc_usage',JSON.stringify(store));}catch(e){}
+  const movers=new Set();
+  if(prior)Object.keys(cur).forEach(e=>{const was=prior.u[e]||0,now=cur[e]||0,jump=now-was;if(jump>=3||(was>0&&jump>=2&&jump/was>=0.5))movers.add(e);});
+  return movers;
 }
 
 const reduceMotion=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -432,15 +478,18 @@ function animateCounts(){
 }
 function renderOverview(){
   const roster=ALL,inv=roster.filter(p=>p.invited).length||1,pilot=ALL.filter(p=>p.inPilot);
+  window.__movers=usageMovers();
   const cnt=f=>roster.filter(f).length;
   const cow=pilot.filter(p=>p.cowork).length, notStarted=pilot.filter(p=>!p.cowork).length;
   const callsToRun=roster.filter(p=>p.callCat==='call1'||p.callCat==='call2').length;
   const incPay=roster.filter(p=>p.bonus&&!p.dateFiled), incAmt=incPay.reduce((t,p)=>t+(parseFloat(String(p.payout).replace(/[^0-9.]/g,''))||0),0);
-  // KPIs + week-over-week delta + sparkline (from the localStorage history)
+  // KPIs + week-over-week delta + sparkline (from shared history.json, local fallback)
   const cur={cow,notStarted,callsToRun,incPayN:incPay.length};
   const dd=delta(cur);
-  let hist=[];try{hist=JSON.parse(localStorage.getItem('pcc_hist')||'[]');}catch(e){}
-  const series=k=>hist.map(e=>e&&e.k?e.k[k]:undefined).filter(v=>typeof v==='number').slice(-8);
+  const _today=new Date().toISOString().slice(0,10);
+  let _lh=[];try{_lh=JSON.parse(localStorage.getItem('pcc_hist')||'[]');}catch(e){}
+  const _HSRC=((window.__HIST&&window.__HIST.length)?window.__HIST:_lh).filter(e=>e.date<_today);
+  const series=k=>{const a=_HSRC.map(e=>e&&e.k?e.k[k]:undefined).filter(v=>typeof v==='number');a.push(cur[k]);return a.slice(-8);};
   const sparkline=vals=>{if(!vals||vals.length<2)return'';const w=66,h=16,mn=Math.min(...vals),mx=Math.max(...vals),rg=(mx-mn)||1;const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-mn)/rg)*(h-2)-1).toFixed(1)}`).join(' ');return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}"/></svg>`;};
   const dEl=(now,then)=>{if(!dd||then==null)return'';const diff=now-then;const cls=diff>0?'up':diff<0?'dn':'fl';const ar=diff>0?'▲':diff<0?'▼':'—';const sign=diff>0?'+':'';return `<span class="d ${cls}"><span class="d-ar">${ar}</span>${sign}${diff} <span class="d-since">vs ${dd.date.slice(5)}</span></span>`;};
   const kpis=[
@@ -513,6 +562,11 @@ function renderOverview(){
   const un=roster.filter(p=>p.al==='Unassigned'||p.status==='');if(un.length)flags.push(`No account lead or status: ${un.map(p=>p.name.split(' ')[0]).join(', ')}.`);
   const ti=roster.filter(p=>p.status==='TO BE INVITED');if(ti.length)flags.push(`Awaiting invite: ${ti.map(p=>p.name.split(' ')[0]).join(', ')}.`);
   document.getElementById('flags').innerHTML=flags.map(f=>`<div class="flag"><span class="fd"></span><span>${esc(f)}</span></div>`).join('');
+  // account-lead scorecard (progress of each lead's in-pilot assistants)
+  const alStats={};
+  pilot.forEach(p=>{const s=(alStats[p.al]=alStats[p.al]||{n:0,cow:0,calls:0});s.n++;if(p.cowork)s.cow++;if(p.callCat)s.calls++;});
+  const alRows=Object.entries(alStats).map(([al,s])=>({al,n:s.n,cow:s.cow,calls:s.calls,pct:Math.round(100*s.cow/s.n)})).sort((a,b)=>b.pct-a.pct||b.n-a.n);
+  document.getElementById('alScore').innerHTML=alRows.map(r=>`<button class="al-row" data-lead="${esc(r.al)}" title="Filter roster to ${esc(r.al)}"><span class="al-name">${esc(r.al)}</span><span class="al-track"><span class="al-bar" style="width:${Math.max(r.pct,3)}%"></span></span><span class="al-pct">${r.pct}%</span><span class="al-meta">${r.cow}/${r.n} on Cowork${r.calls?` &middot; ${r.calls} call${r.calls>1?'s':''}`:''}</span></button>`).join('')||'<p class="sub">No account leads.</p>';
   // AL dropdown
   const als2=[...new Set(pilot.map(p=>p.al))].sort();
   document.getElementById('alSel').innerHTML=`<option value="ALL">All account leads</option>`+als2.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');
@@ -562,8 +616,8 @@ function refresh(anim){
   rc.classList.toggle('is-filtered',parts.length>0);
   const cols=[['name','Assistant','l'],['al','Lead','l'],['status','Status','l'],['invited','Invited','c'],['accessed','Accessed email','c'],['confirmed','Claude confirmed','c'],['desktop','Desktop installed','c'],['cowork','Cowork','c'],['call','Call','c']];
   const head=cols.map(([k,l,cls])=>{
-    if(k==='cowork')return `<div class="rh th-cowork c" data-cowork="1" title="Open the Cowork usage leaderboard">Cowork usage</div>`;
-    const car=state.sortKey===k?(state.sortDir>0?'▲':'▼'):'';return `<div class="rh ${k==='name'?'rh-name ':''}${cls||''}" data-sort="${k}">${l} <span class="car">${car}</span></div>`;}).join('');
+    if(k==='cowork')return `<div class="rh th-cowork c" data-cowork="1" role="button" tabindex="0" aria-label="Open Cowork usage leaderboard" title="Open the Cowork usage leaderboard">Cowork usage</div>`;
+    const car=state.sortKey===k?(state.sortDir>0?'▲':'▼'):'';const dir=state.sortKey===k?(state.sortDir>0?'ascending':'descending'):'none';return `<div class="rh ${k==='name'?'rh-name ':''}${cls||''}" data-sort="${k}" role="button" tabindex="0" aria-label="Sort by ${l}" aria-sort="${dir}">${l} <span class="car">${car}</span></div>`;}).join('');
   const ic={done:'<span class="ic-done">&#10003;</span>',stuck:'<span class="ic-stuck">!</span>',anom:'<span class="ic-anom">&#9888;</span>',pend:'<span class="ic-pend">&#8211;</span>'};
   const callChip=c=>c==='done'?'<span class="callchip" style="background:#E1F5EE;color:var(--teal)">Done</span>':c==='call2'?'<span class="callchip" style="background:#EAF7F1;color:var(--teal-lt)">Call 2</span>':c==='call1'?'<span class="callchip" style="background:#F1ECFF;color:var(--violet)">Call 1</span>':'<span class="ic-pend">&#8211;</span>';
   const sbg={ACTIVE:['#E1F5EE','#0F6E56'],PAUSED:['#FCEFD6','#8A5A12'],CHURNED:['#FBE7EC','#993C1D'],'TO BE INVITED':['#EEEBFB','#3C3489']};
@@ -571,18 +625,20 @@ function refresh(anim){
     const s=steps(p),sk=stuckAt(s);const sb=sbg[p.status]||['#F0F0F4','#6E6B7B'];
     const u=USAGE[(p.email||'').toLowerCase()]||{sessions:0,active_days:0,cost:0,tokens:0};
     const tip=`${u.sessions} session${u.sessions===1?'':'s'} · ${u.active_days} active day${u.active_days===1?'':'s'}${u.cost?` · $${u.cost.toFixed(2)}`:''}${u.tokens?` · ${(u.tokens/1e6).toFixed(1)}M tokens`:''}`;
-    let cells=`<div class="cell name l"><span class="namebtn" data-row="${idx}"><span style="border-bottom:1px dashed #C9C3EC">${esc(p.name)}</span></span><button class="rpeek" data-detail="${idx}" title="View full details" aria-label="View full details">&rsaquo;</button></div>`;
-    cells+=`<div class="cell l lead">${esc(p.al)}</div>`;
-    cells+=`<div class="cell l"><span class="sbadge" style="background:${sb[0]};color:${sb[1]}">${esc(p.status||'—')}</span></div>`;
-    s.forEach((v,i)=>{let ico,bg='';if(i<sk&&v)ico=ic.done;else if(i===sk){ico=ic.stuck;bg='background:#F1ECFF;border-radius:6px;';}else if(v)ico=ic.anom;else ico=ic.pend;cells+=`<div class="cell c${i===4?' cw-col':''}" style="${bg}">${ico}</div>`;});
-    cells+=`<div class="cell c">${callChip(p.callCat)}</div>`;
+    const SLAB=['Invited','Accessed','Confirmed','Desktop','Cowork'];
+    let cells=`<div class="cell name l"><span class="namebtn" data-row="${idx}" role="button" tabindex="0" title="${esc(p.name)}" aria-label="${esc(p.name)}${p.profile?' — open EA profile':' — open details'}"><span style="border-bottom:1px dashed #C9C3EC">${esc(p.name)}</span></span><button class="rpeek" data-detail="${idx}" title="View full details" aria-label="View full details for ${esc(p.name)}">&rsaquo;</button></div>`;
+    cells+=`<div class="cell l lead" data-label="Lead" title="${esc(p.al)}">${esc(p.al)}</div>`;
+    cells+=`<div class="cell l" data-label="Status"><span class="sbadge" style="background:${sb[0]};color:${sb[1]}">${esc(p.status||'—')}</span></div>`;
+    s.forEach((v,i)=>{let ico,bg='';if(i<sk&&v)ico=ic.done;else if(i===sk){ico=ic.stuck;bg='background:#F1ECFF;border-radius:6px;';}else if(v)ico=ic.anom;else ico=ic.pend;cells+=`<div class="cell c${i===4?' cw-col':''}" data-label="${SLAB[i]}" style="${bg}">${ico}</div>`;});
+    cells+=`<div class="cell c" data-label="Call">${callChip(p.callCat)}</div>`;
     cells+=`<div class="rbar-track" title="${esc(tip)}"><span class="rbar" data-w="0" style="width:0"></span><span class="rbar-val"></span></div>`;
-    return `<div class="rrow" data-i="${idx}" data-n="${esc(p.name)}" data-us="${u.sessions||0}" data-ad="${u.active_days||0}" style="--d:${idx}">${cells}</div>`;
+    return `<div class="rrow" data-i="${idx}" data-n="${esc(p.name)}" data-email="${esc((p.email||'').toLowerCase())}" data-us="${u.sessions||0}" data-ad="${u.active_days||0}" style="--d:${idx}">${cells}</div>`;
   }).join('')||`<div class="sub" style="padding:20px;text-align:center">No assistants match this filter.</div>`;
   const grid=document.getElementById('rgrid');
   grid.classList.toggle('anim',anim&&!reduceMotion()&&!document.hidden);
   grid.innerHTML=`<div class="rrow rhead">${head}</div>`+rows;
   window.__rows=list;paintActive();
+  document.querySelectorAll('.al-row').forEach(el=>el.classList.toggle('active',state.al!=='ALL'&&el.getAttribute('data-lead')===state.al));
   if(state.view==='leaderboard')applyLb(); else setHeader('roster');
 }
 /* The roster table and the Cowork leaderboard are the SAME grid rows; switching modes
@@ -599,7 +655,7 @@ function setHeader(mode){
 function applyBars(){
   const rows=[...document.querySelectorAll('#rgrid .rrow:not(.rhead)')],key=metricKey();
   const max=Math.max(1,...rows.map(r=>+r.dataset[key]||0));
-  rows.forEach(r=>{const v=+r.dataset[key]||0,bar=r.querySelector('.rbar');if(!bar)return;bar.dataset.w=v>0?Math.max(2,Math.round(1000*v/max)/10):0;bar.style.width='0';const val=r.querySelector('.rbar-val');if(val)val.textContent=v;r.classList.toggle('zero',!v);});
+  rows.forEach(r=>{const v=+r.dataset[key]||0,bar=r.querySelector('.rbar');if(!bar)return;bar.dataset.w=v>0?Math.max(2,Math.round(1000*v/max)/10):0;bar.style.width='0';const val=r.querySelector('.rbar-val');const mv=window.__movers&&window.__movers.has(r.dataset.email);if(val)val.innerHTML=`${v}${mv?' <span class="mover" title="Usage jumped since the last snapshot">✦</span>':''}`;r.classList.toggle('zero',!v);});
 }
 function growBars(){
   const bars=[...document.querySelectorAll('#rgrid.lb .rbar')];
@@ -629,8 +685,8 @@ function flipMorph(mutate){
   requestAnimationFrame(()=>rows.forEach(r=>{r.style.transition='transform .45s cubic-bezier(.2,.8,.2,1)';r.style.transform='';}));
   setTimeout(()=>rows.forEach(r=>{r.style.transition='';r.style.transform='';}),640);
 }
-function showLeaderboard(){if(state.view==='leaderboard')return;state.view='leaderboard';flipMorph(applyLb);}
-function showRoster(){if(state.view==='roster')return;state.view='roster';flipMorph(applyRoster);}
+function showLeaderboard(){if(state.view==='leaderboard')return;state.view='leaderboard';announce('Showing Cowork usage leaderboard, sorted highest first');document.getElementById('kpis').classList.add('lb-on');flipMorph(applyLb);}
+function showRoster(){if(state.view==='roster')return;state.view='roster';announce('Showing assistant roster');document.getElementById('kpis').classList.remove('lb-on');flipMorph(applyRoster);}
 /* First-load coach marks: point at the Cowork column and the first name. Shows once per session. */
 function showCoach(){
   try{if(sessionStorage.getItem('coachSeen'))return;}catch(e){}
@@ -652,13 +708,16 @@ function openDrawer(p){
   const lnk=(h,l)=>h?`<a class="lnk" href="${esc(h)}" target="_blank" rel="noopener">${l} &#8599;</a>`:`<span class="lnk dis">${l} —</span>`;
   const stg=SK.map(k=>`<span class="dw-st" style="background:${p[k]?'#E1F5EE':'#F0F0F4'};color:${p[k]?'#0F6E56':'#918FA9'}">${SLBL[k]}${p[k]?' ✓':''}</span>`).join('');
   const kv=(k,v)=>`<div class="dw-kv"><span class="k">${k}</span><span class="v">${v?esc(v):'<span style=\"color:var(--muted)\">—</span>'}</span></div>`;
-  const call=p.callCat?(CLBL[p.callCat]+(p.callDate?(' · '+p.callDate):'')+(p.facil?(' · '+p.facil):'')):'';
+  const call1=[p.callDate,p.facil].filter(Boolean).join(' · ');
+  const call2=[p.call2Date,p.call2Facil].filter(Boolean).join(' · ');
   document.getElementById('drawer').innerHTML=`<button class="dw-x" id="dwx">×</button><div class="dw-name">${esc(p.name)}<span class="sbadge" style="background:#F1ECFF;color:var(--violet)">${esc(p.status||'—')}</span></div>`+
     `<div class="dw-sec">Overview</div>`+kv('Client',p.client)+kv('Vertical',p.vertical)+kv('Account lead',p.al)+kv('Magic email',p.email)+kv('HS email',p.hsEmail)+
-    `<div class="dw-links">${lnk(p.dealCard,'Deal card')}${lnk(p.profile,'EA profile')}${lnk(p.rec,'Recording')}</div>`+
+    `<div class="dw-links">${lnk(p.dealCard,'Deal card')}${lnk(p.profile,'EA profile')}</div>`+
     `<div class="dw-sec">Access progress</div><div class="dw-stages">${stg}</div>`+
     `<div class="dw-sec">Reach-outs</div>`+kv('Type',p.reachType)+kv('Channels',[p.emailReach?'Email':'',p.discordReach?'Discord':''].filter(Boolean).join(', '))+kv('Discord',p.discordUN)+(p.reachNotes?`<div class="dw-note" style="margin-top:6px">${esc(p.reachNotes)}</div>`:'')+
-    `<div class="dw-sec">Insight call</div>`+kv('Stage',call)+(p.insight?`<div class="dw-note" style="margin-top:6px">${esc(p.insight)}</div>`:'<p class="sub" style="margin:2px 0 0">No notes yet.</p>')+
+    `<div class="dw-sec">Insight call</div>`+kv('Stage',p.callCat?CLBL[p.callCat]:'')+kv('Call 1',call1)+((p.call2Date||p.call2Facil)?kv('Call 2',call2):'')+
+    ((p.rec||p.call2Rec)?`<div class="dw-links">${p.rec?lnk(p.rec,'Call 1 recording'):''}${p.call2Rec?lnk(p.call2Rec,'Call 2 recording'):''}</div>`:'')+
+    (p.insight?`<div class="dw-note" style="margin-top:6px">${esc(p.insight)}</div>`:'<p class="sub" style="margin:2px 0 0">No notes yet.</p>')+
     `<div class="dw-sec">Incentive</div>`+kv('Bonus filed',p.bonus?'Yes':'No')+kv('Rate',p.rate)+kv('Payout (50%)',p.payout)+kv('Date filed',p.dateFiled)+
     (p.sessionNote?`<div class="dw-sec">Cowork session notes</div><div class="dw-note">${esc(p.sessionNote)}</div>`:'')+
     (p.gen?`<div class="dw-sec">General notes</div><div class="dw-note">${esc(p.gen)}</div>`:'');
@@ -679,6 +738,7 @@ function wire(){
   document.addEventListener('click',e=>{
     if(e.target.closest('.rh[data-cowork]')){showLeaderboard();return;}
     if(e.target.closest('#lbBack')){showRoster();return;}
+    const ld=e.target.closest('[data-lead]');if(ld){const a=ld.getAttribute('data-lead');state.al=(state.al===a)?'ALL':a;const sel=document.getElementById('alSel');if(sel)sel.value=state.al;refresh();document.getElementById('rosterCard').scrollIntoView({behavior:'smooth',block:'start'});return;}
     const f=e.target.closest('[data-filter]');if(f){const v=f.getAttribute('data-filter');state.click=(state.click===v)?null:v;refresh();document.getElementById('rosterCard').scrollIntoView({behavior:'smooth',block:'start'});return;}
     const s=e.target.closest('.rh[data-sort]');if(s){const k=s.getAttribute('data-sort');if(state.sortKey===k)state.sortDir*=-1;else{state.sortKey=k;state.sortDir=1;}refresh();return;}
     const dt=e.target.closest('[data-detail]');if(dt){const p=window.__rows[+dt.getAttribute('data-detail')];if(p)openDrawer(p);return;}
@@ -687,10 +747,26 @@ function wire(){
     const cp=e.target.closest('[data-copy]');if(cp){copyText((window.__nudges||[])[+cp.getAttribute('data-copy')]||'',cp);return;}
     if(e.target.id==='scrim')closeDrawer();
   });
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){closeDrawer();return;}
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    const t=e.target;if(!t||!t.matches)return;
+    if(t.matches('.rh[data-cowork]')){e.preventDefault();showLeaderboard();return;}
+    if(t.matches('.rh[data-sort]')){e.preventDefault();const k=t.getAttribute('data-sort');if(state.sortKey===k)state.sortDir*=-1;else{state.sortKey=k;state.sortDir=1;}refresh();return;}
+    if(t.matches('.namebtn')){e.preventDefault();const p=window.__rows[+t.getAttribute('data-row')];if(p){if(p.profile)window.open(p.profile,'_blank','noopener');else openDrawer(p);}return;}
+  });
 }
+function announce(msg){const el=document.getElementById('srLive');if(el)el.textContent=msg;}
 async function init(){
-  try{ALL=(await fetchData()).filter(p=>(p.al||'').trim()!=='Unassigned');const now=new Date();
+  try{
+    const raw=await fetchData();
+    const arr=Array.isArray(raw)?raw:(raw.assistants||[]);
+    const rawUsage=Array.isArray(raw)?{}:(raw.usage||{});
+    USAGE={};Object.keys(rawUsage).forEach(e=>{USAGE[String(e).toLowerCase()]=rawUsage[e];});
+    ALL=arr.filter(p=>(p.al||'').trim()!=='Unassigned');
+    window.__HIST=await fetchHistory();
+    setSnapshotLabel(Array.isArray(raw)?'':(raw.usageAsOf||''));
+    const now=new Date();
     document.getElementById('metaLine').textContent=`Viewed ${now.toLocaleDateString('en-US',{month:'short',day:'numeric'})}, ${now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}.`;
     renderOverview();wire();refresh();
     document.getElementById('loading').style.display='none';document.getElementById('dash').style.display='block';

@@ -48,4 +48,4 @@ assets/_archive
 funnel-dashboard/_source
 funnel-dashboard/_source/
 **/funnel-dashboard/_source/**
-funnel-dashboard/generate-data.py
+funnel-dashboard/*.py

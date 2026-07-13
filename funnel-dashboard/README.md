@@ -10,9 +10,29 @@ reads its data from `./data.json` beside it and the shared fonts from
   **Password column (col H)** and other PII must not be published.
 - `data.json` is the sanitized data source — **no passwords**. `generate-data.py`
   is the only thing that produces it and it deliberately omits the Password column.
-- `_source/` (raw Cowork artifact, mockups, per-assistant session notes) and
-  `generate-data.py` are **excluded from deploy** via `.assetsignore`. Do not link
-  them from any user-facing page.
+- `_source/` (raw Cowork artifact, mockups, per-assistant session notes) and the
+  Python scripts (`*.py`) are **excluded from deploy** via `.assetsignore`. Do not
+  link them from any user-facing page.
+- The dashboard serves real names/emails with **no auth**. To restrict it, put
+  **Cloudflare Access** in front of the route (see "Restricting access" below) — a
+  config change, no code change.
+
+## Tooling
+- `generate-data.py <xlsx>` — regenerate `data.json` + append to `history.json`
+  (header-mapped, sanity-checked; aborts rather than writing corrupt data).
+- `test_data.py` — data-contract test; run before committing / in CI. Exits
+  non-zero on bad structure, leaked PII, or a collapsed funnel.
+- `build-artifact.py [out.html]` — build the self-contained Claude artifact copy
+  (font + `data.json` + `history.json` inlined, CSP-safe), then publish it to the
+  pinned artifact URL.
+
+## Restricting access (Cloudflare Access — optional)
+The static site has no login. To gate `/funnel-dashboard/` to your team:
+1. Cloudflare dashboard → **Zero Trust → Access → Applications → Add a self-hosted app**.
+2. Path: the dashboard host + `/funnel-dashboard*` (and `/` if you also want the landing gated).
+3. Policy: **Allow** where **Emails ending in** `@getmagic.com` (or an explicit allow-list).
+4. Save. Cloudflare then requires an email one-time-PIN / SSO before the page loads.
+No code changes; the funnel data stays where it is.
 
 ## Refreshing `data.json`
 
@@ -46,8 +66,18 @@ npx wrangler deploy
 `generate-data.py` requires `openpyxl` (`pip install openpyxl`).
 
 ## `data.json` schema
-Array of assistant objects (booleans are real JSON booleans):
+An **object** (booleans are real JSON booleans):
 
+```
+{
+  "generatedAt": "<iso>",         # when the file was produced
+  "usageAsOf":   "YYYY-MM-DD",    # latest Cowork session date (labels the leaderboard)
+  "assistants":  [ {…}, … ],      # one object per assistant (below)
+  "usage":       { "<magicassistant email>": {sessions, active_days, cost, tokens}, … }
+}
+```
+
+Each **assistant** object:
 ```
 name, hsEmail, dealCard, client, vertical, al, status, email,
 invited, accessed, confirmed, desktop, cowork,           # access funnel booleans
@@ -57,14 +87,20 @@ bonus, dateFiled, rate, payout, gen, sessionNote,
 reached (bool), inPilot (bool)
 ```
 
-The dashboard computes all KPIs / funnel / roster from this array, so the shape
-must stay stable. If columns change, update `generate-data.py` and the dashboard
-together.
+The dashboard reads `data.assistants` and `data.usage` (falling back gracefully if a
+legacy array is served). Columns are resolved **by header name** in
+`generate-data.py` (the sheet gets re-ordered periodically), with a **sanity check**
+that aborts rather than overwriting good data with corrupt zeros.
+
+`history.json` — array of daily aggregate snapshots (`{date, k:{cow,notStarted,
+callsToRun,incPayN,invited,…}}`), appended each refresh. The dashboard uses it for
+the KPI **sparklines and week-over-week deltas** (durable + shared, vs. per-browser
+localStorage). Commit it alongside `data.json`.
 
 ## Other notes
-- The **usage leaderboard** uses a small embedded snapshot (the `USAGE` object in
-  `index.html`) from the "Cowork Users" tab — it is **not** in `data.json`. Refresh
-  it by editing `USAGE`, or extend `generate-data.py` to emit it.
+- **Cowork usage** is now emitted into `data.json` (`usage`) from the "Cowork Users"
+  tab — no more stale hardcoded snapshot. The raw "Cowork Sessions" tab (which
+  contains prompt text) is **never** read/exported.
 - **Needs-action owner mapping** lives in both the `nextAction(p)` function and the
   `order` array in `index.html` — change both together. Keep the insight-call owner
   as the single combined **"Insight call · BizOps + Product"** bucket (do not split).
