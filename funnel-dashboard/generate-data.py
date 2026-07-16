@@ -48,6 +48,13 @@ for i, name in enumerate(rows[1]):
 def one(name, occ=0):
     idxs = hm.get(name, [])
     return idxs[occ] if idxs and -len(idxs) <= occ < len(idxs) else None
+def one_of(*names):
+    # first matching header, tolerant of index 0 (can't use `a or b` — index 0 is falsy)
+    for n in names:
+        i = one(n)
+        if i is not None:
+            return i
+    return None
 def contains(sub):
     for name, idxs in hm.items():
         if sub.lower() in name.lower():
@@ -56,7 +63,7 @@ def contains(sub):
 
 status_cols = hm.get("Status", [])
 COL = dict(
-    name=one("Name"), hsEmail=one("HS Email"), dealCard=one("Deal Card Link"),
+    name=one_of("Assistant Name", "Name"), hsEmail=one("HS Email"), dealCard=one("Deal Card Link"),
     client=one("Client Name"), al=one("Account Lead"),
     status=(status_cols[0] if status_cols else None),      # account status = first "Status"
     email=one("Magic Assistant Email"),
