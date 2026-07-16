@@ -564,7 +564,11 @@ function renderOverview(){
     ['Invited',cnt(p=>p.invited),cV,'stage:invited'],['Accessed',cnt(p=>p.accessed),cV,'stage:accessed'],
     ['Access confirmed',cnt(p=>p.confirmed),cV,'stage:confirmed'],['Desktop installed',cnt(p=>p.desktop),cV,'stage:desktop'],['Cowork usage',cnt(p=>p.cowork),cVm,'stage:cowork'],
     ['Engagement',null,null,null],
-    ['Reached out',cnt(p=>p.reached),cT,'stage:reached'],['Insight call in pipeline',cnt(p=>p.callCat),cT,'call:any'],
+    // "Insight call in pipeline" is shown ABOVE "Reached out" on purpose: it reads the
+    // INSIGHT CALL "Status" column (28) while "Reached out" reads the Email/Discord
+    // Reachout checkboxes (18). They are separate counts; ordering pipeline-first keeps
+    // the bars descending instead of a smaller bar sitting on top of a larger one.
+    ['Insight call in pipeline',cnt(p=>p.callCat),cT,'call:any'],['Reached out',cnt(p=>p.reached),cT,'stage:reached'],
     ['Reached Call 2',cnt(p=>p.callCat==='call2'||p.callCat==='done'),cTl,'call:call2'],['Call completed',cnt(p=>p.callCat==='done'),cTl,'call:done'],
     ['Reward',null,null,null],['Incentive filed',cnt(p=>p.bonus),cG,'flag:bonus']];
   // biggest stage-to-stage drop in the onboarding sequence
