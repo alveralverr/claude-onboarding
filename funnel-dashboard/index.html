@@ -522,9 +522,14 @@ function animateCounts(){
   setTimeout(setFinal,1100); // ensure final values even if rAF never fires
 }
 function renderOverview(){
-  const roster=ALL,inv=roster.filter(p=>p.invited).length||1,pilot=ALL.filter(p=>p.inPilot);
+  const roster=ALL,pilot=ALL.filter(p=>p.inPilot);
   window.__movers=usageMovers();
-  const cnt=f=>roster.filter(f).length;
+  // The Lifecycle funnel always excludes churned/revoked assistants — it tracks the
+  // live pipeline, not people who have already left it. (The status band above still
+  // shows the churned count.) cnt()/inv are used only by the funnel below.
+  const funnelBase=roster.filter(p=>!p.inactive);
+  const inv=funnelBase.filter(p=>p.invited).length||1;
+  const cnt=f=>funnelBase.filter(f).length;
   const cow=pilot.filter(p=>p.cowork).length, notStarted=pilot.filter(p=>!p.cowork).length;
   const callsToRun=roster.filter(p=>p.callCat==='call1'||p.callCat==='call2').length;
   const incPay=roster.filter(p=>p.bonus&&!p.dateFiled), incAmt=incPay.reduce((t,p)=>t+(parseFloat(String(p.payout).replace(/[^0-9.]/g,''))||0),0);
