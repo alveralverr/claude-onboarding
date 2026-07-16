@@ -530,9 +530,11 @@ function renderOverview(){
   const funnelBase=roster.filter(p=>!p.inactive);
   const inv=funnelBase.filter(p=>p.invited).length||1;
   const cnt=f=>funnelBase.filter(f).length;
+  // all four stat cards exclude churned/inactive: cow/notStarted via `pilot`,
+  // callsToRun/incPay via `funnelBase` — consistent with the Lifecycle funnel.
   const cow=pilot.filter(p=>p.cowork).length, notStarted=pilot.filter(p=>!p.cowork).length;
-  const callsToRun=roster.filter(p=>p.callCat==='call1'||p.callCat==='call2').length;
-  const incPay=roster.filter(p=>p.bonus&&!p.dateFiled), incAmt=incPay.reduce((t,p)=>t+(parseFloat(String(p.payout).replace(/[^0-9.]/g,''))||0),0);
+  const callsToRun=funnelBase.filter(p=>p.callCat==='call1'||p.callCat==='call2').length;
+  const incPay=funnelBase.filter(p=>p.bonus&&!p.dateFiled), incAmt=incPay.reduce((t,p)=>t+(parseFloat(String(p.payout).replace(/[^0-9.]/g,''))||0),0);
   // KPIs + week-over-week delta + sparkline (from shared history.json, local fallback)
   const cur={cow,notStarted,callsToRun,incPayN:incPay.length};
   const dd=delta(cur);
