@@ -23,11 +23,17 @@ check(15 <= len(A) <= 60, f"expected 15-60 assistants, got {len(A)}")
 
 required = ["name", "al", "status", "email", "invited", "accessed", "confirmed",
             "desktop", "cowork", "callCat", "call2Date", "call2Facil", "call2Rec",
-            "bonus", "reached", "inPilot", "profile", "rec"]
+            "bonus", "reached", "inPilot", "profile", "rec", "inactive", "revokeReason"]
 for p in (A[:1] + A[-1:]):
     for k in required:
         check(k in p, f"assistant missing key {k!r}")
 check(all(isinstance(p.get("invited"), bool) for p in A), "invited must be boolean")
+check(all(isinstance(p.get("inactive"), bool) for p in A), "inactive must be boolean")
+# at least one inactive so the labelling path is exercised, and every inactive must
+# match its definition (has a revoke reason OR a CHURNED status) — never a stray flag
+check(sum(1 for p in A if p.get("inactive")) > 0, "0 inactive assistants — revoke mapping likely broke")
+check(all(p.get("revokeReason") or p.get("status") == "CHURNED"
+          for p in A if p.get("inactive")), "an inactive assistant matches neither revoke nor CHURNED")
 check(all(p.get("callCat") in ("", "call1", "call2", "done") for p in A),
       "callCat has an invalid value")
 

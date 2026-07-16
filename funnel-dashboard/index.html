@@ -299,6 +299,9 @@ td.cw-col{background:rgba(82,0,227,.06);box-shadow:inset 1px 0 0 rgba(82,0,227,.
 .drawer.open{transform:translateX(0)}
 .dw-x{position:absolute;top:18px;right:18px;border:0;background:#F1ECFF;color:var(--violet);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;font-family:inherit}
 .dw-name{font-size:26px;font-weight:600;letter-spacing:-.01em;padding-right:40px}
+.dw-inactive{margin:12px 0 2px;padding:9px 12px;border-radius:10px;background:#FBE7EC;border:1px solid #F4CBD3;color:#993C1D;font-size:13px;line-height:1.45}
+.dw-inactive b{font-weight:700}
+.dw-inactive span{display:block;margin-top:3px;font-size:12px;color:#A2685C}
 .dw-sec{font-size:13px;font-weight:600;color:var(--violet);text-transform:uppercase;letter-spacing:.14em;margin:20px 0 8px}
 .dw-kv{display:flex;font-size:15px;padding:4px 0;gap:10px} .dw-kv .k{color:var(--muted);width:120px;flex:none} .dw-kv .v{color:var(--soft)}
 .dw-stages{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
@@ -753,6 +756,7 @@ function openDrawer(p){
   const call1=[p.callDate,p.facil].filter(Boolean).join(' · ');
   const call2=[p.call2Date,p.call2Facil].filter(Boolean).join(' · ');
   document.getElementById('drawer').innerHTML=`<button class="dw-x" id="dwx">×</button><div class="dw-name">${esc(p.name)}<span class="sbadge" style="background:#F1ECFF;color:var(--violet)">${esc(p.status||'—')}</span></div>`+
+    (p.inactive?`<div class="dw-inactive"><b>Inactive user</b>${p.revokeReason?` — ${esc(p.revokeReason)}`:''}<span>Any Cowork insights below reflect activity before access was revoked.</span></div>`:'')+
     `<div class="dw-sec">Overview</div>`+kv('Client',p.client)+kv('Vertical',p.vertical)+kv('Account lead',p.al)+kv('Magic email',p.email)+kv('HS email',p.hsEmail)+
     `<div class="dw-links">${lnk(p.dealCard,'Deal card')}${lnk(p.profile,'EA profile')}</div>`+
     `<div class="dw-sec">Access progress</div><div class="dw-stages">${stg}</div>`+

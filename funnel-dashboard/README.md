@@ -80,12 +80,18 @@ An **object** (booleans are real JSON booleans):
 Each **assistant** object:
 ```
 name, hsEmail, dealCard, client, vertical, al, status, email,
+revokeReason,                                            # "Revoke Access Reason" (why access was pulled)
 invited, accessed, confirmed, desktop, cowork,           # access funnel booleans
 reachType, emailReach, discordReach, discordUN, reachNotes,
 callDate, callCat ("" | "call1" | "call2" | "done"), facil, profile, rec, insight,
 bonus, dateFiled, rate, payout, gen, sessionNote,
-reached (bool), inPilot (bool)
+reached (bool), inPilot (bool), inactive (bool)
 ```
+
+`inactive` = the assistant churned / had access revoked (`revokeReason` non-empty **or**
+`status == "CHURNED"`). Their usage insights may still be shown but must be labelled
+inactive — the dashboard drawer flags them and each `usage` entry carries an `inactive`
+boolean too. Inactive users are excluded from the default (in-pilot) roster/leaderboard.
 
 The dashboard reads `data.assistants` and `data.usage` (falling back gracefully if a
 legacy array is served). Columns are resolved **by header name** in
@@ -100,7 +106,10 @@ localStorage). Commit it alongside `data.json`.
 ## Other notes
 - **Cowork usage** is now emitted into `data.json` (`usage`) from the "Cowork Users"
   tab — no more stale hardcoded snapshot. The raw "Cowork Sessions" tab (which
-  contains prompt text) is **never** read/exported.
+  contains prompt text) is **never** read/exported. The "Cowork Users" tab can hold
+  **multiple rows per user** (an authoritative pull with cost/tokens plus a
+  supplementary 0-cost pull); the generator keeps the **richest row per email** (most
+  cost → tokens → sessions) so a stray duplicate never zeroes out real spend.
 - **Needs-action owner mapping** lives in both the `nextAction(p)` function and the
   `order` array in `index.html` — change both together. Keep the insight-call owner
   as the single combined **"Insight call · BizOps + Product"** bucket (do not split).

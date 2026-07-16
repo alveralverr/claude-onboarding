@@ -66,7 +66,7 @@ COL = dict(
     name=one_of("Assistant Name", "Name"), hsEmail=one("HS Email"), dealCard=one("Deal Card Link"),
     client=one("Client Name"), al=one("Account Lead"),
     status=(status_cols[0] if status_cols else None),      # account status = first "Status"
-    email=one("Magic Assistant Email"),
+    email=one("Magic Assistant Email"), revoke=one("Revoke Access Reason"),
     invited=one("Invited to Claude"), accessed=one("Accessed Asst Email"),
     confirmed=one("Claude Access confirmed?"), desktop=one("Claude Desktop app installed?"),
     cowork=one("Has Cowork usage?"), vertical=one("Verticals"),
@@ -129,6 +129,7 @@ for ri, r in enumerate(rows):
     o = dict(
         name=v(cell(r, "name")), hsEmail=v(cell(r, "hsEmail")), dealCard=v(cell(r, "dealCard")),
         client=v(cell(r, "client")), al=clean_al(v(cell(r, "al"))), status=status, email=email,
+        revokeReason=v(cell(r, "revoke")),
         invited=tb(cell(r, "invited")), accessed=tb(cell(r, "accessed")),
         confirmed=tb(cell(r, "confirmed")), desktop=tb(cell(r, "desktop")), cowork=tb(cell(r, "cowork")),
         vertical=v(cell(r, "vertical")), sessionNote=v(cell(r, "sessionNote")),
@@ -144,6 +145,10 @@ for ri, r in enumerate(rows):
     )
     o["reached"] = o["emailReach"] or o["discordReach"]
     o["inPilot"] = bool(email) and status not in ("CHURNED", "")
+    # "inactive" = access was revoked / the assistant churned. Identified from the
+    # "Revoke Access Reason" column (or a CHURNED status). Usage insights for these
+    # people may still be shown, but must be labelled inactive (see index.html drawer).
+    o["inactive"] = bool(o["revokeReason"]) or status == "CHURNED"
     out.append(o)
 
 # --- Cowork usage aggregates (from "Cowork Users"; the raw "Cowork Sessions" prompt
@@ -158,13 +163,27 @@ if "Cowork Users" in wb.sheetnames:
         try: return float(row[i])
         except Exception: return 0.0
     ei = uh.get("user_email")
+    # The tab can carry MULTIPLE rows per user — an authoritative pull WITH cost/tokens
+    # plus a supplementary pull that reports sessions/days but 0 cost/0 tokens. Collect
+    # every row per email, then keep the richest one (most cost, then tokens, then
+    # sessions) so a stray 0-cost duplicate never zeroes out a top user's real spend.
+    by_email = {}
     for row in urows[1:]:
         em = str(row[ei]).strip().lower() if ei is not None and ei < len(row) and row[ei] else ""
         if not em: continue
-        usage[em] = {"sessions": int(unum(row, "num_sessions")),
-                     "active_days": int(unum(row, "active_days")),
-                     "cost": round(unum(row, "total_cost_usd"), 2),
-                     "tokens": int(unum(row, "total_tokens"))}
+        by_email.setdefault(em, []).append(
+            {"sessions": int(unum(row, "num_sessions")),
+             "active_days": int(unum(row, "active_days")),
+             "cost": round(unum(row, "total_cost_usd"), 2),
+             "tokens": int(unum(row, "total_tokens"))})
+    for em, recs in by_email.items():
+        usage[em] = max(recs, key=lambda r: (r["cost"], r["tokens"], r["sessions"]))
+
+# flag usage rows that belong to inactive (churned/revoked) assistants, so the
+# dashboard can surface their insights clearly labelled as inactive.
+inactive_emails = {o["email"].lower() for o in out if o.get("inactive") and o.get("email")}
+for em in usage:
+    usage[em]["inactive"] = em in inactive_emails
 
 # usage "as of" date — read ONLY the session_date column (no prompt content)
 usage_as_of = ""
