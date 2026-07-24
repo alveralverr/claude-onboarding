@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-25T05:52:25",
+ "generatedAt": "2026-07-25T06:07:57",
  "usageAsOf": "2026-07-21",
  "assistants": [
   {
@@ -1104,8 +1104,8 @@
    "email": "bernardo.iv@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
-   "accessed": false,
-   "confirmed": false,
+   "accessed": true,
+   "confirmed": true,
    "desktop": false,
    "cowork": false,
    "vertical": "",
@@ -1143,8 +1143,8 @@
    "email": "danielle.mendoza@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
-   "accessed": true,
-   "confirmed": true,
+   "accessed": false,
+   "confirmed": false,
    "desktop": false,
    "cowork": false,
    "vertical": "",
