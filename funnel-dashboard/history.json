@@ -92,14 +92,14 @@
  {
   "date": "2026-07-28",
   "k": {
-   "cow": 25,
-   "notStarted": 9,
-   "callsToRun": 19,
+   "cow": 24,
+   "notStarted": 10,
+   "callsToRun": 15,
    "incPayN": 4,
    "incAmt": 14.12,
    "invited": 37,
-   "accessed": 32,
-   "confirmed": 32,
+   "accessed": 33,
+   "confirmed": 33,
    "desktop": 30,
    "coworkTotal": 26
   }

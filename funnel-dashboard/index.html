@@ -584,7 +584,11 @@ function renderOverview(){
   document.getElementById('lifeInsight').innerHTML=maxDrop>0?`<span class="li-chip">&#9660; Biggest drop-off &middot; ${onb[di-1][0]} &rarr; ${onb[di][0]} <b>&minus;${maxDrop}</b></span>`:'';
   // action center panels (owner + call), rendered both, toggled by state.ac
   const order=['Access · Alver','Access · AL','Insight call · BizOps + Product','Incentive'];
-  const bk={};pilot.forEach(p=>{const[a,o]=nextAction(p);if(o==='Complete')return;(bk[o]=bk[o]||[]).push({p,a});});
+  // Needs action excludes churned/revoked (inactive) and paused assistants — they are
+  // NOT awaiting a next step (e.g. Cesalyn: deal paused, Team seat removed). inactive
+  // already covers a Revoke Access Reason or CHURNED; PAUSED is excluded explicitly.
+  const needsBase=pilot.filter(p=>!p.inactive&&p.status!=='PAUSED');
+  const bk={};needsBase.forEach(p=>{const[a,o]=nextAction(p);if(o==='Complete')return;(bk[o]=bk[o]||[]).push({p,a});});
   const totalAction=order.reduce((s,o)=>s+(bk[o]?bk[o].length:0),0);
   const acCountEl=document.getElementById('acCount');if(acCountEl)acCountEl.textContent=totalAction?`(${totalAction})`:'';
   const ownerHTML=order.filter(o=>bk[o]).map(o=>`<div class="col" data-filter="owner:${o}"><div class="col-h"><span>${o}</span><span class="c">${bk[o].length}</span></div>`+bk[o].map(({p,a})=>`<span class="chip">${esc(p.name.split(' ')[0])} <span class="m">· ${esc(a)}</span></span>`).join('')+`</div>`).join('')||'<div class="allclear" style="grid-column:1/-1">&#10003; All clear — everyone in-pilot is set up.</div>';
