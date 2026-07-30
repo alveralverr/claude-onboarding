@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-28T23:15:36",
+ "generatedAt": "2026-07-30T23:27:59",
  "usageAsOf": "2026-07-27",
  "assistants": [
   {
@@ -1295,7 +1295,7 @@
    "dealCard": "https://app.hubspot.com/contacts/9309252/record/0-3/62433968201",
    "client": "Caleb Gallagher",
    "al": "Hernando Timario",
-   "status": "ACTIVE",
+   "status": "INVITED",
    "email": "mic.darias@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
