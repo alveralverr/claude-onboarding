@@ -23,7 +23,8 @@ check(15 <= len(A) <= 60, f"expected 15-60 assistants, got {len(A)}")
 
 required = ["name", "al", "status", "email", "invited", "accessed", "confirmed",
             "desktop", "cowork", "callCat", "call2Date", "call2Facil", "call2Rec",
-            "bonus", "reached", "inPilot", "profile", "rec", "inactive", "revokeReason"]
+            "bonus", "reached", "inPilot", "profile", "rec", "inactive", "revokeReason",
+            "seat", "seatStatus", "seatTier", "sessionCount", "lastSession"]
 for p in (A[:1] + A[-1:]):
     for k in required:
         check(k in p, f"assistant missing key {k!r}")
@@ -45,8 +46,25 @@ pipeline = sum(1 for p in A if p.get("callCat"));   check(pipeline > 0, "0 in in
 U = data.get("usage", {}) if isinstance(data, dict) else {}
 check(isinstance(U, dict) and len(U) > 0, "usage is empty")
 for em, u in list(U.items())[:3]:
-    for k in ("sessions", "active_days", "cost", "tokens"):
+    for k in ("sessions", "active_days", "cost", "tokens",
+              "skills", "distinctSkills", "hooks", "toolOk"):
         check(k in u and isinstance(u[k], (int, float)), f"usage[{em}] missing/invalid {k!r}")
+
+# seat reconciliation from the "Confirmed Access" tab
+S = data.get("seats") if isinstance(data, dict) else None
+check(isinstance(S, dict), "data.json must carry a 'seats' object")
+if isinstance(S, dict):
+    for k in ("total", "active", "pending", "roster", "internal"):
+        check(isinstance(S.get(k), int), f"seats missing/invalid {k!r}")
+    check(S.get("total", 0) > 0, "0 Claude Team seats — Confirmed Access likely not parsed")
+    check(S.get("active", 0) + S.get("pending", 0) <= S.get("total", 0),
+          "seats active+pending exceeds total")
+    check(S.get("roster", 0) + S.get("internal", 0) == S.get("total", 0),
+          "seats roster+internal must equal total")
+check(isinstance(data.get("dataFlags"), list), "data.json must carry a 'dataFlags' array")
+# every assistant flagged as holding a seat must have an Active seat status
+check(all(p.get("seatStatus", "").lower() == "active" for p in A if p.get("seat")),
+      "an assistant has seat=True without an Active seat status")
 
 # PII / secrets must NEVER appear
 blob = json.dumps(data).lower()

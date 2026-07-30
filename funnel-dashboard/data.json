@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-07-31T01:25:56",
- "usageAsOf": "2026-07-27",
+ "generatedAt": "2026-07-31T04:31:22",
+ "usageAsOf": "2026-07-30",
  "assistants": [
   {
    "name": "John Cubacub",
@@ -39,7 +39,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 8,
+   "lastSession": "2026-07-13"
   },
   {
    "name": "Mary Grace Dizon",
@@ -78,7 +83,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Claire Antonnette Calayag",
@@ -117,7 +127,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 17,
+   "lastSession": "2026-07-22"
   },
   {
    "name": "Rosebeth Paña",
@@ -156,7 +171,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 7,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Jasper Paolo Ong",
@@ -180,13 +200,13 @@
    "discordUN": "paowee3768",
    "reachNotes": "",
    "callDate": "July 23 ⋅ 8:00 – 8:30am",
-   "callCat": "call2",
+   "callCat": "done",
    "facil": "Trisha",
    "call2Date": "Jul 31, 2026 ⋅ 12am – 12:30am",
    "call2Facil": "Alver",
    "profile": "https://docs.google.com/document/d/1RAGLIX-aff2bVGyCBF9pZsA7lxevrelSzkaG9VCwQTo/edit?tab=t.tfkq60iw5q03",
    "rec": "https://fathom.video/share/Dt-i2sywvRdn4PtXEzzEbS7x9GY8CPuo",
-   "call2Rec": "",
+   "call2Rec": "https://fathom.video/share/qyxGsD6FNCDtnkjv6ykWzBFsUXNp-y6m",
    "insight": "",
    "bonus": true,
    "dateFiled": "2026-07-23 00:00:00",
@@ -195,7 +215,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 14,
+   "lastSession": "2026-07-09"
   },
   {
    "name": "Joshua Marcelo",
@@ -234,7 +259,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 60,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Joan Lynch Francisco",
@@ -273,7 +303,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 6,
+   "lastSession": "2026-07-21"
   },
   {
    "name": "Daniel Díaz Aciego",
@@ -312,7 +347,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 27,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Ruan Grace Tao-On",
@@ -351,7 +391,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 59,
+   "lastSession": "2026-07-28"
   },
   {
    "name": "Ma. Jolaine Palisoc",
@@ -375,7 +420,7 @@
    "discordUN": "lainep.",
    "reachNotes": "Will be removed from the pilot batch",
    "callDate": "July 14 ⋅ 4:00 – 4:30am",
-   "callCat": "call2",
+   "callCat": "",
    "facil": "Trisha",
    "call2Date": "Jul 31, 2026 ⋅ 3am – 3:30am",
    "call2Facil": "",
@@ -390,7 +435,12 @@
    "gen": "7/4 - First session (June 24): Claude intro limited by HIPAA; demo done on personal Gmail - successfully sorted job application emails into company folders. Used Claude to simplify HIPAA terms. | Latest (June 30): Now onboarding new tasks (managing Ellie's meetings, building Zapier automation); proactively using Claude for step-by-step guidance on new tools. | Progress: From HIPAA-restricted personal use only → now treating Claude as a go-to resource for navigating unfamiliar workflows and tools.",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 54,
+   "lastSession": "2026-07-28"
   },
   {
    "name": "Pamela Balagtas",
@@ -429,7 +479,12 @@
    "gen": "7/4 - First session (June 23): Claude intro - discussed email monitoring and automation possibilities; basic awareness stage. | Latest (July 2): Actively tested Claude for floor plan comparison from Richard's Excel layouts (useful but needs manual correction for visuals); successfully set up daily automated email summary task (confirmed working). | Progress: From passive awareness → hands-on experimentation with real use cases; now running scheduled Claude automation independently.\n\n7/2 - AL will try to get the EA to send a message to Cowork",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 43,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Genevieve Auza",
@@ -468,7 +523,12 @@
    "gen": "7/4 - First session (June 24): Connected admin email to Claude; expressed interest in inbox organization but hadn't implemented anything yet. | Latest (July 1): Amid service dept. reorg crisis (new leadership change), successfully built and live-tested a Claude email sorter automation - emails sorted correctly on first run. Set to run daily. Preparing for product team Claude training with Kat. | Progress: From \"interested but not started\" → independently built and deployed a live automated email sorter under high-pressure work conditions.",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 44,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Kristin Alyanna Tolentino",
@@ -507,7 +567,12 @@
    "gen": "7/4 - First session (June 24): Claude Desktop install issues resolved (Co-work feature + restart); Gmail connected. Live demo: Claude scanned inbox and flagged urgent mystery damage email. Excited about agentic capabilities. | Latest (July 2): Independently set up and live-tested daily Shopify inventory automation using Claude Schedule (runs weekdays 9AM, confirmed working). Workflow streamlined by communicating directly with Lisa and Jody instead of through Kate. | Progress: From install troubleshooting and first demo → now setting up independent scheduled automations. Most technically advanced user in the cohort.",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 72,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Bernard Orte",
@@ -546,7 +611,12 @@
    "gen": "7/2 - AL will try to get the EA to send a message to Cowork",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 6,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Alliyah Tecson",
@@ -570,7 +640,7 @@
    "discordUN": "",
    "reachNotes": "",
    "callDate": "July 17 ⋅ 3:00 – 3:30am",
-   "callCat": "call2",
+   "callCat": "done",
    "facil": "Trisha",
    "call2Date": "Jul 30 • 3:00 AM – 3:30 AM",
    "call2Facil": "Alver",
@@ -585,7 +655,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 27,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Leonard Bernardo",
@@ -624,7 +699,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 94,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Angelica Quevedo",
@@ -663,7 +743,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 22,
+   "lastSession": "2026-07-27"
   },
   {
    "name": "Rhia Dizon",
@@ -702,7 +787,12 @@
    "gen": "7/4 - Rhia sent an update today that she used the suggested prompt \"Hi, I am a virtual/executive assistant, and my tasks are X, Y, and Z. What can you do for me?\"",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 7,
+   "lastSession": "2026-07-27"
   },
   {
    "name": "Alexis Marc Alzola",
@@ -717,7 +807,7 @@
    "accessed": true,
    "confirmed": true,
    "desktop": true,
-   "cowork": true,
+   "cowork": false,
    "vertical": "",
    "sessionNote": "5 sessions, all on a single active day (~1 min avg): calendar checks and intro prompts, 1 skill used. No activity since. SOP-driven role (Odoo entry, insurance phone support) limits fit.",
    "reachType": "Call 1 : Scoping",
@@ -741,7 +831,12 @@
    "gen": "7/2 - AL will try to get the EA to send a message to Cowork",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 5,
+   "lastSession": "2026-07-01"
   },
   {
    "name": "Bhea Mariel Caryzabel Flores",
@@ -780,7 +875,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 123,
+   "lastSession": "2026-07-30"
   },
   {
    "name": "May Ann Aileen Malong",
@@ -804,7 +904,7 @@
    "discordUN": "ann8884",
    "reachNotes": "",
    "callDate": "July 22 ⋅ 8:00 – 8:30am",
-   "callCat": "call2",
+   "callCat": "done",
    "facil": "Trina",
    "call2Date": "July 29⋅9:00 – 9:30pm",
    "call2Facil": "Alver",
@@ -819,7 +919,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 4,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Bleza Gail Balicog",
@@ -858,7 +963,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 2,
+   "lastSession": "2026-07-10"
   },
   {
    "name": "Erika Isidro",
@@ -897,7 +1007,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 4,
+   "lastSession": "2026-07-30"
   },
   {
    "name": "Reynaldo Gabriel Badiola",
@@ -936,7 +1051,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 31,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Frances Basilio",
@@ -975,7 +1095,12 @@
    "gen": "",
    "reached": true,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 14,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Ninfa Banluta",
@@ -990,7 +1115,7 @@
    "accessed": true,
    "confirmed": true,
    "desktop": true,
-   "cowork": false,
+   "cowork": true,
    "vertical": "",
    "sessionNote": "No Cowork usage recorded.",
    "reachType": "",
@@ -1014,7 +1139,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 1,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Raynee Cabrera",
@@ -1053,7 +1183,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Bernardo Abengoza",
@@ -1092,7 +1227,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Danielle Mendoza",
@@ -1131,7 +1271,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": false,
+   "seatStatus": "Pending",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Riena Mae Dayanan",
@@ -1143,8 +1288,8 @@
    "email": "riena.dayanan@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
-   "accessed": false,
-   "confirmed": false,
+   "accessed": true,
+   "confirmed": true,
    "desktop": false,
    "cowork": false,
    "vertical": "",
@@ -1170,7 +1315,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Angelique Joy Mancilla",
@@ -1182,10 +1332,10 @@
    "email": "angelique.mancilla@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
-   "accessed": false,
-   "confirmed": false,
+   "accessed": true,
+   "confirmed": true,
    "desktop": false,
-   "cowork": false,
+   "cowork": true,
    "vertical": "",
    "sessionNote": "No Cowork usage recorded. Seat still pending.",
    "reachType": "",
@@ -1209,7 +1359,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 6,
+   "lastSession": "2026-07-29"
   },
   {
    "name": "Ednalyn Bautista",
@@ -1221,8 +1376,8 @@
    "email": "ednalyn.bautista@magicassistant.ai",
    "revokeReason": "",
    "invited": true,
-   "accessed": false,
-   "confirmed": false,
+   "accessed": true,
+   "confirmed": true,
    "desktop": false,
    "cowork": false,
    "vertical": "",
@@ -1248,7 +1403,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Marf Danielle Cimafranca",
@@ -1287,7 +1447,12 @@
    "gen": "",
    "reached": false,
    "inPilot": false,
-   "inactive": false
+   "inactive": false,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Mic Darias",
@@ -1326,7 +1491,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": false
+   "inactive": false,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Cesalyn Saba",
@@ -1365,7 +1535,12 @@
    "gen": "",
    "reached": false,
    "inPilot": true,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Oswaldo Munguia",
@@ -1404,7 +1579,12 @@
    "gen": "",
    "reached": false,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Andrea Yu",
@@ -1443,7 +1623,12 @@
    "gen": "",
    "reached": false,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Jaime Castilla",
@@ -1482,7 +1667,12 @@
    "gen": "",
    "reached": false,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Michelle Navio",
@@ -1521,7 +1711,12 @@
    "gen": "",
    "reached": false,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 0,
+   "lastSession": ""
   },
   {
    "name": "Agnes De Luna",
@@ -1560,7 +1755,12 @@
    "gen": "Deal is Paused 7/6",
    "reached": true,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": true,
+   "seatStatus": "Active",
+   "seatTier": "Standard",
+   "sessionCount": 26,
+   "lastSession": "2026-07-10"
   },
   {
    "name": "Judilyn Orpiana",
@@ -1575,7 +1775,7 @@
    "accessed": true,
    "confirmed": true,
    "desktop": true,
-   "cowork": true,
+   "cowork": false,
    "vertical": "",
    "sessionNote": "1 session (Jun 19): Apollo company-search for WellSky home-care referral sourcing. No activity since; access flagged for revoke (not enough usage).",
    "reachType": "",
@@ -1599,113 +1799,178 @@
    "gen": "7/4 - First contact (June 23): Invited to Claude intro via Discord; acknowledged but no dedicated 1-on-1 coaching session recorded. | Latest: Has Claude access confirmed but no active usage observed. Recently transitioned to part-time, resulting in low task volume and limited opportunity to practice. | Progress: Minimal movement from initial access grant → no features explored yet. Needs dedicated follow-up session tailored to her reduced workload and part-time schedule.",
    "reached": false,
    "inPilot": false,
-   "inactive": true
+   "inactive": true,
+   "seat": false,
+   "seatStatus": "",
+   "seatTier": "",
+   "sessionCount": 4,
+   "lastSession": "2026-06-30"
   }
  ],
  "usage": {
   "bhea.flores@magicassistant.ai": {
-   "sessions": 100,
+   "sessions": 112,
    "active_days": 21,
    "cost": 0.0,
-   "tokens": 219986129,
+   "tokens": 250834557,
+   "skills": 24,
+   "distinctSkills": 16,
+   "hooks": 1930,
+   "toolOk": 1633,
+   "inactive": false
+  },
+  "leonard.bernardo@magicassistant.ai": {
+   "sessions": 94,
+   "active_days": 13,
+   "cost": 0.0,
+   "tokens": 91664730,
+   "skills": 18,
+   "distinctSkills": 11,
+   "hooks": 2096,
+   "toolOk": 2162,
    "inactive": false
   },
   "kristin.tolentino@magicassistant.ai": {
-   "sessions": 67,
+   "sessions": 74,
    "active_days": 19,
    "cost": 0.0,
-   "tokens": 764918032,
+   "tokens": 782111558,
+   "skills": 6,
+   "distinctSkills": 6,
+   "hooks": 6103,
+   "toolOk": 4720,
    "inactive": false
   },
   "joshua.marcelo@magicassistant.ai": {
-   "sessions": 59,
-   "active_days": 19,
+   "sessions": 62,
+   "active_days": 20,
    "cost": 0.0,
-   "tokens": 587318759,
+   "tokens": 630328084,
+   "skills": 13,
+   "distinctSkills": 12,
+   "hooks": 3333,
+   "toolOk": 3270,
    "inactive": false
   },
   "ruan.tao-on@magicassistant.ai": {
-   "sessions": 48,
-   "active_days": 21,
+   "sessions": 44,
+   "active_days": 19,
    "cost": 0.0,
-   "tokens": 34264466,
-   "inactive": false
-  },
-  "genevieve.auza@magicassistant.ai": {
-   "sessions": 37,
-   "active_days": 18,
-   "cost": 0.0,
-   "tokens": 30692488,
-   "inactive": false
-  },
-  "ma.palisoc@magicassistant.ai": {
-   "sessions": 34,
-   "active_days": 18,
-   "cost": 0.0,
-   "tokens": 2857729,
+   "tokens": 33168336,
+   "skills": 2,
+   "distinctSkills": 2,
+   "hooks": 345,
+   "toolOk": 366,
    "inactive": false
   },
   "pamela.balagtas@magicassistant.ai": {
    "sessions": 32,
    "active_days": 14,
    "cost": 0.0,
-   "tokens": 8486355,
-   "inactive": false
-  },
-  "leonard.bernardo@magicassistant.ai": {
-   "sessions": 30,
-   "active_days": 11,
-   "cost": 0.0,
-   "tokens": 3659435,
+   "tokens": 6908825,
+   "skills": 18,
+   "distinctSkills": 16,
+   "hooks": 140,
+   "toolOk": 153,
    "inactive": false
   },
   "rg.badiola@magicassistant.ai": {
-   "sessions": 27,
-   "active_days": 10,
+   "sessions": 31,
+   "active_days": 12,
    "cost": 0.0,
-   "tokens": 20659197,
-   "inactive": false
-  },
-  "angelica.quevedo@magicassistant.ai": {
-   "sessions": 26,
-   "active_days": 13,
-   "cost": 0.0,
-   "tokens": 37605080,
+   "tokens": 23040993,
+   "skills": 4,
+   "distinctSkills": 4,
+   "hooks": 483,
+   "toolOk": 491,
    "inactive": false
   },
   "alliyah.tecson@magicassistant.ai": {
-   "sessions": 25,
-   "active_days": 7,
+   "sessions": 28,
+   "active_days": 8,
    "cost": 0.0,
-   "tokens": 43282253,
+   "tokens": 57745638,
+   "skills": 4,
+   "distinctSkills": 3,
+   "hooks": 2129,
+   "toolOk": 2322,
+   "inactive": false
+  },
+  "ma.palisoc@magicassistant.ai": {
+   "sessions": 28,
+   "active_days": 16,
+   "cost": 0.0,
+   "tokens": 6711384,
+   "skills": 17,
+   "distinctSkills": 13,
+   "hooks": 110,
+   "toolOk": 66,
+   "inactive": false
+  },
+  "angelica.quevedo@magicassistant.ai": {
+   "sessions": 27,
+   "active_days": 13,
+   "cost": 0.0,
+   "tokens": 39055095,
+   "skills": 8,
+   "distinctSkills": 7,
+   "hooks": 286,
+   "toolOk": 295,
+   "inactive": false
+  },
+  "genevieve.auza@magicassistant.ai": {
+   "sessions": 25,
+   "active_days": 17,
+   "cost": 0.0,
+   "tokens": 10131690,
+   "skills": 1,
+   "distinctSkills": 1,
+   "hooks": 147,
+   "toolOk": 192,
    "inactive": false
   },
   "daniel.aciego@magicassistant.ai": {
-   "sessions": 17,
-   "active_days": 11,
+   "sessions": 18,
+   "active_days": 12,
    "cost": 0.0,
-   "tokens": 87335585,
+   "tokens": 88949846,
+   "skills": 1,
+   "distinctSkills": 1,
+   "hooks": 582,
+   "toolOk": 628,
    "inactive": false
   },
   "frances.basilio@magicassistant.ai": {
-   "sessions": 12,
-   "active_days": 6,
+   "sessions": 17,
+   "active_days": 8,
    "cost": 0.0,
-   "tokens": 13953768,
+   "tokens": 18069459,
+   "skills": 2,
+   "distinctSkills": 2,
+   "hooks": 353,
+   "toolOk": 372,
    "inactive": false
   },
   "jasper.ong@magicassistant.ai": {
-   "sessions": 10,
-   "active_days": 5,
+   "sessions": 8,
+   "active_days": 4,
    "cost": 0.0,
    "tokens": 22519612,
+   "skills": 21,
+   "distinctSkills": 2,
+   "hooks": 879,
+   "toolOk": 1009,
    "inactive": false
   },
   "agnes.luna@magicassistant.ai": {
-   "sessions": 9,
-   "active_days": 6,
+   "sessions": 8,
+   "active_days": 5,
    "cost": 0.0,
    "tokens": 0,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 0,
+   "toolOk": 0,
    "inactive": true
   },
   "john.cubacub@magicassistant.ai": {
@@ -1713,55 +1978,109 @@
    "active_days": 4,
    "cost": 0.0,
    "tokens": 0,
-   "inactive": false
-  },
-  "claire.calayag@magicassistant.ai": {
-   "sessions": 6,
-   "active_days": 5,
-   "cost": 0.0,
-   "tokens": 135070,
-   "inactive": false
-  },
-  "joan.francisco@magicassistant.ai": {
-   "sessions": 6,
-   "active_days": 6,
-   "cost": 0.0,
-   "tokens": 1175592,
-   "inactive": false
-  },
-  "alexis.alzola@magicassistant.ai": {
-   "sessions": 5,
-   "active_days": 1,
-   "cost": 0.0,
-   "tokens": 1296672,
-   "inactive": false
-  },
-  "rhia.dizon@magicassistant.ai": {
-   "sessions": 5,
-   "active_days": 4,
-   "cost": 0.0,
-   "tokens": 2537933,
-   "inactive": false
-  },
-  "bernard.orte@magicassistant.ai": {
-   "sessions": 3,
-   "active_days": 3,
-   "cost": 0.0,
-   "tokens": 42917,
-   "inactive": false
-  },
-  "may.malong@magicassistant.ai": {
-   "sessions": 3,
-   "active_days": 3,
-   "cost": 0.0,
-   "tokens": 0,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 0,
+   "toolOk": 0,
    "inactive": false
   },
   "rosebeth.pana@magicassistant.ai": {
+   "sessions": 7,
+   "active_days": 5,
+   "cost": 0.0,
+   "tokens": 182697250,
+   "skills": 3,
+   "distinctSkills": 3,
+   "hooks": 852,
+   "toolOk": 849,
+   "inactive": false
+  },
+  "angelique.mancilla@magicassistant.ai": {
+   "sessions": 6,
+   "active_days": 1,
+   "cost": 0.0,
+   "tokens": 10284618,
+   "skills": 7,
+   "distinctSkills": 5,
+   "hooks": 86,
+   "toolOk": 108,
+   "inactive": false
+  },
+  "bernard.orte@magicassistant.ai": {
+   "sessions": 5,
+   "active_days": 5,
+   "cost": 0.0,
+   "tokens": 8491231,
+   "skills": 1,
+   "distinctSkills": 1,
+   "hooks": 80,
+   "toolOk": 65,
+   "inactive": false
+  },
+  "claire.calayag@magicassistant.ai": {
+   "sessions": 5,
+   "active_days": 4,
+   "cost": 0.0,
+   "tokens": 135070,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 3,
+   "toolOk": 3,
+   "inactive": false
+  },
+  "may.malong@magicassistant.ai": {
+   "sessions": 4,
+   "active_days": 4,
+   "cost": 0.0,
+   "tokens": 531297,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 12,
+   "toolOk": 1,
+   "inactive": false
+  },
+  "joan.francisco@magicassistant.ai": {
+   "sessions": 4,
+   "active_days": 4,
+   "cost": 0.0,
+   "tokens": 778322,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 9,
+   "toolOk": 21,
+   "inactive": false
+  },
+  "erika.isidro@magicassistant.ai": {
+   "sessions": 4,
+   "active_days": 3,
+   "cost": 0.0,
+   "tokens": 25553682,
+   "skills": 3,
+   "distinctSkills": 3,
+   "hooks": 232,
+   "toolOk": 247,
+   "inactive": false
+  },
+  "rhia.dizon@magicassistant.ai": {
    "sessions": 3,
    "active_days": 3,
    "cost": 0.0,
-   "tokens": 2776135,
+   "tokens": 2537933,
+   "skills": 1,
+   "distinctSkills": 1,
+   "hooks": 27,
+   "toolOk": 21,
+   "inactive": false
+  },
+  "ninfa.banluta@magicassistant.ai": {
+   "sessions": 1,
+   "active_days": 1,
+   "cost": 0.0,
+   "tokens": 1403186,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 11,
+   "toolOk": 21,
    "inactive": false
   },
   "bleza.balicog@magicassistant.ai": {
@@ -1769,21 +2088,23 @@
    "active_days": 1,
    "cost": 0.0,
    "tokens": 1948730,
-   "inactive": false
-  },
-  "judilyn.orpiana@magicassistant.ai": {
-   "sessions": 1,
-   "active_days": 1,
-   "cost": 0.0,
-   "tokens": 0,
-   "inactive": true
-  },
-  "erika.isidro@magicassistant.ai": {
-   "sessions": 1,
-   "active_days": 1,
-   "cost": 0.0,
-   "tokens": 0,
+   "skills": 0,
+   "distinctSkills": 0,
+   "hooks": 42,
+   "toolOk": 27,
    "inactive": false
   }
- }
+ },
+ "seats": {
+  "total": 37,
+  "active": 36,
+  "pending": 1,
+  "roster": 34,
+  "internal": 3
+ },
+ "dataFlags": [
+  "Session activity but no row in the Cowork Users aggregate: Alexis Marc Alzola, Judilyn Orpiana. Their sessions are visible in Cowork Sessions, so the usage totals understate them.",
+  "Has sessions on record but 'Has Cowork usage?' is unchecked: Alexis Marc Alzola, Judilyn Orpiana.",
+  "Claude Team seat invite still pending acceptance: Danielle Mendoza."
+ ]
 }

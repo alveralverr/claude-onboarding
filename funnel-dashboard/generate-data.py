@@ -171,11 +171,20 @@ if "Cowork Users" in wb.sheetnames:
     for row in urows[1:]:
         em = str(row[ei]).strip().lower() if ei is not None and ei < len(row) and row[ei] else ""
         if not em: continue
+        # "total_cost_usd" was dropped from this tab in the Jul 30 refresh; unum() returns
+        # 0.0 when a header is absent, so `cost` stays in the contract (index.html hides a
+        # zero) while the newer engagement columns below carry the signal instead.
+        # avg_session_duration_seconds is deliberately NOT exported: its values (275h, 195h)
+        # are implausible as averages, so publishing them would be misleading.
         by_email.setdefault(em, []).append(
             {"sessions": int(unum(row, "num_sessions")),
              "active_days": int(unum(row, "active_days")),
              "cost": round(unum(row, "total_cost_usd"), 2),
-             "tokens": int(unum(row, "total_tokens"))})
+             "tokens": int(unum(row, "total_tokens")),
+             "skills": int(unum(row, "num_skill_activations")),
+             "distinctSkills": int(unum(row, "distinct_skills_used")),
+             "hooks": int(unum(row, "num_hook_executions")),
+             "toolOk": int(unum(row, "num_tool_successes"))})
     for em, recs in by_email.items():
         usage[em] = max(recs, key=lambda r: (r["cost"], r["tokens"], r["sessions"]))
 
@@ -185,16 +194,82 @@ inactive_emails = {o["email"].lower() for o in out if o.get("inactive") and o.ge
 for em in usage:
     usage[em]["inactive"] = em in inactive_emails
 
-# usage "as of" date — read ONLY the session_date column (no prompt content)
+# --- "Cowork Sessions": usage "as of" date + per-user session counts.
+#     ONLY session_date / user_email / session_id are read. The "all_prompts" column
+#     (raw prompt text) is NEVER touched — see the module docstring.
 usage_as_of = ""
+sess_ids = {}      # email -> set of distinct session_id
+sess_last = {}     # email -> most recent session_date
 if "Cowork Sessions" in wb.sheetnames:
     sws = wb["Cowork Sessions"]
-    hdr = next(sws.iter_rows(values_only=True), ())
-    di = {str(n).strip(): i for i, n in enumerate(hdr) if n not in (None, "")}.get("session_date")
-    if di is not None:
-        ds = [str(row[di])[:10] for row in sws.iter_rows(min_row=2, values_only=True)
-              if di < len(row) and row[di]]
-        if ds: usage_as_of = max(ds)
+    srows = sws.iter_rows(values_only=True)
+    shdr = next(srows, ())
+    sidx = {str(n).strip(): i for i, n in enumerate(shdr) if n not in (None, "")}
+    di, emi, sii = sidx.get("session_date"), sidx.get("user_email"), sidx.get("session_id")
+    ds = []
+    for row in srows:
+        d = str(row[di])[:10] if di is not None and di < len(row) and row[di] else ""
+        em = (str(row[emi]).strip().lower()
+              if emi is not None and emi < len(row) and row[emi] else "")
+        if d: ds.append(d)
+        if em:
+            if sii is not None and sii < len(row) and row[sii]:
+                sess_ids.setdefault(em, set()).add(str(row[sii]))
+            if d: sess_last[em] = max(sess_last.get(em, ""), d)
+    if ds: usage_as_of = max(ds)
+
+# --- "Confirmed Access": the authoritative Claude Team seat roster (Name/Email/Role/
+#     Status/Seat Tier). Used to stamp each assistant with whether they actually hold a
+#     seat, so a stale "Claude Access confirmed?" checkbox can be caught.
+seats = {}
+if "Confirmed Access" in wb.sheetnames:
+    caws = wb["Confirmed Access"]
+    carows = list(caws.iter_rows(values_only=True))
+    cah = {str(n).strip(): i for i, n in enumerate(carows[0]) if n not in (None, "")}
+    ce, cs, ct = cah.get("Email"), cah.get("Status"), cah.get("Seat Tier")
+    for row in carows[1:]:
+        em = str(row[ce]).strip().lower() if ce is not None and ce < len(row) and row[ce] else ""
+        if not em: continue
+        seats[em] = {"status": v(row[cs]) if cs is not None and cs < len(row) else "",
+                     "tier": v(row[ct]) if ct is not None and ct < len(row) else ""}
+
+roster_emails = {o["email"].lower() for o in out if o.get("email")}
+for o in out:
+    em = o["email"].lower()
+    s = seats.get(em)
+    # NOTE: the tab is keyed on Email, not Name — two rows carry an email with a blank
+    # Name, so matching on Name would silently drop real seats.
+    o["seat"] = bool(s) and s["status"].lower() == "active"
+    o["seatStatus"] = s["status"] if s else ""
+    o["seatTier"] = s["tier"] if s else ""
+    o["sessionCount"] = len(sess_ids.get(em, ()))
+    o["lastSession"] = sess_last.get(em, "")
+
+# --- data-quality flags surfaced on the dashboard's "Attention flags" card ---
+data_flags = []
+no_agg = [o["name"] for o in out if o["sessionCount"] > 0 and o["email"].lower() not in usage]
+if no_agg:
+    data_flags.append(
+        f"Session activity but no row in the Cowork Users aggregate: {', '.join(no_agg)}. "
+        f"Their sessions are visible in Cowork Sessions, so the usage totals understate them.")
+seat_gap = [o["name"] for o in out if o["confirmed"] and not o["seat"]
+            and o["status"] not in ("CHURNED", "PAUSED")]
+if seat_gap:
+    data_flags.append(
+        f"Marked access-confirmed but holds no Claude Team seat in Confirmed Access: "
+        f"{', '.join(seat_gap)}.")
+cow_gap = [o["name"] for o in out if o["cowork"] and o["sessionCount"] == 0]
+if cow_gap:
+    data_flags.append(f"Flagged 'Has Cowork usage?' but 0 sessions on record: {', '.join(cow_gap)}.")
+cow_miss = [o["name"] for o in out if not o["cowork"] and o["sessionCount"] > 0]
+if cow_miss:
+    data_flags.append(f"Has sessions on record but 'Has Cowork usage?' is unchecked: {', '.join(cow_miss)}.")
+pend = [o["name"] for o in out if o.get("seatStatus", "").lower() == "pending"]
+if pend:
+    data_flags.append(f"Claude Team seat invite still pending acceptance: {', '.join(pend)}.")
+orphan = sorted(set(usage) - roster_emails)
+if orphan:
+    data_flags.append(f"{len(orphan)} usage row(s) with no matching assistant in the roster.")
 
 # --- semantic sanity check: refuse to overwrite good data with corrupt data ---
 def metrics(objs):
@@ -226,6 +301,14 @@ payload = {
     "usageAsOf": usage_as_of,
     "assistants": out,
     "usage": usage,
+    # Claude Team seat reconciliation (from the "Confirmed Access" tab). "roster" counts
+    # only seats held by someone on the EA Pilot 62 roster; the remainder are internal.
+    "seats": {"total": len(seats),
+              "active": sum(1 for s in seats.values() if s["status"].lower() == "active"),
+              "pending": sum(1 for s in seats.values() if s["status"].lower() == "pending"),
+              "roster": sum(1 for em in seats if em in roster_emails),
+              "internal": sum(1 for em in seats if em not in roster_emails)},
+    "dataFlags": data_flags,
 }
 with open(OUT, "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False, indent=1)

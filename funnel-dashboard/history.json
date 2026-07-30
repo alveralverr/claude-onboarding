@@ -122,14 +122,14 @@
  {
   "date": "2026-07-31",
   "k": {
-   "cow": 24,
-   "notStarted": 10,
-   "callsToRun": 16,
+   "cow": 25,
+   "notStarted": 9,
+   "callsToRun": 12,
    "incPayN": 4,
    "incAmt": 14.12,
    "invited": 37,
-   "accessed": 33,
-   "confirmed": 33,
+   "accessed": 36,
+   "confirmed": 36,
    "desktop": 30,
    "coworkTotal": 26
   }

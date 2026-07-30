@@ -433,6 +433,9 @@ const FILE_ID='1xp4GL55HcCfg3C8m6hlkMco74bl-GhlSX8ZAsfKt4fA';
 // Cowork usage + trend history now come from data.json / history.json (refreshed by
 // generate-data.py), so nothing here goes stale. Populated in init().
 let USAGE={};
+// Seat reconciliation + data-quality flags computed by generate-data.py from the
+// "Confirmed Access" / "Cowork Sessions" tabs. Populated in init().
+let SEATS=null,DATAFLAGS=[];
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const tb=v=>String(v).trim().toUpperCase()==='TRUE';
 const SK=['invited','accessed','confirmed','desktop','cowork'];
@@ -621,6 +624,11 @@ function renderOverview(){
   flags.push(`Data completeness: EA profile links ${pilot.filter(p=>p.profile).length} of ${pilot.length} in-pilot, recording links ${roster.filter(p=>p.rec).length} of ${roster.length}.`);
   const un=roster.filter(p=>p.al==='Unassigned'||p.status==='');if(un.length)flags.push(`No account lead or status: ${un.map(p=>p.name.split(' ')[0]).join(', ')}.`);
   const ti=roster.filter(p=>p.status==='TO BE INVITED');if(ti.length)flags.push(`Awaiting invite: ${ti.map(p=>p.name.split(' ')[0]).join(', ')}.`);
+  // Claude Team seat reconciliation + generator-side data-quality flags ("Confirmed
+  // Access" / "Cowork Sessions" cross-checks). Additive only — the funnel, stat cards
+  // and Needs-action board keep their existing inactive/paused exclusion rules.
+  if(SEATS)flags.push(`Claude Team seats: ${SEATS.active} active${SEATS.pending?`, ${SEATS.pending} pending`:''} — ${SEATS.roster} held by roster assistants, ${SEATS.internal} internal.`);
+  DATAFLAGS.forEach(f=>flags.push(f));
   document.getElementById('flags').innerHTML=flags.map(f=>`<div class="flag"><span class="fd"></span><span>${esc(f)}</span></div>`).join('');
   // account-lead scorecard (progress of each lead's in-pilot assistants)
   const alStats={};
@@ -684,7 +692,7 @@ function refresh(anim){
   const rows=list.map((p,idx)=>{
     const s=steps(p),sk=stuckAt(s);const sb=sbg[p.status]||['#F0F0F4','#6E6B7B'];
     const u=USAGE[(p.email||'').toLowerCase()]||{sessions:0,active_days:0,cost:0,tokens:0};
-    const tip=`${u.sessions} session${u.sessions===1?'':'s'} · ${u.active_days} active day${u.active_days===1?'':'s'}${u.cost?` · $${u.cost.toFixed(2)}`:''}${u.tokens?` · ${(u.tokens/1e6).toFixed(1)}M tokens`:''}`;
+    const tip=`${u.sessions} session${u.sessions===1?'':'s'} · ${u.active_days} active day${u.active_days===1?'':'s'}${u.cost?` · $${u.cost.toFixed(2)}`:''}${u.tokens?` · ${(u.tokens/1e6).toFixed(1)}M tokens`:''}${u.distinctSkills?` · ${u.distinctSkills} distinct skill${u.distinctSkills===1?'':'s'}`:''}${u.toolOk?` · ${u.toolOk.toLocaleString()} tool successes`:''}`;
     const SLAB=['Invited','Accessed','Confirmed','Desktop','Cowork'];
     let cells=`<div class="cell name l"><span class="namebtn" data-row="${idx}" role="button" tabindex="0" title="${esc(p.name)}" aria-label="${esc(p.name)}${p.profile?' — open EA profile':' — open details'}"><span style="border-bottom:1px dashed #C9C3EC">${esc(p.name)}</span></span><button class="rpeek" data-detail="${idx}" title="View full details" aria-label="View full details for ${esc(p.name)}">&rsaquo;</button></div>`;
     cells+=`<div class="cell l lead" data-label="Lead" title="${esc(p.al)}">${esc(p.al)}</div>`;
@@ -824,6 +832,8 @@ async function init(){
     const arr=Array.isArray(raw)?raw:(raw.assistants||[]);
     const rawUsage=Array.isArray(raw)?{}:(raw.usage||{});
     USAGE={};Object.keys(rawUsage).forEach(e=>{USAGE[String(e).toLowerCase()]=rawUsage[e];});
+    SEATS=Array.isArray(raw)?null:(raw.seats||null);
+    DATAFLAGS=Array.isArray(raw)?[]:(raw.dataFlags||[]);
     ALL=arr.filter(p=>(p.al||'').trim()!=='Unassigned');
     window.__HIST=await fetchHistory();
     setSnapshotLabel(Array.isArray(raw)?'':(raw.usageAsOf||''));
