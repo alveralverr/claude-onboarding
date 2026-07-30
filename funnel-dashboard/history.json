@@ -118,5 +118,20 @@
    "desktop": 30,
    "coworkTotal": 26
   }
+ },
+ {
+  "date": "2026-07-31",
+  "k": {
+   "cow": 24,
+   "notStarted": 10,
+   "callsToRun": 16,
+   "incPayN": 4,
+   "incAmt": 14.12,
+   "invited": 37,
+   "accessed": 33,
+   "confirmed": 33,
+   "desktop": 30,
+   "coworkTotal": 26
+  }
  }
 ]
