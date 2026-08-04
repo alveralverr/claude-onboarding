@@ -30,6 +30,15 @@ XLSX = sys.argv[1] if len(sys.argv) > 1 else "Claude_Transition_MEA_Ops.xlsx"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
 TAB = "EA Pilot 62"
 
+# Internal accounts (Alver / Jason / Norj) that sit in the "Confirmed Access" seat
+# roster but are NOT pilot participants — always excluded from any Confirmed Access
+# count or stat so seat totals reflect EAs only.
+CONFIRMED_ACCESS_EXCLUDE = {
+    "jason@getmagicnow.com",
+    "norjielyn@gmail.com",
+    "alverremolar@gmail.com",
+}
+
 wb = openpyxl.load_workbook(XLSX, data_only=True)
 if TAB not in wb.sheetnames:
     sys.exit(f'Tab "{TAB}" not found. Available: {wb.sheetnames}')
@@ -230,6 +239,7 @@ if "Confirmed Access" in wb.sheetnames:
     for row in carows[1:]:
         em = str(row[ce]).strip().lower() if ce is not None and ce < len(row) and row[ce] else ""
         if not em: continue
+        if em in CONFIRMED_ACCESS_EXCLUDE: continue   # internal accounts, never counted
         seats[em] = {"status": v(row[cs]) if cs is not None and cs < len(row) else "",
                      "tier": v(row[ct]) if ct is not None and ct < len(row) else ""}
 
