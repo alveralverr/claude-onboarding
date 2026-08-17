@@ -75,10 +75,11 @@ COL = dict(
     name=one_of("Assistant Name", "Name"), hsEmail=one("HS Email"), dealCard=one("Deal Card Link"),
     client=one("Client Name"), al=one("Account Lead"),
     status=(status_cols[0] if status_cols else None),      # account status = first "Status"
-    email=one("Magic Assistant Email"), revoke=one("Revoke Access Reason"),
+    email=one_of("Claude Webmail", "Magic Assistant Email"), revoke=one("Revoke Access Reason"),
     invited=one("Invited to Claude"), accessed=one("Accessed Asst Email"),
     confirmed=one("Claude Access confirmed?"), desktop=one("Claude Desktop app installed?"),
-    cowork=one("Has Cowork usage?"), vertical=one("Verticals"),
+    cowork=one("Has Cowork usage?"),
+    vertical=one_of("Verticals", "Main Vertical"), subVertical=one("Sub-verticals"),
     sessionNote=one("Cowork Session Notes"), reachType=one("Reachout Type"),
     emailReach=one("Email Reachout"), discordReach=one("Discord Reachout"),
     discordUN=one("Discord UN"), reachNotes=one("Reachout Notes"),
@@ -135,13 +136,18 @@ for ri, r in enumerate(rows):
     sheet_row = ri + 1               # openpyxl is 1-based
     email = v(cell(r, "email")); email = email if email and email != "N/A" else ""
     status = v(cell(r, "status")).upper()
+    main_vertical, sub_vertical = v(cell(r, "vertical")), v(cell(r, "subVertical"))
+    if main_vertical and sub_vertical:
+        vertical = f"{main_vertical} — {sub_vertical}"
+    else:
+        vertical = main_vertical or sub_vertical
     o = dict(
         name=v(cell(r, "name")), hsEmail=v(cell(r, "hsEmail")), dealCard=v(cell(r, "dealCard")),
         client=v(cell(r, "client")), al=clean_al(v(cell(r, "al"))), status=status, email=email,
         revokeReason=v(cell(r, "revoke")),
         invited=tb(cell(r, "invited")), accessed=tb(cell(r, "accessed")),
         confirmed=tb(cell(r, "confirmed")), desktop=tb(cell(r, "desktop")), cowork=tb(cell(r, "cowork")),
-        vertical=v(cell(r, "vertical")), sessionNote=v(cell(r, "sessionNote")),
+        vertical=vertical, sessionNote=v(cell(r, "sessionNote")),
         reachType=v(cell(r, "reachType")), emailReach=tb(cell(r, "emailReach")),
         discordReach=tb(cell(r, "discordReach")), discordUN=v(cell(r, "discordUN")),
         reachNotes=v(cell(r, "reachNotes")),
