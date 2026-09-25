@@ -48,3 +48,9 @@ assets/_archive
 _archive
 _archive/
 **/_archive/**
+
+# --- Local tooling / repo config — not part of the site ---
+.claude
+.claude/
+**/.claude/**
+.gitattributes

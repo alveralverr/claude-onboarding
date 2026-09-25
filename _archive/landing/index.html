@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Claude for Magic — MEA Ops</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Scoped landing styles — reuses tokens/fonts from css/styles.css */
+    .lp{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+    .lp__glow{position:absolute;left:50%;top:-160px;transform:translateX(-50%);width:900px;max-width:120vw;height:420px;
+      background:linear-gradient(135deg,rgba(255,98,0,.35),rgba(117,78,255,.75),rgba(0,144,255,.35));
+      filter:blur(150px);opacity:.5;pointer-events:none;z-index:0}
+    .lp__bar{display:flex;align-items:center;gap:10px;padding:22px 28px;position:relative;z-index:2}
+    .lp__bar img{height:26px;width:auto}
+    .lp__bar .x{color:var(--ink-muted);font-size:16px}
+    .lp__brand{font-weight:500;color:var(--ink);letter-spacing:-.01em}
+    .lp__main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:24px 24px 72px;position:relative;z-index:1}
+    .lp__kicker{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);margin-bottom:14px}
+    .lp__title{font-size:clamp(40px,7vw,76px);font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--ink);margin:0}
+    .lp__title .g{background:linear-gradient(135deg,#FF8EA9,#9B00FF,#14E9ED);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lp__sub{font-size:18px;color:var(--ink-support);margin:18px 0 0;max-width:560px;line-height:1.5}
+    .lp__cards{display:grid;grid-template-columns:minmax(260px,340px);gap:24px;margin-top:48px}
+    .lp__card{display:flex;flex-direction:column;text-align:left;text-decoration:none;background:rgba(255,255,255,.92);
+      border:2px solid #fff;border-radius:28px;box-shadow:var(--shadow-card);padding:30px 30px 26px;
+      transition:transform .16s ease,box-shadow .16s ease}
+    .lp__card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift)}
+    .lp__tag{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+    .lp__card--guide .lp__tag{color:var(--violet)}
+    .lp__ct{font-size:28px;font-weight:500;letter-spacing:-.01em;color:var(--ink);line-height:1.1}
+    .lp__cd{font-size:15px;color:var(--ink-support);margin-top:10px;line-height:1.5;flex:1}
+    .lp__go{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:600;font-size:15px}
+    .lp__card--guide .lp__go{color:var(--violet)}
+    .lp__foot{position:relative;z-index:1;text-align:center;color:var(--ink-muted);font-size:12.5px;padding:0 24px 28px}
+  </style>
+</head>
+<body>
+  <div class="lp">
+    <div class="lp__glow" aria-hidden="true"></div>
+
+    <div class="lp__bar">
+      <img src="assets/magic-logo.png" alt="Magic">
+      <span class="x" aria-hidden="true">×</span>
+      <span class="lp__brand">Claude</span>
+    </div>
+
+    <main class="lp__main">
+      <p class="lp__kicker">MEA Ops · Claude Pilot</p>
+      <h1 class="lp__title">Where do you want to <span class="g">start</span>?</h1>
+
+      <div class="lp__cards">
+        <a class="lp__card lp__card--guide" href="onboarding.html">
+          <span class="lp__tag">For assistants</span>
+          <span class="lp__ct">Onboarding Guide</span>
+          <span class="lp__cd">Set up Claude Cowork and start using it on real client work.</span>
+          <span class="lp__go">Open the guide &rarr;</span>
+        </a>
+      </div>
+    </main>
+
+    <p class="lp__foot">Magic EA · Claude Cowork pilot</p>
+  </div>
+</body>
+</html>
