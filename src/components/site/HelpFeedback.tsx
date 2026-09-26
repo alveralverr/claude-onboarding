@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { PRODUCT_EMAIL, ROUTES, type RouteKey } from "@/lib/data"
 import { resetProgress } from "@/lib/progress"
+import { resetGame } from "@/lib/game"
 import { Section } from "./shared"
 
 export function Help() {
@@ -75,7 +76,7 @@ export function Footer() {
   return (
     <footer className="border-t py-8 pb-12 text-[15px] text-muted-foreground">
       <div className="wrap flex flex-wrap justify-between gap-x-6 gap-y-2 px-5 md:px-10">
-        <p>Claude Cowork onboarding for Magic assistants · v3, September 2026</p>
+        <p>Claude Cowork onboarding for Magic assistants · v4, September 2026</p>
         <p>
           Questions? <a href={`mailto:${PRODUCT_EMAIL}`}>{PRODUCT_EMAIL}</a> · <a href="/claude-design.html">Claude Design guide</a> ·{" "}
           <Button
@@ -84,6 +85,7 @@ export function Footer() {
             onClick={() => {
               if (confirm("Reset your onboarding progress in this browser?")) {
                 resetProgress()
+                resetGame()
                 location.reload()
               }
             }}

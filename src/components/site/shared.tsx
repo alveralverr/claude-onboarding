@@ -27,14 +27,6 @@ export function Kicker({ className, ...props }: React.ComponentProps<"p">) {
   return <p className={cn("kicker mb-3", className)} {...props} />
 }
 
-export function StepNo({ n, time }: { n: number; time: string }) {
-  return (
-    <p className="mb-3 text-[15px] font-semibold text-violet">
-      Step {n} of 3 <span className="mx-1 text-muted-foreground">·</span> about {time}
-    </p>
-  )
-}
-
 export function Sub({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p

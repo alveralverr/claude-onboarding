@@ -14,19 +14,19 @@ export const SETUP_KEYS: string[] = SETUP_PANELS.flatMap((p) => [...p.keys])
 export const FIRST_TASK_KEY = "s5-0"
 
 export const PATH_STEPS = [
-  { id: "setup", href: "#setup", name: "Set up Cowork", time: "~20 min" },
-  { id: "first", href: "#first-task", name: "Run your first real task", time: "~10 min" },
-  { id: "safety", href: "#safety", name: "Pass the safety check", time: "~5 min" },
+  { id: "setup", href: "#/room/desk", name: "Your Desk: set up Cowork", time: "~20 min" },
+  { id: "first", href: "#/room/inbox", name: "The Inbox: first real task", time: "~10 min" },
+  { id: "safety", href: "#/room/vault", name: "The Vault: safety check", time: "~5 min" },
 ] as const
 
 export const LIBRARY = [
-  { href: "#cowork", title: "How Cowork works", desc: "Tasks, the interface, and working memory" },
-  { href: "#skills", title: "Skills", desc: "Magic templates and demos" },
-  { href: "#connectors", title: "Connectors", desc: "What each app can and can't do" },
-  { href: "#scheduled", title: "Scheduled tasks", desc: "Recurring work on autopilot" },
-  { href: "#prompting", title: "Prompting", desc: "Give context, get better results" },
-  { href: "#model", title: "Choosing a model", desc: "Opus first, and when to switch" },
-  { href: "#learn", title: "Courses", desc: "Anthropic courses and certification" },
+  { href: "#/shelf/cowork", title: "How Cowork works", desc: "Tasks, the interface, and working memory" },
+  { href: "#/shelf/skills", title: "Skills", desc: "Magic templates and demos" },
+  { href: "#/shelf/connectors", title: "Connectors", desc: "What each app can and can't do" },
+  { href: "#/shelf/scheduled", title: "Scheduled tasks", desc: "Recurring work on autopilot" },
+  { href: "#/shelf/prompting", title: "Prompting", desc: "Give context, get better results" },
+  { href: "#/shelf/model", title: "Choosing a model", desc: "Opus first, and when to switch" },
+  { href: "#/shelf/learn", title: "Courses", desc: "Anthropic courses and certification" },
   { href: "/claude-design.html", title: "Claude Design", desc: "Guide for MEA" },
 ]
 
@@ -86,61 +86,41 @@ export const QUIZ = [
     answer: "a",
     wrong: "Not quite. Always review everything before it reaches a client. Your sign-off is the last check.",
   },
+  {
+    id: "q6",
+    q: "A connector won't authorise. The client's admin sends you an API token to \"just paste into Claude so it works\". What do you do?",
+    options: [
+      { v: "a", t: "Paste it once, then delete the message." },
+      { v: "b", t: "Don't paste it. Set the connector up through Customize › Connectors, and tell your Account Lead a token was shared." },
+      { v: "c", t: "Paste it, but ask Claude to forget it afterwards." },
+    ],
+    answer: "b",
+    wrong: "Not quite. Tokens and passwords never go into a prompt, even once. Use the connector flow and report the shared token.",
+  },
+  {
+    id: "q7",
+    q: "Claude wrote a weekly summary for your client. It's accurate but reads like Claude wrote it. The client is waiting. What do you send?",
+    options: [
+      { v: "a", t: "The summary as is. Accurate is what matters." },
+      { v: "b", t: "The summary after you cut the filler and rewrite it the way you would say it to the client." },
+      { v: "c", t: "A note saying Claude drafted it, with the summary attached." },
+    ],
+    answer: "b",
+    wrong: "Not quite. Unedited AI output is the top reason clients lose trust in an assistant. Edit before you send, every time.",
+  },
+  {
+    id: "q8",
+    q: "You've run the same inbox triage five times without problems. Cowork offers Automatic mode, which skips the approve step. When is it OK to turn on?",
+    options: [
+      { v: "a", t: "For that routine task, on your own accounts, with drafts, not sends." },
+      { v: "b", t: "For everything, since Claude has been reliable so far." },
+      { v: "c", t: "For a new task on a client's connected account, to save time." },
+    ],
+    answer: "a",
+    wrong: "Not quite. Automatic mode is for routine tasks you've already reviewed, on your own accounts, and never for sending, paying or anything hard to undo.",
+  },
 ]
 
-export type TourItem = { n: number; left: number; top: number; title: string; desc: string }
-export const TOUR: Record<"home" | "task", { label: string; img: string; alt: string; w: number; h: number; voice: string; items: TourItem[] }> = {
-  home: {
-    label: "Home screen",
-    img: "/assets/media/cowork-interface.webp",
-    alt: "The Cowork home screen with 18 numbered labels",
-    w: 2000, h: 1178,
-    voice: "/assets/voice/04 - home interface.mp3",
-    items: [
-      { n: 1, left: 6.8, top: 2.3, title: "Window bar", desc: "Close or resize the app, collapse the sidebar, and search your chats and tasks." },
-      { n: 2, left: 8.6, top: 7.4, title: "Mode switcher", desc: "Switch between Chat, Cowork, and Code. Cowork is the mode that takes on whole tasks." },
-      { n: 3, left: 2, top: 12.4, title: "New task", desc: "Start a fresh Cowork task with a clean slate." },
-      { n: 4, left: 2, top: 15.5, title: "Projects", desc: "Workspaces tied to a folder on your computer, each with its own files, instructions, and memory." },
-      { n: 5, left: 2, top: 18.6, title: "Scheduled", desc: "Tasks Claude runs automatically on a cadence you set: daily, weekly, or monthly." },
-      { n: 6, left: 2, top: 21.7, title: "Live artifacts", desc: "Dashboards and trackers Claude builds that refresh with current data each time you open them." },
-      { n: 7, left: 2, top: 24.9, title: "Customize", desc: "Add skills and connectors, set instructions, and manage plugins and settings." },
-      { n: 8, left: 11, top: 30.3, title: "Recents", desc: "Your recent tasks and chats. Click one to pick up where you left off." },
-      { n: 9, left: 1.8, top: 96.8, title: "Account and profile", desc: "Your name, plan, and settings. Sign out from this menu." },
-      { n: 10, left: 93, top: 2.3, title: "What's new", desc: "Release notes for the latest Claude features." },
-      { n: 11, left: 31.5, top: 24.8, title: "Home greeting", desc: "Your starting point each time you open a new task." },
-      { n: 12, left: 33.5, top: 29.3, title: "Usage and safety banner", desc: "Your current usage allowance and a link on using Cowork safely." },
-      { n: 13, left: 53.5, top: 37, title: "Prompt field", desc: "Type what you want done. Be specific about the output and where to save it." },
-      { n: 14, left: 40, top: 43.8, title: "Add context", desc: "Attach files, screenshots, or other context with the plus button." },
-      { n: 15, left: 82, top: 43.8, title: "Dictation", desc: "Speak your prompt instead of typing it." },
-      { n: 16, left: 39.5, top: 50.4, title: "Work in a project", desc: "Pick the folder Claude reads from and saves finished work to." },
-      { n: 17, left: 74.5, top: 50.4, title: "Model and reasoning", desc: "Choose the Claude model and how hard it thinks. Higher effort uses more of your usage limit." },
-      { n: 18, left: 39.2, top: 55.7, title: "Project picker", desc: "Search your projects, create a new one, or point Claude at a different folder." },
-    ],
-  },
-  task: {
-    label: "Inside a task",
-    img: "/assets/media/cowork-session.webp",
-    alt: "A running Cowork task with 14 numbered labels",
-    w: 2000, h: 1183,
-    voice: "/assets/voice/05 - inside a task.mp3",
-    items: [
-      { n: 1, left: 21.8, top: 2.6, title: "Task title and switcher", desc: "The name of the current task. Use the chevron to rename it, switch tasks, or start a new one." },
-      { n: 2, left: 22.5, top: 13.6, title: "Conversation", desc: "Your prompts and Claude's replies, newest at the bottom, just like a chat." },
-      { n: 3, left: 21.5, top: 19.8, title: "Tool call", desc: "When Claude runs a command or uses a tool, it shows here. Click to see exactly what it did." },
-      { n: 4, left: 25.8, top: 32.8, title: "Suggestion card", desc: "Claude suggests a plugin or skill it thinks will help. Dismiss it if you don't need it." },
-      { n: 5, left: 67.5, top: 41.2, title: "Add a plugin", desc: "Installs a bundle of related skills (here, Marketing) so Claude can use them in this task." },
-      { n: 6, left: 25, top: 49.6, title: "Skill command", desc: "Each /skill is a ready-made task. Hit Try it, or type its slash command yourself." },
-      { n: 7, left: 29.1, top: 90.4, title: "Message box", desc: "Reply, redirect, or give your next instruction. Press Enter to send." },
-      { n: 8, left: 25.2, top: 95.2, title: "Add context", desc: "Attach files, screenshots, or other context to your message." },
-      { n: 9, left: 68.1, top: 95.2, title: "Model selector", desc: "Switch the Claude model for this task. Heavier models use more of your usage limit." },
-      { n: 10, left: 73.8, top: 95.2, title: "Dictation", desc: "Speak your message instead of typing it." },
-      { n: 11, left: 76.4, top: 2.6, title: "Panel toggle", desc: "Show or hide the right-hand panel that tracks this task." },
-      { n: 12, left: 78.7, top: 9, title: "Progress", desc: "The task's step-by-step checklist. Finished steps get ticked off." },
-      { n: 13, left: 78.8, top: 29.8, title: "Working folder", desc: "Open the files Claude created or edited in this task." },
-      { n: 14, left: 78.8, top: 46.5, title: "Context", desc: "The tools Claude used and the files it referenced while working." },
-    ],
-  },
-}
 
 export type Access = "rw" | "interactive" | "ro"
 export const ACCESS_LABEL: Record<Access, string> = { rw: "Read and write", interactive: "Interactive", ro: "Read only" }

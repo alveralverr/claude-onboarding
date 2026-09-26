@@ -94,10 +94,10 @@ export function useStatus() {
 }
 
 export function continueTarget(st: Status): { href: string; label: string } {
-  if (!st.setup) return { href: "#setup", label: st.setupDone ? "Continue setup" : "Start setup" }
-  if (!st.first) return { href: "#first-task", label: "Run your first task" }
-  if (!st.safety) return { href: "#safety", label: "Take the safety check" }
-  return { href: "#ready", label: "Get your certificate" }
+  if (!st.setup) return { href: "#/room/desk", label: st.setupDone ? "Continue at your desk" : "Start at your desk" }
+  if (!st.first) return { href: "#/room/inbox", label: "Run your first task" }
+  if (!st.safety) return { href: "#/room/vault", label: "Take the safety check" }
+  return { href: "/certificate.html", label: "Get your certificate" }
 }
 
 export function isPanelComplete(s: ProgressState, keys: readonly string[]) {

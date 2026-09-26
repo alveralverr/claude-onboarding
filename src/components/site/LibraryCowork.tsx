@@ -1,116 +1,10 @@
-import * as React from "react"
 import { cn } from "cn"
 import { ChevronDownIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { LIBRARY, TOUR } from "@/lib/data"
-import { stopVoiceover } from "@/lib/voiceover"
 import { InViewVideo, Note, Section, Sub, Ticks, Voiceover, YouTube } from "./shared"
-
-export function LibraryIndex() {
-  return (
-    <Section id="library" wide className="border-t pb-6 md:pb-8" aria-labelledby="library-title">
-      <h2 className="h-section mb-4" id="library-title">
-        The <span className="grad">library</span>.
-      </h2>
-      <p className="lede mb-7">Everything else, open any time. Come back whenever you need a refresher.</p>
-      <nav className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Library">
-        {LIBRARY.map((l) => (
-          <a
-            key={l.href}
-            href={l.href}
-            className="flex flex-col gap-1 rounded-xl border-1.5 border-transparent bg-card p-5 text-foreground no-underline shadow-card-sm transition-[transform,border-color] hover:-translate-y-0.5 hover:border-violet/30"
-          >
-            <strong className="text-lg">{l.title}</strong>
-            <span className="text-[15px] leading-snug text-muted-foreground">{l.desc}</span>
-          </a>
-        ))}
-      </nav>
-    </Section>
-  )
-}
-
-function Tour() {
-  const [screen, setScreen] = React.useState<"home" | "task">("home")
-  const [pin, setPin] = React.useState<number | null>(null)
-  const t = TOUR[screen]
-  const item = t.items.find((i) => i.n === pin) ?? null
-  return (
-    <div className="mt-4">
-      <ToggleGroup
-        variant="outline"
-        spacing={0}
-        value={[screen]}
-        onValueChange={(v) => {
-          const next = (v as string[])[0]
-          if (next) {
-            setScreen(next as "home" | "task")
-            setPin(null)
-            stopVoiceover()
-          }
-        }}
-        aria-label="Screens"
-        className="mb-3.5"
-      >
-        <ToggleGroupItem value="home">Home screen</ToggleGroupItem>
-        <ToggleGroupItem value="task">Inside a task</ToggleGroupItem>
-      </ToggleGroup>
-
-      <div className="relative overflow-hidden rounded-xl bg-card shadow-card">
-        <img src={t.img} alt={t.alt} width={t.w} height={t.h} loading="lazy" className="w-full" />
-        {t.items.map((i) => (
-          <Button
-            key={i.n}
-            type="button"
-            size="icon-xs"
-            variant={pin === i.n ? "default" : "violet"}
-            className="absolute size-6 -translate-x-1/2 -translate-y-1/2 border-2 border-white text-[11px] font-bold shadow-btn sm:size-7.5 sm:text-xs"
-            style={{ left: `${i.left}%`, top: `${i.top}%` }}
-            aria-pressed={pin === i.n}
-            aria-label={`Label ${i.n}: ${i.title}`}
-            onClick={() => setPin(i.n)}
-          >
-            {i.n}
-          </Button>
-        ))}
-      </div>
-
-      <Card size="sm" className="mt-3 min-h-16" aria-live="polite">
-        <CardContent className="text-base">
-          {item ? (
-            <p>
-              <strong className="text-violet">{item.n}. {item.title}.</strong> {item.desc}
-            </p>
-          ) : (
-            <p className="text-muted-foreground">Tap a number on the screenshot.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Collapsible className="mt-4 rounded-xl border bg-card/70">
-        <CollapsibleTrigger render={<Button variant="ghost" size="lg" className="w-full justify-start" />}>
-          <ChevronDownIcon data-icon="inline-start" />
-          All {t.items.length} labels
-        </CollapsibleTrigger>
-        <CollapsibleContent className="px-4 pb-4">
-          <ol className="flex list-decimal flex-col gap-2 pl-5 text-base leading-snug text-muted-foreground">
-            {t.items.map((i) => (
-              <li key={i.n} className={cn(pin === i.n && "text-foreground")}>
-                <strong>{i.title}.</strong> {i.desc}
-              </li>
-            ))}
-          </ol>
-        </CollapsibleContent>
-      </Collapsible>
-      <div className="mt-3">
-        <Voiceover src={t.voice} label={screen === "home" ? "Listen to the home screen tour" : "Listen to the task tour"} />
-      </div>
-    </div>
-  )
-}
 
 export function Cowork() {
   return (
@@ -118,7 +12,7 @@ export function Cowork() {
       <h2 className="h-section mb-4" id="cowork-title">
         How Cowork <span className="grad">works</span>.
       </h2>
-      <p className="lede mb-7">Cowork is the mode in Claude desktop that runs on your computer and completes work across your files, browser, and tools. As a Magic assistant, make Cowork your default mode.</p>
+      <p className="lede mb-7">Cowork is the mode in Claude desktop that runs on your computer and completes work across your files, browser, and tools. As a Magic assistant, make Cowork your default mode. Anthropic is folding Cowork into the main Claude interface; when your seat gets it, Claude will decide for itself whether to answer or run a task.</p>
 
       <div className="mb-4 grid gap-3 sm:grid-cols-2">
         <div className="rounded-2xl bg-[#F4F1EA] p-6 text-base text-[#4B463D]">
@@ -186,9 +80,6 @@ export function Cowork() {
         </figure>
       </div>
 
-      <h3 className="h-sub mt-12 mb-2 md:mt-20" id="tour">The desktop app, labelled.</h3>
-      <p className="text-[17px] text-muted-foreground">Tap a number to see what each part does, or open the full list below the screenshot.</p>
-      <Tour />
 
       <h3 className="h-sub mt-12 mb-2 md:mt-20" id="context-window">Claude's working memory has a limit.</h3>
       <p className="text-[17px] text-muted-foreground">Every session holds a fixed amount of input, called the context window. When it fills, older context drops off and quality slips.</p>

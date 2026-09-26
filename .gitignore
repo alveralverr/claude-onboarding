@@ -12,3 +12,8 @@ dist
 
 # OS cruft
 .DS_Store
+
+# ChatGPT source renders (large PNGs). Converted WebP copies live in public/assets/media.
+assets-src/**/*.png
+assets-src/**/*.jpg
+assets-src/**/*.webp

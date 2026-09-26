@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-The "Claude Cowork onboarding for Magic assistants" site. Since v3 (September 2026) the guide is a **Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (Base UI, `nova` style)** app that builds to `dist/`. Two older pages (`claude-design.html`, `certificate.html`) are still plain static files served from `public/`.
+The "Claude Cowork onboarding for Magic assistants" site. Since v4 (September 2026) it is **"The Magic Office"**: a gamified simulator where each room is a mission and the reference guide lives on "the Shelf". Stack: **Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (Base UI, `nova` style) + motion**, built to `dist/`. Two older pages (`claude-design.html`, `certificate.html`) are still plain static files served from `public/`. `PLAN_V4.md` is the approved product plan; `CONTENT.md` is the how-to for editing rooms, scenarios and quiz content.
 
 ## Commands
 
@@ -25,26 +25,31 @@ There are no tests. `npm run lint` and `npm run build` are the checks. The Node 
 - `wrangler.jsonc` serves `assets.directory = "./dist"`. Only `dist/` is public, so anything Vite doesn't emit or copy from `public/` is never served.
 - **How the build runs on Cloudflare:** Workers Builds ignores wrangler's `build.command`. It runs `npm install` (which triggers the `prepare` script = `npm run build`), then `npx wrangler deploy`. So no dashboard build command is required, and `prepare` must keep working. Packages the build needs (`vite`, `typescript`, `@vitejs/plugin-react`, `@types/*`, `tailwindcss`) are in `dependencies`, not `devDependencies`, so the build still works if `NODE_ENV=production` is set. `wrangler.jsonc`'s `build.command` makes a local `npx wrangler deploy` build first too.
 - `public/_redirects` sends the old `/onboarding.html` URL to `/`. `public/.assetsignore` keeps `.DS_Store` out of uploads.
-- `DEPLOY.md`, `AUDIT.md`, and `REFACTOR_PLAN.md` describe v1 and are stale.
 
 ## Layout
 
 - `index.html`: Vite entry (meta tags, favicon, font preload). Nothing else lives here.
-- `src/main.tsx` mounts `App` and the shadcn `Toaster`. `src/App.tsx` composes the sections in page order and re-does the `#hash` jump after mount.
-- `src/components/site/`: the page, one file per group of sections. `shared.tsx` holds the small building blocks (`Section`, `Kicker`, `Voiceover`, `CopyPrompt`, `YouTube` facade, `GifPlay`, `InViewVideo`, `Note`, `Ticks`).
+- `src/main.tsx` mounts `App` and the shadcn `Toaster`. `src/App.tsx` switches on the hash route (`src/lib/routes.ts`): `#/` lobby, `#/room/<id>` mission, `#/shelf[/<section>]` reference. Old section hashes (`#setup`, `#connectors`, ...) are aliased in `LEGACY` there.
+- `src/world/`: `Lobby` (avatar pick, status card, map), `Map` (2.5D hotspots over `OfficeScene`, an isometric SVG diorama drawn from `iso.ts` boxes), `RoomPage`, `Shelf`.
+- `src/engine/`: `MissionPlayer` plays a mission one step at a time; `steps/` renders each step kind; `MockClaudeWindow` is the offline Claude replica used by the `sim` step; `bits.tsx` has `Check`, `Shot`, `MediaView`; `burst.ts` is the confetti.
+- `src/content/`: `types.ts` (step kinds), `world.ts` (rooms, badges, levels, avatars), `missions/` (one file per room), `scenarios/` (simulator scripts).
+- `src/components/site/`: the Shelf sections (`LibraryCowork`, `LibraryTools`, `LibraryPractice`, `HelpFeedback`) and `TopBar`. `shared.tsx` holds the small building blocks (`Section`, `Kicker`, `Voiceover`, `CopyPrompt`, `YouTube` facade, `GifPlay`, `InViewVideo`, `Note`, `Ticks`).
 - `src/components/ui/`: shadcn components added by the CLI. Local customizations (keep them when updating): `button.tsx` is pill-shaped with extra `light`, `outline-light`, `success`, `violet` variants and an `xl` size; `badge.tsx` has `success`/`warning`; `alert.tsx` has `info`/`warning`; `card.tsx` uses the Magic pillow look (white border, violet shadow). ESLint's `only-export-components` rule is off for this folder.
-- `src/lib/data.ts`: content that is data (setup panel keys, quiz, tour labels, connectors, models, help routes, resources). `src/lib/progress.ts`: the progress store. `src/lib/voiceover.ts`: one shared Audio player.
+- `src/lib/data.ts`: content that is data (setup panel keys, quiz, connectors, models, help routes, resources). `src/lib/progress.ts`: the v1 progress store (checkboxes + safety). `src/lib/game.ts`: the v4 store (step completion, avatar) plus derived XP, level and badges. `src/lib/flags.ts`: `MERGED_UI`, `CLOUD_SYNC`, `WORLD_3D`. `src/lib/voiceover.ts`: one shared Audio player.
 - `src/index.css`: Tailwind, the shadcn token block, Magic brand tokens (`--violet`, `--cyan`, `--success`, `--warning`, `--claude`, shadows) registered in `@theme inline`, self-hosted League Spartan `@font-face`, and a few `@utility` classes (`grad`, `kicker`, `h-display`, `h-section`, `h-sub`, `lede`, `wrap`, `band-glow`, `hero-wash`, `tint`). The brand is light-only; `.dark` mirrors `:root`.
 - `public/`: copied verbatim into `dist/`: `assets/` (media, fonts, voice mp3s, the two demo mp4s and `setup-guide.mp4`), `claude-design.html` + `css/styles.css` + `js/ui.js` + `js/app.js` (v1 stack, only that page uses them), `certificate.html`, `_redirects`.
 - `_archive/`: v1 (`v1/`), the v2 static guide (`v2/`), the retired landing page (`landing/`), and original media (`assets/`). Not deployed.
 
 ## Rules that are easy to break
 
-- **Progress storage.** Key `magic-onboarding-v1`, shape `{ checkboxes: {key: true}, v2: { safety: true } }`, shared with v1/v2 so returning users keep their ticks. Checkbox keys (`data-cb-key` in v2, the `k` prop of `Check` here) must stay unique and stable; they're listed per panel in `SETUP_PANELS` in `data.ts`, and the setup total is derived from that list. Progress = 60% setup + 20% first task (`s5-0`) + 20% safety quiz.
-- **Nothing is ever locked.** Every section is reachable by deep link. Section ids (`intro`, `setup` (+ a `need` anchor inside), `first-task`, `safety`, `ready`, `library`, `cowork`, `tour`, `context-window`, `skills`, `connectors`, `scheduled`, `prompting`, `model`, `learn`, `help`, `feedback`) are linked from `claude-design.html` and old shared links. Keep them.
-- **The quiz** answer key is `answer` per question in `QUIZ`; questions quote the safety rules rendered above them. Keep both in sync.
+- **Progress storage.** Key `magic-onboarding-v1`, shape `{ checkboxes: {key: true}, v2: { safety: true } }`, shared with v1/v2/v3 so returning users keep their ticks. Checkbox keys (the `k` of checklist items in `src/content/missions/desk.tsx` and `FIRST_TASK_KEY`) must stay unique and stable; they're listed per panel in `SETUP_PANELS` in `data.ts`, and the setup total is derived from that list. Core progress = 60% setup + 20% first task (`s5-0`) + 20% safety quiz. v4 adds `magic-onboarding-v4` (`{ steps: {"mission/step": iso}, seen, avatar, name, updatedAt }`); XP, level and badges are derived from both stores in `derive()`, never stored, so a v3 user opens v4 already at the right level. Two step ids feed badges: `inbox/edit`, `vault/secret`. Both stores are cleared together by "Reset my progress" in the footer. Clearing localStorage by hand while the app is open re-saves the in-memory state; use the footer button or reload first.
+- **Nothing is ever locked.** Every room, step and Shelf section is reachable by deep link. Old section ids (`intro`, `setup`, `need`, `first-task`, `safety`, `ready`, `library`, `cowork`, `tour`, `task-runs`, `context-window`, `skills`, `connectors`, `scheduled`, `prompting`, `model`, `learn`, `help`, `feedback`) are linked from `claude-design.html` and old shared links; they resolve through `LEGACY` in `routes.ts`, and the Shelf sections keep those element ids. Keep both.
+- **The quiz** answer key is `answer` per question in `QUIZ`; the Vault mission renders the habits and rules the questions quote. Keep both in sync.
+- **Missions are data.** Add or change rooms per `CONTENT.md`. Step ids are storage keys; renaming one resets it for everyone.
+- **`MERGED_UI` is off** until a Magic Team seat shows the merged Claude interface (Cowork folded in, Docs and Slides). Flipping it swaps the Desk mission's two mode-switch items; keys unchanged.
 - **Base UI, not Radix.** Use `render={<a />}` (plus `nativeButton={false}` on non-buttons) instead of `asChild`; `ToggleGroup`/`Accordion` take array values and `multiple`, not `type`; `Checkbox` uses `onCheckedChange`, others `onValueChange`. `Checkbox`/`RadioGroupItem` render a `span[role=…]` plus a hidden input that carries the `id`, so `FieldLabel htmlFor` works.
 - **Custom `@utility` classes lose to Tailwind utilities** when both set the same property (e.g. `CardTitle`'s `text-base` beats `h-sub`). Inside shadcn components, size text with Tailwind classes, not the custom utilities.
+- **Motion.** `motion/react` only in leaf components, always through `useReducedMotion` (the map zoom and step transitions go static). Confetti is off under reduced motion.
 - **Media conventions:** images are WebP in `public/assets/media` with `width`/`height` and `loading="lazy"`; YouTube goes through the `YouTube` facade (nothing loads until clicked, youtube-nocookie); long animations use `GifPlay` (poster + click-to-play animated WebP); muted demos use `InViewVideo`; voiceover buttons use `Voiceover` with a `/assets/voice/…mp3` src. Pillow WebP support is available for converting new images; ffmpeg is not installed.
 
 ## Previewing gotchas
