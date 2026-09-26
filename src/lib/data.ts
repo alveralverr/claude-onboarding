@@ -1,3 +1,5 @@
+import { NOW } from "@/content/now"
+
 /* Content that is data rather than prose. The prose lives in the section
    components. Checkbox keys here MUST stay stable: they are the localStorage
    keys that hold every assistant's progress (see progress.ts). */
@@ -159,9 +161,9 @@ export const CONNECTORS: Connector[] = [
 ]
 
 export const MODELS = {
-  opus: { model: "Opus", why: "Your default. Opus 5.5 (22 September 2026) matches the top model on most work at a lower cost. Best quality and reasoning for all EA work. Keep effort on its default; turning it down to save tokens costs quality on client work." },
-  sonnet: { model: "Sonnet", why: "Your fallback when Opus says you’ve hit your limit. Still strong for most tasks and lighter on quota." },
-  haiku: { model: "Haiku", why: "Bulk data only: high-volume rote work such as bulk categorization or simple extraction at scale. Almost never right for day-to-day EA work." },
+  opus: { model: NOW.defaultModelShort, why: `Your default. ${NOW.defaultModel} (${NOW.defaultModelSince}) matches the top model on most work at a lower cost. Best quality and reasoning for all EA work. Keep effort on its default; turning it down to save tokens costs quality on client work.` },
+  sonnet: { model: NOW.fallbackModel, why: `Your fallback when ${NOW.defaultModelShort} says you’ve hit your limit. Still strong for most tasks and lighter on quota.` },
+  haiku: { model: NOW.avoidForClients, why: "Bulk data only: high-volume rote work such as bulk categorization or simple extraction at scale. Almost never right for day-to-day EA work." },
 } as const
 export type ModelKey = keyof typeof MODELS
 

@@ -2,6 +2,7 @@ import * as React from "react"
 import { cn } from "cn"
 import { ArrowUpIcon, ChevronDownIcon, FileSpreadsheetIcon, FileTextIcon, FolderIcon, InfoIcon, MicIcon, PlusIcon, ShieldCheckIcon, VideoIcon, XIcon, ZapIcon } from "lucide-react"
 
+import { NOW } from "@/content/now"
 import type { ClientFile } from "@/story/types"
 import { MenuItem, MenuList } from "./parts"
 import { useMenu } from "./useMenu"
@@ -127,7 +128,7 @@ export function Composer({
             ))}
           </div>
           <span className="ml-auto hidden items-center gap-1 text-[13px] sm:flex">
-            Opus 5.5 <span className="text-[#73726C]">High</span>
+            {NOW.defaultModel} <span className="text-[#73726C]">{NOW.effortDefault}</span>
           </span>
           <MicIcon className="hidden size-4 text-[#73726C] sm:block" aria-hidden="true" />
           <button

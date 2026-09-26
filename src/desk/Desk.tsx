@@ -1,13 +1,14 @@
 import * as React from "react"
 import { cn } from "cn"
-import { BookOpenIcon, CheckIcon, LaptopIcon, SmartphoneIcon } from "lucide-react"
+import { BellIcon, BookOpenIcon, CheckIcon, LaptopIcon, SmartphoneIcon } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 
 import { Button } from "@/components/ui/button"
 import { LIVE_PATH, pathById } from "@/content/paths"
 import { AVATARS } from "@/content/world"
-import { useDerived, useGame, trustOf } from "@/lib/game"
-import { surfaceOf, taskKey } from "@/story/types"
+import { LATEST_UPDATE_DATE, UPDATES, unseenUpdates } from "@/content/updates"
+import { markUpdatesSeen, useDerived, useGame, trustOf } from "@/lib/game"
+import { surfaceOf, taskKey, type PathDef, type Shift } from "@/story/types"
 import { useRunner } from "@/story/useRunner"
 import { LaunchpadForm } from "@/story/steps/LaunchpadForm"
 import { LiveView } from "@/story/steps/LiveView"
@@ -20,37 +21,52 @@ import { PhonePanel } from "./Phone"
 import { Playbook } from "./Playbook"
 import { Stage } from "./Stage"
 import { Hearts, ShiftSummary } from "./Summary"
+import { UpdateCard } from "./WhatsNew"
 import { shiftClock } from "./pathIcons"
+
+/* Drills shipped with updates play as a bonus shift after the real ones.
+   They never count toward the path badge (derive() reads PATHS, not this). */
+const BONUS_ID = "updates"
+function withBonus(path: PathDef): { runPath: PathDef; bonus: Shift | null } {
+  const tasks = UPDATES.filter((u) => u.drill).map((u) => ({ ...u.drill!, id: u.id }))
+  if (!tasks.length) return { runPath: path, bonus: null }
+  const bonus: Shift = { id: BONUS_ID, day: "New", title: "What's new in Claude", clock: "", tasks }
+  return { runPath: { ...path, shifts: [...path.shifts!, bonus] }, bonus }
+}
 
 /* The home screen from v5 on: your desk, first person. The client texts
    your phone, tasks sit on sticky notes, and the laptop opens the practice
    Claude where most of the work happens. */
-export function Desk() {
+export function Desk({ drill }: { drill?: string }) {
   const g = useGame()
   const d = useDerived()
   const reduce = useReducedMotion()
   const path = pathById(g.story.play) ?? LIVE_PATH
   const persona = path.persona!
-  const shifts = path.shifts!
-  const api = useRunner(path)
+  const { runPath, bonus } = React.useMemo(() => withBonus(path), [path])
+  const shifts = runPath.shifts!
+  const coreCount = path.shifts!.length
+  const api = useRunner(runPath)
+  const unread = unseenUpdates(g.seenUpdates).length
   const userName = g.name || AVATARS.find((a) => a.id === g.avatar)?.name || "there"
 
   const [laptopOpen, setLaptopOpen] = React.useState(false)
   const [phoneOpen, setPhoneOpen] = React.useState(false)
   const [playbook, setPlaybook] = React.useState(false)
+  const [board, setBoard] = React.useState(false)
   const [pending, setPending] = React.useState<{ si: number; ti: number } | null>(null)
   const [viewShift, setViewShift] = React.useState<number | null>(null)
 
   const isDone = (si: number, ti: number) => !!g.story.tasks[taskKey(path.id, shifts[si].id, shifts[si].tasks[ti].id)]
   let next: { si: number; ti: number } | null = null
-  for (let si = 0; si < shifts.length && !next; si++)
+  for (let si = 0; si < coreCount && !next; si++)
     for (let ti = 0; ti < shifts[si].tasks.length; ti++)
       if (!isDone(si, ti)) {
         next = { si, ti }
         break
       }
 
-  const shiftIdx = api.active?.si ?? pending?.si ?? viewShift ?? next?.si ?? shifts.length - 1
+  const shiftIdx = api.active?.si ?? pending?.si ?? viewShift ?? next?.si ?? coreCount - 1
   const shift = shifts[shiftIdx]
   const doneIds = shift.tasks.filter((_, ti) => isDone(shiftIdx, ti)).map((t) => t.id)
   const clock = shiftClock(doneIds.length)
@@ -60,7 +76,7 @@ export function Desk() {
   const pendingTask = pending ? shifts[pending.si].tasks[pending.ti] : null
   const nextTask = next ? shifts[next.si].tasks[next.ti] : null
   const waiting = !api.active && !pending && !!nextTask
-  const unread = api.unread + (waiting ? 1 : 0)
+  const phoneUnread = api.unread + (waiting ? 1 : 0)
 
   const open = (si: number, ti: number) => {
     if (api.active) return
@@ -91,6 +107,24 @@ export function Desk() {
 
   const deskStep = api.step && surface === "desk" ? api.step : null
   const finishedTask = api.finished ? shifts[api.finished.si].tasks[api.finished.ti] : null
+  const finishedBonus = !!api.finished && shifts[api.finished.si].id === BONUS_ID
+
+  // #/drill/<update id> opens that update's drill straight from the noticeboard or What's new.
+  const openRef = React.useRef<((si: number, ti: number) => void) | null>(null)
+  React.useEffect(() => {
+    openRef.current = open
+  })
+  React.useEffect(() => {
+    if (!drill || !bonus) return
+    const ti = bonus.tasks.findIndex((t) => t.id === drill)
+    if (ti >= 0) openRef.current?.(coreCount, ti)
+    history.replaceState(null, "", "#/")
+  }, [drill, bonus, coreCount])
+
+  const openBoard = () => {
+    setBoard(true)
+    markUpdatesSeen(LATEST_UPDATE_DATE)
+  }
 
   return (
     <section className="hero-wash min-h-[calc(100dvh-4rem)] pt-4 pb-12 md:pt-6" aria-labelledby="desk-title">
@@ -118,10 +152,15 @@ export function Desk() {
           </div>
           <div className="ml-auto flex flex-wrap items-center gap-2">
             <span className="hidden text-[13px] text-muted-foreground sm:inline">{d.hours} h saved</span>
-            <Button variant="outline" size="lg" onClick={openPhone} aria-label={unread ? `Phone, ${unread} new` : "Phone"}>
+            <Button variant="outline" size="lg" onClick={openPhone} aria-label={phoneUnread ? `Phone, ${phoneUnread} new` : "Phone"}>
               <SmartphoneIcon data-icon="inline-start" />
               Phone
-              {unread > 0 && <span className="ml-1 rounded-full bg-[#E24B4A] px-1.5 text-[12px] font-bold text-white">{unread}</span>}
+              {phoneUnread > 0 && <span className="ml-1 rounded-full bg-[#E24B4A] px-1.5 text-[12px] font-bold text-white">{phoneUnread}</span>}
+            </Button>
+            <Button variant="outline" size="lg" onClick={openBoard} aria-label={unread ? `What's new, ${unread} unread` : "What's new"}>
+              <BellIcon data-icon="inline-start" />
+              What's new
+              {unread > 0 && <span className="ml-1 rounded-full bg-violet px-1.5 text-[12px] font-bold text-white">{unread}</span>}
             </Button>
             <Button variant="outline" size="lg" onClick={() => setLaptopOpen(true)} disabled={onLaptop || !!api.step}>
               <LaptopIcon data-icon="inline-start" />
@@ -134,7 +173,7 @@ export function Desk() {
           </div>
         </div>
 
-        {finishedTask && !api.finished?.shiftDone && (
+        {finishedTask && (finishedBonus || !api.finished?.shiftDone) && (
           <div role="status" className="flex flex-wrap items-center gap-3 rounded-2xl bg-success-soft px-4 py-3 text-success">
             <CheckIcon className="size-5 shrink-0" />
             <p className="min-w-0 flex-1 text-[15px]">
@@ -199,7 +238,9 @@ export function Desk() {
                   activeId={api.task?.id ?? null}
                   clock={clock}
                   message={waiting ? nextTask?.open : undefined}
-                  unread={unread}
+                  unread={phoneUnread}
+                  onBoard={openBoard}
+                  boardUnread={unread}
                   onLaptop={() => setLaptopOpen(true)}
                   onPhone={openPhone}
                   onNotebook={() => setPlaybook(true)}
@@ -212,7 +253,19 @@ export function Desk() {
                     {deskStep.kind === "launchpad" && <LaunchpadForm path={path} onDone={() => api.done(true)} doneLabel="Finish the week" />}
                   </Overlay>
                 )}
-                {api.finished?.shiftDone && (
+                {board && (
+                  <Overlay kicker="The noticeboard" title="What's new in Claude" onClose={() => setBoard(false)}>
+                    <div className="flex flex-col gap-3">
+                      {UPDATES.slice(0, 4).map((u) => (
+                        <UpdateCard key={u.id} u={u} compact />
+                      ))}
+                      <Button className="w-fit" render={<a href="#/whats-new" />} nativeButton={false}>
+                        Open What's new
+                      </Button>
+                    </div>
+                  </Overlay>
+                )}
+                {api.finished?.shiftDone && !finishedBonus && (
                   <Overlay kicker="Shift complete" title={`${shifts[api.finished.si].day}: ${shifts[api.finished.si].title}`} onClose={api.dismissFinished}>
                     <ShiftSummary
                       path={path}
@@ -220,7 +273,7 @@ export function Desk() {
                       onNext={() => {
                         const si = api.finished!.si
                         api.dismissFinished()
-                        if (shifts[si + 1]) open(si + 1, 0)
+                        if (si + 1 < coreCount) open(si + 1, 0)
                       }}
                     />
                   </Overlay>
@@ -265,7 +318,7 @@ export function Desk() {
 
             <div className="flex flex-wrap items-center gap-2 text-[13px] text-muted-foreground">
               <span>Shifts:</span>
-              {shifts.map((s, si) => (
+              {shifts.slice(0, coreCount).map((s, si) => (
                 <button
                   key={s.id}
                   type="button"

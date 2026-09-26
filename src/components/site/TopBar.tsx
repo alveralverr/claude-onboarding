@@ -20,6 +20,7 @@ import { useDerived } from "@/lib/game"
 
 const NAV = [
   { href: "#/", label: "Your desk" },
+  { href: "#/whats-new", label: "What's new" },
   { href: "#/office", label: "Training floor" },
   { href: "#/shelf", label: "The Shelf" },
   { href: "#/shelf/help", label: "Help" },
@@ -105,6 +106,7 @@ export function TopBar() {
                 <SheetLink href="#/">Your desk</SheetLink>
                 <SheetLink href="#/office">Training floor</SheetLink>
                 <SheetLink href="#/launchpad">Plan your real Week 1</SheetLink>
+                <SheetLink href="#/whats-new">What's new in Claude</SheetLink>
                 <p className="mt-2 mb-1 text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">Get client-ready</p>
                 {PATH_STEPS.map((s) => (
                   <SheetLink key={s.id} href={s.href}>

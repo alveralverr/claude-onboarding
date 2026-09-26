@@ -7,6 +7,7 @@ import { Lobby } from "@/world/Lobby"
 import { Home } from "@/desk/Home"
 import { FirstRun } from "@/desk/FirstRun"
 import { LaunchpadPage } from "@/desk/LaunchpadPage"
+import { WhatsNewPage } from "@/desk/WhatsNew"
 import { RoomPage } from "@/world/RoomPage"
 import { Shelf } from "@/world/Shelf"
 
@@ -36,6 +37,8 @@ export default function App() {
         {route.kind === "office" && <Lobby />}
         {route.kind === "start" && <FirstRun />}
         {route.kind === "launchpad" && <LaunchpadPage />}
+        {route.kind === "whatsnew" && <WhatsNewPage />}
+        {route.kind === "drill" && <Home drill={route.id} />}
         {route.kind === "room" && <RoomPage id={route.id} />}
         {route.kind === "shelf" && <Shelf section={route.section} />}
       </main>

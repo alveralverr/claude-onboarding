@@ -9,6 +9,7 @@ import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress
 import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS } from "@/content/world"
 import { BadgeArt } from "@/engine/BadgeArt"
 import { currentQuest } from "@/content/quests"
+import { UPDATES } from "@/content/updates"
 import { Checkbox } from "@/components/ui/checkbox"
 import { completeStep, stepKey } from "@/lib/game"
 import { setAvatar, useDerived, useGame } from "@/lib/game"
@@ -205,6 +206,8 @@ function QuestCard() {
 function MasteryWing() {
   const p = useProgress()
   const d = useDerived()
+  const g = useGame()
+  const isNew = (id: string) => UPDATES.some((u) => u.rooms?.includes(id) && (!g.seenUpdates || u.date > g.seenUpdates))
   return (
     <section className="py-12 md:py-16" aria-labelledby="mastery-title">
       <div className="wrap px-5 md:px-10">
@@ -225,7 +228,10 @@ function MasteryWing() {
                   <img src={r.image} alt="" width={1200} height={800} loading="lazy" className="-mx-5 mb-1 aspect-[2/1] w-[calc(100%+2.5rem)] max-w-none object-cover" />
                   <span className="flex items-center justify-between gap-2">
                     <strong className="text-lg">{r.name}</strong>
-                    {done ? <Badge variant="success">Done</Badge> : <Badge variant="outline">~{r.minutes} min</Badge>}
+                    <span className="flex items-center gap-1.5">
+                      {isNew(r.id) && <Badge>New</Badge>}
+                      {done ? <Badge variant="success">Done</Badge> : <Badge variant="outline">~{r.minutes} min</Badge>}
+                    </span>
                   </span>
                   <span className="text-[15px] leading-snug text-muted-foreground">{r.blurb}</span>
                   {badge && (

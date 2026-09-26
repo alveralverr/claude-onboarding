@@ -5,11 +5,18 @@ import { Prompting, Model, Learn } from "@/components/site/LibraryPractice"
 import { Skills, Connectors, Scheduled } from "@/components/site/LibraryTools"
 import { Help, Feedback } from "@/components/site/HelpFeedback"
 import { LIBRARY } from "@/lib/data"
+import { UPDATES } from "@/content/updates"
+import { useGame } from "@/lib/game"
 import { Kicker } from "@/components/site/shared"
 
 /* The Shelf: the reference library, one page, every old section id kept so
    deep links from claude-design.html and shared links still land. */
 export function Shelf({ section }: { section?: string }) {
+  const g = useGame()
+  const isNew = (href: string) => {
+    const id = href.split("/").pop() ?? ""
+    return UPDATES.some((u) => u.rooms?.includes(id) && (!g.seenUpdates || u.date > g.seenUpdates))
+  }
   React.useEffect(() => {
     if (!section) {
       window.scrollTo({ top: 0 })
@@ -39,7 +46,10 @@ export function Shelf({ section }: { section?: string }) {
                 href={l.href}
                 className="flex flex-col gap-1 rounded-xl border-1.5 border-transparent bg-card p-5 text-foreground no-underline shadow-card-sm transition-[transform,border-color] hover:-translate-y-0.5 hover:border-violet/30"
               >
-                <strong className="text-lg">{l.title}</strong>
+                <strong className="flex items-center gap-2 text-lg">
+                  {l.title}
+                  {isNew(l.href) && <span className="rounded-full bg-violet px-2 py-0.5 text-[11px] font-semibold text-white">New</span>}
+                </strong>
                 <span className="text-[15px] leading-snug text-muted-foreground">{l.desc}</span>
               </a>
             ))}

@@ -22,6 +22,7 @@ export const PLATE = {
     [1268, 930],
   ] as Quad,
   clock: { x: 250, y: 170, r: 62 },
+  board: { x: 420, y: 90, w: 300, h: 210 },
   notes: { x: 70, y: 660, w: 360 },
   notebook: { x: 1060, y: 840, w: 170, h: 160 },
 }

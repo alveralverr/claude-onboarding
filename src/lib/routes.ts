@@ -8,6 +8,8 @@ export type Route =
   | { kind: "office" }
   | { kind: "start" }
   | { kind: "launchpad" }
+  | { kind: "whatsnew" }
+  | { kind: "drill"; id: string }
   | { kind: "room"; id: string }
   | { kind: "shelf"; section?: string }
 
@@ -49,6 +51,8 @@ export function parseHash(hash: string): Route {
   if (parts[0] === "office") return { kind: "office" }
   if (parts[0] === "start") return { kind: "start" }
   if (parts[0] === "launchpad") return { kind: "launchpad" }
+  if (parts[0] === "whats-new") return { kind: "whatsnew" }
+  if (parts[0] === "drill" && parts[1]) return { kind: "drill", id: parts[1] }
   return { kind: "lobby" }
 }
 
@@ -58,6 +62,8 @@ export function href(route: Route): string {
   if (route.kind === "office") return "#/office"
   if (route.kind === "start") return "#/start"
   if (route.kind === "launchpad") return "#/launchpad"
+  if (route.kind === "whatsnew") return "#/whats-new"
+  if (route.kind === "drill") return `#/drill/${route.id}`
   return "#/"
 }
 

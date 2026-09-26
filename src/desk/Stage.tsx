@@ -2,6 +2,7 @@ import * as React from "react"
 import { cn } from "cn"
 import { CheckIcon } from "lucide-react"
 
+import { NOW } from "@/content/now"
 import type { Persona, Shift } from "@/story/types"
 import { bbox, matrix3dFor } from "./homography"
 import { Plate } from "./Plate"
@@ -30,7 +31,7 @@ function ScreenPreview({ userName }: { userName: string }) {
           <div className="mt-8 flex items-center gap-4 text-[18px] text-[#1F1E1D]">
             <span className="rounded-lg border px-3 py-1">+</span>
             <span className="rounded-lg bg-[#F3F2EC] px-3 py-1">Chat · Cowork</span>
-            <span className="ml-auto">Opus 5.5 High</span>
+            <span className="ml-auto">{NOW.defaultModel} {NOW.effortDefault}</span>
           </div>
         </div>
       </div>
@@ -65,6 +66,8 @@ export function Stage({
   onLaptop,
   onPhone,
   onNotebook,
+  onBoard,
+  boardUnread,
   onSticky,
 }: {
   userName: string
@@ -79,6 +82,8 @@ export function Stage({
   onLaptop: () => void
   onPhone: () => void
   onNotebook: () => void
+  onBoard: () => void
+  boardUnread: number
   onSticky: (taskIndex: number) => void
 }) {
   const wrap = React.useRef<HTMLDivElement>(null)
@@ -170,6 +175,17 @@ export function Stage({
           >
             {unread > 0 && (
               <span className="absolute -top-4 -right-4 flex size-12 items-center justify-center rounded-full bg-[#E24B4A] text-[24px] font-bold text-white">{unread}</span>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={onBoard}
+            className="absolute rounded-2xl focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none"
+            style={{ left: PLATE.board.x - 6, top: PLATE.board.y - 6, width: PLATE.board.w + 12, height: PLATE.board.h + 12 }}
+            aria-label={boardUnread > 0 ? `Noticeboard: ${boardUnread} new update${boardUnread > 1 ? "s" : ""}` : "Noticeboard: what's new in Claude"}
+          >
+            {boardUnread > 0 && (
+              <span className="absolute -top-4 -right-4 flex size-12 items-center justify-center rounded-full bg-violet text-[24px] font-bold text-white">{boardUnread}</span>
             )}
           </button>
           <button

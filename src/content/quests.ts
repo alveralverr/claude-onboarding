@@ -1,6 +1,8 @@
 /* Weekly quests. One shows per week, rotating through this list from the
    first Monday below. Add to the end; never reorder, or attestations shift.
    Each quest is a real-work step, self-attested, no penalty for skipping. */
+import { recentUpdates } from "./updates"
+
 export type Quest = { id: string; title: string; body: string; room?: string }
 
 export const QUEST_EPOCH = "2026-09-28" // a Monday
@@ -23,8 +25,17 @@ export function weekStart(d = new Date()): string {
   return x.toISOString().slice(0, 10)
 }
 
+/* An update with a quest owns the weeks right after it ships (newest first);
+   otherwise the rotation above. */
 export function currentQuest(d = new Date()): { quest: Quest; week: string } {
   const week = weekStart(d)
+  const fromUpdate = recentUpdates(21, d).find((u) => u.quest)
+  if (fromUpdate?.quest) {
+    const room = fromUpdate.rooms?.find((r) => ROOM_IDS.includes(r))
+    return { quest: { id: `update-${fromUpdate.id}`, title: fromUpdate.quest.title, body: fromUpdate.quest.body, room: room ? `#/room/${room}` : undefined }, week }
+  }
   const weeks = Math.max(0, Math.round((Date.parse(week) - Date.parse(QUEST_EPOCH)) / 604800000))
   return { quest: QUESTS[weeks % QUESTS.length], week }
 }
+
+const ROOM_IDS = ["desk", "inbox", "vault", "studio", "switchboard", "clock", "writing", "workshop", "engine"]

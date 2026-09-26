@@ -25,6 +25,8 @@ export type GameState = {
   avatar?: string
   name?: string
   story: StoryState
+  /* the newest update date (yyyy-mm-dd) the assistant has opened */
+  seenUpdates?: string
   updatedAt: string
 }
 
@@ -131,6 +133,11 @@ export function recordTask(path: string, shift: string, task: string, r: Omit<Ta
   })
 }
 
+export function markUpdatesSeen(date: string) {
+  if (state.seenUpdates && state.seenUpdates >= date) return
+  commit({ ...state, seenUpdates: date })
+}
+
 export function saveLaunchpad(fields: Record<string, string>) {
   commit({ ...state, story: { ...state.story, launchpad: fields } })
 }
@@ -146,6 +153,7 @@ export function mergeGame(a: GameState, b: GameState): GameState {
     seen: { ...a.seen, ...b.seen },
     avatar: newer.avatar ?? a.avatar ?? b.avatar,
     name: newer.name ?? a.name ?? b.name,
+    seenUpdates: [a.seenUpdates, b.seenUpdates].filter(Boolean).sort().pop(),
     story: {
       ...(a.updatedAt >= b.updatedAt ? b.story : a.story),
       ...newer.story,

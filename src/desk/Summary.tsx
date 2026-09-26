@@ -45,7 +45,7 @@ export function ShiftSummary({ path, si, onNext }: { path: PathDef; si: number; 
   const d = useDerived()
   const st = useStatus()
   const ref = React.useRef<HTMLDivElement>(null)
-  const last = si === path.shifts!.length - 1
+  const last = si >= path.shifts!.length - 1
   const badge = si === 0 ? "first-shift" : last ? `path-${path.id}` : null
   const earned = !!badge && d.badges.includes(badge)
   React.useEffect(() => {

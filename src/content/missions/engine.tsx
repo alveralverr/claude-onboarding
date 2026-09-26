@@ -1,4 +1,5 @@
 import type { Mission } from "../types"
+import { NOW } from "../now"
 
 /* Mastery: The Engine Room. Models, effort, limits and the context window.
    The effort-level incident and the "prompt too long, compacting" prompts
@@ -17,7 +18,7 @@ export const ENGINE: Mission = {
         <>
           <ul className="flex list-disc flex-col gap-2 pl-5">
             <li>
-              <strong>Opus 5.5 is your default</strong> for every client task. Since 22 September it matches the top model on most work at a lower cost, so there is no reason to start anywhere else.
+              <strong>{NOW.defaultModel} is your default</strong> for every client task. Since {NOW.defaultModelSince} it matches the top model on most work at a lower cost, so there is no reason to start anywhere else.
             </li>
             <li>
               <strong>Sonnet is the fallback</strong> when Opus says you've hit your limit. Still strong, lighter on quota.

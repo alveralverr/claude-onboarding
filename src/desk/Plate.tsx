@@ -33,6 +33,12 @@ export function Plate() {
       <line x1="1250" y1="75" x2="1250" y2="365" stroke="#D6D2EE" strokeWidth="8" />
       <line x1="1065" y1="220" x2="1435" y2="220" stroke="#D6D2EE" strokeWidth="8" />
       <circle cx={PLATE.clock.x} cy={PLATE.clock.y} r={PLATE.clock.r + 10} fill="#FFFFFF" stroke="#D6D2EE" strokeWidth="8" />
+      <rect x={PLATE.board.x} y={PLATE.board.y} width={PLATE.board.w} height={PLATE.board.h} rx="14" fill="#E8D3B8" stroke="#FFFFFF" strokeWidth="10" />
+      <rect x={PLATE.board.x + 28} y={PLATE.board.y + 34} width="96" height="74" rx="6" fill="#DCCBFF" transform={`rotate(-4 ${PLATE.board.x + 76} ${PLATE.board.y + 71})`} />
+      <rect x={PLATE.board.x + 150} y={PLATE.board.y + 44} width="100" height="70" rx="6" fill="#FFD6E1" transform={`rotate(3 ${PLATE.board.x + 200} ${PLATE.board.y + 79})`} />
+      <rect x={PLATE.board.x + 88} y={PLATE.board.y + 118} width="110" height="66" rx="6" fill="#CDF6F7" transform={`rotate(-2 ${PLATE.board.x + 143} ${PLATE.board.y + 151})`} />
+      <circle cx={PLATE.board.x + 76} cy={PLATE.board.y + 40} r="7" fill="#FFFFFF" stroke="#C9C5E0" strokeWidth="3" />
+      <circle cx={PLATE.board.x + 200} cy={PLATE.board.y + 50} r="7" fill="#FFFFFF" stroke="#C9C5E0" strokeWidth="3" />
       <rect x="120" y="360" width="280" height="14" rx="4" fill="#DCC3AA" />
       <rect x="160" y="300" width="50" height="60" rx="10" fill="#FFFFFF" stroke="#D6D2EE" strokeWidth="4" />
       <ellipse cx="185" cy="292" rx="34" ry="22" fill="#3CC47C" />

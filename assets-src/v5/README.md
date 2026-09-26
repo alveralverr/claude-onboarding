@@ -31,7 +31,8 @@ Layout, which matters, please follow it closely:
 - RIGHT, on the desk: a smartphone lying flat, screen up, seen in perspective. Its screen is also a flat pure green #00FF00, no reflections. Next to it a small violet notebook, and a white mug with a violet band with a little steam.
 - LEFT FRONT: a clear, empty stretch of wooden desk surface (about the left quarter of the desk) with nothing on it. Sticky notes will be placed there digitally.
 - WALL, top left: a round wall clock with a completely blank white face: no numbers, no marks, no hands.
-- WALL, top right: a window with soft daylight. Between them, a small shelf with a plant and three books.
+- WALL, between the clock and the window: a small cork noticeboard in a thin white frame, with three blank pastel note cards (violet, pink, cyan) pinned to it and two round white pins. No writing on the cards.
+- WALL, top right: a window with soft daylight. Below the board, a small shelf with a plant and three books.
 - Desk surface: warm light wood (#DCC3AA to #EAD9C6). Wall: soft lavender (#ECEAF8).
 
 Everything evenly lit, uncluttered, inviting. No text, no logos, no people.
@@ -81,6 +82,7 @@ badge-path-content: centre symbol is a small megaphone with a pink sound wave an
 
 - [ ] Laptop and phone screens are flat #00FF00 with no reflections or UI (desk-pov).
 - [ ] Clock face is blank: no numbers, no hands (desk-pov).
+- [ ] The noticeboard has blank cards, no writing (desk-pov).
 - [ ] The left front of the desk is empty (desk-pov).
 - [ ] Portraits match the avatar framing and are truly transparent.
 - [ ] Badges use the identical medallion.

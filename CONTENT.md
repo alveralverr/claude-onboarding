@@ -45,6 +45,14 @@ Done first try (and without the third hint) earns a full habit point, otherwise 
 
 The office is data. You add or change a room by editing files under `src/content`; the engine in `src/engine` renders whatever is there. You should not need to touch a component to change copy, add a scenario or add a room.
 
+## Updates (the living knowledge base)
+
+One file per announcement in `src/content/updates/<yyyy-mm-dd>-<slug>.ts`, typed as `Update` (`types.ts`). The loader picks up every file automatically; add one and it is published on the next deploy. Updates show on the desk noticeboard (with an unread count), on `#/whats-new`, as "New" pins on the rooms and Shelf sections in `rooms`, and, when they carry a `quest`, as the weekly quest for the three weeks after `date`. A `drill` (a `Task` built from the existing step kinds) appears on the noticeboard as "Practise it" and opens from `#/drill/<update id>`.
+
+The Product Team publishes with the Claude Code skill in `.claude/skills/office-update/` (`/office-update`): paste a release note or URL, and it drafts the card, fixes `src/content/now.ts` if a fact changed, runs lint and build, and commits. The weekly routine prompt (`weekly-routine.md` in the same folder) pre-drafts cards from Anthropic's release notes into a PR; a person publishes.
+
+Facts about the current Claude (default model, fallback, effort, what Team seats have) live in `src/content/now.ts` and nowhere else. Write copy against `NOW`, not literal model names.
+
 ## Where things live
 
 | What | File |
