@@ -41,6 +41,12 @@ export const MASTERY_ORDER: RoomId[] = ["studio", "switchboard", "clock", "writi
 
 export type Badge = { id: string; name: string; how: string }
 export const badgeImage = (id: string) => `/assets/media/badge-${id}.webp`
+/* Badges that have a rendered medallion in public/assets/media. Others draw
+   a fallback until their render arrives (see assets-src/v5/README.md). */
+export const BADGE_ART = new Set([
+  "desk-ready", "first-task", "editors-eye", "secret-keeper", "client-ready", "deck-builder",
+  "connector-pro", "scheduler", "prompt-whisperer", "skill-maker", "streak", "voice-heard",
+])
 export const BADGES: Badge[] = [
   { id: "desk-ready", name: "Desk ready", how: "Finished every setup item." },
   { id: "first-task", name: "First real task", how: "Ran a real Cowork task and reviewed it." },
@@ -54,15 +60,17 @@ export const BADGES: Badge[] = [
   { id: "skill-maker", name: "Skill maker", how: "Made or used a skill on real work." },
   { id: "streak", name: "Three-week streak", how: "Came back three weeks in a row." },
   { id: "voice-heard", name: "Voice heard", how: "Sent feedback on the office." },
+  { id: "first-shift", name: "First shift", how: "Finished a full shift at your desk." },
+  { id: "path-admin", name: "General admin", how: "Finished every shift of the General admin path." },
 ]
 
 export type Level = { n: number; name: string; xp: number }
 export const LEVELS: Level[] = [
   { n: 1, name: "New hire", xp: 0 },
   { n: 2, name: "Set up", xp: 250 },
-  { n: 3, name: "Client-ready", xp: 880 },
-  { n: 4, name: "Power user", xp: 1250 },
-  { n: 5, name: "Magic pro", xp: 1500 },
+  { n: 3, name: "Client-ready", xp: 800 },
+  { n: 4, name: "Power user", xp: 1400 },
+  { n: 5, name: "Magic pro", xp: 2000 },
 ]
 
 /* Cosmetic rewards on your desk, one per level after the first. */

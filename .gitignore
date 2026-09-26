@@ -17,3 +17,6 @@ dist
 assets-src/**/*.png
 assets-src/**/*.jpg
 assets-src/**/*.webp
+
+# Internal plans and analysis (telemetry, AL notes). The repo is public; keep these local.
+docs-internal/

@@ -2,8 +2,7 @@ import * as React from "react"
 
 import { Button } from "@/components/ui/button"
 import type { RevealStep } from "@/content/types"
-import { cn } from "cn"
-import { badgeImage } from "@/content/world"
+import { BadgeArt } from "../BadgeArt"
 import { badgeInfo, markSeen, useDerived } from "@/lib/game"
 import { burst } from "../burst"
 
@@ -23,13 +22,7 @@ export function Reveal({ step, onDone }: { step: RevealStep; onDone: () => void 
     <div ref={ref} className="flex flex-col items-center gap-4 py-4 text-center text-[17px] text-card-foreground">
       {badge && (
         <div className="flex flex-col items-center gap-2">
-          <img
-            src={badgeImage(badge.id)}
-            alt=""
-            width={256}
-            height={256}
-            className={cn("size-32 drop-shadow-[0_18px_30px_rgba(82,0,227,0.25)] transition-[filter,opacity] duration-300", !earned && "opacity-40 grayscale")}
-          />
+          <BadgeArt id={badge.id} earned={earned} className="size-32 drop-shadow-[0_18px_30px_rgba(82,0,227,0.25)]" />
           <p className="text-xl font-semibold">{earned ? badge.name : `${badge.name} (not yet)`}</p>
           <p className="text-base text-muted-foreground">{badge.how}</p>
         </div>

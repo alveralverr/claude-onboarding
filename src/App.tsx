@@ -4,6 +4,9 @@ import { TopBar } from "@/components/site/TopBar"
 import { Footer } from "@/components/site/HelpFeedback"
 import { useRoute } from "@/lib/routes"
 import { Lobby } from "@/world/Lobby"
+import { Home } from "@/desk/Home"
+import { FirstRun } from "@/desk/FirstRun"
+import { LaunchpadPage } from "@/desk/LaunchpadPage"
 import { RoomPage } from "@/world/RoomPage"
 import { Shelf } from "@/world/Shelf"
 
@@ -29,7 +32,10 @@ export default function App() {
       </a>
       <TopBar />
       <main id="main" tabIndex={-1} className="outline-none">
-        {route.kind === "lobby" && <Lobby />}
+        {route.kind === "lobby" && <Home />}
+        {route.kind === "office" && <Lobby />}
+        {route.kind === "start" && <FirstRun />}
+        {route.kind === "launchpad" && <LaunchpadPage />}
         {route.kind === "room" && <RoomPage id={route.id} />}
         {route.kind === "shelf" && <Shelf section={route.section} />}
       </main>

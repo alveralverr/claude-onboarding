@@ -83,15 +83,15 @@ export const DESK: Mission = {
       items: MERGED_UI
         ? [
             { k: "s2-4", label: <>Open the app. There is no separate Cowork mode any more: describe what you need and Claude decides whether to answer or run a task.</> },
-            { k: "s2-5", label: <>Leave the permission mode on <strong>Manual</strong> while you learn. Claude asks before each action. Switch to Automatic only for tasks you have run before.</> },
-            { k: "s2-6", label: <>Select <strong>Work in a project</strong> in the chat bar. This is where Claude reads context from and saves finished work.</> },
-            { k: "s2-7", label: <>Choose an existing folder or create a new project. Use a dedicated folder such as <em>Magic Work</em>, not your Desktop or Downloads.</>, media: { type: "image", src: "/assets/media/project-folder.webp", alt: "The Work in a project folder picker", w: 452, h: 321, className: "mx-auto max-w-[340px]" } },
+            { k: "s2-5", label: <>Leave the permission menu on <strong>Ask first</strong> while you learn. Claude asks before each action. Switch to Auto only for tasks you have run before.</> },
+            { k: "s2-6", label: <>Open <strong>Project or folder</strong> under the message box. This is where Claude reads context from and saves finished work.</> },
+            { k: "s2-7", label: <>Choose an existing folder or create a new project. Use a dedicated folder such as <em>Magic Work</em>, not your Desktop or Downloads.</>, media: { type: "image", src: "/assets/media/project-folder.webp", alt: "The project or folder picker", w: 452, h: 321, className: "mx-auto max-w-[340px]" } },
           ]
         : [
-            { k: "s2-4", label: <>When the app opens, switch to <strong>Cowork</strong> in the mode picker in the left sidebar.</> },
+            { k: "s2-4", label: <>When the app opens, pick <strong>Cowork</strong> in the <strong>Chat | Cowork</strong> switch inside the message box. Keep the permission menu under the box on <strong>Ask first</strong> while you learn.</> },
             { k: "s2-5", label: <>In your first Cowork session, type <Code>/setup-cowork</Code> and press Enter to run the guided setup. Type it on its own, not in front of a task.</>, media: { type: "image", src: "/assets/media/setup-cowork.webp", alt: "Typing /setup-cowork in a new Cowork session", w: 900, h: 266, className: "mx-auto max-w-[520px]" } },
-            { k: "s2-6", label: <>Select <strong>Work in a project</strong> in the chat bar. This is where Claude reads context from and saves finished work.</> },
-            { k: "s2-7", label: <>Choose an existing folder or create a new project. Use a dedicated folder such as <em>Magic Work</em>, not your Desktop or Downloads.</>, media: { type: "image", src: "/assets/media/project-folder.webp", alt: "The Work in a project folder picker", w: 452, h: 321, className: "mx-auto max-w-[340px]" } },
+            { k: "s2-6", label: <>Open <strong>Project or folder</strong> under the message box. This is where Claude reads context from and saves finished work.</> },
+            { k: "s2-7", label: <>Choose an existing folder or create a new project. Use a dedicated folder such as <em>Magic Work</em>, not your Desktop or Downloads.</>, media: { type: "image", src: "/assets/media/project-folder.webp", alt: "The project or folder picker", w: 452, h: 321, className: "mx-auto max-w-[340px]" } },
           ],
       after: (
         <div className="grid gap-3 text-base sm:grid-cols-2">

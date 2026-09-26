@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress"
-import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS, badgeImage } from "@/content/world"
+import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS } from "@/content/world"
+import { BadgeArt } from "@/engine/BadgeArt"
 import { currentQuest } from "@/content/quests"
 import { Checkbox } from "@/components/ui/checkbox"
 import { completeStep, stepKey } from "@/lib/game"
@@ -116,12 +117,12 @@ function StatusCard() {
             )
           })}
         </ol>
-        <ul className="grid grid-cols-6 gap-1.5" aria-label={`Badges: ${d.badges.length} of ${BADGES.length}`}>
+        <ul className="grid grid-cols-7 gap-1.5" aria-label={`Badges: ${d.badges.length} of ${BADGES.length}`}>
           {BADGES.map((b) => {
             const has = d.badges.includes(b.id)
             return (
               <li key={b.id} title={`${b.name}: ${b.how}`}>
-                <img src={badgeImage(b.id)} alt={`${b.name}${has ? "" : " (not yet)"}`} width={256} height={256} loading="lazy" className={cn("aspect-square w-full", !has && "opacity-30 grayscale")} />
+                <BadgeArt id={b.id} earned={has} alt={`${b.name}${has ? "" : " (not yet)"}`} className="w-full" />
               </li>
             )
           })}
@@ -229,7 +230,7 @@ function MasteryWing() {
                   <span className="text-[15px] leading-snug text-muted-foreground">{r.blurb}</span>
                   {badge && (
                     <span className={cn("mt-auto flex items-center gap-2 text-sm", earned ? "text-violet" : "text-muted-foreground")}>
-                      <img src={badgeImage(badge.id)} alt="" width={256} height={256} loading="lazy" className={cn("size-7", !earned && "opacity-40 grayscale")} /> {badge.name}
+                      <BadgeArt id={badge.id} earned={earned} className="size-7" /> {badge.name}
                     </span>
                   )}
                 </a>
@@ -250,12 +251,12 @@ export function Lobby() {
       <section className="hero-wash pt-10 pb-10 md:pt-16 md:pb-14" aria-labelledby="lobby-title">
         <div className="wrap grid items-start gap-10 px-5 md:px-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-14">
           <div>
-            <Kicker>The Magic Office</Kicker>
+            <Kicker>The training floor</Kicker>
             <h1 className="h-display mb-5" id="lobby-title">
-              Learn Claude by <span className="grad">doing</span> the job.
+              Drills for every <span className="grad">Claude</span> skill.
             </h1>
             <p className="lede mb-7">
-              Three rooms, about 35 minutes, and you're ready for client work. Practise on a pretend client first, then take it live. Nothing is locked and nothing is timed.
+              Your shifts happen at <a href="#/">your desk</a>. Come here to set up your real Claude, pass the safety check, or drill one skill. Nothing is locked and nothing is timed.
             </p>
             {st.all && (
               <p className="mb-6 text-lg text-success">

@@ -85,7 +85,7 @@ export const VAULT: Mission = {
       ],
       done: (
         <p>
-          <strong>Secret keeper earned.</strong> In the last month, real Magic assistants pasted live tokens into prompts. If you ever do, tell your Account Lead the same day so it can be rotated.
+          <strong>Secret keeper earned.</strong> It happens more often than you'd think. If you ever paste one, tell your Account Lead the same day so it can be changed.
         </p>
       ),
     },

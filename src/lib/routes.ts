@@ -5,6 +5,9 @@ import { useSyncExternalStore } from "react"
 
 export type Route =
   | { kind: "lobby" }
+  | { kind: "office" }
+  | { kind: "start" }
+  | { kind: "launchpad" }
   | { kind: "room"; id: string }
   | { kind: "shelf"; section?: string }
 
@@ -43,12 +46,18 @@ export function parseHash(hash: string): Route {
   const parts = h.split("/").filter(Boolean)
   if (parts[0] === "room" && parts[1]) return { kind: "room", id: parts[1] }
   if (parts[0] === "shelf") return { kind: "shelf", section: parts[1] }
+  if (parts[0] === "office") return { kind: "office" }
+  if (parts[0] === "start") return { kind: "start" }
+  if (parts[0] === "launchpad") return { kind: "launchpad" }
   return { kind: "lobby" }
 }
 
 export function href(route: Route): string {
   if (route.kind === "room") return `#/room/${route.id}`
   if (route.kind === "shelf") return route.section ? `#/shelf/${route.section}` : "#/shelf"
+  if (route.kind === "office") return "#/office"
+  if (route.kind === "start") return "#/start"
+  if (route.kind === "launchpad") return "#/launchpad"
   return "#/"
 }
 

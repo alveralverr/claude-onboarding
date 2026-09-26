@@ -1,0 +1,233 @@
+import type { Shift } from "@/story/types"
+
+export const SHIFT_3: Shift = {
+  id: "s3",
+  day: "Wednesday",
+  title: "Set it once, then automate",
+  clock: "9:00 am",
+  tasks: [
+    {
+      id: "project",
+      title: "Set it once",
+      sticky: "Project instructions",
+      habits: ["brief"],
+      minutes: { manual: 30, claude: 5 },
+      open: "Why do I keep seeing the same mistakes in drafts?",
+      steps: [
+        {
+          kind: "instructions",
+          id: "instructions",
+          title: "Write Instructions for Claude",
+          habit: "brief",
+          project: "Menon Studio",
+          intro: "Instructions live on the project and apply to every chat in it. This is where Monday's fixes become automatic. Pick one line per ingredient.",
+          groups: [
+            {
+              id: "who",
+              label: "Who the client is",
+              hint: "Two lines every task needs.",
+              chips: [
+                { id: "w1", text: "Priya Menon runs Menon Studio, a 12-person architecture studio in Austin. I'm her Magic EA: inbox, calendar, vendors and the tracker.", good: true },
+                { id: "w2", text: "Priya is a very important client and everything must be perfect.", why: "Pressure, not context. Say who she is and what you handle." },
+              ],
+            },
+            {
+              id: "voice",
+              label: "How she writes",
+              hint: "Describe it, with one real example.",
+              chips: [
+                { id: "v1", text: "Short, warm and plain. First names. No contractions or exclamation marks in client emails. Example: \"Hi Ana, thank you for the notes. We will send the drawings on Friday. Priya\"", good: true },
+                { id: "v2", text: "Professional and polished at all times.", why: "That's the voice you keep deleting. Describe her real one." },
+              ],
+            },
+            {
+              id: "defaults",
+              label: "Your defaults",
+              hint: "So you stop repeating yourself.",
+              chips: [
+                { id: "d1", text: "Emails are drafts, never sent. Times always show Austin and the other person's zone. Files go in the Menon Studio folder.", good: true },
+                { id: "d2", text: "Use whatever format seems best.", why: "Then it changes every time. Set the defaults once." },
+              ],
+            },
+            {
+              id: "unsure",
+              label: "When it's unsure",
+              hint: "Permission to stop instead of guess.",
+              chips: [
+                { id: "u1", text: "If a date, price or name isn't in the files or emails, leave it blank and ask me. Never guess.", good: true },
+                { id: "u2", text: "Always give a complete answer, even if you have to assume.", why: "That's how an invented date reaches a client." },
+              ],
+            },
+          ],
+          done: "Every chat in Menon Studio now starts with Priya's rules. Monday's fixes are now automatic.",
+          hints: ["Who, voice, defaults, and what to do when unsure.", "Pick the specific line in each group.", "The first chip in every group."],
+        },
+      ],
+      done: "That was bugging me. Thank you.",
+    },
+    {
+      id: "morning",
+      title: "Morning brief",
+      sticky: "Automate the brief",
+      habits: ["steer"],
+      minutes: { manual: 25, claude: 3 },
+      open: "Could my morning brief just be ready when I start?",
+      steps: [
+        {
+          kind: "choose",
+          id: "when",
+          title: "Pick when it runs",
+          habit: "steer",
+          says: "I can schedule Priya's morning brief. She starts at 9:00 am Austin time, which is 10:00 pm in Manila. How often should it run?",
+          options: [
+            { id: "daily", label: "Weekdays at 8:30 am Austin (9:30 pm Manila)", good: true, why: "Ready before she starts, once a day, set in the client's time zone." },
+            { id: "15", label: "Every 15 minutes, so it's always fresh", why: "That's 96 runs a day. Schedules that frequent burn through usage limits and fail quietly. Once a day is plenty." },
+            { id: "manila", label: "Weekdays at 8:30 am Manila time", why: "That's 7:30 pm the evening before in Austin. Set the time in the client's zone." },
+          ],
+          hints: ["When does Priya start, in her time?", "Once a day, before she starts, in Austin time.", "Weekdays at 8:30 am Austin."],
+        },
+        {
+          kind: "plan",
+          id: "plan",
+          title: "Check the schedule's plan",
+          habit: "steer",
+          plan: [
+            { text: "Run today's brief once now so you can check it before anything is scheduled." },
+            { text: "Schedule it: weekdays at 8:30 am Austin time." },
+            { text: "Each run: read Priya's calendar for today and your Gmail from the last 24 hours, then list today's meetings, anything urgent and the first three things to do." },
+            {
+              text: "Text the brief to Priya so it's the first thing she sees.",
+              bad: {
+                why: "A scheduled task that messages the client runs with nobody reading it first.",
+                options: [
+                  { text: "Save it as today.md in the Menon Studio folder and notify me.", good: true },
+                  { text: "Text it, but only on weekdays.", why: "Still an unread message to the client every morning." },
+                  { text: "Email it to Priya instead.", why: "Same problem, different channel. Scheduled tasks save and notify; you send." },
+                ],
+                fixed: "Save it as today.md in the Menon Studio folder and notify you.",
+              },
+            },
+          ],
+          tools: ["Test run: reading today's calendar", "Test run: reading 9 emails", "Writing today.md", "Scheduling weekdays at 8:30 am CT", "Notifying you"],
+          consequence: { text: "I got a message at 8:30 with yesterday's meetings in it. What happened?", trust: -1 },
+          hints: ["A schedule runs while you sleep. What should it never do alone?", "One step messages the client.", "Redirect step 4: save it and notify you."],
+        },
+      ],
+      done: "Love it. I read it with my coffee.",
+    },
+    {
+      id: "quotes",
+      title: "Chase the quotes",
+      sticky: "Contractor quotes",
+      habits: ["steer", "show"],
+      minutes: { manual: 40, claude: 10 },
+      open: "Twelve contractors owe me quotes. Can you chase them today?",
+      steps: [
+        {
+          kind: "choose",
+          id: "pilot",
+          title: "How do you start?",
+          habit: "steer",
+          says: "I can draft all twelve follow-ups. How do you want to run it?",
+          options: [
+            { id: "pilot", label: "Draft two, send them to Priya for a thumbs-up, then do the other ten in that style", good: true, why: "Pilot first. Two drafts take five minutes to check; twelve in the wrong tone take twelve rewrites." },
+            { id: "send", label: "Draft all twelve and send them", why: "Twelve unread emails to people outside the studio." },
+            { id: "batch", label: "Draft all twelve and send Priya the batch to review", why: "Better, but if the tone is off she rewrites twelve. Two first." },
+          ],
+          hints: ["What if the tone is wrong?", "Test small before you scale.", "Draft two for a thumbs-up first."],
+        },
+        {
+          kind: "phone",
+          id: "pilot-send",
+          title: "Send the pilot",
+          habit: "show",
+          prompt: "Send Priya the two pilot drafts.",
+          options: [
+            { id: "ask", label: "Two drafts before I do the rest. Right tone?", good: true, why: "Short, with the drafts attached and one clear question.", reply: "The second one is perfect. Use that for all of them." },
+            { id: "all", label: "I've sent all twelve. Copies attached.", why: "She asked for a pilot, not a batch.", reply: "Wait, all twelve already went out?" },
+          ],
+          hints: ["You're asking, not telling.", "One clear question.", "The first one."],
+        },
+      ],
+      done: "All twelve drafts are in my inbox. I'll send after lunch.",
+    },
+    {
+      id: "login",
+      title: "A login in the chat",
+      sticky: "Bank statements",
+      habits: ["spot"],
+      minutes: { manual: 10, claude: 2 },
+      open: "Here's the bank login so Claude can grab September's statements. User: priya.menon, password: ••••••••",
+      steps: [
+        {
+          kind: "phone",
+          id: "reply",
+          title: "What do you reply?",
+          habit: "spot",
+          prompt: "Priya just sent you her bank login.",
+          options: [
+            {
+              id: "decline",
+              label: "Thanks, but I won't put a login into Claude or anywhere it doesn't need to be. Could you download the statements, or add me as a viewer in the bank portal?",
+              good: true,
+              why: "Passwords never go into Claude, and never into a doc. An export or viewer access does the job.",
+              reply: "Fair point. I'll export them now.",
+            },
+            {
+              id: "paste",
+              label: "Got it. I'll have Claude log in and download them.",
+              why: "A password pasted into Claude can be logged and kept. Never.",
+              consequence: { from: "Andi, your Account Lead", text: "Please never paste a client's password into Claude. If it ever happens, tell me the same day so it can be changed.", trust: 0 },
+            },
+            {
+              id: "doc",
+              label: "I'll save it in our notes doc for next time.",
+              why: "Anyone with the doc now has the bank. Ask for an export or viewer access instead.",
+              consequence: { from: "Andi, your Account Lead", text: "A shared doc isn't a safe place for a bank password. Ask Priya for an export or viewer access instead.", trust: 0 },
+            },
+          ],
+          hints: ["Where should a password go?", "Nowhere. Ask for another way.", "The first one."],
+        },
+      ],
+    },
+    {
+      id: "eod",
+      title: "End of week one",
+      sticky: "EOD and your plan",
+      habits: ["check", "show"],
+      minutes: { manual: 20, claude: 5 },
+      open: "Great week. EOD, and then go plan your real week one.",
+      steps: [
+        {
+          kind: "review",
+          id: "eod",
+          title: "Check your EOD before it goes",
+          habit: "check",
+          intro: "One line makes something sound riskier than it is. Find it.",
+          artifact: { kind: "eod", title: "EOD, Wednesday", meta: "Drafted by /eod-sod" },
+          segments: [
+            { text: "Done today\n• Wrote Instructions for Claude on the Menon Studio project: voice, no contractions, both time zones.\n• Scheduled Priya's morning brief: weekdays 8:30 am Austin, saved to the folder, nothing sent.\n" },
+            { text: "• Set up an automatic email to all contractors every Monday.\n", flag: "It's drafts, not emails, and they wait for your review. Say what really happens, or Priya will think things are going out.", fix: "• Monday drafts for quote follow-ups, saved for review." },
+            { text: "• Twelve quote follow-ups drafted after a two-draft pilot.\n• Declined to use the bank login; Priya exported the statements.\n\nWhat Claude helped with\n• Instructions, the morning brief and twelve follow-ups. About 2 hours saved (estimate)." },
+          ],
+          done: "Exact words matter most when you describe automation.",
+          hints: ["Which line describes something automatic?", "Drafts, not emails.", "The automatic email line."],
+        },
+        {
+          kind: "live",
+          id: "live",
+          title: "Make one of these real",
+          body: "Turn one of this week's workflows into a real one for your client: a Project with instructions, a daily brief on a schedule, or follow-ups as drafts.",
+          k: "live-a3",
+          label: "I set up one real workflow for my client: a Project, a scheduled brief or scheduled drafts.",
+          prompts: [
+            "Create a project called [client] and add Instructions for Claude: who they are, how they write (with one real example), my defaults, and what to do when unsure.",
+            "/schedule Every weekday at [time] in my client's time zone, read their calendar and my inbox, and save a short brief to the client folder. Notify me. Never send anything.",
+          ],
+        },
+        { kind: "launchpad", id: "launchpad", title: "Plan your real Week 1" },
+      ],
+      done: "See you Monday. And thank you.",
+    },
+  ],
+}

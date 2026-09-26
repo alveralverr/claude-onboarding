@@ -94,8 +94,8 @@ export function useStatus() {
 }
 
 export function continueTarget(st: Status): { href: string; label: string } {
-  if (!st.setup) return { href: "#/room/desk", label: st.setupDone ? "Continue at your desk" : "Start at your desk" }
-  if (!st.first) return { href: "#/room/inbox", label: "Run your first task" }
+  if (!st.setup) return { href: "#/room/desk", label: st.setupDone ? "Continue setting up" : "Set up your real Claude" }
+  if (!st.first) return { href: "#/", label: "Start your first shift" }
   if (!st.safety) return { href: "#/room/vault", label: "Take the safety check" }
   return { href: "/certificate.html", label: "Get your certificate" }
 }
