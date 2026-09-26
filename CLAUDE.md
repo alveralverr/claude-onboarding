@@ -4,51 +4,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-The "Claude Cowork onboarding for Magic assistants" site: a plain static site (HTML, CSS, vanilla JS). **No build step, no npm, no bundler, no tests, no linter.** Files are served exactly as they sit in the repo.
+The "Claude Cowork onboarding for Magic assistants" site. Since v3 (September 2026) the guide is a **Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (Base UI, `nova` style)** app that builds to `dist/`. Two older pages (`claude-design.html`, `certificate.html`) are still plain static files served from `public/`.
 
-## Run / deploy
+## Commands
 
-- Preview: `python3 -m http.server 4599` from the repo root (the `onboarding-static` config in `.claude/launch.json`). Use a server, not `file://`.
-- Deploy: Cloudflare Workers static assets (`wrangler.jsonc`, `assets.directory = "."`), via `npx wrangler deploy` or Cloudflare's git build on push to `main`. `_redirects` (Cloudflare syntax) sends the old `/onboarding.html` URL to `/`.
-- **Everything in the repo is public unless `.assetsignore` excludes it.** It excludes `*.md`, `.git`, `.claude`, `_archive/`, `assets/_archive/`, and the wrangler files. New files get served by default. Cloudflare rejects single files over 25 MiB; `assets/setup-guide.mp4` is about 24.2 MiB.
-- `DEPLOY.md`, `AUDIT.md`, and `REFACTOR_PLAN.md` are from June 2026 and describe v1. They are stale.
+```bash
+npm install          # also builds dist/ via the `prepare` script (see Deploy)
+npm run dev          # Vite dev server (add `-- --port 4600` etc.)
+npm run build        # tsc -b && vite build  -> dist/
+npm run preview      # serve dist/ locally
+npm run lint         # eslint
+npm run typecheck    # tsc --noEmit
+npx shadcn@latest add <component>   # add a shadcn component (Base UI, nova)
+```
 
-## The guide (v2, `index.html` + `css/guide.css` + `js/guide.js`)
+There are no tests. `npm run lint` and `npm run build` are the checks. The Node version used in CI is Cloudflare's default (24); locally, `node` comes from nvm (24.x). A separate `/usr/local/bin/node` (22.x) exists on this machine and is what tools that don't load the shell profile will find.
 
-- **All copy lives in `index.html`.** Find a phrase and edit it in place. The page has no third-party scripts and loads about 200 KB before any media.
-- Structure: hero with a "Your path" card, then What's different (`#intro`), then **the path**: Setup (`#setup`, 5 tabs), First task (`#first-task`), Safety check (`#safety`, ends in a 5-question quiz). Then **the library**, which is always open: `#cowork` (includes `#tour` and `#context-window`), `#skills`, `#connectors`, `#scheduled`, `#prompting`, `#model`, `#learn`. Then `#help` and `#feedback`. `#ready` (certificate call to action) shows only when the path is complete.
-- **Nothing is ever locked.** v1's gating and "Mark as read" buttons were removed on purpose. Every section is reachable by deep link.
-- Section ids are linked from `claude-design.html` and from old shared links (`#need` survives as an anchor inside `#setup`). Keep them stable.
+## Deploy (Cloudflare Workers, GitHub integration)
 
-### State and progress (`js/guide.js`)
+- `wrangler.jsonc` serves `assets.directory = "./dist"`. Only `dist/` is public, so anything Vite doesn't emit or copy from `public/` is never served.
+- **How the build runs on Cloudflare:** Workers Builds ignores wrangler's `build.command`. It runs `npm install` (which triggers the `prepare` script = `npm run build`), then `npx wrangler deploy`. So no dashboard build command is required, and `prepare` must keep working. Packages the build needs (`vite`, `typescript`, `@vitejs/plugin-react`, `@types/*`, `tailwindcss`) are in `dependencies`, not `devDependencies`, so the build still works if `NODE_ENV=production` is set. `wrangler.jsonc`'s `build.command` makes a local `npx wrangler deploy` build first too.
+- `public/_redirects` sends the old `/onboarding.html` URL to `/`. `public/.assetsignore` keeps `.DS_Store` out of uploads.
+- `DEPLOY.md`, `AUDIT.md`, and `REFACTOR_PLAN.md` describe v1 and are stale.
 
-- Stored in `localStorage` under **`magic-onboarding-v1`**, the same key as v1, so returning users keep their ticks. The shape is `{ checkboxes: {key: true}, v2: { safety: true } }`. Older v1 fields (`completed`, `setupTabs`) may be present and are ignored.
-- Checkbox keys (`data-cb-key`) must be unique and stable. Changing one wipes that tick for everyone.
-- Progress is 60% setup (every checkbox inside `#setup`, counted automatically), 20% first task (`s5-0`), and 20% safety quiz passed. Adding a checkbox inside `#setup` changes the setup total with no other code change.
-- The quiz answer key is `data-answer` on each `fieldset.q`, and the wrong-answer text is `.q__fb`. The questions quote the safety rules above them. Keep them in sync if the rules change.
-- Data that lives in JS rather than HTML: the `CONNECTORS` capability list, `MODELS` (picker text), and `ROUTES` (help router).
+## Layout
 
-### Media conventions
+- `index.html`: Vite entry (meta tags, favicon, font preload). Nothing else lives here.
+- `src/main.tsx` mounts `App` and the shadcn `Toaster`. `src/App.tsx` composes the sections in page order and re-does the `#hash` jump after mount.
+- `src/components/site/`: the page, one file per group of sections. `shared.tsx` holds the small building blocks (`Section`, `Kicker`, `Voiceover`, `CopyPrompt`, `YouTube` facade, `GifPlay`, `InViewVideo`, `Note`, `Ticks`).
+- `src/components/ui/`: shadcn components added by the CLI. Local customizations (keep them when updating): `button.tsx` is pill-shaped with extra `light`, `outline-light`, `success`, `violet` variants and an `xl` size; `badge.tsx` has `success`/`warning`; `alert.tsx` has `info`/`warning`; `card.tsx` uses the Magic pillow look (white border, violet shadow). ESLint's `only-export-components` rule is off for this folder.
+- `src/lib/data.ts`: content that is data (setup panel keys, quiz, tour labels, connectors, models, help routes, resources). `src/lib/progress.ts`: the progress store. `src/lib/voiceover.ts`: one shared Audio player.
+- `src/index.css`: Tailwind, the shadcn token block, Magic brand tokens (`--violet`, `--cyan`, `--success`, `--warning`, `--claude`, shadows) registered in `@theme inline`, self-hosted League Spartan `@font-face`, and a few `@utility` classes (`grad`, `kicker`, `h-display`, `h-section`, `h-sub`, `lede`, `wrap`, `band-glow`, `hero-wash`, `tint`). The brand is light-only; `.dark` mirrors `:root`.
+- `public/`: copied verbatim into `dist/`: `assets/` (media, fonts, voice mp3s, the two demo mp4s and `setup-guide.mp4`), `claude-design.html` + `css/styles.css` + `js/ui.js` + `js/app.js` (v1 stack, only that page uses them), `certificate.html`, `_redirects`.
+- `_archive/`: v1 (`v1/`), the v2 static guide (`v2/`), the retired landing page (`landing/`), and original media (`assets/`). Not deployed.
 
-- Images live in `assets/media/` as WebP, resized to display size, with `width`/`height` set and `loading="lazy"`. Originals are in `assets/_archive/`.
-- YouTube: `<div class="yt" data-yt="ID" data-title="…">` is a click-to-load facade. Nothing loads from YouTube until someone clicks, and the embed uses youtube-nocookie.
-- Long animations: `<figure class="gifplay" data-gif="…webp">` shows a poster WebP and loads the animated WebP only on click.
-- Muted demo videos use `data-autoplay`. They play only while on screen and show controls instead under reduced motion.
-- Voiceover: `<button class="vo" data-vo="assets/voice/….mp3">`. The Audio object is created on first click. File names follow the sections in `voiceover-script.md`.
-- To convert new media, Pillow with WebP support is available (`python3 -c "from PIL import features; print(features.check('webp'))"`). ffmpeg is not installed.
+## Rules that are easy to break
 
-## Other pages (still on the v1 stack)
-
-- `claude-design.html` uses `css/styles.css`, `js/ui.js`, and `js/app.js`, which **only it** uses now. `styles.css` grew in appended patch layers that override each other with `!important`, so find every definition of a selector before editing. Its password lock is client-side and cosmetic, not real access control.
-- `certificate.html` is self-contained (inline CSS and fonts). The guide links to it once the path is complete.
-
-## Other folders
-
-- `magic-cowork-onboarding/` and `magic-cowork-launchpad/`: Claude skills (Markdown only, not served) that teach the same content as the guide. Keep their facts in sync with `index.html`.
-- `_archive/v1/`: the v1 guide (`index.html`, `hero-graph.js`, `voiceover.js`, the standalone connector page). `_archive/landing/`: the retired landing page. Not deployed.
+- **Progress storage.** Key `magic-onboarding-v1`, shape `{ checkboxes: {key: true}, v2: { safety: true } }`, shared with v1/v2 so returning users keep their ticks. Checkbox keys (`data-cb-key` in v2, the `k` prop of `Check` here) must stay unique and stable; they're listed per panel in `SETUP_PANELS` in `data.ts`, and the setup total is derived from that list. Progress = 60% setup + 20% first task (`s5-0`) + 20% safety quiz.
+- **Nothing is ever locked.** Every section is reachable by deep link. Section ids (`intro`, `setup` (+ a `need` anchor inside), `first-task`, `safety`, `ready`, `library`, `cowork`, `tour`, `context-window`, `skills`, `connectors`, `scheduled`, `prompting`, `model`, `learn`, `help`, `feedback`) are linked from `claude-design.html` and old shared links. Keep them.
+- **The quiz** answer key is `answer` per question in `QUIZ`; questions quote the safety rules rendered above them. Keep both in sync.
+- **Base UI, not Radix.** Use `render={<a />}` (plus `nativeButton={false}` on non-buttons) instead of `asChild`; `ToggleGroup`/`Accordion` take array values and `multiple`, not `type`; `Checkbox` uses `onCheckedChange`, others `onValueChange`. `Checkbox`/`RadioGroupItem` render a `span[role=…]` plus a hidden input that carries the `id`, so `FieldLabel htmlFor` works.
+- **Custom `@utility` classes lose to Tailwind utilities** when both set the same property (e.g. `CardTitle`'s `text-base` beats `h-sub`). Inside shadcn components, size text with Tailwind classes, not the custom utilities.
+- **Media conventions:** images are WebP in `public/assets/media` with `width`/`height` and `loading="lazy"`; YouTube goes through the `YouTube` facade (nothing loads until clicked, youtube-nocookie); long animations use `GifPlay` (poster + click-to-play animated WebP); muted demos use `InViewVideo`; voiceover buttons use `Voiceover` with a `/assets/voice/…mp3` src. Pillow WebP support is available for converting new images; ffmpeg is not installed.
 
 ## Previewing gotchas
 
-- The preview browser caches CSS and JS hard. Cache-bust with `?v=` on the stylesheet, or reload with a new query string.
-- CDP screenshots of content scrolled into view with `window.scrollTo` can come back blank. Workaround: hide the sections above the target (`style.display='none'`), set a tall viewport, then capture at scroll 0.
-- To test the path, clear `magic-onboarding-v1`, or use "Reset my progress" in the footer.
+- The desktop app's preview launcher didn't reliably start servers in this repo (processes reported "running" while nothing listened). If that happens, start Vite with the absolute nvm node path from `.claude/launch.json`, or run it yourself and open `http://localhost:4600`.
+- Vite is configured with `server.host: true` so both `localhost` (IPv6) and `127.0.0.1` reach it.
+- CDP screenshots of content scrolled into view can come back blank. Workaround: `display:none` the sections above the target, set a tall viewport, capture at scroll 0. The pane must be visible for screenshots.
+- To test the path, clear `magic-onboarding-v1` or use "Reset my progress" in the footer.
