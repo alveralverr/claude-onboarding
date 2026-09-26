@@ -1,5 +1,7 @@
 # Image brief for The Magic Office (v4)
 
+> **Status (26 Sep 2026):** all 35 images delivered, plus four second takes saved as `-alt`. Avatars were renamed by person (`avatar-bea`, `avatar-marco`, `avatar-lea`, `avatar-jun`, `avatar-ria`, `avatar-paolo`) and Dana is `client-dana`. Everything else keeps the filenames below. WebP copies live in `public/assets/media`.
+
 Generate these in ChatGPT, save them here with the exact filenames below, and tell Claude when a batch is in. Claude converts them to WebP, resizes them, places the map hotspots on the lobby scene, and wires everything in.
 
 ## Where and how to save

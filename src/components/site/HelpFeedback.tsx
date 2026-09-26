@@ -14,9 +14,12 @@ export function Help() {
   const r = ROUTES[key]
   return (
     <Section id="help" className="tint border-t" aria-labelledby="help-title">
-      <h2 className="h-section mb-7" id="help-title">
-        Stuck? Find the right <span className="grad">person</span>.
-      </h2>
+      <div className="mb-7 flex items-center justify-between gap-6">
+        <h2 className="h-section" id="help-title">
+          Stuck? Find the right <span className="grad">person</span>.
+        </h2>
+        <img src="/assets/media/room-help.webp" alt="" width={1200} height={800} loading="lazy" className="w-44 shrink-0 rounded-2xl max-sm:hidden" />
+      </div>
       <Card>
         <CardContent className="grid gap-5 md:grid-cols-2">
           <ToggleGroup

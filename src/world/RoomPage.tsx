@@ -21,11 +21,16 @@ export function RoomPage({ id }: { id: string }) {
   return (
     <section className="tint py-10 md:py-14" aria-labelledby="room-title">
       <div className="wrap-mid px-5 md:px-10">
-        <Kicker>{room.name}</Kicker>
-        <h1 className="h-section mb-3" id="room-title">
-          {mission.title}.
-        </h1>
-        <p className="lede mb-8">{mission.tagline}</p>
+        <div className="mb-8 grid items-center gap-6 sm:grid-cols-[1fr_minmax(0,300px)]">
+          <div>
+            <Kicker>{room.name}</Kicker>
+            <h1 className="h-section mb-3" id="room-title">
+              {mission.title}.
+            </h1>
+            <p className="lede">{mission.tagline}</p>
+          </div>
+          <img src={room.image} alt="" width={1200} height={800} className="mx-auto w-full max-w-[300px] rounded-[24px] max-sm:hidden" />
+        </div>
         <MissionPlayer key={mission.id} mission={mission} room={room} onExit="#/" />
       </div>
     </section>

@@ -40,11 +40,12 @@ A mastery room is a mission whose `Room` entry has `mastery: true`, a `live` key
 - **Nothing is ever locked.** Every room and every step is reachable. Don't add gates.
 - **Legacy links.** Every id in `LEGACY` (`#setup`, `#connectors`, ...) is linked from `claude-design.html` and from links already shared with assistants. Keep them, and add the new home of any section you move.
 - **Copy rules.** One idea per step, under 40 words of instruction, no em dashes, no emoji, sentence case, no "Step 1" labels in copy. Taglish and voice-to-text are fine in examples.
+- **Images from renders.** Source PNGs live in `assets-src/v4` (git-ignored) with descriptive names: `lobby`, `room-<id>`, `avatar-<name>`, `client-dana`, `badge-<id>`, `item-<id>`; `-alt` files are second takes kept for swapping. Convert with Pillow to WebP in `public/assets/media`: scenes 1200 wide (lobby at 768 and 1536), everything else 256 square with alpha.
 - **Media.** WebP under `public/assets/media` with `w` and `h`; YouTube through `{ type: "youtube" }` (nothing loads until clicked); long animations `{ type: "gif" }` with a poster; muted demos `{ type: "video" }`.
 
 ## Adding a room
 
-1. Add a `Room` to `ROOMS` in `world.ts` and a zone position in `src/world/iso.ts` (`ZONES`) so the hotspot lands on the furniture. Draw the furniture in `src/world/OfficeScene.tsx` if it is not already there.
+1. Add a `Room` to `ROOMS` in `world.ts` with a `spot` (where its label sits on the lobby scene, in % of the image, at the top of the furniture) and an `image` banner. New furniture means a new lobby render: regenerate it from the brief in `assets-src/v4/README.md`, then re-measure every `spot`.
 2. Create `src/content/missions/<room>.tsx` and register it in `missions/index.ts`.
 3. If it needs a simulator run, add `src/content/scenarios/<name>.ts` and register it in `SCENARIOS` in `src/engine/steps/Sim.tsx`.
 4. If it awards a badge, add it to `BADGES` and to `derive()`.

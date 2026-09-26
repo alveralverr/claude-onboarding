@@ -45,7 +45,6 @@ export const VAULT: Mission = {
           </ul>
         </>
       ),
-      media: { type: "image", src: "/assets/media/claude-graphic.webp", alt: "", w: 600, h: 576, className: "mx-auto max-w-[220px] border-0 shadow-none" },
     },
     {
       kind: "explain",

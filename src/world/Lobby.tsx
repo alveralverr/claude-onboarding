@@ -1,12 +1,12 @@
 import * as React from "react"
 import { cn } from "cn"
-import { AwardIcon, CheckIcon, CoffeeIcon, FlameIcon, LampDeskIcon, LockIcon, MonitorIcon, SproutIcon } from "lucide-react"
+import { CheckIcon, FlameIcon, LockIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress"
-import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS } from "@/content/world"
+import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS, badgeImage } from "@/content/world"
 import { currentQuest } from "@/content/quests"
 import { Checkbox } from "@/components/ui/checkbox"
 import { completeStep, stepKey } from "@/lib/game"
@@ -25,7 +25,7 @@ function AvatarPick() {
         <CardTitle className="text-[22px] font-semibold">Who's working today?</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="Pick an avatar">
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Pick an avatar">
           {AVATARS.map((a) => (
             <button
               key={a.id}
@@ -38,7 +38,7 @@ function AvatarPick() {
                 g.avatar === a.id ? "border-violet bg-secondary" : "border-transparent"
               )}
             >
-              <img src={a.src} alt="" width={96} height={96} loading="lazy" className="size-16 rounded-full bg-[#E6E6F8] object-cover" />
+              <img src={a.src} alt="" width={256} height={256} className="size-20 rounded-full bg-[#E6E6F8] object-cover" />
               {a.name}
             </button>
           ))}
@@ -67,7 +67,7 @@ function StatusCard() {
   return (
     <Card className="rounded-[32px] border-2 border-white shadow-lift" aria-label="Your progress">
       <CardHeader className="flex flex-row items-center gap-3">
-        {avatar && <img src={avatar.src} alt="" width={56} height={56} className="size-14 rounded-full bg-[#E6E6F8] object-cover" />}
+        {avatar && <img src={avatar.src} alt="" width={256} height={256} className="size-16 rounded-full bg-[#E6E6F8] object-cover" />}
         <div className="flex flex-col">
           <CardTitle className="text-[22px] font-semibold">{g.name ? `${g.name}, ` : ""}Level {d.level.n}: {d.level.name}</CardTitle>
           <p className="text-sm text-muted-foreground">
@@ -116,20 +116,16 @@ function StatusCard() {
             )
           })}
         </ol>
-        <div className="flex flex-wrap gap-1.5" aria-label="Badges">
+        <ul className="grid grid-cols-6 gap-1.5" aria-label={`Badges: ${d.badges.length} of ${BADGES.length}`}>
           {BADGES.map((b) => {
             const has = d.badges.includes(b.id)
             return (
-              <span
-                key={b.id}
-                title={has ? b.how : `${b.name}: ${b.how}`}
-                className={cn("flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold", has ? "border-violet/30 bg-secondary text-secondary-foreground" : "border-dashed text-muted-foreground")}
-              >
-                <AwardIcon className="size-3.5" /> {b.name}
-              </span>
+              <li key={b.id} title={`${b.name}: ${b.how}`}>
+                <img src={badgeImage(b.id)} alt={`${b.name}${has ? "" : " (not yet)"}`} width={256} height={256} loading="lazy" className={cn("aspect-square w-full", !has && "opacity-30 grayscale")} />
+              </li>
             )
           })}
-        </div>
+        </ul>
         <DeskItems level={d.level.n} streak={d.streak} />
         <div className={cn("flex items-start gap-3 rounded-xl border-1.5 border-dashed border-violet/25 p-3.5 text-sm text-muted-foreground", st.all && "border-solid border-success bg-success-soft text-success")}>
           {st.all ? <CheckIcon className="mt-0.5 size-5 shrink-0" /> : <LockIcon className="mt-0.5 size-5 shrink-0" />}
@@ -152,21 +148,18 @@ function StatusCard() {
   )
 }
 
-const ITEM_ICON = { mug: CoffeeIcon, plant: SproutIcon, lamp: LampDeskIcon, monitor: MonitorIcon } as const
-
 function DeskItems({ level, streak }: { level: number; streak: number }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5" aria-label="Desk items">
       {DESK_ITEMS.map((it) => {
-        const Icon = ITEM_ICON[it.id as keyof typeof ITEM_ICON]
         const has = level >= it.level
         return (
           <span
             key={it.id}
             title={has ? `${it.name}: on your desk` : `${it.name}: unlocks at level ${it.level}`}
-            className={cn("flex size-9 items-center justify-center rounded-xl border", has ? "border-violet/30 bg-secondary text-secondary-foreground" : "border-dashed text-muted-foreground/60")}
+            className={cn("flex size-12 items-center justify-center rounded-xl border", has ? "border-violet/30 bg-secondary" : "border-dashed")}
           >
-            <Icon className="size-4.5" />
+            <img src={it.src} alt="" width={256} height={256} loading="lazy" className={cn("size-10", !has && "opacity-30 grayscale")} />
             <span className="sr-only">{has ? `${it.name} on your desk` : `${it.name} unlocks at level ${it.level}`}</span>
           </span>
         )
@@ -227,15 +220,16 @@ function MasteryWing() {
             const earned = !!r.badge && d.badges.includes(r.badge)
             return (
               <li key={id}>
-                <a href={r.href} className="flex h-full flex-col gap-2 rounded-2xl border-1.5 border-transparent bg-card p-5 text-foreground no-underline shadow-card-sm transition-[transform,border-color] hover:-translate-y-0.5 hover:border-violet/30">
+                <a href={r.href} className="flex h-full flex-col gap-2 overflow-hidden rounded-2xl border-1.5 border-transparent bg-card p-5 pt-0 text-foreground no-underline shadow-card-sm transition-[transform,border-color] hover:-translate-y-0.5 hover:border-violet/30">
+                  <img src={r.image} alt="" width={1200} height={800} loading="lazy" className="-mx-5 mb-1 aspect-[2/1] w-[calc(100%+2.5rem)] max-w-none object-cover" />
                   <span className="flex items-center justify-between gap-2">
                     <strong className="text-lg">{r.name}</strong>
                     {done ? <Badge variant="success">Done</Badge> : <Badge variant="outline">~{r.minutes} min</Badge>}
                   </span>
                   <span className="text-[15px] leading-snug text-muted-foreground">{r.blurb}</span>
                   {badge && (
-                    <span className={cn("mt-auto flex items-center gap-1.5 text-sm", earned ? "text-violet" : "text-muted-foreground")}>
-                      <AwardIcon className="size-4" /> {badge.name}
+                    <span className={cn("mt-auto flex items-center gap-2 text-sm", earned ? "text-violet" : "text-muted-foreground")}>
+                      <img src={badgeImage(badge.id)} alt="" width={256} height={256} loading="lazy" className={cn("size-7", !earned && "opacity-40 grayscale")} /> {badge.name}
                     </span>
                   )}
                 </a>

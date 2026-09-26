@@ -1,6 +1,7 @@
 import type { Mission } from "../types"
 import { Code } from "@/engine/bits"
 import { FIRST_TASK_KEY } from "@/lib/data"
+import { CLIENT_DANA } from "../world"
 
 const FIRST_PROMPTS = [
   "Go through my inbox, find unread client emails from the last 24 hours, and draft a reply for each one that needs a response. Save the drafts in Gmail for my review.",
@@ -29,6 +30,7 @@ export const INBOX_MISSION: Mission = {
           <p>A Cowork task runs like this: you give the context and the ask, Claude shows a plan, you approve or redirect, it works, you review. The next three steps are exactly that.</p>
         </>
       ),
+      media: { type: "image", src: CLIENT_DANA, alt: "Dana Reyes, a dentist in a white clinic coat, your practice client", w: 256, h: 256, className: "mx-auto max-w-[160px] rounded-full border-0 bg-[#E6E6F8] shadow-none" },
       voice: "/assets/voice/07 - how a task runs.mp3",
     },
     {

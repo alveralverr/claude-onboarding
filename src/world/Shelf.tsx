@@ -22,11 +22,16 @@ export function Shelf({ section }: { section?: string }) {
     <>
       <section id="library" className="hero-wash pt-10 pb-6 md:pt-16 md:pb-8" aria-labelledby="shelf-title">
         <div className="wrap px-5 md:px-10">
-          <Kicker>The Shelf</Kicker>
-          <h1 className="h-display mb-4" id="shelf-title">
-            Everything else, <span className="grad">open</span> any time.
-          </h1>
-          <p className="lede mb-7">The reference for day-to-day questions. Come back whenever you need a refresher.</p>
+          <div className="mb-7 grid items-center gap-6 md:grid-cols-[1fr_minmax(0,360px)]">
+            <div>
+              <Kicker>The Shelf</Kicker>
+              <h1 className="h-display mb-4" id="shelf-title">
+                Everything else, <span className="grad">open</span> any time.
+              </h1>
+              <p className="lede">The reference for day-to-day questions. Come back whenever you need a refresher.</p>
+            </div>
+            <img src="/assets/media/room-shelf.webp" alt="" width={1200} height={800} className="mx-auto w-full max-w-[360px] rounded-[24px] max-md:hidden" />
+          </div>
           <nav className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Shelf">
             {LIBRARY.map((l) => (
               <a

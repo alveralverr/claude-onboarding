@@ -6,10 +6,8 @@ import { motion, useReducedMotion } from "motion/react"
 import { ROOMS, type Room } from "@/content/world"
 import { useProgress, useStatus } from "@/lib/progress"
 import { navigate, parseHash } from "@/lib/routes"
-import { OfficeScene } from "./OfficeScene"
-import { zonePercent } from "./iso"
 
-/* The 2.5D office. A pre-rendered isometric scene with hotspots; clicking a
+/* The 2.5D office. A rendered isometric scene with hotspots; clicking a
    room zooms the scene toward it, then routes. Reduced motion skips the zoom.
    A plain list of the same rooms sits beside it for keyboard and screen
    reader users, and for phones. */
@@ -31,33 +29,44 @@ export function OfficeMap() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative overflow-hidden rounded-[28px] border-2 border-white bg-[#E6E6F8] shadow-card" style={{ aspectRatio: "16 / 9" }}>
+      <div className="relative overflow-hidden rounded-[28px] border-2 border-white bg-[#E6E6F8] shadow-card" style={{ aspectRatio: "3 / 2" }}>
         <motion.div
           className="absolute inset-0"
-          animate={zoom ? { scale: 1.7, x: `${(50 - zonePercent(zoom.id).x) * 1.3}%`, y: `${(50 - zonePercent(zoom.id).y) * 1.3}%` } : { scale: 1, x: 0, y: 0 }}
+          animate={zoom ? { scale: 1.7, x: `${(50 - zoom.spot.x) * 1.3}%`, y: `${(50 - zoom.spot.y) * 1.3}%` } : { scale: 1, x: 0, y: 0 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         >
-          <OfficeScene className="size-full" />
+          <img
+            src="/assets/media/lobby-1536.webp"
+            srcSet="/assets/media/lobby-768.webp 768w, /assets/media/lobby-1536.webp 1536w"
+            sizes="(min-width: 1024px) 640px, 100vw"
+            width={1536}
+            height={1024}
+            alt="An isometric office floor with a desk, a mailroom, a vault, a studio, a switchboard, a clock tower, a writing nook, a workshop, an engine room, a bookshelf and a help desk."
+            className="size-full object-cover"
+            fetchPriority="high"
+          />
         </motion.div>
         {ROOMS.map((r) => (
           <button
             key={r.id}
             type="button"
             onClick={() => enter(r)}
-            className="group absolute -translate-x-1/2 -translate-y-[110%] focus-visible:outline-none"
-            style={{ left: `${zonePercent(r.id).x}%`, top: `${zonePercent(r.id).y}%` }}
+            className="group absolute -translate-x-1/2 -translate-y-1/2 hover:z-10 focus-visible:z-10 focus-visible:outline-none"
+            style={{ left: `${r.spot.x}%`, top: `${r.spot.y}%` }}
             aria-label={`${r.name}: ${r.blurb}${done(r) ? ", done" : ""}`}
           >
             <span
               className={cn(
-                "flex items-center gap-1.5 rounded-full border-2 border-white bg-card/95 p-1 text-[13px] font-semibold whitespace-nowrap text-foreground shadow-card-sm transition-transform group-hover:scale-105 group-focus-visible:ring-3 group-focus-visible:ring-ring/50 sm:pr-3",
+                "flex items-center gap-1.5 rounded-full border-2 border-white bg-card/95 p-1 text-[13px] font-semibold whitespace-nowrap text-foreground shadow-card-sm transition-transform group-hover:z-10 group-hover:scale-105 group-focus-visible:ring-3 group-focus-visible:ring-ring/50",
+                r.core ? "sm:pr-3" : "group-hover:pr-3 group-focus-visible:pr-3",
                 (r.core || r.mastery) && "text-violet"
               )}
             >
               <span className={cn("flex size-6 items-center justify-center rounded-full text-[11px] text-white", done(r) ? "bg-success" : r.core ? "bg-violet" : r.mastery ? "bg-violet-mid" : "bg-muted-foreground")} aria-hidden="true">
                 {done(r) ? <CheckIcon className="size-3.5" /> : r.core ? ROOMS.filter((x) => x.core).indexOf(r) + 1 : r.mastery ? <AwardIcon className="size-3" /> : "·"}
               </span>
-              <span className="max-sm:sr-only">{r.name}</span>
+              {/* Core rooms always show their name; the rest are pins that name themselves on hover or focus. */}
+              <span className={r.core ? "max-sm:sr-only" : "sr-only group-hover:not-sr-only group-focus-visible:not-sr-only"}>{r.name}</span>
             </span>
           </button>
         ))}
