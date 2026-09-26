@@ -7,6 +7,7 @@
 import { useSyncExternalStore } from "react"
 
 import { BADGES, LEVELS } from "@/content/world"
+import { weekStart } from "@/content/quests"
 import { FIRST_TASK_KEY, SETUP_KEYS } from "./data"
 import { getStatus, useProgress, type ProgressState } from "./progress"
 
@@ -14,7 +15,7 @@ export const GAME_KEY = "magic-onboarding-v4"
 
 export type GameState = {
   version: 1
-  /* "mission/step" -> ISO time completed */
+  /* "mission/step" -> ISO time completed. Quests use "quest/<id>-<week>". */
   steps: Record<string, string>
   /* badge id -> ISO time first shown (badges themselves are derived) */
   seen: Record<string, string>
@@ -93,12 +94,27 @@ export function mergeGame(a: GameState, b: GameState): GameState {
   }
 }
 
+/* Consecutive weeks with at least one completed step, counting back from
+   this week or last week (so a Monday visit doesn't break a streak). */
+export function streakWeeks(g: GameState, now = new Date()): number {
+  const weeks = new Set(Object.values(g.steps).map((iso) => weekStart(new Date(iso))))
+  let cursor = weekStart(now)
+  if (!weeks.has(cursor)) cursor = weekStart(new Date(now.getTime() - 7 * 86400000))
+  let n = 0
+  while (weeks.has(cursor)) {
+    n++
+    cursor = weekStart(new Date(Date.parse(cursor) - 7 * 86400000))
+  }
+  return n
+}
+
 /* ---------- Derived: XP, badges, level ---------- */
 
 export const XP = { setupItem: 10, firstTask: 120, safety: 120, step: 20 }
 
 export type Derived = {
   xp: number
+  streak: number
   level: (typeof LEVELS)[number]
   nextLevel?: (typeof LEVELS)[number]
   levelPct: number
@@ -119,13 +135,20 @@ export function derive(p: ProgressState, g: GameState, stepXp: Record<string, nu
   if (g.steps["inbox/edit"]) badges.push("editors-eye")
   if (g.steps["vault/secret"]) badges.push("secret-keeper")
   if (st.all) badges.push("client-ready")
+  if (p.checkboxes["live-studio"]) badges.push("deck-builder")
+  if (p.checkboxes["live-switchboard"]) badges.push("connector-pro")
+  if (p.checkboxes["live-clock"]) badges.push("scheduler")
+  if (p.checkboxes["live-writing"]) badges.push("prompt-whisperer")
+  if (p.checkboxes["live-workshop"]) badges.push("skill-maker")
+  if (streakWeeks(g) >= 3) badges.push("streak")
+  if (p.checkboxes["fb-0"]) badges.push("voice-heard")
 
   let level = LEVELS[0]
   for (const l of LEVELS) if (xp >= l.xp) level = l
   const nextLevel = LEVELS.find((l) => l.xp > level.xp)
   const levelPct = nextLevel ? Math.round(((xp - level.xp) / (nextLevel.xp - level.xp)) * 100) : 100
   const unseen = badges.filter((b) => !g.seen[b])
-  return { xp, level, nextLevel, levelPct, badges, unseen }
+  return { xp, streak: streakWeeks(g), level, nextLevel, levelPct, badges, unseen }
 }
 
 export function useDerived() {

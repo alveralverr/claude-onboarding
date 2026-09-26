@@ -6,6 +6,7 @@ export const INBOX: Scenario = {
   client: "Dana Reyes, Reyes Dental",
   model: "Opus",
   context: ["Magic Work / Reyes Dental", "Gmail (your account)", "/email-management"],
+  workspace: "Working in Reyes Dental",
   prompt:
     "Go through my Gmail from the last 24 hours. Flag only client emails or anything urgent, and draft a reply for each one that needs a response. Dana writes short, warm and plain, no exclamation marks. Save the drafts in Gmail for my review and list what you skipped.",
   plan: [
@@ -28,8 +29,11 @@ export const INBOX: Scenario = {
   ],
   tools: ["Reading 14 emails in Gmail", "Checking senders against the Reyes Dental folder", "Drafting 3 replies", "Saving drafts to Gmail", "Writing the skipped list"],
   approveWarning: "Read the plan once more before you approve. One step does something a client would not want.",
+  done: "The drafts landed in Gmail as drafts, not in a client's inbox. Next, read them the way a client would.",
   output: {
     title: "3 drafts saved to Gmail, 11 emails skipped",
+    kind: "email",
+    note: "Skipped 11: newsletters, two calendar notifications, a supplier promo.",
     drafts: [
       {
         to: "Priya Natarajan (patient)",

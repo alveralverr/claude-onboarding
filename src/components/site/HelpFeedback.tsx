@@ -7,6 +7,7 @@ import { PRODUCT_EMAIL, ROUTES, type RouteKey } from "@/lib/data"
 import { resetProgress } from "@/lib/progress"
 import { resetGame } from "@/lib/game"
 import { Section } from "./shared"
+import { Check } from "@/engine/bits"
 
 export function Help() {
   const [key, setKey] = React.useState<RouteKey>("invite")
@@ -66,6 +67,9 @@ export function Feedback() {
           <Button size="xl" variant="light" render={<a href="https://forms.gle/1sHmHWHQ7BpeKaUN7" target="_blank" rel="noopener" />} nativeButton={false}>
             Open the feedback form
           </Button>
+          <div className="mx-auto mt-6 max-w-[520px] rounded-2xl bg-white/10 p-1 text-left text-white [&_label]:text-white">
+            <Check k="fb-0">I sent feedback on the office (earns the Voice heard badge).</Check>
+          </div>
         </div>
       </div>
     </Section>

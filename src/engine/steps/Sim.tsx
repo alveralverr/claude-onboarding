@@ -7,10 +7,11 @@ import { Field, FieldLabel } from "@/components/ui/field"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import type { SimStep } from "@/content/types"
 import { INBOX } from "@/content/scenarios/inbox"
+import { SCHEDULE } from "@/content/scenarios/schedule"
 import type { Scenario } from "@/content/scenarios/types"
 import { Bubble, MockClaudeWindow } from "../MockClaudeWindow"
 
-const SCENARIOS: Record<string, Scenario> = { inbox: INBOX }
+const SCENARIOS: Record<string, Scenario> = { inbox: INBOX, schedule: SCHEDULE }
 
 type Phase = "prompt" | "planning" | "decide" | "redirect" | "running" | "output"
 
@@ -83,7 +84,7 @@ export function Sim({ step, onDone }: { step: SimStep; onDone: () => void }) {
   return (
     <div className="flex flex-col gap-4 text-[17px] text-card-foreground">
       <div className="flex flex-col gap-3">{step.intro}</div>
-      <MockClaudeWindow context={sc.context} model={sc.model} composer={phase === "prompt" ? sc.prompt : undefined}>
+      <MockClaudeWindow context={sc.context} model={sc.model} workspace={sc.workspace} composer={phase === "prompt" ? sc.prompt : undefined}>
         {phase !== "prompt" && <Bubble who="you">{sc.prompt}</Bubble>}
         {phase === "planning" && shown === 0 && (
           <Bubble who="claude">
@@ -166,13 +167,13 @@ export function Sim({ step, onDone }: { step: SimStep; onDone: () => void }) {
               {sc.output.drafts.map((d) => (
                 <li key={d.subject} className="rounded-lg border bg-background p-2.5 text-[14px]">
                   <p className="text-muted-foreground">
-                    To {d.to} · <span className="text-foreground">{d.subject}</span>
+                    {sc.output.kind === "email" ? "To" : "Saved to"} {d.to} · <span className="text-foreground">{d.subject}</span>
                   </p>
                   <p className="mt-1">{d.body}</p>
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-[14px] text-muted-foreground">Skipped 11: newsletters, two calendar notifications, a supplier promo.</p>
+            <p className="mt-2 text-[14px] text-muted-foreground">{sc.output.note}</p>
           </Bubble>
         )}
       </MockClaudeWindow>
@@ -186,7 +187,7 @@ export function Sim({ step, onDone }: { step: SimStep; onDone: () => void }) {
       )}
       {phase === "output" && (
         <p className="flex items-center gap-2 rounded-xl bg-success-soft p-4 text-base text-success">
-          <CircleIcon className="size-2 fill-current" /> The drafts landed in Gmail as drafts, not in a client's inbox. Next, read them the way a client would.
+          <CircleIcon className="size-2 fill-current" /> {sc.done}
         </p>
       )}
     </div>

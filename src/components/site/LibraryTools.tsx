@@ -21,6 +21,9 @@ const SKILLS = [
   { name: "Email Management", cmd: "/email-management", desc: "Triage your inbox, summarize threads, draft replies and follow-ups, flag urgent items, and match client tone." },
   { name: "Calendar Management", cmd: "/calendar-management", desc: "Pull availability, summarize the week ahead, schedule across time zones, set recurring blocks, and flag conflicts." },
   { name: "Writing", cmd: "/writing", desc: "Long-form drafts, memos, briefings, and formatted documents in your voice and context." },
+  { name: "EOD / SOD report", cmd: "/eod-sod", desc: "Turn your notes into the end-of-day or start-of-day report your client and Account Lead expect. Edit before it goes out." },
+  { name: "Documents", cmd: "/docx, /pptx, /xlsx", desc: "Word documents, decks and spreadsheets saved into your working folder. The most-used skills among Magic assistants." },
+  { name: "Your own", cmd: "/skill-creator", desc: "Anything you've asked for three times. It interviews you and writes the skill. Practise in the Workshop." },
 ]
 
 export function Skills() {
@@ -45,7 +48,7 @@ export function Skills() {
               <p>{s.desc}</p>
             </div>
           ))}
-          <p className="pt-3 text-[15px] text-muted-foreground">More Magic skills are coming soon.</p>
+          <p className="pt-3 text-[15px] text-muted-foreground">Type the command on its own line, then your task. A command pasted in front of an unrelated request just confuses things. Plugins from the new marketplace: Anthropic-verified or Magic-approved only.</p>
         </CardContent>
       </Card>
 

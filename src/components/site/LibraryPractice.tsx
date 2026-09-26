@@ -106,6 +106,27 @@ export function Prompting() {
         </div>
       </div>
 
+      <h3 className="h-sub mt-12 mb-4 md:mt-20">What Anthropic says works now.</h3>
+      <p className="mb-4 text-[17px] text-muted-foreground">Newer models follow short, clear instructions better than long rule lists. From Anthropic's 2026 guidance:</p>
+      <ul className="mb-2 grid gap-2.5 text-base sm:grid-cols-2 lg:grid-cols-3">
+        {[
+          ["State the intent, not the steps.", "\"Draft a reply that gets the invoice paid\" beats a ten-step recipe."],
+          ["Say why a constraint matters.", "\"Short, she reads on her phone\" is followed better than \"be concise\"."],
+          ["Describe what done looks like.", "Format, length, where it goes."],
+          ["Say what to do, not what to avoid.", "\"One paragraph\" instead of \"no bullets\"."],
+          ["One example when format matters.", "Paste a past email the client liked."],
+          ["Let it say it's unsure.", "\"If the file doesn't cover it, say so.\""],
+        ].map(([t, d]) => (
+          <li key={t} className="rounded-xl bg-card p-4 shadow-card-sm">
+            <strong className="block">{t}</strong>
+            <span className="text-muted-foreground">{d}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mb-10 text-base text-muted-foreground">
+        What no longer helps: "you are a world-class expert", "double-check your work", and rule lists in capitals. Set the client's voice once in the project's <strong>Instructions for Claude</strong> instead of repeating it per prompt. Practise both in <a href="#/room/writing">the Writing Room</a>.
+      </p>
+
       <h3 className="h-sub mt-12 mb-4 md:mt-20">Three things to focus on.</h3>
       <ol className="grid gap-3 md:grid-cols-3">
         {[
@@ -244,6 +265,9 @@ export function Model() {
       </Card>
       <Note variant="warning">
         <strong>Hitting Sonnet limits?</strong> Don't drop to Haiku, because a weaker model can hurt the quality of your results. Tell your Account Lead so your quota can be reviewed.
+      </Note>
+      <Note>
+        <strong>Effort levels.</strong> Leave effort on its default (or high) for client work. An assistant turned it down to conserve tokens, quality dropped, and the client bought a different tool. Ration low-value tasks, not the thinking. Practise this in <a href="#/room/engine">the Engine Room</a>.
       </Note>
     </Section>
   )

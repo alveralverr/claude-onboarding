@@ -7,12 +7,14 @@ import { FolderIcon, PlugIcon, SparklesIcon, SquarePenIcon, MessageSquareIcon, L
 export function MockClaudeWindow({
   context,
   model = "Opus",
+  workspace = "Working in Reyes Dental",
   children,
   composer,
   className,
 }: {
   context: string[]
   model?: string
+  workspace?: string
   children: React.ReactNode
   composer?: React.ReactNode
   className?: string
@@ -41,7 +43,7 @@ export function MockClaudeWindow({
         <div className="flex min-h-[420px] flex-col">
           <div className="flex items-center gap-2 border-b bg-white/70 px-4 py-2 text-[13px] text-muted-foreground">
             <span className="rounded-full bg-secondary px-2 py-0.5 font-semibold text-secondary-foreground">{model}</span>
-            <span className="truncate">Working in Reyes Dental</span>
+            <span className="truncate">{workspace}</span>
           </div>
           <div className="flex flex-1 flex-col gap-3 p-4 text-[15px] leading-relaxed">{children}</div>
           <div className="border-t bg-white p-3">

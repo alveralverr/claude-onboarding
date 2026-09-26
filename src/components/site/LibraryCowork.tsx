@@ -81,6 +81,16 @@ export function Cowork() {
       </div>
 
 
+      <div className="mt-8 rounded-2xl border-2 border-white bg-card p-5 text-base shadow-card-sm">
+        <p className="mb-1 font-semibold">New since September 2026</p>
+        <ul className="flex list-disc flex-col gap-1.5 pl-5 text-muted-foreground">
+          <li><strong className="text-foreground">Claude Docs and Claude Slides</strong> build the document or deck inside the conversation; export to Word, PDF, PowerPoint or Google Docs. <strong className="text-foreground">Claude Design</strong> mocks up pages in a chat.</li>
+          <li><strong className="text-foreground">Manual or Automatic.</strong> Manual asks before each action; keep it while you learn. Automatic is for routine tasks you have already reviewed.</li>
+          <li><strong className="text-foreground">Projects</strong> now run parallel threads with shared memory, so a new thread in the same project isn't starting from zero.</li>
+          <li>Pro and Max got these first; Team seats follow. Practise the document side in <a href="#/room/studio">the Studio</a>.</li>
+        </ul>
+      </div>
+
       <h3 className="h-sub mt-12 mb-2 md:mt-20" id="context-window">Claude's working memory has a limit.</h3>
       <p className="text-[17px] text-muted-foreground">Every session holds a fixed amount of input, called the context window. When it fills, older context drops off and quality slips.</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">

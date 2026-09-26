@@ -13,9 +13,11 @@ export type Scenario = {
   client: string
   model: string
   context: string[]
+  workspace: string
   prompt: string
   plan: PlanStep[]
   tools: string[]
-  output: { title: string; drafts: { to: string; subject: string; body: string }[] }
+  output: { title: string; kind: "email" | "file"; drafts: { to: string; subject: string; body: string }[]; note: string }
   approveWarning: string
+  done: string
 }

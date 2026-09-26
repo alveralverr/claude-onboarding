@@ -158,6 +158,14 @@ export function OfficeScene({ className }: { className?: string }) {
       <Box x={6.2} y={16.4} w={1.7} d={1.7} h={1.1} s={VIOLET} />
       <Box x={6.2} y={17.7} w={1.7} d={0.4} h={2.3} s={VIOLET} />
 
+      {/* writing nook */}
+      <Shadow x={15} y={14.4} w={3.2} d={1.8} />
+      <Box x={15} y={14.4} w={3.2} d={1.8} h={1.3} s={WOOD} />
+      {["#5200E3", "#FF8EA9", "#14E9ED", "#F7C948"].map((c, i) => (
+        <Box key={c} x={15.3 + i * 0.7} y={14.7} w={0.5} d={0.7} h={0.35 + (i % 2) * 0.15} s={{ top: c, left: c, right: c }} z={1.3} />
+      ))}
+      <Box x={15.4} y={15.5} w={1.6} d={0.5} h={0.08} s={INK} z={1.3} />
+
       {/* the mailroom */}
       <Shadow x={22} y={12} w={6} d={1.2} />
       <Box x={22} y={12} w={6} d={1.2} h={4.4} s={WHITE} />

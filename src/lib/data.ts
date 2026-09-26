@@ -159,7 +159,7 @@ export const CONNECTORS: Connector[] = [
 ]
 
 export const MODELS = {
-  opus: { model: "Opus", why: "Your default. Best quality and reasoning for all EA work: research, writing, Cowork, and complex tasks. Start here and only step down if limits actually stop you." },
+  opus: { model: "Opus", why: "Your default. Opus 5.5 (22 September 2026) matches the top model on most work at a lower cost. Best quality and reasoning for all EA work. Keep effort on its default; turning it down to save tokens costs quality on client work." },
   sonnet: { model: "Sonnet", why: "Your fallback when Opus says you’ve hit your limit. Still strong for most tasks and lighter on quota." },
   haiku: { model: "Haiku", why: "Bulk data only: high-volume rote work such as bulk categorization or simple extraction at scale. Almost never right for day-to-day EA work." },
 } as const

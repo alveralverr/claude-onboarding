@@ -1,10 +1,10 @@
 import * as React from "react"
 import { cn } from "cn"
-import { CheckIcon } from "lucide-react"
+import { AwardIcon, CheckIcon } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 
 import { ROOMS, type Room } from "@/content/world"
-import { useStatus } from "@/lib/progress"
+import { useProgress, useStatus } from "@/lib/progress"
 import { navigate, parseHash } from "@/lib/routes"
 import { OfficeScene } from "./OfficeScene"
 import { zonePercent } from "./iso"
@@ -15,12 +15,13 @@ import { zonePercent } from "./iso"
    reader users, and for phones. */
 export function OfficeMap() {
   const st = useStatus()
+  const p = useProgress()
   const reduce = useReducedMotion()
   const [zoom, setZoom] = React.useState<Room | null>(null)
-  const done = (r: Room) => (r.id === "desk" ? st.setup : r.id === "inbox" ? st.first : r.id === "vault" ? st.safety : false)
+  const done = (r: Room) => (r.id === "desk" ? st.setup : r.id === "inbox" ? st.first : r.id === "vault" ? st.safety : !!(r.live && p.checkboxes[r.live]))
 
   const enter = (r: Room) => {
-    if (reduce || !r.core) {
+    if (reduce || !(r.core || r.mastery)) {
       navigate(parseHash(r.href))
       return
     }
@@ -50,11 +51,11 @@ export function OfficeMap() {
             <span
               className={cn(
                 "flex items-center gap-1.5 rounded-full border-2 border-white bg-card/95 p-1 text-[13px] font-semibold whitespace-nowrap text-foreground shadow-card-sm transition-transform group-hover:scale-105 group-focus-visible:ring-3 group-focus-visible:ring-ring/50 sm:pr-3",
-                r.core && "text-violet"
+                (r.core || r.mastery) && "text-violet"
               )}
             >
-              <span className={cn("flex size-6 items-center justify-center rounded-full text-[11px] text-white", done(r) ? "bg-success" : r.core ? "bg-violet" : "bg-muted-foreground")} aria-hidden="true">
-                {done(r) ? <CheckIcon className="size-3.5" /> : r.core ? ROOMS.filter((x) => x.core).indexOf(r) + 1 : "·"}
+              <span className={cn("flex size-6 items-center justify-center rounded-full text-[11px] text-white", done(r) ? "bg-success" : r.core ? "bg-violet" : r.mastery ? "bg-violet-mid" : "bg-muted-foreground")} aria-hidden="true">
+                {done(r) ? <CheckIcon className="size-3.5" /> : r.core ? ROOMS.filter((x) => x.core).indexOf(r) + 1 : r.mastery ? <AwardIcon className="size-3" /> : "·"}
               </span>
               <span className="max-sm:sr-only">{r.name}</span>
             </span>
@@ -62,11 +63,11 @@ export function OfficeMap() {
         ))}
       </div>
       <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label="Rooms">
-        {ROOMS.map((r) => (
+        {ROOMS.filter((r) => !r.mastery).map((r) => (
           <li key={r.id}>
             <a href={r.href} className="flex items-center gap-3 rounded-xl border-1.5 border-transparent bg-card px-3.5 py-2.5 text-foreground no-underline shadow-card-sm transition-colors hover:border-violet/30">
-              <span className={cn("flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white", done(r) ? "bg-success" : r.core ? "bg-violet" : "bg-muted-foreground")} aria-hidden="true">
-                {done(r) ? <CheckIcon className="size-4" /> : r.core ? ROOMS.filter((x) => x.core).indexOf(r) + 1 : "·"}
+              <span className={cn("flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white", done(r) ? "bg-success" : r.core ? "bg-violet" : r.mastery ? "bg-violet-mid" : "bg-muted-foreground")} aria-hidden="true">
+                {done(r) ? <CheckIcon className="size-4" /> : r.core ? ROOMS.filter((x) => x.core).indexOf(r) + 1 : r.mastery ? <AwardIcon className="size-3.5" /> : "·"}
               </span>
               <span className="flex flex-col leading-tight">
                 <span className="font-semibold">{r.name}</span>

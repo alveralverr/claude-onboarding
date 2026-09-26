@@ -16,6 +16,12 @@ export const ZONES: Record<string, [number, number, number]> = {
   vault: [0.6, 5, 1.4],
   shelf: [14, 1.4, 4.2],
   help: [24.8, 3.6, 1.6],
+  studio: [25.6, 9.1, 2.4],
+  switchboard: [0.3, 12.5, 2.0],
+  clock: [20.5, 0.8, 3.2],
+  writing: [16.5, 15.2, 2.2],
+  workshop: [15, 10.5, 2.2],
+  engine: [8.6, 0.9, 3.2],
 }
 export function zonePercent(id: string): { x: number; y: number } {
   const z = ZONES[id]

@@ -1,12 +1,17 @@
 import * as React from "react"
 import { cn } from "cn"
-import { AwardIcon, CheckIcon, LockIcon } from "lucide-react"
+import { AwardIcon, CheckIcon, CoffeeIcon, FlameIcon, LampDeskIcon, LockIcon, MonitorIcon, SproutIcon } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress"
-import { AVATARS, BADGES, CORE_ORDER, ROOMS } from "@/content/world"
+import { AVATARS, BADGES, CORE_ORDER, DESK_ITEMS, MASTERY_ORDER, ROOMS } from "@/content/world"
+import { currentQuest } from "@/content/quests"
+import { Checkbox } from "@/components/ui/checkbox"
+import { completeStep, stepKey } from "@/lib/game"
 import { setAvatar, useDerived, useGame } from "@/lib/game"
+import { useProgress } from "@/lib/progress"
 import { continueTarget, useStatus } from "@/lib/progress"
 import { Kicker } from "@/components/site/shared"
 import { OfficeMap } from "./Map"
@@ -125,6 +130,7 @@ function StatusCard() {
             )
           })}
         </div>
+        <DeskItems level={d.level.n} streak={d.streak} />
         <div className={cn("flex items-start gap-3 rounded-xl border-1.5 border-dashed border-violet/25 p-3.5 text-sm text-muted-foreground", st.all && "border-solid border-success bg-success-soft text-success")}>
           {st.all ? <CheckIcon className="mt-0.5 size-5 shrink-0" /> : <LockIcon className="mt-0.5 size-5 shrink-0" />}
           <p className="flex flex-col leading-snug">
@@ -143,6 +149,102 @@ function StatusCard() {
         </Button>
       </CardContent>
     </Card>
+  )
+}
+
+const ITEM_ICON = { mug: CoffeeIcon, plant: SproutIcon, lamp: LampDeskIcon, monitor: MonitorIcon } as const
+
+function DeskItems({ level, streak }: { level: number; streak: number }) {
+  return (
+    <div className="flex flex-wrap items-center gap-1.5" aria-label="Desk items">
+      {DESK_ITEMS.map((it) => {
+        const Icon = ITEM_ICON[it.id as keyof typeof ITEM_ICON]
+        const has = level >= it.level
+        return (
+          <span
+            key={it.id}
+            title={has ? `${it.name}: on your desk` : `${it.name}: unlocks at level ${it.level}`}
+            className={cn("flex size-9 items-center justify-center rounded-xl border", has ? "border-violet/30 bg-secondary text-secondary-foreground" : "border-dashed text-muted-foreground/60")}
+          >
+            <Icon className="size-4.5" />
+            <span className="sr-only">{has ? `${it.name} on your desk` : `${it.name} unlocks at level ${it.level}`}</span>
+          </span>
+        )
+      })}
+      {streak > 0 && (
+        <span className="ml-auto flex items-center gap-1 text-sm text-muted-foreground" title="Weeks in a row with progress">
+          <FlameIcon className="size-4 text-warning" /> {streak} week{streak === 1 ? "" : "s"} in a row
+        </span>
+      )}
+    </div>
+  )
+}
+
+function QuestCard() {
+  const g = useGame()
+  const { quest, week } = currentQuest()
+  const key = `${quest.id}-${week}`
+  const done = !!g.steps[stepKey("quest", key)]
+  const id = `quest-${key}`
+  return (
+    <Card className={cn(done && "bg-success-soft")}>
+      <CardContent className="flex flex-col gap-2">
+        <p className="text-xs font-semibold tracking-[0.16em] text-violet uppercase">This week's quest</p>
+        <div className="flex items-start gap-3">
+          <Checkbox id={id} checked={done} onCheckedChange={(c) => c && completeStep("quest", key)} className="mt-1 size-6 rounded-lg" />
+          <label htmlFor={id} className="flex flex-col gap-1">
+            <span className="text-lg font-semibold">{quest.title}</span>
+            <span className="text-base text-muted-foreground">{quest.body}</span>
+          </label>
+        </div>
+        {quest.room && !done && (
+          <a href={quest.room} className="ml-9 text-sm text-violet">
+            Practise it in the room first
+          </a>
+        )}
+        {done && <p className="ml-9 text-sm text-success">Done for this week. A new quest lands every Monday.</p>}
+      </CardContent>
+    </Card>
+  )
+}
+
+function MasteryWing() {
+  const p = useProgress()
+  const d = useDerived()
+  return (
+    <section className="py-12 md:py-16" aria-labelledby="mastery-title">
+      <div className="wrap px-5 md:px-10">
+        <Kicker>The mastery wing</Kicker>
+        <h2 className="h-section mb-3" id="mastery-title">
+          Six more rooms, five to eight minutes each.
+        </h2>
+        <p className="lede mb-7">In any order, whenever a task calls for it. Each one ends with a real piece of work and a badge.</p>
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {MASTERY_ORDER.map((id) => {
+            const r = ROOMS.find((x) => x.id === id)!
+            const done = !!(r.live && p.checkboxes[r.live])
+            const badge = r.badge ? BADGES.find((b) => b.id === r.badge) : undefined
+            const earned = !!r.badge && d.badges.includes(r.badge)
+            return (
+              <li key={id}>
+                <a href={r.href} className="flex h-full flex-col gap-2 rounded-2xl border-1.5 border-transparent bg-card p-5 text-foreground no-underline shadow-card-sm transition-[transform,border-color] hover:-translate-y-0.5 hover:border-violet/30">
+                  <span className="flex items-center justify-between gap-2">
+                    <strong className="text-lg">{r.name}</strong>
+                    {done ? <Badge variant="success">Done</Badge> : <Badge variant="outline">~{r.minutes} min</Badge>}
+                  </span>
+                  <span className="text-[15px] leading-snug text-muted-foreground">{r.blurb}</span>
+                  {badge && (
+                    <span className={cn("mt-auto flex items-center gap-1.5 text-sm", earned ? "text-violet" : "text-muted-foreground")}>
+                      <AwardIcon className="size-4" /> {badge.name}
+                    </span>
+                  )}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </section>
   )
 }
 
@@ -172,9 +274,13 @@ export function Lobby() {
             )}
             <OfficeMap />
           </div>
-          {g.avatar ? <StatusCard /> : <AvatarPick />}
+          <div className="flex flex-col gap-4">
+            {g.avatar ? <StatusCard /> : <AvatarPick />}
+            <QuestCard />
+          </div>
         </div>
       </section>
+      <MasteryWing />
     </>
   )
 }

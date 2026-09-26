@@ -12,6 +12,7 @@ The office is data. You add or change a room by editing files under `src/content
 | Quiz questions and answer keys | `QUIZ` in `src/lib/data.ts` |
 | Connectors, models, help routes, courses | `src/lib/data.ts` |
 | The Shelf (reference sections) | `src/components/site/Library*.tsx`, `HelpFeedback.tsx` |
+| Weekly quests | `src/content/quests.ts` (append only; the rotation is by week since `QUEST_EPOCH`) |
 | Feature flags (`MERGED_UI` and friends) | `src/lib/flags.ts` |
 | Old section links that must keep working | `LEGACY` in `src/lib/routes.ts` |
 
@@ -28,7 +29,9 @@ A mission is `{ id, title, tagline, minutes, steps }`. Each step has a `kind`:
 - `live`: a real-work attestation bound to a v1 key `k`, with optional copyable `prompts`.
 - `reveal`: the reward beat, optional `badge` (from `world.ts`) and `next` link.
 
-Step `id`s are stored as `"<mission>/<step>"` in localStorage under `magic-onboarding-v4`. Renaming a step id resets it for everyone. Two step ids are special because badges derive from them: `inbox/edit` (Editor's eye) and `vault/secret` (Secret keeper); see `derive()` in `src/lib/game.ts`.
+Step `id`s are stored as `"<mission>/<step>"` in localStorage under `magic-onboarding-v4`. Renaming a step id resets it for everyone. Badges derive from state, never stored: `inbox/edit` (Editor's eye), `vault/secret` (Secret keeper), the `live-*` keys of each mastery room (`Room.live` in `world.ts`), `fb-0` (Voice heard), and three consecutive weeks with any completed step (Three-week streak). See `derive()` in `src/lib/game.ts`.
+
+A mastery room is a mission whose `Room` entry has `mastery: true`, a `live` key and usually a `badge`. Its "take it live" step must use that same `k`.
 
 ## Rules that are easy to break
 
