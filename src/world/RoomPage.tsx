@@ -12,7 +12,7 @@ export function RoomPage({ id }: { id: string }) {
         <div className="wrap-mid px-5 md:px-10">
           <h1 className="h-section mb-4">That room isn't open yet.</h1>
           <p className="lede">
-            <a href="#/">Back to the office</a>.
+            <a href="#/">Back to your desk</a>.
           </p>
         </div>
       </section>

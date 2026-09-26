@@ -24,4 +24,7 @@ export const PLATE = {
   notes: { x: 42, y: 682, w: 350 },
   notebook: { x: 1108, y: 569, w: 225, h: 147 },
   mug: { x: 1435, y: 605 },
+  /* the window is the way out to the office floor; the books are the Shelf */
+  window: { x: 1078, y: 58, w: 440, h: 395 },
+  books: { x: 236, y: 236, w: 140, h: 150 },
 }

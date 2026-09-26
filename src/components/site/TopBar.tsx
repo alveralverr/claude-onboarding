@@ -15,20 +15,22 @@ import {
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { LIBRARY, PATH_STEPS } from "@/lib/data"
-import { continueTarget, useStatus } from "@/lib/progress"
-import { useDerived } from "@/lib/game"
+import { useStatus } from "@/lib/progress"
+import { continueTarget, useDerived, useGame } from "@/lib/game"
 
+/* One home, one reference, one noticeboard. The office map and the drills
+   open from the desk, so they are not a destination up here. */
 const NAV = [
   { href: "#/", label: "Your desk" },
   { href: "#/whats-new", label: "What's new" },
-  { href: "#/office", label: "Training floor" },
   { href: "#/shelf", label: "The Shelf" },
   { href: "#/shelf/help", label: "Help" },
 ]
 
 function StepBadge({ id }: { id: (typeof PATH_STEPS)[number]["id"] }) {
   const st = useStatus()
-  const done = st[id]
+  const d = useDerived()
+  const done = id === "first" ? d.ready.shift : st[id]
   if (done) return <Badge variant="success">{id === "safety" ? "Passed" : "Done"}</Badge>
   if (id === "setup" && st.setupDone > 0) return <Badge variant="secondary">{st.setupDone} of {st.setupTotal}</Badge>
   return <Badge variant="outline">{PATH_STEPS.find((s) => s.id === id)?.time}</Badge>
@@ -47,10 +49,11 @@ function SheetLink({ href, children }: { href: string; children: React.ReactNode
 }
 
 export function TopBar() {
-  const st = useStatus()
+  const g = useGame()
   const d = useDerived()
-  const target = continueTarget(st)
+  const target = continueTarget(g, d)
   const [open, setOpen] = React.useState(false)
+  const readyPct = Math.round((d.ready.count / 3) * 100)
 
   return (
     <header className="sticky top-0 z-40 h-16 border-b bg-background/95">
@@ -73,7 +76,13 @@ export function TopBar() {
         </nav>
 
         <div className={cn("flex items-center gap-2", "ml-auto lg:ml-0")}>
-          <Button variant="outline" render={<a href={target.href} />} nativeButton={false} aria-label={`Your progress: ${st.pct} percent done, level ${d.level.n}`}>
+          <Button
+            variant="outline"
+            render={<a href={target.href} />}
+            nativeButton={false}
+            aria-label={d.ready.all ? `Client-ready, level ${d.level.n}. ${target.label}` : `${d.ready.count} of 3 to client-ready, level ${d.level.n}. Next: ${target.label}`}
+            title={target.label}
+          >
             <span className="relative size-5" aria-hidden="true">
               <svg viewBox="0 0 36 36" className="size-5 -rotate-90">
                 <circle cx="18" cy="18" r="15" className="fill-none stroke-secondary" strokeWidth="5" />
@@ -85,11 +94,12 @@ export function TopBar() {
                   strokeWidth="5"
                   strokeLinecap="round"
                   strokeDasharray="94.25"
-                  strokeDashoffset={94.25 * (1 - st.pct / 100)}
+                  strokeDashoffset={94.25 * (1 - readyPct / 100)}
                 />
               </svg>
             </span>
-            {st.pct}%<span className="hidden font-normal text-muted-foreground sm:inline"> · Lv {d.level.n}</span>
+            Lv {d.level.n}
+            <span className="hidden font-normal text-muted-foreground sm:inline">{d.ready.all ? " · Client-ready" : ` · ${d.ready.count} of 3 to client-ready`}</span>
           </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>
@@ -100,11 +110,11 @@ export function TopBar() {
             <SheetContent side="right" className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>All sections</SheetTitle>
-                <SheetDescription>Your desk is where the shifts happen. The training floor and the Shelf are always open.</SheetDescription>
+                <SheetDescription>Your desk is where the shifts happen. Everything else opens from it, and nothing is locked.</SheetDescription>
               </SheetHeader>
               <div className="flex flex-col gap-1 px-4 pb-6">
                 <SheetLink href="#/">Your desk</SheetLink>
-                <SheetLink href="#/office">Training floor</SheetLink>
+                <SheetLink href="#/office">The office: drills and setup</SheetLink>
                 <SheetLink href="#/launchpad">Plan your real Week 1</SheetLink>
                 <SheetLink href="#/whats-new">What's new in Claude</SheetLink>
                 <p className="mt-2 mb-1 text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">Get client-ready</p>

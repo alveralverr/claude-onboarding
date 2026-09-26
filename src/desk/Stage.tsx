@@ -149,6 +149,7 @@ export function Stage({
   onBoard,
   boardUnread,
   onSticky,
+  onOffice,
 }: {
   userName: string
   persona: Persona
@@ -165,6 +166,7 @@ export function Stage({
   onBoard: () => void
   boardUnread: number
   onSticky: (taskIndex: number) => void
+  onOffice: () => void
 }) {
   const wrap = React.useRef<HTMLDivElement>(null)
   const layer = React.useRef<HTMLDivElement>(null)
@@ -207,7 +209,7 @@ export function Stage({
       }}
       className="desk-scene relative w-full overflow-hidden rounded-[24px]"
       role="group"
-      aria-label="Your interactive desk. Open the laptop, phone, noticeboard or playbook, or choose a task note."
+      aria-label="Your interactive desk. Open the laptop, phone, noticeboard or notebook, choose a task note, or look out to the office."
       style={{ aspectRatio: `${PLATE.w} / ${PLATE.h}` }}
     >
       <div ref={layer} className="desk-scene-layer absolute inset-0">
@@ -375,12 +377,43 @@ export function Stage({
               width: PLATE.notebook.w,
               height: PLATE.notebook.h,
             }}
-            aria-label="Open your playbook"
+            aria-label="Open your notebook: progress, habits, every task"
           >
             <span className="desk-object-label">
-              Your playbook <span>↗</span>
+              Your notebook <span>↗</span>
             </span>
           </button>
+          <button
+            type="button"
+            onClick={onOffice}
+            className="desk-hotspot absolute rounded-xl"
+            style={{
+              left: PLATE.window.x,
+              top: PLATE.window.y,
+              width: PLATE.window.w,
+              height: PLATE.window.h,
+            }}
+            aria-label="The office: drills, setup and the safety check"
+          >
+            <span className="desk-object-label desk-object-label-top">
+              The office <span>↗</span>
+            </span>
+          </button>
+          <a
+            href="#/shelf"
+            className="desk-hotspot absolute rounded-md"
+            style={{
+              left: PLATE.books.x,
+              top: PLATE.books.y,
+              width: PLATE.books.w,
+              height: PLATE.books.h,
+            }}
+            aria-label="The Shelf: reference for every day"
+          >
+            <span className="desk-object-label">
+              The Shelf <span>↗</span>
+            </span>
+          </a>
         </div>
       </div>
     </div>

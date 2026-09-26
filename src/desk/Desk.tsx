@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "cn"
-import { BellIcon, BookOpenIcon, CheckIcon, LaptopIcon, SmartphoneIcon } from "lucide-react"
+import { BookOpenIcon, CheckIcon, DoorOpenIcon, LaptopIcon, SmartphoneIcon, XIcon } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 
 import { Button } from "@/components/ui/button"
@@ -9,10 +9,11 @@ import { AVATARS } from "@/content/world"
 import { LATEST_UPDATE_DATE, UPDATES, unseenUpdates } from "@/content/updates"
 import { markUpdatesSeen, useDerived, useGame, trustOf } from "@/lib/game"
 import { surfaceOf, taskKey, type PathDef, type Shift } from "@/story/types"
-import { useRunner } from "@/story/useRunner"
+import { useRunner, type MsgAction } from "@/story/useRunner"
 import { LaunchpadForm } from "@/story/steps/LaunchpadForm"
 import { LiveView } from "@/story/steps/LiveView"
 import { SortBoard } from "@/story/steps/SortBoard"
+import { OfficeMap } from "@/world/Map"
 import { ClientAvatar } from "./ClientAvatar"
 import { Coach } from "./Coach"
 import { Laptop } from "./Laptop"
@@ -34,10 +35,12 @@ function withBonus(path: PathDef): { runPath: PathDef; bonus: Shift | null } {
   return { runPath: { ...path, shifts: [...path.shifts!, bonus] }, bonus }
 }
 
-/* The home screen from v5 on: your desk, first person. The client texts
-   your phone, tasks sit on sticky notes, and the laptop opens the practice
-   Claude where most of the work happens. */
-export function Desk({ drill }: { drill?: string }) {
+/* The only home from v5 on: your desk, first person. The client texts your
+   phone, tasks sit on sticky notes, the laptop opens the practice Claude
+   where most of the work happens, and the window looks out on the office
+   floor, where setup, the safety check and the drills are. Every room out
+   there comes back here. */
+export function Desk({ drill, office }: { drill?: string; office?: boolean }) {
   const g = useGame()
   const d = useDerived()
   const reduce = useReducedMotion()
@@ -47,15 +50,18 @@ export function Desk({ drill }: { drill?: string }) {
   const shifts = runPath.shifts!
   const coreCount = path.shifts!.length
   const api = useRunner(runPath)
-  const unread = unseenUpdates(g.seenUpdates).length
   const userName = g.name || AVATARS.find((a) => a.id === g.avatar)?.name || "there"
+  // The noticeboard stays quiet until the first shift is done: one thing at a time.
+  const unread = d.ready.shift ? unseenUpdates(g.seenUpdates).length : 0
 
   const [laptopOpen, setLaptopOpen] = React.useState(false)
   const [phoneOpen, setPhoneOpen] = React.useState(false)
   const [playbook, setPlaybook] = React.useState(false)
   const [board, setBoard] = React.useState(false)
+  const [officeOpen, setOfficeOpen] = React.useState(false)
   const [pending, setPending] = React.useState<{ si: number; ti: number } | null>(null)
   const [viewShift, setViewShift] = React.useState<number | null>(null)
+  const showOffice = !!office || officeOpen
 
   const isDone = (si: number, ti: number) => !!g.story.tasks[taskKey(path.id, shifts[si].id, shifts[si].tasks[ti].id)]
   let next: { si: number; ti: number } | null = null
@@ -84,6 +90,7 @@ export function Desk({ drill }: { drill?: string }) {
     setPhoneOpen(true)
     setLaptopOpen(false)
     setViewShift(null)
+    setOfficeOpen(false)
     api.markRead()
     api.dismissFinished()
   }
@@ -104,22 +111,72 @@ export function Desk({ drill }: { drill?: string }) {
     if (api.active) api.quit()
     setLaptopOpen(false)
   }
+  const openOffice = () => {
+    setOfficeOpen(true)
+    setLaptopOpen(false)
+    setPlaybook(false)
+  }
+  const closeOffice = () => {
+    setOfficeOpen(false)
+    // #/office rendered this; go back to the plain desk so the URL matches.
+    if (office) location.hash = "#/"
+  }
 
   const deskStep = api.step && surface === "desk" ? api.step : null
   const finishedTask = api.finished ? shifts[api.finished.si].tasks[api.finished.ti] : null
   const finishedBonus = !!api.finished && shifts[api.finished.si].id === BONUS_ID
 
-  // #/drill/<update id> opens that update's drill straight from the noticeboard or What's new.
+  // The latest `open` for effects that fire from a route or on first arrival.
   const openRef = React.useRef<((si: number, ti: number) => void) | null>(null)
   React.useEffect(() => {
     openRef.current = open
   })
+  // #/drill/<update id> opens that update's drill straight from the noticeboard or What's new.
   React.useEffect(() => {
     if (!drill || !bonus) return
     const ti = bonus.tasks.findIndex((t) => t.id === drill)
     if (ti >= 0) openRef.current?.(coreCount, ti)
     history.replaceState(null, "", "#/")
   }, [drill, bonus, coreCount])
+  // First arrival with a task waiting: the phone is already in your hand, one tap to start.
+  const arrived = React.useRef(false)
+  React.useEffect(() => {
+    if (arrived.current || drill || office || !next) return
+    arrived.current = true
+    openRef.current?.(next.si, next.ti)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // After the first shift, Andi texts what still stands between you and client-ready.
+  const announced = React.useRef<string | null>(null)
+  const shiftKey = api.finished?.shiftDone ? `${api.finished.si}` : null
+  const readySetup = d.ready.setup
+  const readySafety = d.ready.safety
+  const readyAll = d.ready.all
+  React.useEffect(() => {
+    if (shiftKey !== "0" || announced.current === shiftKey) return
+    announced.current = shiftKey
+    const first = g.name ? `, ${g.name}` : ""
+    const actions: MsgAction[] = []
+    let text: string
+    if (readyAll) {
+      text = `Nice first day${first}. You're client-ready: your certificate is in the notebook on your desk. Tuesday's tasks are on your sticky notes when you're ready.`
+      actions.push({ label: "Get your certificate", href: "/certificate.html" })
+    } else {
+      const todo: string[] = []
+      if (!readySafety) {
+        todo.push("the safety check (six minutes, and it's what makes you client-ready)")
+        actions.push({ label: "Safety check, 6 min", href: "#/room/vault" })
+      }
+      if (!readySetup) {
+        todo.push("setting up your real Claude (twenty minutes, whenever you have them)")
+        actions.push({ label: "Set up your real Claude", href: "#/room/desk" })
+      }
+      text = `Nice first day${first}. ${todo.length === 2 ? "Two things" : "One thing"} before Tuesday, out the window on the office floor: ${todo.join(", and ")}. Both come straight back to your desk.`
+    }
+    api.say("al", text, undefined, actions)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shiftKey, readyAll, readySafety, readySetup])
 
   const openBoard = () => {
     setBoard(true)
@@ -151,16 +208,13 @@ export function Desk({ drill }: { drill?: string }) {
             </p>
           </div>
           <div className="ml-auto flex flex-wrap items-center gap-2">
-            <span className="hidden text-[13px] text-muted-foreground sm:inline">{d.hours} h saved</span>
+            <span className="hidden text-[13px] text-muted-foreground sm:inline" title="Estimated: time by hand minus time with Claude plus a review, over the tasks you have finished.">
+              {d.hours} h saved
+            </span>
             <Button variant="outline" size="lg" onClick={openPhone} aria-label={phoneUnread ? `Phone, ${phoneUnread} new` : "Phone"}>
               <SmartphoneIcon data-icon="inline-start" />
               Phone
               {phoneUnread > 0 && <span className="ml-1 rounded-full bg-[#E24B4A] px-1.5 text-[12px] font-bold text-white">{phoneUnread}</span>}
-            </Button>
-            <Button variant="outline" size="lg" onClick={openBoard} aria-label={unread ? `What's new, ${unread} unread` : "What's new"}>
-              <BellIcon data-icon="inline-start" />
-              What's new
-              {unread > 0 && <span className="ml-1 rounded-full bg-violet px-1.5 text-[12px] font-bold text-white">{unread}</span>}
             </Button>
             <Button variant="outline" size="lg" onClick={() => setLaptopOpen(true)} disabled={onLaptop || !!api.step}>
               <LaptopIcon data-icon="inline-start" />
@@ -168,7 +222,7 @@ export function Desk({ drill }: { drill?: string }) {
             </Button>
             <Button variant="outline" size="lg" onClick={() => setPlaybook(true)}>
               <BookOpenIcon data-icon="inline-start" />
-              Playbook
+              Notebook
             </Button>
           </div>
         </div>
@@ -188,7 +242,7 @@ export function Desk({ drill }: { drill?: string }) {
           </div>
         )}
 
-        {!api.active && !finishedTask && !phoneVisible && (
+        {!api.active && !finishedTask && !phoneVisible && !showOffice && (
           <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-card/70 px-4 py-3">
             {pendingTask ? (
               <>
@@ -202,12 +256,12 @@ export function Desk({ drill }: { drill?: string }) {
                 <p className="min-w-0 flex-1 text-[15px]">
                   <span className="font-semibold">Next up: {nextTask.title}.</span> <span className="text-muted-foreground">{persona.first} texted you.</span>
                 </p>
-                <Button onClick={() => open(next.si, next.ti)}>Read the message</Button>
+                <Button onClick={() => open(next.si, next.ti)}>Pick up the phone</Button>
               </>
             ) : (
               <>
                 <p className="min-w-0 flex-1 text-[15px]">
-                  <span className="font-semibold">Week one with {persona.first} is done.</span> <span className="text-muted-foreground">Replay any task from your playbook, or plan your real week.</span>
+                  <span className="font-semibold">Week one with {persona.first} is done.</span> <span className="text-muted-foreground">Replay any task from your notebook, or plan your real week.</span>
                 </p>
                 <Button render={<a href="#/launchpad" />} nativeButton={false}>
                   Plan your real Week 1
@@ -219,8 +273,31 @@ export function Desk({ drill }: { drill?: string }) {
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
+            {/* Andi sits above the work, never below the fold. */}
+            <Coach api={api} />
+
             {onLaptop ? (
               <Laptop api={api} userName={userName} onLeanBack={leanBack} />
+            ) : showOffice ? (
+              <motion.div
+                key="office"
+                initial={reduce ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-[28px] border-2 border-white bg-card p-5 shadow-lift md:p-7"
+              >
+                <div className="mb-4 flex items-start gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="kicker mb-1">Out the window</p>
+                    <h2 className="text-[24px] leading-tight font-semibold">The office</h2>
+                    <p className="mt-1 text-[15px] text-muted-foreground">Setup, the safety check and one-skill drills. Every room comes straight back to your desk.</p>
+                  </div>
+                  <Button variant="outline" onClick={closeOffice}>
+                    <XIcon data-icon="inline-start" /> Back to your desk
+                  </Button>
+                </div>
+                <OfficeMap onLeave={closeOffice} />
+              </motion.div>
             ) : (
               <motion.div
                 key="desk"
@@ -245,6 +322,7 @@ export function Desk({ drill }: { drill?: string }) {
                   onPhone={openPhone}
                   onNotebook={() => setPlaybook(true)}
                   onSticky={(ti) => open(shiftIdx, ti)}
+                  onOffice={openOffice}
                 />
                 {deskStep && api.task && (
                   <Overlay kicker={api.task.title} title={deskStep.title} onClose={api.quit}>
@@ -279,22 +357,21 @@ export function Desk({ drill }: { drill?: string }) {
                   </Overlay>
                 )}
                 {playbook && (
-                  <Overlay kicker="Your notebook" title="Your playbook" onClose={() => setPlaybook(false)}>
+                  <Overlay kicker="Your notebook" title="Where you stand" onClose={() => setPlaybook(false)}>
                     <Playbook
                       path={path}
                       onPlay={(si, ti) => {
                         setPlaybook(false)
                         open(si, ti)
                       }}
+                      onOffice={openOffice}
                     />
                   </Overlay>
                 )}
               </motion.div>
             )}
 
-            <Coach api={api} />
-
-            {!onLaptop && (
+            {!onLaptop && !showOffice && (
               <ul className="flex flex-col gap-2 md:hidden" aria-label={`${shift.day}'s tasks`}>
                 {shift.tasks.map((t, ti) => {
                   const done = doneIds.includes(t.id)
@@ -317,7 +394,7 @@ export function Desk({ drill }: { drill?: string }) {
             )}
 
             <div className="flex flex-wrap items-center gap-2 text-[13px] text-muted-foreground">
-              <span>Shifts:</span>
+              <span title="Three shifts, one working day each. Pick one to see its tasks.">Shifts:</span>
               {shifts.slice(0, coreCount).map((s, si) => (
                 <button
                   key={s.id}
@@ -329,9 +406,14 @@ export function Desk({ drill }: { drill?: string }) {
                   {s.day}
                 </button>
               ))}
-              <a href="#/office" className="ml-auto text-violet">
-                Training floor and the Shelf
-              </a>
+              <span className="ml-auto flex items-center gap-3">
+                <button type="button" onClick={showOffice ? closeOffice : openOffice} className="flex items-center gap-1 text-violet hover:underline">
+                  <DoorOpenIcon className="size-4" /> {showOffice ? "Back to your desk" : "The office"}
+                </button>
+                <a href="#/shelf" className="text-violet">
+                  The Shelf
+                </a>
+              </span>
             </div>
           </div>
 

@@ -10,7 +10,7 @@ export const QUEST_EPOCH = "2026-09-28" // a Monday
 export const QUESTS: Quest[] = [
   { id: "slides", title: "Build one real deck with Claude Slides", body: "Take a report or notes you already have and ask for a six-slide deck. Fix one slide by hand before you share it.", room: "#/room/studio" },
   { id: "instructions", title: "Add Instructions for Claude to one client project", body: "Three lines: who the client is, how they sound, and what you never send without review.", room: "#/room/writing" },
-  { id: "eod", title: "Run your EOD with the skill for five days", body: "Type /eod-sod at the end of each shift. Edit it before it goes anywhere.", room: "#/room/clock" },
+  { id: "eod", title: "Run your EOD with the skill for five days", body: "Type /eod-sod at the end of each shift. Edit it before it goes anywhere.", room: "#/shelf/scheduled" },
   { id: "redirect", title: "Redirect a plan on purpose", body: "Next time Claude shows a plan, change one step before you approve. Notice what it does differently." },
   { id: "connector", title: "Ask Claude which accounts it can see", body: "Open a session and ask: which email and calendar are connected right now? Fix anything that surprises you.", room: "#/room/switchboard" },
   { id: "skill", title: "Turn a repeat task into a skill", body: "Something you have asked for three times this month. Run /skill-creator and give it a name.", room: "#/room/workshop" },
@@ -38,4 +38,4 @@ export function currentQuest(d = new Date()): { quest: Quest; week: string } {
   return { quest: QUESTS[weeks % QUESTS.length], week }
 }
 
-const ROOM_IDS = ["desk", "inbox", "vault", "studio", "switchboard", "clock", "writing", "workshop", "engine"]
+const ROOM_IDS = ["desk", "vault", "studio", "switchboard", "writing", "workshop", "engine"]

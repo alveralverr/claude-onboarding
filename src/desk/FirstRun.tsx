@@ -9,16 +9,19 @@ import { LIVE_PATH, PATHS, pathById } from "@/content/paths"
 import { AVATARS } from "@/content/world"
 import { setAvatar, startStory, useGame } from "@/lib/game"
 import { useStatus } from "@/lib/progress"
+import { HABITS } from "@/story/types"
 import { ClientAvatar } from "./ClientAvatar"
 import { pathIcon } from "./pathIcons"
 
-/* Two minutes from landing to the desk: who you are, what you were hired
-   for, and who your practice client is. */
+/* Two minutes from landing to the desk: what this is, who you are, what you
+   were hired for, and who your practice client is. Every step has a default,
+   so nothing here blocks the first shift. */
 export function FirstRun() {
   const g = useGame()
   const st = useStatus()
   const [stage, setStage] = React.useState<0 | 1 | 2>(g.avatar ? 1 : 0)
   const [name, setName] = React.useState(g.name ?? "")
+  const [avatar, setAvatarLocal] = React.useState(g.avatar ?? AVATARS[0].id)
   const [role, setRole] = React.useState<string>(g.story.role ?? "")
   const chosen = pathById(role)
   const play = chosen?.live ? chosen : LIVE_PATH
@@ -52,16 +55,29 @@ export function FirstRun() {
             <h1 className="h-display" id="first-title">
               Your first <span className="grad">shift</span> starts now.
             </h1>
-            <p className="lede">You'll sit at a desk, a practice client will text you, and you'll do their work with a practice Claude. Nothing you do here can go wrong.</p>
+            <p className="lede">This is how Magic assistants learn to work with Claude for a client. You sit at a desk, a practice client texts you, and you do her work with a practice Claude. Nothing you do here can go wrong.</p>
+            <ul className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["Three shifts", "About twelve minutes each: Monday, Tuesday, Wednesday. Leave and come back any time."],
+                ["Five habits", "Spot, Brief, Steer, Check, Show. Every task trains one, and you see your scores after each shift."],
+                ["Then the real thing", "Set up your real Claude, pass the safety check, and leave with a plan for your real Week 1."],
+              ].map(([t, b]) => (
+                <li key={t} className="rounded-2xl border-2 border-white bg-card/80 p-4">
+                  <p className="text-[15px] font-semibold">{t}</p>
+                  <p className="text-[14px] text-muted-foreground">{b}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[14px] font-semibold">Pick a face for your badge. You can change it later.</p>
             <div className="grid grid-cols-3 gap-3 sm:grid-cols-6" role="radiogroup" aria-label="Pick your avatar">
               {AVATARS.map((a) => (
                 <button
                   key={a.id}
                   type="button"
                   role="radio"
-                  aria-checked={g.avatar === a.id}
-                  onClick={() => setAvatar(a.id, name)}
-                  className={cn("flex flex-col items-center gap-1.5 rounded-2xl border-2 bg-card p-2 text-[14px] hover:border-violet/40", g.avatar === a.id ? "border-violet" : "border-transparent")}
+                  aria-checked={avatar === a.id}
+                  onClick={() => setAvatarLocal(a.id)}
+                  className={cn("flex flex-col items-center gap-1.5 rounded-2xl border-2 bg-card p-2 text-[14px] hover:border-violet/40", avatar === a.id ? "border-violet" : "border-transparent")}
                 >
                   <img src={a.src} alt="" width={256} height={256} className="size-20 rounded-full bg-[#E6E6F8] object-cover" />
                   {a.name}
@@ -75,9 +91,8 @@ export function FirstRun() {
             <Button
               size="xl"
               className="w-fit"
-              disabled={!g.avatar}
               onClick={() => {
-                if (g.avatar) setAvatar(g.avatar, name)
+                setAvatar(avatar, name)
                 setStage(1)
               }}
             >
@@ -156,7 +171,9 @@ export function FirstRun() {
                 <p className="text-[14px] text-muted-foreground">How she writes: {persona.voice}</p>
               </div>
             </div>
-            <p className="text-[15px] text-muted-foreground">Three short shifts, about 12 minutes each. Already use Claude with a client? Ace the first task and you can skip ahead.</p>
+            <p className="text-[15px] text-muted-foreground">
+              Each task trains one of five habits: {HABITS.map((h) => h.name).join(", ")}. Already use Claude with a client? Ace the first task and you can skip ahead.
+            </p>
             <div className="flex flex-wrap gap-2">
               <Button size="xl" variant="outline" onClick={() => setStage(1)}>
                 <ArrowLeftIcon data-icon="inline-start" /> Back

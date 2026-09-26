@@ -16,9 +16,9 @@ export const SETUP_KEYS: string[] = SETUP_PANELS.flatMap((p) => [...p.keys])
 export const FIRST_TASK_KEY = "s5-0"
 
 export const PATH_STEPS = [
-  { id: "setup", href: "#/room/desk", name: "Your Desk: set up Cowork", time: "~20 min" },
-  { id: "first", href: "#/room/inbox", name: "The Inbox: first real task", time: "~10 min" },
-  { id: "safety", href: "#/room/vault", name: "The Vault: safety check", time: "~5 min" },
+  { id: "setup", href: "#/room/desk", name: "Set up your real Claude", time: "~20 min" },
+  { id: "first", href: "#/", name: "Your first shift at the desk", time: "~12 min" },
+  { id: "safety", href: "#/room/vault", name: "The Vault: safety check", time: "~6 min" },
 ] as const
 
 export const LIBRARY = [

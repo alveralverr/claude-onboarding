@@ -83,7 +83,7 @@ export function Footer() {
   return (
     <footer className="border-t py-8 pb-12 text-[15px] text-muted-foreground">
       <div className="wrap flex flex-wrap justify-between gap-x-6 gap-y-2 px-5 md:px-10">
-        <p>Claude Cowork onboarding for Magic assistants · v4, September 2026</p>
+        <p>The Magic Office: Claude onboarding for Magic assistants · v5, September 2026</p>
         <p>
           Questions? <a href={`mailto:${PRODUCT_EMAIL}`}>{PRODUCT_EMAIL}</a> · <a href="/claude-design.html">Claude Design guide</a> ·{" "}
           <Button

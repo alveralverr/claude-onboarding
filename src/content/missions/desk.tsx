@@ -7,20 +7,20 @@ import { MERGED_UI } from "@/lib/flags"
    SETUP_PANELS). Keep them stable; rename the labels freely. */
 export const DESK: Mission = {
   id: "desk",
-  title: "Set up your desk",
-  tagline: "From the invite in your webmail to a working Cowork session.",
+  title: "Set up your real Claude",
+  tagline: "From the invite in your webmail to a working session in the Claude you will use with your real client.",
   minutes: 20,
   steps: [
     {
       kind: "explain",
       id: "welcome",
-      title: "Your seat is ready.",
+      title: "Your real seat is ready.",
       body: (
         <>
           <p>
             Magic gives you a <strong>Claude Team seat</strong>, worth about ₱1,500 a month. Claude Cowork runs on your own machine with your real files and tools, so it does the work, not just the talking.
           </p>
-          <p>This room walks you from the invite email to your first working session. Tick each item as you go; your progress saves in this browser.</p>
+          <p>This walks you from the invite email to a working session in your real Claude, the one you will use with your real client. Tick each item as you go; your progress saves in this browser. Twenty minutes, and you can leave and come back.</p>
         </>
       ),
       voice: "/assets/voice/00 - intro.mp3",
@@ -153,8 +153,8 @@ export const DESK: Mission = {
       id: "done",
       title: "Desk ready.",
       badge: "desk-ready",
-      body: <p>Everything Claude needs is in place. Next door, you run a real task for a practice client before you touch your own inbox.</p>,
-      next: { href: "#/room/inbox", label: "Go to The Inbox" },
+      body: <p>Everything your real Claude needs is in place. Back at your desk, every shift ends with one task you can take live in it.</p>,
+      next: { href: "#/", label: "Back to your desk" },
     },
   ],
 }

@@ -3,7 +3,7 @@
 Since v5 there are two kinds of content:
 
 - **Paths** (the desk): a role, a fictional client and shifts of tasks, played in the practice Claude. This is the main experience. See "Paths" below.
-- **Missions** (the training floor, the v4 rooms): drills for one skill each, plus setup and the safety check. Everything after "Where things live" is about missions.
+- **Missions** (the office, reached from the desk): setup for the real Claude, the safety check, and one-skill drills. Every mission exits back to the desk; none is a destination of its own. Everything after "Where things live" is about missions. The v4 Inbox and Clock Tower rooms are retired (Shift 1 and Shift 3 cover them); their old links land on the desk and the Shelf's scheduled section.
 
 ## Paths
 
@@ -43,7 +43,7 @@ Done first try (and without the third hint) earns a full habit point, otherwise 
 
 `src/desk/plateConfig.ts` holds the plate size and the four-corner quads of the laptop and phone screens. With `src: null` a drawn placeholder is used. When `desk-pov.png` arrives (brief in `assets-src/v5/README.md`), measure the green screens, set the quads and `src`, and the real screens map onto them via `matrix3d` (`src/desk/homography.ts`).
 
-The office is data. You add or change a room by editing files under `src/content`; the engine in `src/engine` renders whatever is there. You should not need to touch a component to change copy, add a scenario or add a room.
+The office is data. You add or change a room by editing files under `src/content`; the engine in `src/engine` renders whatever is there. You should not need to touch a component to change copy or add a room.
 
 ## Updates (the living knowledge base)
 
@@ -59,7 +59,6 @@ Facts about the current Claude (default model, fallback, effort, what Team seats
 |---|---|
 | Rooms on the map, badges, levels, avatars | `src/content/world.ts` |
 | One mission per room | `src/content/missions/<room>.tsx`, registered in `src/content/missions/index.ts` |
-| Simulator scripts (what "Claude" says and does) | `src/content/scenarios/<name>.ts` |
 | Quiz questions and answer keys | `QUIZ` in `src/lib/data.ts` |
 | Connectors, models, help routes, courses | `src/lib/data.ts` |
 | The Shelf (reference sections) | `src/components/site/Library*.tsx`, `HelpFeedback.tsx` |
@@ -76,7 +75,6 @@ A mission is `{ id, title, tagline, minutes, steps }`. Each step has a `kind`:
 - `quiz`: `questions` (usually `QUIZ` from data.ts), optional `onPass`. One scenario at a time; done when all are right.
 - `spot`: `segments` of `{ text, flag?, fix? }`. Flagged segments are the targets. Done when all are found. `frame` is `prompt`, `draft` or `plan`.
 - `compose`: `groups` of chips. A group is covered by a chip with `good: true`; a bad chip needs a `why`. Done when every group is covered and no bad chip is selected.
-- `sim`: `scenario` names a file in `scenarios/`. Done when the run reaches its output.
 - `live`: a real-work attestation bound to a v1 key `k`, with optional copyable `prompts`.
 - `reveal`: the reward beat, optional `badge` (from `world.ts`) and `next` link.
 
@@ -98,13 +96,8 @@ A mastery room is a mission whose `Room` entry has `mastery: true`, a `live` key
 
 1. Add a `Room` to `ROOMS` in `world.ts` with a `spot` (where its label sits on the lobby scene, in % of the image, at the top of the furniture) and an `image` banner. New furniture means a new lobby render: regenerate it from the brief in `assets-src/v4/README.md`, then re-measure every `spot`.
 2. Create `src/content/missions/<room>.tsx` and register it in `missions/index.ts`.
-3. If it needs a simulator run, add `src/content/scenarios/<name>.ts` and register it in `SCENARIOS` in `src/engine/steps/Sim.tsx`.
-4. If it awards a badge, add it to `BADGES` and to `derive()`.
-5. `npm run lint && npm run build`, then open `#/room/<id>`.
-
-## Adding a scenario
-
-A scenario is what the simulator "Claude" says and does. It needs a `prompt`, a `plan` with exactly one `bad` step (the one the assistant must catch, with redirect `options` where one is `good`), `tools` to tick through, and an `output`. Keep the client fictional and the drafts realistic; the flagged sentences in the matching `spot` step should be copied from the output verbatim.
+3. If it awards a badge, add it to `BADGES` and to `derive()`. If Andi should suggest it after a weak shift, map a habit to it in `src/story/drills.ts`.
+4. `npm run lint && npm run build`, then open `#/room/<id>`. Its "Back to your desk" exit is automatic.
 
 ## The merged Claude interface
 

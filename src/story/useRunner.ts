@@ -7,7 +7,9 @@ import * as React from "react"
 import { recordTask, useGame } from "@/lib/game"
 import { taskKey, type Consequence, type Habit, type PathDef, type Step, type Task } from "./types"
 
-export type Msg = { id: number; from: "client" | "you" | "al"; name: string; text: string }
+/* Andi's messages can carry a button or two (the safety check, setup). */
+export type MsgAction = { label: string; href: string }
+export type Msg = { id: number; from: "client" | "you" | "al"; name: string; text: string; actions?: MsgAction[] }
 
 type Score = {
   pts: Partial<Record<Habit, number>>
@@ -41,7 +43,7 @@ export type RunnerApi = {
   consequence: (c: Consequence, rewind: boolean) => void
   rewind: () => void
   hint: () => void
-  say: (from: Msg["from"], text: string, name?: string) => void
+  say: (from: Msg["from"], text: string, name?: string, actions?: MsgAction[]) => void
   setLastPrompt: (s: string) => void
   setPlacement: (n: number) => void
   markRead: () => void
@@ -70,11 +72,11 @@ export function useRunner(path: PathDef): RunnerApi {
   const step = task ? (task.steps[stepIdx] ?? null) : null
 
   const say = React.useCallback(
-    (from: Msg["from"], text: string, name?: string) => {
+    (from: Msg["from"], text: string, name?: string, actions?: MsgAction[]) => {
       ids.current += 1
       const id = ids.current
       const who = name ?? (from === "client" ? persona.first : from === "al" ? "Andi, your Account Lead" : "You")
-      setThread((t) => [...t, { id, from, name: who, text }])
+      setThread((t) => [...t, { id, from, name: who, text, actions }])
       if (from !== "you") setUnread((u) => u + 1)
     },
     [persona.first]

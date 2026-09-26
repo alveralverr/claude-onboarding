@@ -132,7 +132,7 @@ export const VAULT: Mission = {
       kind: "quiz",
       id: "check",
       title: "Safety check.",
-      intro: <p>Eight quick scenarios, one at a time. Get them all right to finish your path. You can retry as often as you like.</p>,
+      intro: <p>Eight quick scenarios, one at a time. Get them all right to become client-ready. You can retry as often as you like.</p>,
       questions: QUIZ,
       onPass: passSafety,
     },
@@ -143,10 +143,10 @@ export const VAULT: Mission = {
       badge: "client-ready",
       body: (
         <p>
-          If your desk is set up and your first task is done, your certificate is waiting in the lobby. Keep the Shelf handy: it answers most day-to-day questions.
+          With your real Claude set up and a first shift done, your certificate is in the notebook on your desk. Keep the Shelf handy: it answers most day-to-day questions.
         </p>
       ),
-      next: { href: "#/", label: "Back to the office" },
+      next: { href: "#/", label: "Back to your desk" },
     },
   ],
 }

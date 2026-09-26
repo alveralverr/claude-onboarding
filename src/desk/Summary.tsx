@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button"
 import { burst } from "@/engine/burst"
 import { BadgeArt } from "@/engine/BadgeArt"
 import { useDerived, useGame, trustOf, markSeen } from "@/lib/game"
-import { useStatus } from "@/lib/progress"
-import { HABITS, type PathDef } from "@/story/types"
+import { suggestedDrill } from "@/story/drills"
+import { HABITS, type Habit, type PathDef } from "@/story/types"
 
 export function Hearts({ value, className }: { value: number; className?: string }) {
   return (
-    <span className={className} role="img" aria-label={`Client trust ${value} of 5`}>
+    <span className={className} role="img" aria-label={`Client trust ${value} of 5`} title={`Client trust: ${value} of 5. Starts at 3; clean tasks earn some, consequences cost some.`}>
       {[1, 2, 3, 4, 5].map((i) => (
         <HeartIcon key={i} className={`inline size-4 ${value >= i - 0.25 ? "fill-[#E24B4A] text-[#E24B4A]" : value >= i - 0.75 ? "fill-[#F7C1C1] text-[#E24B4A]" : "text-[#D3D1C7]"}`} />
       ))}
@@ -43,7 +43,6 @@ export function HabitBars({ compact }: { compact?: boolean }) {
 export function ShiftSummary({ path, si, onNext }: { path: PathDef; si: number; onNext: () => void }) {
   const g = useGame()
   const d = useDerived()
-  const st = useStatus()
   const ref = React.useRef<HTMLDivElement>(null)
   const last = si >= path.shifts!.length - 1
   const badge = si === 0 ? "first-shift" : last ? `path-${path.id}` : null
@@ -54,6 +53,9 @@ export function ShiftSummary({ path, si, onNext }: { path: PathDef; si: number; 
       markSeen(badge)
     }
   }, [earned, badge])
+  const maxes: Partial<Record<Habit, number>> = {}
+  for (const r of Object.values(g.story.tasks)) for (const h of Object.keys(r.max) as Habit[]) maxes[h] = (maxes[h] ?? 0) + (r.max[h] ?? 0)
+  const drill = suggestedDrill(d.habits, maxes)
 
   return (
     <div ref={ref} className="flex flex-col gap-5">
@@ -66,23 +68,38 @@ export function ShiftSummary({ path, si, onNext }: { path: PathDef; si: number; 
         </div>
       </div>
       <div className="rounded-2xl bg-background p-4">
-        <p className="mb-3 text-[14px] font-semibold">Your five habits</p>
+        <p className="mb-1 text-[14px] font-semibold">Your five habits</p>
+        <p className="mb-3 text-[13px] text-muted-foreground">Every task trains one. Full marks for a first try without the last hint.</p>
         <HabitBars />
       </div>
+      {drill && (
+        <p className="rounded-2xl bg-warning-soft px-4 py-3 text-[14px] text-warning">
+          <span className="font-semibold">Andi suggests:</span> {drill.habit.name} is at {drill.score}%, and {drill.why}.{" "}
+          <a href={drill.room.href} className="font-semibold underline">
+            {drill.room.name}, {drill.room.minutes} min
+          </a>
+          , whenever you like.
+        </p>
+      )}
       <div className="flex flex-wrap gap-2">
         {!last && <Button size="lg" onClick={onNext}>Start {path.shifts![si + 1].day}</Button>}
         {last && <Button size="lg" render={<a href="#/launchpad" />} nativeButton={false}>Plan your real Week 1</Button>}
-        {si === 0 && !st.safety && (
+        {!d.ready.safety && (
           <Button size="lg" variant="outline" render={<a href="#/room/vault" />} nativeButton={false}>
             Take the safety check (6 min)
           </Button>
         )}
-        {st.all && (
+        {si > 0 && !d.ready.setup && (
+          <Button size="lg" variant="outline" render={<a href="#/room/desk" />} nativeButton={false}>
+            Set up your real Claude (20 min)
+          </Button>
+        )}
+        {d.ready.all && (
           <Button size="lg" variant="outline" render={<a href="/certificate.html" target="_blank" rel="noopener" />} nativeButton={false}>
             Get your certificate
           </Button>
         )}
-        {last && <Button size="lg" variant="ghost" onClick={onNext}>Back to the desk</Button>}
+        {last && <Button size="lg" variant="ghost" onClick={onNext}>Back to your desk</Button>}
       </div>
     </div>
   )

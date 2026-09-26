@@ -431,6 +431,8 @@
   pointer-events: none;
 }
 .desk-hotspot:hover .desk-object-label, .desk-hotspot:focus-visible .desk-object-label { opacity: 1; transform: translate(-50%, 0); }
+/* labels for objects near the bottom edge sit above them instead */
+.desk-object-label-top { top: auto; bottom: 14px; }
 .desk-notification {
   position: absolute;
   top: -13px;

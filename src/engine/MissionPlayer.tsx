@@ -15,7 +15,6 @@ import { Explain } from "./steps/Explain"
 import { Live } from "./steps/Live"
 import { Quiz } from "./steps/Quiz"
 import { Reveal } from "./steps/Reveal"
-import { Sim } from "./steps/Sim"
 import { Spot } from "./steps/Spot"
 
 /* Plays a mission one step at a time. Step completion is written to the v4
@@ -53,7 +52,7 @@ export function MissionPlayer({ mission, room, onExit }: { mission: Mission; roo
     <div ref={topRef} className="scroll-mt-20">
       <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
         <a href={onExit} className="flex items-center gap-1 text-violet no-underline hover:underline">
-          <ArrowLeftIcon className="size-4" /> Back to the office
+          <ArrowLeftIcon className="size-4" /> Back to your desk
         </a>
         <span aria-hidden="true">·</span>
         <span>
@@ -119,7 +118,7 @@ export function MissionPlayer({ mission, room, onExit }: { mission: Mission; roo
         </p>
         {last ? (
           <Button size="lg" render={<a href={onExit} />} nativeButton={false}>
-            Back to the office
+            Back to your desk
           </Button>
         ) : (
           <Button size="lg" variant={stepDone || step.kind === "explain" ? "default" : "secondary"} onClick={next}>
@@ -143,8 +142,6 @@ function StepView({ step, onDone, passed }: { step: Step; onDone: () => void; pa
       return <Spot step={step} onDone={onDone} />
     case "compose":
       return <Compose step={step} onDone={onDone} />
-    case "sim":
-      return <Sim step={step} onDone={onDone} />
     case "live":
       return <Live step={step} onDone={onDone} />
     case "reveal":

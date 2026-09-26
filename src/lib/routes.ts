@@ -19,7 +19,7 @@ const LEGACY: Record<string, string> = {
   intro: "/shelf/cowork",
   setup: "/room/desk",
   need: "/room/desk",
-  "first-task": "/room/inbox",
+  "first-task": "/",
   safety: "/room/vault",
   ready: "/",
   library: "/shelf",
@@ -46,6 +46,9 @@ export function parseHash(hash: string): Route {
     else h = "/"
   }
   const parts = h.split("/").filter(Boolean)
+  // Rooms retired in v5: their lessons live in the shifts and on the Shelf.
+  if (parts[0] === "room" && parts[1] === "inbox") return { kind: "lobby" }
+  if (parts[0] === "room" && parts[1] === "clock") return { kind: "shelf", section: "scheduled" }
   if (parts[0] === "room" && parts[1]) return { kind: "room", id: parts[1] }
   if (parts[0] === "shelf") return { kind: "shelf", section: parts[1] }
   if (parts[0] === "office") return { kind: "office" }

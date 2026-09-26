@@ -93,13 +93,6 @@ export function useStatus() {
   return getStatus(useProgress())
 }
 
-export function continueTarget(st: Status): { href: string; label: string } {
-  if (!st.setup) return { href: "#/room/desk", label: st.setupDone ? "Continue setting up" : "Set up your real Claude" }
-  if (!st.first) return { href: "#/", label: "Start your first shift" }
-  if (!st.safety) return { href: "#/room/vault", label: "Take the safety check" }
-  return { href: "/certificate.html", label: "Get your certificate" }
-}
-
 export function isPanelComplete(s: ProgressState, keys: readonly string[]) {
   return keys.length > 0 && keys.every((k) => s.checkboxes[k])
 }

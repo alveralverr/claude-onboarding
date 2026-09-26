@@ -65,13 +65,6 @@ export type ComposeStep = Base & {
   done: ReactNode
 }
 
-/* Scripted Claude run with an approve-or-redirect moment. */
-export type SimStep = Base & {
-  kind: "sim"
-  intro: ReactNode
-  scenario: string
-}
-
 /* Take it live: a real-work attestation bound to a v1 key. */
 export type LiveStep = Base & {
   kind: "live"
@@ -89,7 +82,7 @@ export type RevealStep = Base & {
   next?: { href: string; label: string }
 }
 
-export type Step = ExplainStep | ChecklistStep | QuizStep | SpotStep | ComposeStep | SimStep | LiveStep | RevealStep
+export type Step = ExplainStep | ChecklistStep | QuizStep | SpotStep | ComposeStep | LiveStep | RevealStep
 
 export type Mission = {
   id: string

@@ -40,7 +40,7 @@ function FreeHome({ userName, company }: { userName: string; company: string }) 
               <React.Fragment key={i}>
                 <UserBubble>{t}</UserBubble>
                 <ClaudeMsg>
-                  <p>This is practice mode, so I can't do real work here. Pick up a task from the sticky notes on your desk, or your phone, and we'll do it together.</p>
+                  <p>This is the practice Claude, so nothing here reaches a real inbox or file. Pick up a task from the sticky notes on your desk, or your phone, and we'll do it together. When you want the real thing, every shift ends with one task to take live in your real Claude.</p>
                 </ClaudeMsg>
               </React.Fragment>
             ))}
@@ -115,7 +115,11 @@ export function Laptop({ api, userName, onLeanBack }: { api: RunnerApi; userName
             </span>
           </p>
         )}
-        {habit && <span className="ml-auto rounded-full bg-secondary px-3 py-1 text-[13px] font-semibold text-secondary-foreground">Habit: {habit.name}</span>}
+        {habit && (
+          <span className="ml-auto rounded-full bg-secondary px-3 py-1 text-[13px] font-semibold text-secondary-foreground" title={`${habit.name}: ${habit.line}. One of the five habits scored at the end of each shift.`}>
+            Habit: {habit.name}
+          </span>
+        )}
       </div>
       {api.conseq && (
         <div ref={alertRef} role="alert" className="flex scroll-mt-24 flex-wrap items-center gap-3 rounded-2xl border-2 border-[#F7C1C1] bg-[#FFF4F2] px-4 py-3">
@@ -127,7 +131,8 @@ export function Laptop({ api, userName, onLeanBack }: { api: RunnerApi; userName
           </Button>
         </div>
       )}
-      <div className="h-[min(760px,calc(100dvh-210px))] min-h-[540px] overflow-hidden rounded-[22px] border-[10px] border-ink-dark bg-ink-dark shadow-lift">
+      {/* Fits the viewport with the top bar, the desk header and the coach above it, so hints stay on screen. */}
+      <div className="h-[min(760px,calc(100dvh-345px))] min-h-[440px] overflow-hidden rounded-[22px] border-[10px] border-ink-dark bg-ink-dark shadow-lift">
         <div className="size-full overflow-hidden rounded-[12px]">{view}</div>
       </div>
       <div className="mx-auto h-3 w-[70%] rounded-b-[18px] bg-[#C9C5E0]" aria-hidden="true" />

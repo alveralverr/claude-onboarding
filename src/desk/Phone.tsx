@@ -62,6 +62,15 @@ export function PhonePanel({
             >
               {m.text}
             </p>
+            {m.actions && (
+              <div className="mt-1.5 flex max-w-[85%] flex-wrap gap-1.5">
+                {m.actions.map((a) => (
+                  <Button key={a.href} size="sm" variant="outline" render={<a href={a.href} />} nativeButton={false}>
+                    {a.label}
+                  </Button>
+                ))}
+              </div>
+            )}
           </div>
         ))}
         {pending && (

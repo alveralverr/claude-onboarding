@@ -2,14 +2,16 @@ import * as React from "react"
 import { XIcon } from "lucide-react"
 
 /* A card over the desk for things you do at the desk (sorting, planning,
-   summaries). Normal flow on phones; over the stage on wider screens. */
+   summaries, the notebook). Normal flow on phones; a full-height modal on
+   wider screens, so a tall card scrolls the viewport and its buttons are
+   never cut off by the stage's frame. */
 export function Overlay({ title, kicker, onClose, children }: { title: string; kicker?: string; onClose?: () => void; children: React.ReactNode }) {
   const ref = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     ref.current?.focus()
   }, [])
   return (
-    <div className="md:absolute md:inset-0 md:z-10 md:flex md:items-start md:justify-center md:overflow-y-auto md:bg-ink-dark/25 md:p-6 md:backdrop-blur-[2px]">
+    <div className="md:fixed md:inset-0 md:z-50 md:flex md:items-start md:justify-center md:overflow-y-auto md:bg-ink-dark/25 md:p-6 md:pt-16 md:backdrop-blur-[2px]">
       <div
         ref={ref}
         tabIndex={-1}

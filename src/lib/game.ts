@@ -183,8 +183,13 @@ export function streakWeeks(g: GameState, now = new Date()): number {
 
 export const XP = { setupItem: 10, firstTask: 120, safety: 120, step: 20, storyTask: 30, shift: 40 }
 
+/* What makes an assistant client-ready: set up, one full shift, the safety
+   check. Replaces the v4 core-path percent everywhere. */
+export type Ready = { setup: boolean; shift: boolean; safety: boolean; count: number; all: boolean }
+
 export type Derived = {
   xp: number
+  ready: Ready
   streak: number
   level: (typeof LEVELS)[number]
   nextLevel?: (typeof LEVELS)[number]
@@ -236,15 +241,20 @@ export function derive(p: ProgressState, g: GameState, stepXp: Record<string, nu
   }
   const habits = Object.fromEntries((Object.keys(pts) as Habit[]).map((h) => [h, max[h] ? pts[h] / max[h] : 0])) as Record<Habit, number>
 
+  const shiftDone = storyBadges.includes("first-shift")
+  const ready: Ready = { setup: st.setup, shift: shiftDone || st.first, safety: st.safety, count: 0, all: false }
+  ready.count = [ready.setup, ready.shift, ready.safety].filter(Boolean).length
+  ready.all = ready.count === 3
+
   const badges: string[] = []
   if (st.setup) badges.push("desk-ready")
   if (st.first) badges.push("first-task")
-  if (g.steps["inbox/edit"]) badges.push("editors-eye")
-  if (g.steps["vault/secret"]) badges.push("secret-keeper")
-  if (st.all) badges.push("client-ready")
+  if (g.steps["inbox/edit"] || story.tasks[taskKey("admin", "s1", "inbox")]) badges.push("editors-eye")
+  if (g.steps["vault/secret"] || story.tasks[taskKey("admin", "s3", "login")]) badges.push("secret-keeper")
+  if (ready.all) badges.push("client-ready")
   if (p.checkboxes["live-studio"]) badges.push("deck-builder")
   if (p.checkboxes["live-switchboard"]) badges.push("connector-pro")
-  if (p.checkboxes["live-clock"]) badges.push("scheduler")
+  if (p.checkboxes["live-clock"] || Object.keys(g.steps).some((k) => k.startsWith("quest/eod-"))) badges.push("scheduler")
   if (p.checkboxes["live-writing"]) badges.push("prompt-whisperer")
   if (p.checkboxes["live-workshop"]) badges.push("skill-maker")
   if (streakWeeks(g) >= 3) badges.push("streak")
@@ -256,7 +266,17 @@ export function derive(p: ProgressState, g: GameState, stepXp: Record<string, nu
   const nextLevel = LEVELS.find((l) => l.xp > level.xp)
   const levelPct = nextLevel ? Math.round(((xp - level.xp) / (nextLevel.xp - level.xp)) * 100) : 100
   const unseen = badges.filter((b) => !g.seen[b])
-  return { xp, streak: streakWeeks(g), level, nextLevel, levelPct, badges, unseen, hours: Math.round((minutes / 60) * 10) / 10, habits }
+  return { xp, ready, streak: streakWeeks(g), level, nextLevel, levelPct, badges, unseen, hours: Math.round((minutes / 60) * 10) / 10, habits }
+}
+
+/* The one next thing, desk first: start or finish the first shift, then set
+   up the real Claude, then the safety check, then the certificate. */
+export function continueTarget(g: GameState, d: Derived): { href: string; label: string } {
+  if (!g.story.started) return { href: "#/", label: "Start your first shift" }
+  if (!d.ready.shift) return { href: "#/", label: "Continue your first shift" }
+  if (!d.ready.setup) return { href: "#/room/desk", label: "Set up your real Claude" }
+  if (!d.ready.safety) return { href: "#/room/vault", label: "Take the safety check" }
+  return { href: "/certificate.html", label: "Get your certificate" }
 }
 
 export function useDerived() {
