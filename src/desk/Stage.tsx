@@ -12,44 +12,124 @@ import { PLATE } from "./plateConfig"
    home screen, as a static picture. It is mapped onto the laptop screen. */
 function ScreenPreview({ userName }: { userName: string }) {
   return (
-    <div className="flex size-full bg-[#FAF9F5] font-sans text-[#1F1E1D]">
-      <div className="flex w-[230px] flex-col gap-3 border-r border-[#E7E5DD] bg-[#F3F2EC] p-5 text-[18px] text-[#73726C]">
-        <span className="font-medium text-[#1F1E1D]">New</span>
+    <div className="desk-screen-preview">
+      <div className="desk-screen-sidebar">
+        <span className="desk-screen-brand">✳</span>
+        <span className="desk-screen-new">+ New chat</span>
         <span>Projects</span>
         <span>Artifacts</span>
         <span>Scheduled</span>
-        <span>Design</span>
         <span>Customize</span>
-        <span className="mt-auto w-fit rounded-md bg-[#EFEAFF] px-2.5 py-1 text-[14px] font-semibold text-[#3B0FA8] uppercase">Practice</span>
+        <span className="desk-practice-tag">Practice space</span>
       </div>
-      <div className="flex flex-1 flex-col items-center justify-center gap-8 px-16">
-        <p className="text-[46px]" style={{ fontFamily: 'ui-serif, Georgia, serif' }}>
-          Good morning, {userName}
+      <div className="desk-screen-home">
+        <span className="desk-screen-spark">✳</span>
+        <p>
+          Good morning,
+          <br />
+          {userName}
         </p>
-        <div className="w-full max-w-[760px] rounded-3xl border-2 border-[#E1DFD6] bg-white p-6 text-[22px] text-[#9C9A92]">
-          Type / for skills
-          <div className="mt-8 flex items-center gap-4 text-[18px] text-[#1F1E1D]">
-            <span className="rounded-lg border px-3 py-1">+</span>
-            <span className="rounded-lg bg-[#F3F2EC] px-3 py-1">Chat · Cowork</span>
-            <span className="ml-auto">{NOW.defaultModel} {NOW.effortDefault}</span>
+        <div className="desk-screen-composer">
+          <span>What can we take off your plate?</span>
+          <div>
+            <span>＋</span>
+            <span>Chat · Cowork</span>
+            <small>{NOW.defaultModel}</small>
           </div>
         </div>
+        <span className="desk-screen-hint">
+          A little focus. A lot of possibility.
+        </span>
       </div>
     </div>
   )
 }
 
-function PhonePreview({ persona, message }: { persona: Persona; message?: string }) {
+function PhonePreview({
+  persona,
+  message,
+  time,
+}: {
+  persona: Persona
+  message?: string
+  time: string
+}) {
   return (
-    <div className="flex size-full flex-col items-center gap-6 bg-[#1B1A2E] p-6 font-sans text-white">
-      <p className="mt-6 text-[64px] font-light">9:41</p>
+    <div className="desk-phone-preview">
+      <span className="desk-phone-speaker" />
+      <span className="desk-phone-time">{time.split(" ")[0]}</span>
+      <span className="desk-phone-caption">Your workday</span>
       {message && (
-        <div className="w-full rounded-3xl bg-white/15 p-5 text-left">
-          <p className="text-[22px] font-semibold">{persona.first}</p>
-          <p className="mt-1 line-clamp-3 text-[22px] leading-snug text-white/85">{message}</p>
+        <div className="desk-phone-message">
+          <span>MESSAGES</span>
+          <strong>{persona.first}</strong>
+          <p>{message}</p>
         </div>
       )}
+      <span className="desk-phone-home" />
     </div>
+  )
+}
+
+function DeskClock({
+  clock,
+}: {
+  clock: { label: string; hourDeg: number; minDeg: number }
+}) {
+  const { x, y, r } = PLATE.clock
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 size-full"
+      viewBox={`0 0 ${PLATE.w} ${PLATE.h}`}
+      aria-hidden="true"
+    >
+      <g transform={`translate(${x} ${y})`}>
+        {Array.from({ length: 12 }, (_, i) => (
+          <line
+            key={i}
+            x1="0"
+            y1={-r + 4}
+            x2="0"
+            y2={-r + (i % 3 === 0 ? 13 : 9)}
+            transform={`rotate(${i * 30})`}
+            stroke="#80796f"
+            strokeWidth={i % 3 === 0 ? 3 : 2}
+            strokeLinecap="round"
+          />
+        ))}
+        <text
+          y="43"
+          textAnchor="middle"
+          fill="#746b61"
+          fontSize="16"
+          fontFamily="inherit"
+        >
+          {clock.label}
+        </text>
+        <g strokeLinecap="round" className="desk-clock-hands">
+          <line
+            x1="0"
+            y1="5"
+            x2="0"
+            y2="-34"
+            transform={`rotate(${clock.hourDeg})`}
+            stroke="#46404d"
+            strokeWidth="6"
+          />
+          <line
+            x1="0"
+            y1="8"
+            x2="0"
+            y2="-51"
+            transform={`rotate(${clock.minDeg})`}
+            stroke="#786485"
+            strokeWidth="4"
+          />
+          <circle r="5" fill="#46404d" />
+          <circle r="2" fill="#c7b7a0" />
+        </g>
+      </g>
+    </svg>
   )
 }
 
@@ -93,7 +173,9 @@ export function Stage({
   React.useEffect(() => {
     const el = wrap.current
     if (!el) return
-    const ro = new ResizeObserver((e) => setScale(e[0].contentRect.width / PLATE.w))
+    const ro = new ResizeObserver((e) =>
+      setScale(e[0].contentRect.width / PLATE.w)
+    )
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
@@ -101,10 +183,15 @@ export function Stage({
   // A few pixels of parallax, written straight to the layer (no re-render).
   const onMove = (e: React.PointerEvent) => {
     const el = layer.current
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (
+      !el ||
+      e.pointerType !== "mouse" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return
     const r = e.currentTarget.getBoundingClientRect()
-    const dx = ((e.clientX - r.left) / r.width - 0.5) * -10
-    const dy = ((e.clientY - r.top) / r.height - 0.5) * -6
+    const dx = ((e.clientX - r.left) / r.width - 0.5) * -5
+    const dy = ((e.clientY - r.top) / r.height - 0.5) * -3
     el.style.translate = `${dx}px ${dy}px`
   }
 
@@ -115,43 +202,98 @@ export function Stage({
     <div
       ref={wrap}
       onPointerMove={onMove}
-      className="relative w-full overflow-hidden rounded-[28px] border-2 border-white bg-[#ECEAF8] shadow-lift"
+      onPointerLeave={() => {
+        if (layer.current) layer.current.style.translate = "0px 0px"
+      }}
+      className="desk-scene relative w-full overflow-hidden rounded-[24px]"
+      role="group"
+      aria-label="Your interactive desk. Open the laptop, phone, noticeboard or playbook, or choose a task note."
       style={{ aspectRatio: `${PLATE.w} / ${PLATE.h}` }}
     >
-      <div ref={layer} className="absolute inset-[-8px] transition-[translate] duration-300 ease-out">
-        <div className="absolute top-2 left-2 origin-top-left" style={{ width: PLATE.w, height: PLATE.h, transform: `scale(${scale})` }}>
+      <div ref={layer} className="desk-scene-layer absolute inset-0">
+        <div
+          className="absolute top-0 left-0 origin-top-left"
+          style={{
+            width: PLATE.w,
+            height: PLATE.h,
+            transform: `scale(${scale})`,
+          }}
+        >
           <Plate />
-          <div aria-hidden="true" className="absolute top-0 left-0 origin-top-left overflow-hidden" style={{ width: 1280, height: 800, transform: matrix3dFor(1280, 800, PLATE.screen) }}>
+          <div
+            aria-hidden="true"
+            className="absolute top-0 left-0 origin-top-left overflow-hidden"
+            style={{
+              width: 1000,
+              height: 620,
+              transform: matrix3dFor(1000, 620, PLATE.screen),
+            }}
+          >
             <ScreenPreview userName={userName} />
           </div>
-          <div aria-hidden="true" className="absolute top-0 left-0 origin-top-left overflow-hidden" style={{ width: 300, height: 540, transform: matrix3dFor(300, 540, PLATE.phone) }}>
-            <PhonePreview persona={persona} message={message} />
+          <div
+            aria-hidden="true"
+            className="desk-phone-surface absolute top-0 left-0 origin-top-left overflow-hidden"
+            style={{
+              width: 300,
+              height: 540,
+              transform: matrix3dFor(300, 540, PLATE.phone),
+            }}
+          >
+            <PhonePreview
+              persona={persona}
+              message={message}
+              time={clock.label}
+            />
           </div>
-          <div aria-hidden="true" className="absolute" style={{ left: PLATE.clock.x, top: PLATE.clock.y }}>
-            <span className="absolute h-[42px] w-[8px] origin-bottom -translate-x-1/2 -translate-y-full rounded-full bg-ink-dark" style={{ rotate: `${clock.hourDeg}deg` }} />
-            <span className="absolute h-[56px] w-[5px] origin-bottom -translate-x-1/2 -translate-y-full rounded-full bg-violet" style={{ rotate: `${clock.minDeg}deg` }} />
-            <span className="absolute size-[14px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink-dark" />
-            <span className="absolute top-[86px] w-[160px] -translate-x-1/2 text-center text-[26px] font-semibold text-ink-dark">{clock.label}</span>
+          <DeskClock clock={clock} />
+          <div
+            className="desk-steam"
+            aria-hidden="true"
+            style={{ left: PLATE.mug.x, top: PLATE.mug.y }}
+          >
+            <span />
+            <span />
+            <span />
           </div>
 
           {shift && (
-            <ul className="absolute grid grid-cols-2 gap-4" style={{ left: PLATE.notes.x, top: PLATE.notes.y, width: PLATE.notes.w }} aria-label={`${shift.day}'s tasks`}>
+            <ul
+              className="desk-notes absolute grid grid-cols-2 gap-4"
+              style={{
+                left: PLATE.notes.x,
+                top: PLATE.notes.y,
+                width: PLATE.notes.w,
+              }}
+              aria-label={`${shift.day}'s tasks`}
+            >
               {shift.tasks.map((t, i) => {
                 const done = doneIds.includes(t.id)
                 const next = t.id === nextId || t.id === activeId
                 return (
-                  <li key={t.id} style={{ rotate: `${(i % 2 ? 2 : -2) + (i % 3) - 1}deg` }}>
+                  <li
+                    key={t.id}
+                    style={{ rotate: `${(i % 2 ? 2 : -2) + (i % 3) - 1}deg` }}
+                  >
                     <button
                       type="button"
                       onClick={() => onSticky(i)}
                       className={cn(
-                        "flex h-[110px] w-full flex-col justify-between rounded-md p-3 text-left text-[22px] leading-tight font-medium shadow-[0_10px_20px_rgba(92,68,0,0.18)] transition-transform hover:-translate-y-1 focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none",
-                        done ? "bg-[#DDF3E6] text-[#0B6B3D]" : next ? "bg-[#FFE27A] text-[#4A3600] ring-6 ring-violet" : "bg-[#FFF3C4] text-[#5C4400]"
+                        "desk-sticky",
+                        done && "is-done",
+                        next && !done && "is-next"
                       )}
                       aria-label={`${t.title}${done ? ", done" : next ? ", up next" : ""}`}
                     >
-                      {t.sticky}
-                      {done && <CheckIcon className="size-8" strokeWidth={3} />}
+                      <span className="desk-sticky-status">
+                        <span>{String(i + 1).padStart(2, "0")}</span>
+                        {done ? (
+                          <CheckIcon className="size-5" strokeWidth={3} />
+                        ) : next ? (
+                          <span>Up next ↗</span>
+                        ) : null}
+                      </span>
+                      <span>{t.sticky}</span>
                     </button>
                   </li>
                 )
@@ -162,39 +304,83 @@ export function Stage({
           <button
             type="button"
             onClick={onLaptop}
-            className="absolute rounded-md focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none"
-            style={{ left: screenBox.x, top: screenBox.y, width: screenBox.w, height: screenBox.h }}
+            className="desk-hotspot absolute rounded-md"
+            style={{
+              left: screenBox.x,
+              top: screenBox.y,
+              width: screenBox.w,
+              height: screenBox.h,
+            }}
             aria-label="Open the laptop"
-          />
+          >
+            <span className="desk-object-label">
+              Open laptop <span>↗</span>
+            </span>
+          </button>
           <button
             type="button"
             onClick={onPhone}
-            className={cn("absolute rounded-2xl focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none", unread > 0 && "animate-[buzz_1.2s_ease-in-out_infinite]")}
-            style={{ left: phoneBox.x - 10, top: phoneBox.y - 12, width: phoneBox.w + 24, height: phoneBox.h + 30 }}
-            aria-label={unread > 0 ? `Phone: ${unread} new message${unread > 1 ? "s" : ""} from ${persona.first}` : "Phone"}
+            className="desk-hotspot desk-phone-hotspot absolute rounded-2xl"
+            style={{
+              left: phoneBox.x - 10,
+              top: phoneBox.y - 12,
+              width: phoneBox.w + 24,
+              height: phoneBox.h + 30,
+            }}
+            aria-label={
+              unread > 0
+                ? `Phone: ${unread} new message${unread > 1 ? "s" : ""} from ${persona.first}`
+                : "Phone"
+            }
           >
+            <span className="desk-object-label">
+              Pick up phone <span>↗</span>
+            </span>
             {unread > 0 && (
-              <span className="absolute -top-4 -right-4 flex size-12 items-center justify-center rounded-full bg-[#E24B4A] text-[24px] font-bold text-white">{unread}</span>
+              <span className="desk-notification desk-notification-phone">
+                {unread}
+              </span>
             )}
           </button>
           <button
             type="button"
             onClick={onBoard}
-            className="absolute rounded-2xl focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none"
-            style={{ left: PLATE.board.x - 6, top: PLATE.board.y - 6, width: PLATE.board.w + 12, height: PLATE.board.h + 12 }}
-            aria-label={boardUnread > 0 ? `Noticeboard: ${boardUnread} new update${boardUnread > 1 ? "s" : ""}` : "Noticeboard: what's new in Claude"}
+            className="desk-hotspot absolute rounded-2xl"
+            style={{
+              left: PLATE.board.x - 6,
+              top: PLATE.board.y - 6,
+              width: PLATE.board.w + 12,
+              height: PLATE.board.h + 12,
+            }}
+            aria-label={
+              boardUnread > 0
+                ? `Noticeboard: ${boardUnread} new update${boardUnread > 1 ? "s" : ""}`
+                : "Noticeboard: what's new in Claude"
+            }
           >
+            <span className="desk-object-label">
+              What’s new <span>↗</span>
+            </span>
             {boardUnread > 0 && (
-              <span className="absolute -top-4 -right-4 flex size-12 items-center justify-center rounded-full bg-violet text-[24px] font-bold text-white">{boardUnread}</span>
+              <span className="desk-notification">{boardUnread}</span>
             )}
           </button>
           <button
             type="button"
             onClick={onNotebook}
-            className="absolute rounded-md focus-visible:ring-8 focus-visible:ring-violet/60 focus-visible:outline-none"
-            style={{ left: PLATE.notebook.x, top: PLATE.notebook.y, width: PLATE.notebook.w, height: PLATE.notebook.h }}
+            className="desk-hotspot absolute rounded-md"
+            style={{
+              left: PLATE.notebook.x,
+              top: PLATE.notebook.y,
+              width: PLATE.notebook.w,
+              height: PLATE.notebook.h,
+            }}
             aria-label="Open your playbook"
-          />
+          >
+            <span className="desk-object-label">
+              Your playbook <span>↗</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>

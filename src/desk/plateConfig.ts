@@ -1,28 +1,27 @@
 import type { Quad } from "./homography"
 
-/* The first-person desk. Coordinates are pixels on a 1536 x 1024 plate.
-   While `src` is null a drawn placeholder is used (Plate.tsx). When the
-   ChatGPT render arrives (assets-src/v5/README.md), set `src` and
-   re-measure the quads: the laptop and phone screens are flat green in the
-   render so they can be found exactly. */
+/* Measured against desk-pov-v2.webp (1536 × 1024). Screen coordinates
+   include a small bleed to cover the chroma edges after WebP compression.
+   Keep the image, screen quads, and object hit areas in sync. */
 export const PLATE = {
-  src: null as string | null,
+  src: "/assets/media/desk-pov-v2.webp",
   w: 1536,
   h: 1024,
   screen: [
-    [500, 212],
-    [1036, 212],
-    [1060, 592],
-    [476, 592],
+    [534, 319],
+    [1018, 319],
+    [1033, 628],
+    [523, 628],
   ] as Quad,
   phone: [
-    [1244, 762],
-    [1332, 753],
-    [1360, 918],
-    [1268, 930],
+    [1190, 741],
+    [1288, 731],
+    [1370, 884],
+    [1253, 899],
   ] as Quad,
-  clock: { x: 250, y: 170, r: 62 },
-  board: { x: 420, y: 90, w: 300, h: 210 },
-  notes: { x: 70, y: 660, w: 360 },
-  notebook: { x: 1060, y: 840, w: 170, h: 160 },
+  clock: { x: 273, y: 126, r: 70 },
+  board: { x: 470, y: 54, w: 366, h: 209 },
+  notes: { x: 42, y: 682, w: 350 },
+  notebook: { x: 1108, y: 569, w: 225, h: 147 },
+  mug: { x: 1435, y: 605 },
 }
