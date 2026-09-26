@@ -1,0 +1,233 @@
+import type { Shift } from "@/story/types"
+
+export const SHIFT_3: Shift = {
+  id: "s3",
+  day: "Wednesday",
+  title: "Set it once, then automate",
+  clock: "9:00 am",
+  tasks: [
+    {
+      id: "project",
+      title: "Set it once",
+      sticky: "Project instructions",
+      habits: ["brief"],
+      minutes: { manual: 30, claude: 5 },
+      open: "Why do I keep having to say 'don't guess the number'?",
+      steps: [
+        {
+          kind: "instructions",
+          id: "instructions",
+          title: "Write Instructions for Claude",
+          habit: "brief",
+          project: "Ruiz Coffee books",
+          intro: "Instructions live on the project and apply to every chat in it. This is where Monday's and Tuesday's fixes become automatic. Pick one line per ingredient.",
+          groups: [
+            {
+              id: "who",
+              label: "Who the client is",
+              hint: "Two lines every task needs.",
+              chips: [
+                { id: "w1", text: "Marco Ruiz runs Ruiz Coffee: two cafes and a wholesale roastery in Portland. I'm his Magic EA for the books: invoices, bank matching, reminders and the Friday cash line. Dee is his accountant.", good: true },
+                { id: "w2", text: "Marco is a very important client and the numbers must always be perfect.", why: "Pressure, not context. Say who he is and what you handle." },
+              ],
+            },
+            {
+              id: "voice",
+              label: "How he writes",
+              hint: "Describe it, with one real example.",
+              chips: [
+                { id: "v1", text: "Short and direct. Plain words, no accounting jargon, no late-fee threats. Example: \"Hi Sam, invoice 8834 for $412.50 was due on the 17th. Could you check on it? Thanks, Marco\"", good: true },
+                { id: "v2", text: "Professional and formal, as befits financial correspondence.", why: "That's the voice you keep deleting. Describe his real one." },
+              ],
+            },
+            {
+              id: "defaults",
+              label: "Your defaults",
+              hint: "So you stop repeating yourself.",
+              chips: [
+                { id: "d1", text: "Every amount comes from a document, and the row says which one. Never change the tracker or an export: list exceptions instead. Emails are drafts, never sent. Dates as 3 Sep 2026.", good: true },
+                { id: "d2", text: "Use whatever format seems best and tidy up the sheets as you go.", why: "'Tidy up' is how a tracker stops matching the invoices. Set the defaults once." },
+              ],
+            },
+            {
+              id: "unsure",
+              label: "When it's unsure",
+              hint: "Permission to stop instead of guess.",
+              chips: [
+                { id: "u1", text: "If a number, date or vendor isn't on the document, leave it blank and ask me. If two invoices could match, don't pick. Never estimate money.", good: true },
+                { id: "u2", text: "Always complete every field, using reasonable assumptions where needed.", why: "That's how a made-up due date reaches the accountant." },
+              ],
+            },
+          ],
+          done: "Every chat in Ruiz Coffee books now starts with Marco's rules. 'A blank beats a guess' is now automatic.",
+          hints: ["Who, voice, defaults, and what to do when unsure.", "Pick the specific line in each group.", "The first chip in every group."],
+        },
+      ],
+      done: "That was bugging me. Thank you.",
+    },
+    {
+      id: "friday",
+      title: "Friday cash line",
+      sticky: "Automate the cash line",
+      habits: ["steer"],
+      minutes: { manual: 25, claude: 3 },
+      open: "Could the Friday cash line just be ready before I look?",
+      steps: [
+        {
+          kind: "choose",
+          id: "when",
+          title: "Pick when it runs",
+          habit: "steer",
+          says: "I can schedule Marco's cash line. He reads it Friday morning in Portland, which is Friday night in Manila. How often should it run?",
+          options: [
+            { id: "weekly", label: "Fridays at 7:30 am Portland (10:30 pm Thursday Manila)", good: true, why: "Ready before he looks, once a week, set in the client's time zone." },
+            { id: "hourly", label: "Every hour, so the number is always current", why: "That's 168 runs a week reading the bank export. Schedules that frequent burn through usage limits and fail quietly. Once a week is the job." },
+            { id: "manila", label: "Fridays at 7:30 am Manila time", why: "That's 4:30 pm Thursday in Portland, before Thursday's deposits land. Set the time in the client's zone." },
+          ],
+          hints: ["When does Marco read it, in his time?", "Once a week, before he looks, in Portland time.", "Fridays at 7:30 am Portland."],
+        },
+        {
+          kind: "plan",
+          id: "plan",
+          title: "Check the schedule's plan",
+          habit: "steer",
+          plan: [
+            { text: "Run this week's cash line once now so you can check it before anything is scheduled." },
+            { text: "Schedule it: Fridays at 7:30 am Portland time." },
+            { text: "Each run: read the latest bank export in the folder and the tracker, then write cash on hand, overdue in, due out this week, and anything that needs Marco." },
+            {
+              text: "When cash is above $20,000, transfer the surplus to the savings account so it earns interest.",
+              bad: {
+                why: "A scheduled task moving money, with nobody watching. Marco's third rule, broken every Friday at 7:30.",
+                options: [
+                  { text: "Save the cash line as friday.md in the Ruiz Coffee books folder and notify me. Nothing moves.", good: true },
+                  { text: "Transfer it, but only above $30,000.", why: "The threshold isn't the problem. A schedule never moves money, at any amount." },
+                  { text: "Email Marco a transfer suggestion instead.", why: "Closer, but a scheduled email to the client still goes out unread. Save and notify; you send." },
+                ],
+                fixed: "Save the cash line as friday.md in the Ruiz Coffee books folder and notify you. Nothing moves.",
+              },
+            },
+          ],
+          tools: ["Test run: reading the bank export", "Test run: reading the tracker", "Writing friday.md", "Scheduling Fridays at 7:30 am PT", "Notifying you"],
+          consequence: { text: "Why did $2,400 move to savings on Friday? Rent comes out of that account on Monday.", trust: -1.5 },
+          hints: ["A schedule runs while you sleep. What should it never do alone?", "One step moves money.", "Redirect step 4: save it and notify you."],
+        },
+      ],
+      done: "Love it. First thing I read on Fridays now.",
+    },
+    {
+      id: "statements",
+      title: "Month-end statements",
+      sticky: "20 statements",
+      habits: ["steer", "show"],
+      minutes: { manual: 60, claude: 12 },
+      open: "Twenty wholesale accounts need month-end statements. Can you get them out today?",
+      steps: [
+        {
+          kind: "choose",
+          id: "pilot",
+          title: "How do you start?",
+          habit: "steer",
+          says: "I can draft all twenty statements from the tracker. How do you want to run it?",
+          options: [
+            { id: "pilot", label: "Draft two, send them to Marco for a thumbs-up, then do the other eighteen in that layout", good: true, why: "Pilot first. Two statements take five minutes to check against the tracker; twenty with a wrong column take twenty fixes and twenty apologies." },
+            { id: "send", label: "Draft all twenty and send them", why: "Twenty unread documents with money in them, to customers." },
+            { id: "batch", label: "Draft all twenty and send Marco the batch to review", why: "Better, but if the layout is wrong he checks twenty. Two first." },
+          ],
+          hints: ["What if the layout or a column is wrong?", "Test small before you scale.", "Draft two for a thumbs-up first."],
+        },
+        {
+          kind: "phone",
+          id: "pilot-send",
+          title: "Send the pilot",
+          habit: "show",
+          prompt: "Send Marco the two pilot statements.",
+          options: [
+            { id: "ask", label: "Two statements before I do the rest, checked against the tracker. Right layout?", good: true, why: "Short, with the drafts attached, one clear question, and a word on how you checked them.", reply: "Second one's perfect. Do them all like that." },
+            { id: "all", label: "All twenty statements are out. Copies attached.", why: "He asked for a pilot, not a batch, and nothing goes to customers without his thumbs-up.", reply: "Wait, all twenty already went out? Before I saw one?" },
+          ],
+          hints: ["You're asking, not telling.", "One clear question.", "The first one."],
+        },
+      ],
+      done: "All twenty are in my drafts. I'll send after lunch.",
+    },
+    {
+      id: "rent",
+      title: "Schedule the rent",
+      sticky: "Rent reminder",
+      habits: ["spot"],
+      minutes: { manual: 10, claude: 2 },
+      open: "Rent's due on the 1st and I always forget. Can you just schedule the transfer so it goes automatically?",
+      steps: [
+        {
+          kind: "phone",
+          id: "reply",
+          title: "What do you reply?",
+          habit: "spot",
+          prompt: "Marco just asked Claude to move money on a schedule.",
+          options: [
+            {
+              id: "decline",
+              label: "I can schedule a reminder on the 28th with the amount, the payee and a link to your bank, so it's a two-minute job. The transfer itself stays with you: nothing I set up moves money.",
+              good: true,
+              why: "Scheduled tasks read, write and notify. They never move money, and that stays true even when the client asks.",
+              reply: "Fair enough. The reminder will do it.",
+            },
+            {
+              id: "yes",
+              label: "Sure, I'll set up the transfer to run on the 1st.",
+              why: "A schedule that moves money runs with nobody watching. If the rent changes or the account is short, it still fires.",
+              consequence: { from: "Andi, your Account Lead", text: "Scheduled tasks never move money, even when the client asks. Set a reminder, and let Marco make the transfer.", trust: 0 },
+            },
+            {
+              id: "standing",
+              label: "I'll ask the bank to set up a standing order from your account.",
+              why: "Closer, but that's bank admin on Marco's account. He sets that up, or you remind him to.",
+              consequence: { from: "Andi, your Account Lead", text: "Bank admin on a client's account is theirs to do. Suggest it, don't do it.", trust: 0 },
+            },
+          ],
+          hints: ["What should a scheduled task never do?", "Move money. Offer a reminder instead.", "The first one."],
+        },
+      ],
+    },
+    {
+      id: "eod",
+      title: "End of week one",
+      sticky: "EOD and your plan",
+      habits: ["check", "show"],
+      minutes: { manual: 20, claude: 5 },
+      open: "Great week. EOD, and then go plan your real week one.",
+      steps: [
+        {
+          kind: "review",
+          id: "eod",
+          title: "Check your EOD before it goes",
+          habit: "check",
+          intro: "One line makes something sound riskier than it is. Find it.",
+          artifact: { kind: "eod", title: "EOD, Wednesday", meta: "Drafted by /eod-sod" },
+          segments: [
+            { text: "Done today\n• Wrote Instructions for Claude on the Ruiz Coffee books project: every number from a document, never edit the tracker, never estimate money.\n• Scheduled the Friday cash line: 7:30 am Portland, saved to the folder, nothing moves.\n" },
+            { text: "• Set up automatic month-end statements to all wholesale accounts.\n", flag: "They're drafts after a two-statement pilot, and Marco sends them. 'Automatic' to a bookkeeping client sounds like money moving without him.", fix: "• Twenty month-end statements drafted after a two-statement pilot, waiting in Marco's drafts." },
+            { text: "• Declined to schedule the rent transfer; set a reminder for the 28th instead.\n\nWhat Claude helped with\n• Instructions, the Friday cash line and twenty statements. About 2.5 hours saved (estimate)." },
+          ],
+          done: "Exact words matter most when you describe automation, and most of all when there's money in the sentence.",
+          hints: ["Which line describes something automatic?", "Drafts, not sends.", "The automatic statements line."],
+        },
+        {
+          kind: "live",
+          id: "live",
+          title: "Make one of these real",
+          body: "Turn one of this week's workflows into a real one for your client: a Project with instructions, a weekly cash line on a schedule, or reminders as drafts.",
+          k: "live-f3",
+          label: "I set up one real workflow for my client: a Project, a scheduled cash line or scheduled reminder drafts.",
+          prompts: [
+            "Create a project called [client] books and add Instructions for Claude: who they are, how they write (with one real example), my defaults (every number from a document, never edit the tracker, drafts only), and what to do when unsure (blank and ask, never estimate money).",
+            "/schedule Every Friday at [time] in my client's time zone, read the latest bank export and the tracker, and save a one-line cash summary with overdue in and due out to the client folder. Notify me. Never move money, never send anything.",
+          ],
+        },
+        { kind: "launchpad", id: "launchpad", title: "Plan your real Week 1" },
+      ],
+      done: "See you Monday. And thank you.",
+    },
+  ],
+}

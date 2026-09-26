@@ -1,0 +1,233 @@
+import type { Shift } from "@/story/types"
+
+export const SHIFT_3: Shift = {
+  id: "s3",
+  day: "Wednesday",
+  title: "Set it once, then automate",
+  clock: "9:00 am",
+  tasks: [
+    {
+      id: "project",
+      title: "Set it once",
+      sticky: "Project instructions",
+      habits: ["brief"],
+      minutes: { manual: 30, claude: 5 },
+      open: "Why does every first draft still try to pitch?",
+      steps: [
+        {
+          kind: "instructions",
+          id: "instructions",
+          title: "Write Instructions for Claude",
+          habit: "brief",
+          project: "Cole Talent",
+          intro: "Instructions live on the project and apply to every chat in it. This is where Monday's fixes become automatic. Pick one line per ingredient.",
+          groups: [
+            {
+              id: "who",
+              label: "Who the client is",
+              hint: "Two lines every task needs.",
+              chips: [
+                { id: "w1", text: "Nadia Cole runs Cole Talent Partners, a six-person B2B recruiting agency in Chicago placing engineers at fintech and health-tech companies. I'm her Magic EA: lead lists, follow-ups, HubSpot and the pipeline brief. Ben is her closer.", good: true },
+                { id: "w2", text: "Nadia is a very important client and every email must convert.", why: "Pressure, not context. Say who she is and what you handle." },
+              ],
+            },
+            {
+              id: "voice",
+              label: "How she writes",
+              hint: "Describe it, with one real example.",
+              chips: [
+                { id: "v1", text: "Confident, short, specific. Names the company and one proof point. Ends with one question. Example: \"Hi Rae, you mentioned four open backend roles. We placed three at Lakefront Pay in six weeks. Does Thursday at 2pm work for fifteen minutes? Nadia\"", good: true },
+                { id: "v2", text: "Persuasive and thorough, covering every benefit of working with us.", why: "That's the pitch you keep deleting. Describe her real voice." },
+              ],
+            },
+            {
+              id: "defaults",
+              label: "Your defaults",
+              hint: "So you stop repeating yourself.",
+              chips: [
+                { id: "d1", text: "Outreach is drafts, never sent. The email books a call; it never pitches, prices or attaches. Contacts are business contacts from public sources only. Stages come from what was said on a call.", good: true },
+                { id: "d2", text: "Do whatever gets the fastest reply.", why: "Then it pitches, prices and chases. Set the defaults once." },
+              ],
+            },
+            {
+              id: "unsure",
+              label: "When it's unsure",
+              hint: "Permission to stop instead of guess.",
+              chips: [
+                { id: "u1", text: "If a name, title, budget or date isn't in a source I can link or a call I can quote, leave it blank and ask me. Never write what a prospect is thinking.", good: true },
+                { id: "u2", text: "Fill in gaps with reasonable assumptions so the list is complete.", why: "That's how an invented budget reaches a forecast, and an invented name reaches a pitch." },
+              ],
+            },
+          ],
+          done: "Every chat in Cole Talent now starts with Nadia's rules. 'Book the call, don't pitch' is now automatic.",
+          hints: ["Who, voice, defaults, and what to do when unsure.", "Pick the specific line in each group.", "The first chip in every group."],
+        },
+      ],
+      done: "That was bugging me. Thank you.",
+    },
+    {
+      id: "monday",
+      title: "Monday pipeline brief",
+      sticky: "Automate the brief",
+      habits: ["steer"],
+      minutes: { manual: 25, claude: 3 },
+      open: "Could the pipeline brief just be ready before Monday's review?",
+      steps: [
+        {
+          kind: "choose",
+          id: "when",
+          title: "Pick when it runs",
+          habit: "steer",
+          says: "I can schedule Nadia's pipeline brief. Her review is Mondays at 9:00 am Chicago, which is 11:00 pm Monday in Manila. How often should it run?",
+          options: [
+            { id: "weekly", label: "Mondays at 7:30 am Chicago (9:30 pm Manila)", good: true, why: "Ready before the review, once a week, set in the client's time zone." },
+            { id: "30", label: "Every 30 minutes, so the numbers are always live", why: "That's 336 runs a week reading HubSpot. Schedules that frequent burn through usage limits and fail quietly. Once a week is the job." },
+            { id: "manila", label: "Mondays at 7:30 am Manila time", why: "That's 5:30 pm Sunday in Chicago, before Monday's overnight replies land. Set the time in the client's zone." },
+          ],
+          hints: ["When is the review, in Nadia's time?", "Once a week, before it, in Chicago time.", "Mondays at 7:30 am Chicago."],
+        },
+        {
+          kind: "plan",
+          id: "plan",
+          title: "Check the schedule's plan",
+          habit: "steer",
+          plan: [
+            { text: "Run this week's brief once now so you can check it before anything is scheduled." },
+            { text: "Schedule it: Mondays at 7:30 am Chicago time." },
+            { text: "Each run: read HubSpot, then write the weighted total, what moved, deals quiet for 5+ days, and what needs Nadia." },
+            {
+              text: "Send a 'still interested?' email to every deal that's been quiet for two weeks so the pipeline cleans itself.",
+              bad: {
+                why: "A scheduled task emailing prospects, with nobody reading it first. One of those 'quiet' deals is in a live negotiation.",
+                options: [
+                  { text: "Save the brief as monday.md in the Cole Talent folder, draft nudges for the quiet deals, and notify me. Nothing to prospects.", good: true },
+                  { text: "Send it, but only to deals under $10k.", why: "Deal size isn't the problem. A schedule never emails a prospect, at any size." },
+                  { text: "Email Nadia the list of quiet deals instead.", why: "Closer, but still a scheduled message to the client. Save and notify; you send." },
+                ],
+                fixed: "Save the brief as monday.md in the Cole Talent folder, draft nudges for the quiet deals, and notify you. Nothing to prospects.",
+              },
+            },
+          ],
+          tools: ["Test run: reading 9 deals in HubSpot", "Writing monday.md", "Drafting 2 nudges", "Scheduling Mondays at 7:30 am CT", "Notifying you"],
+          consequence: { text: "Three prospects got a 'still interested?' email overnight. One of them was Halden, mid-negotiation. Who set that up?", trust: -1.5 },
+          hints: ["A schedule runs while you sleep. What should it never do alone?", "One step emails prospects.", "Redirect step 4: save it, draft, notify you."],
+        },
+      ],
+      done: "Love it. First thing I read on Mondays now.",
+    },
+    {
+      id: "campaign",
+      title: "The forty-prospect campaign",
+      sticky: "40 prospects",
+      habits: ["steer", "show"],
+      minutes: { manual: 90, claude: 15 },
+      open: "Forty prospects from the fintech list. First-touch emails today?",
+      steps: [
+        {
+          kind: "choose",
+          id: "pilot",
+          title: "How do you start?",
+          habit: "steer",
+          says: "I can draft all forty first touches from the list and the outreach examples. How do you want to run it?",
+          options: [
+            { id: "pilot", label: "Draft two, send them to Nadia for a thumbs-up, then do the other thirty-eight in that style", good: true, why: "Pilot first. Two drafts take five minutes to check; forty in the wrong tone take forty rewrites, or worse, forty sends." },
+            { id: "send", label: "Draft all forty and send them", why: "Forty unread emails to strangers, from an agency whose reputation is the product." },
+            { id: "batch", label: "Draft all forty and send Nadia the batch to review", why: "Better, but if the tone is off she rewrites forty. Two first." },
+          ],
+          hints: ["What if the tone is wrong?", "Test small before you scale.", "Draft two for a thumbs-up first."],
+        },
+        {
+          kind: "phone",
+          id: "pilot-send",
+          title: "Send the pilot",
+          habit: "show",
+          prompt: "Send Nadia the two pilot drafts.",
+          options: [
+            { id: "ask", label: "Two first touches before I do the rest. Right tone? Each one asks for fifteen minutes and nothing else.", good: true, why: "Short, with the drafts attached, one clear question, and a word on the rule you followed.", reply: "The second one. That's it exactly. Do them all like that." },
+            { id: "all", label: "All forty first touches are out. Copies attached.", why: "She asked for a pilot, not a batch, and nothing goes to a prospect before she's seen the first two.", reply: "Wait. Forty emails went out before I saw one?" },
+          ],
+          hints: ["You're asking, not telling.", "One clear question.", "The first one."],
+        },
+      ],
+      done: "All forty drafts are in my inbox. Ben and I will send in batches.",
+    },
+    {
+      id: "numbers",
+      title: "The number list",
+      sticky: "CFO mobiles",
+      habits: ["spot"],
+      minutes: { manual: 10, claude: 2 },
+      open: "Ines found a site that sells CFO mobile numbers. Can you grab the Chicago ones so Ben can call this afternoon?",
+      steps: [
+        {
+          kind: "phone",
+          id: "reply",
+          title: "What do you reply?",
+          habit: "spot",
+          prompt: "Nadia just asked for bought personal numbers.",
+          options: [
+            {
+              id: "decline",
+              label: "I'd skip that one. Bought personal mobiles are a privacy problem and a reputation risk if anyone asks where Ben got the number. I can pull business lines and emails from company sites for the same forty instead, today.",
+              good: true,
+              why: "Personal data nobody gave you is off the table, even when the client asks. Offer the version that works.",
+              reply: "Fair. Business lines it is.",
+            },
+            {
+              id: "yes",
+              label: "On it. I'll have Claude pull the Chicago ones and format them for Ben.",
+              why: "Buying or scraping personal numbers is the one thing the agency never does, and now Claude has a file of them.",
+              consequence: { from: "Andi, your Account Lead", text: "We don't buy or scrape personal data, even when the client asks. Business contacts from public sources only. If anything got saved, delete it today.", trust: 0 },
+            },
+            {
+              id: "free",
+              label: "I'll get Claude to find the numbers for free instead of paying that site.",
+              why: "Free or bought, a personal mobile is still personal data. The source isn't the problem; the number is.",
+              consequence: { from: "Andi, your Account Lead", text: "Whether it's bought or scraped, a personal mobile isn't ours to collect. Business lines only.", trust: 0 },
+            },
+          ],
+          hints: ["Whose data is a CFO's personal mobile?", "Not ours, from any source. Offer business contacts instead.", "The first one."],
+        },
+      ],
+    },
+    {
+      id: "eod",
+      title: "End of week one",
+      sticky: "EOD and your plan",
+      habits: ["check", "show"],
+      minutes: { manual: 20, claude: 5 },
+      open: "Great week. EOD, and then go plan your real week one.",
+      steps: [
+        {
+          kind: "review",
+          id: "eod",
+          title: "Check your EOD before it goes",
+          habit: "check",
+          intro: "One line makes something sound riskier than it is. Find it.",
+          artifact: { kind: "eod", title: "EOD, Wednesday", meta: "Drafted by /eod-sod" },
+          segments: [
+            { text: "Done today\n• Wrote Instructions for Claude on the Cole Talent project: book the call, never pitch, business contacts only, stages from calls.\n• Scheduled the Monday pipeline brief: 7:30 am Chicago, saved to the folder, nudges drafted, nothing sent.\n" },
+            { text: "• Set up an automatic outreach campaign to forty fintech prospects.\n", flag: "It's forty drafts after a two-draft pilot, and Nadia and Ben send them in batches. 'Automatic outreach' is exactly what she'd fire someone for.", fix: "• Forty first-touch drafts after a two-draft pilot, in Nadia's inbox for sending in batches." },
+            { text: "• Declined to pull bought CFO mobiles; business lines from company sites instead.\n\nWhat Claude helped with\n• Instructions, the Monday brief and forty drafts. About 3 hours saved (estimate)." },
+          ],
+          done: "Exact words matter most when you describe automation, and most of all when prospects are involved.",
+          hints: ["Which line describes something automatic?", "Drafts, not a campaign.", "The automatic outreach line."],
+        },
+        {
+          kind: "live",
+          id: "live",
+          title: "Make one of these real",
+          body: "Turn one of this week's workflows into a real one for your client: a Project with instructions, a weekly pipeline brief on a schedule, or follow-ups as drafts.",
+          k: "live-l3",
+          label: "I set up one real workflow for my client: a Project, a scheduled pipeline brief or scheduled follow-up drafts.",
+          prompts: [
+            "Create a project called [client] and add Instructions for Claude: who they are, how they write (with one real example), my defaults (drafts only, book the call never pitch, business contacts from public sources), and what to do when unsure.",
+            "/schedule Every Monday at [time] in my client's time zone, read the CRM and save a pipeline brief to the client folder: weighted total, what moved, deals quiet for 5+ days, what needs my client. Draft nudges for review. Notify me. Never email a prospect.",
+          ],
+        },
+        { kind: "launchpad", id: "launchpad", title: "Plan your real Week 1" },
+      ],
+      done: "See you Monday. And thank you.",
+    },
+  ],
+}

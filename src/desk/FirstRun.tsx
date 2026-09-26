@@ -55,7 +55,7 @@ export function FirstRun() {
             <h1 className="h-display" id="first-title">
               Your first <span className="grad">shift</span> starts now.
             </h1>
-            <p className="lede">This is how Magic assistants learn to work with Claude for a client. You sit at a desk, a practice client texts you, and you do her work with a practice Claude. Nothing you do here can go wrong.</p>
+            <p className="lede">This is how Magic assistants learn to work with Claude for a client. You sit at a desk, a practice client texts you, and you do their work with a practice Claude. Nothing you do here can go wrong.</p>
             <ul className="grid gap-3 sm:grid-cols-3">
               {[
                 ["Three shifts", "About twelve minutes each: Monday, Tuesday, Wednesday. Leave and come back any time."],
@@ -168,7 +168,7 @@ export function FirstRun() {
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
-                <p className="text-[14px] text-muted-foreground">How she writes: {persona.voice}</p>
+                <p className="text-[14px] text-muted-foreground">How {persona.pron.they} writes: {persona.voice}</p>
               </div>
             </div>
             <p className="text-[15px] text-muted-foreground">

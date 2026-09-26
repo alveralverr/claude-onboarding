@@ -1,11 +1,20 @@
 import * as React from "react"
-import { CalendarIcon, CheckIcon, FolderIcon, MailIcon } from "lucide-react"
+import { CalculatorIcon, CalendarIcon, CheckIcon, FolderIcon, KanbanSquareIcon, MailIcon, MagnetIcon, PaletteIcon, PlugIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ClaudeMsg, UserBubble, Why } from "@/sim/parts"
 import { Shell, Thread } from "@/sim/Shell"
 import type { ConnectStep, Option } from "../types"
 import type { RunnerApi } from "../useRunner"
+
+/* One icon per connector the paths ask for; anything else gets a plug. */
+const CONNECTOR_ICON: Record<string, typeof PlugIcon> = {
+  "Google Calendar": CalendarIcon,
+  QuickBooks: CalculatorIcon,
+  HubSpot: MagnetIcon,
+  ClickUp: KanbanSquareIcon,
+  Canva: PaletteIcon,
+}
 
 /* Claude can't reach a tool. Connect it in Customize, with the right account. */
 export function ConnectView({ step, api, userName }: { step: ConnectStep; api: RunnerApi; userName: string }) {
@@ -47,7 +56,7 @@ export function ConnectView({ step, api, userName }: { step: ConnectStep; api: R
   const rows = [
     { name: "Gmail", Icon: MailIcon, on: true },
     { name: "Google Drive", Icon: FolderIcon, on: true },
-    { name: step.connector, Icon: CalendarIcon, on: connected },
+    { name: step.connector, Icon: CONNECTOR_ICON[step.connector] ?? PlugIcon, on: connected },
   ]
 
   return (

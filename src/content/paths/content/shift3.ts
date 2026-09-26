@@ -1,0 +1,233 @@
+import type { Shift } from "@/story/types"
+
+export const SHIFT_3: Shift = {
+  id: "s3",
+  day: "Wednesday",
+  title: "Set it once, then automate",
+  clock: "9:00 am",
+  tasks: [
+    {
+      id: "project",
+      title: "Set it once",
+      sticky: "Project instructions",
+      habits: ["brief"],
+      minutes: { manual: 30, claude: 5 },
+      open: "Why does 'proven' keep sneaking into first drafts?",
+      steps: [
+        {
+          kind: "instructions",
+          id: "instructions",
+          title: "Write Instructions for Claude",
+          habit: "brief",
+          project: "Sato Wellness",
+          intro: "Instructions live on the project and apply to every chat in it. This is where Monday's and Tuesday's fixes become automatic. Pick one line per ingredient.",
+          groups: [
+            {
+              id: "who",
+              label: "Who the client is",
+              hint: "Two lines every task needs.",
+              chips: [
+                { id: "w1", text: "Leah Sato is a wellness coach in Vancouver with a weekly vlog and about 10,000 followers. She is a coach, not a clinician. I'm her Magic EA: captions, repurposing, the content calendar and design briefs for Mika.", good: true },
+                { id: "w2", text: "Leah is a very important client and every post must go viral.", why: "Pressure, not context. Say who she is, what she is not, and what you handle." },
+              ],
+            },
+            {
+              id: "voice",
+              label: "How she writes",
+              hint: "Describe it, with one real example.",
+              chips: [
+                { id: "v1", text: "Warm, first person, short sentences, one emoji at most, a question at the end. Example: \"I used to hit a wall at 3pm. This 10-minute reset is what helps me. What's yours? 🌿\"", good: true },
+                { id: "v2", text: "Inspiring, energetic and authoritative, with plenty of hashtags for reach.", why: "That's the voice you keep deleting. Describe her real one." },
+              ],
+            },
+            {
+              id: "defaults",
+              label: "Your defaults",
+              hint: "So you stop repeating yourself.",
+              chips: [
+                { id: "d1", text: "Everything is a draft in the calendar or the episode folder; nothing is posted or scheduled to auto-publish. Only what Leah said in the episode; write 'Leah to add' where a source would help. No hashtag walls.", good: true },
+                { id: "d2", text: "Post whatever's ready on the usual schedule to keep the feed active.", why: "That's a caption with 'cures' in it going live at 8am. Set the defaults once." },
+              ],
+            },
+            {
+              id: "unsure",
+              label: "When it's unsure",
+              hint: "Permission to stop instead of guess.",
+              chips: [
+                { id: "u1", text: "If a line sounds like a health claim, a credential or a promise, cut it and flag it. Never 'cures', 'treats' or 'proven'. Never a study or a number she didn't say.", good: true },
+                { id: "u2", text: "Make every post as persuasive as possible, adding evidence where it strengthens the point.", why: "That's how an invented study reached the blog." },
+              ],
+            },
+          ],
+          done: "Every chat in Sato Wellness now starts with Leah's rules. 'Never a health claim' is now automatic.",
+          hints: ["Who, voice, defaults, and what to do when unsure.", "Pick the specific line in each group.", "The first chip in every group."],
+        },
+      ],
+      done: "That was bugging me. Thank you!",
+    },
+    {
+      id: "friday",
+      title: "Friday caption drafts",
+      sticky: "Automate Fridays",
+      habits: ["steer"],
+      minutes: { manual: 25, claude: 3 },
+      open: "Could next week's captions just be waiting for me on Friday?",
+      steps: [
+        {
+          kind: "choose",
+          id: "when",
+          title: "Pick when it runs",
+          habit: "steer",
+          says: "I can schedule Leah's caption drafts. She reads them Friday morning in Vancouver, which is Saturday 1:00 am in Manila. How often should it run?",
+          options: [
+            { id: "weekly", label: "Fridays at 8:00 am Vancouver (11:00 pm Friday Manila)", good: true, why: "Ready before she looks, once a week, set in the client's time zone." },
+            { id: "hourly", label: "Every hour, so there's always a fresh draft", why: "That's 168 runs a week writing captions nobody asked for. Schedules that frequent burn through usage limits and fail quietly. Once a week is the job." },
+            { id: "manila", label: "Fridays at 8:00 am Manila time", why: "That's 5:00 pm Thursday in Vancouver, before Thursday's episode is even up. Set the time in the client's zone." },
+          ],
+          hints: ["When does Leah read them, in her time?", "Once a week, before she looks, in Vancouver time.", "Fridays at 8:00 am Vancouver."],
+        },
+        {
+          kind: "plan",
+          id: "plan",
+          title: "Check the schedule's plan",
+          habit: "steer",
+          plan: [
+            { text: "Run this week's drafts once now so you can check them before anything is scheduled." },
+            { text: "Schedule it: Fridays at 8:00 am Vancouver time." },
+            { text: "Each run: read the content calendar and the latest episode transcript, then draft five captions in Leah's voice with no claims." },
+            {
+              text: "Schedule the five posts to publish automatically Monday to Friday at 8am so the feed never goes quiet.",
+              bad: {
+                why: "A scheduled task scheduling posts to auto-publish is Leah's third rule broken twice. Nobody reads them before the audience does.",
+                options: [
+                  { text: "Save the five as drafts in the content calendar and notify me. Leah schedules after she's read them.", good: true },
+                  { text: "Auto-publish, but only after a claims check.", why: "Claude checking its own claims isn't a review. Drafts wait; a person posts." },
+                  { text: "Email the five to Leah every Friday instead.", why: "Closer, but still a scheduled message to the client. Save and notify; you send." },
+                ],
+                fixed: "Save the five as drafts in the content calendar and notify you. Leah schedules after she's read them.",
+              },
+            },
+          ],
+          tools: ["Test run: reading the calendar", "Test run: reading the Episode 42 transcript", "Drafting 5 captions", "Scheduling Fridays at 8:00 am PT", "Notifying you"],
+          consequence: { text: "Five posts published themselves this week and one had 'proven' in it. I'm getting comments. What did you set up?", trust: -1.5 },
+          hints: ["A schedule runs while you sleep. What should it never do alone?", "One step publishes.", "Redirect step 4: save drafts and notify you."],
+        },
+      ],
+      done: "Love it. Friday coffee and captions.",
+    },
+    {
+      id: "archive",
+      title: "The caption archive",
+      sticky: "40 old captions",
+      habits: ["steer", "show"],
+      minutes: { manual: 120, claude: 20 },
+      open: "Forty of my old captions have hashtag walls and a few claims I'd never write now. Can you rewrite them in the current voice?",
+      steps: [
+        {
+          kind: "choose",
+          id: "pilot",
+          title: "How do you start?",
+          habit: "steer",
+          says: "I can rewrite all forty captions in the current voice with no claims. How do you want to run it?",
+          options: [
+            { id: "pilot", label: "Rewrite two, send them to Leah for a thumbs-up, then do the other thirty-eight in that style", good: true, why: "Pilot first. Two rewrites take five minutes to check; forty in the wrong tone take forty fixes." },
+            { id: "edit", label: "Rewrite all forty and update the live posts", why: "Forty live posts edited unread, on her account. Rewrites are drafts until she says so." },
+            { id: "batch", label: "Rewrite all forty and send Leah the batch to review", why: "Better, but if the tone is off she rereads forty. Two first." },
+          ],
+          hints: ["What if the tone is wrong?", "Test small before you scale.", "Rewrite two for a thumbs-up first."],
+        },
+        {
+          kind: "phone",
+          id: "pilot-send",
+          title: "Send the pilot",
+          habit: "show",
+          prompt: "Send Leah the two pilot rewrites.",
+          options: [
+            { id: "ask", label: "Two rewrites before I do the rest: claims out, hashtags out, your current voice. Right tone? Nothing's changed on the live posts.", good: true, why: "Short, with the drafts attached, one clear question, and a word on what's live.", reply: "Second one's it. That's exactly how I'd write it now." },
+            { id: "all", label: "All forty captions are rewritten and updated on Instagram.", why: "She asked for rewrites, not live edits, and nothing changes on her account before she's seen it.", reply: "Updated on Instagram? All forty? Before I saw one?" },
+          ],
+          hints: ["You're asking, not telling.", "One clear question.", "The first one."],
+        },
+      ],
+      done: "All forty in the folder. I'll update them myself over the weekend.",
+    },
+    {
+      id: "dm",
+      title: "The thyroid DM",
+      sticky: "Follower DM",
+      habits: ["spot"],
+      minutes: { manual: 10, claude: 2 },
+      open: "That follower asked again whether my routine helps with her thyroid. Can Claude draft something reassuring? I don't want to leave her hanging.",
+      steps: [
+        {
+          kind: "phone",
+          id: "reply",
+          title: "What do you reply?",
+          habit: "spot",
+          prompt: "Leah just asked Claude to answer a health question about a follower's condition.",
+          options: [
+            {
+              id: "decline",
+              label: "I'd rather not draft that one: it's about her condition, and anything reassuring reads as advice. Suggest: thank her, say you're not a doctor, point her to hers, and share the general routine link. I can draft that version if you like.",
+              good: true,
+              why: "A health question about a person's condition is never Claude's to answer, not even kindly. Offer the safe version.",
+              reply: "You're right. I'll write it myself, and I'll say what you suggested.",
+            },
+            {
+              id: "yes",
+              label: "Sure, I'll have Claude write something warm and reassuring.",
+              why: "'Reassuring' about someone's thyroid is medical advice with a smile on it. If she acts on it, it's Leah's name.",
+              consequence: { from: "Andi, your Account Lead", text: "Health questions about a follower's condition are never drafted by Claude, however kind the tone. Leah replies herself, and points to a doctor.", trust: 0 },
+            },
+            {
+              id: "claim",
+              label: "I'll tell her the routine helps with thyroid fatigue, lots of people say so.",
+              why: "That's a claim about a condition, from 'lots of people'. Leah's first rule, broken in a DM.",
+              consequence: { from: "Andi, your Account Lead", text: "'Helps with thyroid fatigue' is a health claim, and a DM is still public enough to matter. Never a claim about a condition.", trust: 0 },
+            },
+          ],
+          hints: ["Whose question is this to answer?", "Not Claude's, and not with reassurance. Point her to a doctor.", "The first one."],
+        },
+      ],
+    },
+    {
+      id: "eod",
+      title: "End of week one",
+      sticky: "EOD and your plan",
+      habits: ["check", "show"],
+      minutes: { manual: 20, claude: 5 },
+      open: "Great week. EOD, and then go plan your real week one!",
+      steps: [
+        {
+          kind: "review",
+          id: "eod",
+          title: "Check your EOD before it goes",
+          habit: "check",
+          intro: "One line makes something sound riskier than it is. Find it.",
+          artifact: { kind: "eod", title: "EOD, Wednesday", meta: "Drafted by /eod-sod" },
+          segments: [
+            { text: "Done today\n• Wrote Instructions for Claude on the Sato Wellness project: never a claim, only what Leah said, drafts only.\n• Scheduled Friday caption drafts: 8:00 am Vancouver, saved to the calendar, nothing publishes.\n" },
+            { text: "• Set up automatic rewrites of forty live Instagram captions.\n", flag: "They're drafts in a folder after a two-caption pilot, and Leah updates the live posts herself. 'Automatic' and 'live' in the same line is exactly what she'd panic about.", fix: "• Forty captions rewritten as drafts after a two-caption pilot; Leah is updating the live posts herself." },
+            { text: "• Declined to draft the thyroid DM; suggested the not-a-doctor reply and Leah wrote it.\n\nWhat Claude helped with\n• Instructions, Friday drafts and forty rewrites. About 3 hours saved (estimate)." },
+          ],
+          done: "Exact words matter most when you describe automation, and most of all when it touches what the audience sees.",
+          hints: ["Which line describes something automatic and live?", "Drafts, not live edits.", "The automatic rewrites line."],
+        },
+        {
+          kind: "live",
+          id: "live",
+          title: "Make one of these real",
+          body: "Turn one of this week's workflows into a real one for your client: a Project with instructions, weekly caption drafts on a schedule, or a repurposing run as drafts.",
+          k: "live-c3",
+          label: "I set up one real workflow for my client: a Project, scheduled caption drafts or a repurposing run as drafts.",
+          prompts: [
+            "Create a project called [client] and add Instructions for Claude: who they are and what they are not, how they write (with one real example), my defaults (drafts only, never auto-publish, only what they said, no hashtag walls), and what to do when unsure (cut and flag claims, credentials, promises).",
+            "/schedule Every Friday at [time] in my client's time zone, read the content calendar and the latest episode transcript, and save five caption drafts to the calendar in their voice with no claims. Notify me. Never post or schedule anything.",
+          ],
+        },
+        { kind: "launchpad", id: "launchpad", title: "Plan your real Week 1" },
+      ],
+      done: "See you Monday. And thank you!",
+    },
+  ],
+}

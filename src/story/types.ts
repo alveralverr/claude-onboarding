@@ -27,6 +27,8 @@ export type Persona = {
   portrait?: string
   prefs: string[]
   voice: string
+  /* subject, object and possessive, so copy never guesses: "she", "her", "her" */
+  pron: { they: string; them: string; their: string }
 }
 
 export type ClientFile = { id: string; name: string; kind: "doc" | "sheet" | "pdf" | "recording" | "email" }

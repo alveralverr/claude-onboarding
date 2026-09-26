@@ -7,7 +7,7 @@ import { pathById } from "@/content/paths"
 import { currentQuest } from "@/content/quests"
 import { BADGES, DESK_ITEMS } from "@/content/world"
 import { BadgeArt } from "@/engine/BadgeArt"
-import { completeStep, stepKey, useDerived, useGame, trustOf } from "@/lib/game"
+import { completeStep, startStory, stepKey, useDerived, useGame, trustOf } from "@/lib/game"
 import { useStatus } from "@/lib/progress"
 import { taskKey, type PathDef } from "@/story/types"
 import { HabitBars, Hearts } from "./Summary"
@@ -113,9 +113,17 @@ export function Playbook({ path, onPlay, onOffice }: { path: PathDef; onPlay: (s
       <ClientReady />
       {d.ready.shift && <Quest />}
       {role && role.id !== path.id && (
-        <p className="rounded-2xl bg-secondary px-4 py-3 text-[14px] text-secondary-foreground">
-          You said you were hired for {role.name}. That path is {role.next ? "next on our list" : "on our list"}. The five habits you practise here work the same in every role.
-        </p>
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-secondary px-4 py-3 text-[14px] text-secondary-foreground">
+          <p className="min-w-0 flex-1">
+            You said you were hired for {role.name}.{" "}
+            {role.live ? "That path is ready now, with its own client and shifts. Your progress here stays." : `That path is ${role.next ? "next on our list" : "on our list"}. The five habits you practise here work the same in every role.`}
+          </p>
+          {role.live && (
+            <Button size="sm" onClick={() => startStory(role.id, role.id)}>
+              Switch to {role.name}
+            </Button>
+          )}
+        </div>
       )}
       <div>
         <p className="mb-3 text-[14px] font-semibold">Your five habits</p>

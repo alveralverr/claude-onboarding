@@ -33,7 +33,7 @@ export function SortBoard({ step, api }: { step: SortStep; api: RunnerApi }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[16px] text-card-foreground">{step.prompt}</p>
-      <div className="flex flex-wrap gap-2" aria-label="Priya's to-dos">
+      <div className="flex flex-wrap gap-2" aria-label={`${api.path.persona!.first}'s to-dos`}>
         {left.map((c) => (
           <button
             key={c.id}

@@ -4,13 +4,17 @@
    (see docs-internal/PLAN_V5.md, not in the public repo). */
 import type { PathDef } from "@/story/types"
 import { ADMIN } from "./admin"
+import { CONTENT } from "./content"
+import { FINANCE } from "./finance"
+import { LEADGEN } from "./leadgen"
+import { OPS } from "./ops"
 
 export const PATHS: PathDef[] = [
   ADMIN,
-  { id: "finance", name: "Bookkeeping and finance admin", blurb: "Invoices, bills, reconciliation", icon: "calculator", live: false, next: true },
-  { id: "leadgen", name: "Lead gen and sales", blurb: "Lead lists, outreach, CRM", icon: "magnet", live: false, next: true },
-  { id: "ops", name: "Operations and data", blurb: "Trackers, SOPs, spreadsheets", icon: "workflow", live: false, next: true },
-  { id: "content", name: "Content and social", blurb: "Posts, captions, design", icon: "megaphone", live: false, next: true },
+  FINANCE,
+  LEADGEN,
+  OPS,
+  CONTENT,
   { id: "support", name: "Customer service", blurb: "Tickets, replies, policies", icon: "headset", live: false },
   { id: "health", name: "Healthcare admin", blurb: "Scheduling, insurance, patients", icon: "stethoscope", live: false },
   { id: "legal", name: "Legal admin", blurb: "Contracts, deadlines, filings", icon: "scale", live: false },

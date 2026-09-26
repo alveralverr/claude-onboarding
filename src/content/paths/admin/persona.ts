@@ -16,6 +16,7 @@ export const PRIYA: Persona = {
     "Nothing booked before 9 or after 5 her time.",
   ],
   voice: "Short, warm and plain. First names. No exclamation marks. Signs off Priya.",
+  pron: { they: "she", them: "her", their: "her" },
 }
 
 export const FILES: Record<string, ClientFile> = {

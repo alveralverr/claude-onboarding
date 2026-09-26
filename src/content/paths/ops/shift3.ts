@@ -1,0 +1,233 @@
+import type { Shift } from "@/story/types"
+
+export const SHIFT_3: Shift = {
+  id: "s3",
+  day: "Wednesday",
+  title: "Set it once, then automate",
+  clock: "9:00 am",
+  tasks: [
+    {
+      id: "project",
+      title: "Set it once",
+      sticky: "Project instructions",
+      habits: ["brief"],
+      minutes: { manual: 30, claude: 5 },
+      open: "Why do I keep having to say 'don't touch the original'?",
+      steps: [
+        {
+          kind: "instructions",
+          id: "instructions",
+          title: "Write Instructions for Claude",
+          habit: "brief",
+          project: "Alvarez Ops",
+          intro: "Instructions live on the project and apply to every chat in it. This is where Monday's and Tuesday's fixes become automatic. Pick one line per ingredient.",
+          groups: [
+            {
+              id: "who",
+              label: "Who the client is",
+              hint: "Two lines every task needs.",
+              chips: [
+                { id: "w1", text: "Tom Alvarez runs Alvarez Grounds, a 40-person landscaping company in Denver with 8 crews. I'm his Magic EA for ops: trackers, SOPs, call notes into ClickUp and the Friday status. Rosa dispatches; Kev leads the crews.", good: true },
+                { id: "w2", text: "Tom is a very important client and everything must run perfectly.", why: "Pressure, not context. Say who he is and what you handle." },
+              ],
+            },
+            {
+              id: "voice",
+              label: "How he writes",
+              hint: "Describe it, with one real example.",
+              chips: [
+                { id: "v1", text: "Blunt, friendly, no filler. Bullets. Example: \"• Halvorsen slips a week. Crew short. Costs about $1,400. • Need: OK to pull Kev's crew Thursday. T\"", good: true },
+                { id: "v2", text: "Professional and comprehensive, covering every detail.", why: "That's the paragraph you keep cutting. Describe his real voice." },
+              ],
+            },
+            {
+              id: "defaults",
+              label: "Your defaults",
+              hint: "So you stop repeating yourself.",
+              chips: [
+                { id: "d1", text: "Never overwrite a tracker or an export: write a copy and a change log with row numbers. Every number names its source. SOPs are numbered steps, one action per line, with page numbers. Dates as 3 Oct.", good: true },
+                { id: "d2", text: "Tidy up files as you go and keep things organised.", why: "'Tidy up' is how the only copy of an export changes. Set the defaults once." },
+              ],
+            },
+            {
+              id: "unsure",
+              label: "When it's unsure",
+              hint: "Permission to stop instead of guess.",
+              chips: [
+                { id: "u1", text: "If a date, owner or count isn't in the file or said on the call, leave it blank and mark it Ask Tom. Read every page of a long file and list the headings covered. Never fill a gap from general knowledge.", good: true },
+                { id: "u2", text: "Always produce a complete result, using standard practice where the source is silent.", why: "That's how antifreeze ended up in an irrigation SOP." },
+              ],
+            },
+          ],
+          done: "Every chat in Alvarez Ops now starts with Tom's rules. 'One tracker, one truth' is now automatic.",
+          hints: ["Who, voice, defaults, and what to do when unsure.", "Pick the specific line in each group.", "The first chip in every group."],
+        },
+      ],
+      done: "That was bugging me. Thank you.",
+    },
+    {
+      id: "friday",
+      title: "Friday status",
+      sticky: "Automate the status",
+      habits: ["steer"],
+      minutes: { manual: 25, claude: 3 },
+      open: "Could the Friday status just be ready before 3?",
+      steps: [
+        {
+          kind: "choose",
+          id: "when",
+          title: "Pick when it runs",
+          habit: "steer",
+          says: "I can schedule Tom's Friday status. He reads it at 3:00 pm Denver, which is 5:00 am Saturday in Manila. How often should it run?",
+          options: [
+            { id: "weekly", label: "Fridays at 2:00 pm Denver (4:00 am Saturday Manila)", good: true, why: "Ready an hour before he reads it, once a week, set in the client's time zone." },
+            { id: "10", label: "Every 10 minutes, so it's always live", why: "That's 144 runs a day reading the tracker. Schedules that frequent burn through usage limits and fail quietly. Once a week is the job." },
+            { id: "manila", label: "Fridays at 2:00 pm Manila time", why: "That's midnight Thursday in Denver, before Friday's jobs have happened. Set the time in the client's zone." },
+          ],
+          hints: ["When does Tom read it, in his time?", "Once a week, before 3, in Denver time.", "Fridays at 2:00 pm Denver."],
+        },
+        {
+          kind: "plan",
+          id: "plan",
+          title: "Check the schedule's plan",
+          habit: "steer",
+          plan: [
+            { text: "Run this week's status once now so you can check it before anything is scheduled." },
+            { text: "Schedule it: Fridays at 2:00 pm Denver time." },
+            { text: "Each run: read the Jobs board and the tracker, then write what slipped, what it costs, and what needs Tom." },
+            {
+              text: "Post the status to the crew WhatsApp group so everyone's on the same page.",
+              bad: {
+                why: "A scheduled task posting to a group of 40 people, with nobody reading it first. The status has client prices in it.",
+                options: [
+                  { text: "Save it as friday.md in the Alvarez Ops folder and notify me. Nothing posts anywhere.", good: true },
+                  { text: "Post it, but strip out the cost lines first.", why: "A schedule can't judge what's sensitive. Save and notify; a person shares." },
+                  { text: "Email it to Tom instead of the group.", why: "Closer, but still a scheduled message to the client, unread. Save and notify; you send." },
+                ],
+                fixed: "Save it as friday.md in the Alvarez Ops folder and notify you. Nothing posts anywhere.",
+              },
+            },
+          ],
+          tools: ["Test run: reading the Jobs board", "Test run: reading the tracker", "Writing friday.md", "Scheduling Fridays at 2:00 pm MT", "Notifying you"],
+          consequence: { text: "The crew group got a status with the Halvorsen price in it. Forty people. Who set that up?", trust: -1.5 },
+          hints: ["A schedule runs while you sleep. What should it never do alone?", "One step posts to people.", "Redirect step 4: save it and notify you."],
+        },
+      ],
+      done: "Love it. Friday at 3 just got easier.",
+    },
+    {
+      id: "sops",
+      title: "Thirty SOPs",
+      sticky: "30 SOPs",
+      habits: ["steer", "show"],
+      minutes: { manual: 240, claude: 40 },
+      open: "Thirty of our SOPs are still in the old paragraph format. Can you convert them all to numbered steps this week?",
+      steps: [
+        {
+          kind: "choose",
+          id: "pilot",
+          title: "How do you start?",
+          habit: "steer",
+          says: "I can convert all thirty SOPs to Tom's format. How do you want to run it?",
+          options: [
+            { id: "pilot", label: "Convert two, send them to Tom and Kev for a thumbs-up, then do the other twenty-eight in that style", good: true, why: "Pilot first. Two SOPs take ten minutes to check against the originals; thirty with a wrong step format take thirty fixes, and crews use them in between." },
+            { id: "all", label: "Convert all thirty and replace the originals", why: "Thirty documents crews rely on, replaced unread. And the originals are gone." },
+            { id: "batch", label: "Convert all thirty and send Tom the batch to review", why: "Better, but if the format is off he reviews thirty. Two first." },
+          ],
+          hints: ["What if the format is wrong?", "Test small before you scale.", "Convert two for a thumbs-up first."],
+        },
+        {
+          kind: "phone",
+          id: "pilot-send",
+          title: "Send the pilot",
+          habit: "show",
+          prompt: "Send Tom the two pilot SOPs.",
+          options: [
+            { id: "ask", label: "Two SOPs in the new format before I do the rest, originals untouched. Right shape? Kev's copied.", good: true, why: "Short, with the drafts attached, one clear question, and a word on the originals.", reply: "Second one's it. Kev agrees. Do them all like that." },
+            { id: "all", label: "All thirty SOPs converted and replaced. Old ones deleted.", why: "He asked for a conversion, not a deletion, and nothing replaces what crews use until he's seen it.", reply: "Deleted? The old ones had the sign-off sheets in them. Tell me you have a copy." },
+          ],
+          hints: ["You're asking, not telling.", "One clear question.", "The first one."],
+        },
+      ],
+      done: "All thirty in the new folder, originals where they were. Kev's happy.",
+    },
+    {
+      id: "drive",
+      title: "The whole drive",
+      sticky: "Shared drive",
+      habits: ["spot"],
+      minutes: { manual: 10, claude: 2 },
+      open: "Just point Claude at the whole shared drive so it can find whatever it needs. Saves you asking me for files.",
+      steps: [
+        {
+          kind: "phone",
+          id: "reply",
+          title: "What do you reply?",
+          habit: "spot",
+          prompt: "Tom just offered Claude the whole shared drive.",
+          options: [
+            {
+              id: "decline",
+              label: "I'd keep it to the Alvarez Ops folder. Claude can read, change and delete anything it can reach, and the shared drive has payroll and HR in it. If I need something else, I'll ask for that one folder.",
+              good: true,
+              why: "Scope the folder to the job. Payroll and HR are never in reach, even when the client offers.",
+              reply: "Good point. Ops folder it is.",
+            },
+            {
+              id: "yes",
+              label: "Done, I've linked the whole shared drive. Much easier.",
+              why: "Now every task Claude runs can touch payroll, HR and every client's file. One wrong plan step and something's gone.",
+              consequence: { from: "Andi, your Account Lead", text: "Scope Claude's folder to the client's project. Never a whole drive, and never anything with payroll or HR in it, even when the client offers.", trust: 0 },
+            },
+            {
+              id: "today",
+              label: "I'll link it just for today and switch it back tomorrow.",
+              why: "A day is enough to delete something. The scope is the rule, not the duration.",
+              consequence: { from: "Andi, your Account Lead", text: "Even for a day: keep Claude's folder to the client's project. Ask for the one folder you need.", trust: 0 },
+            },
+          ],
+          hints: ["What else is on that drive?", "Payroll and HR. Keep the scope to the ops folder.", "The first one."],
+        },
+      ],
+    },
+    {
+      id: "eod",
+      title: "End of week one",
+      sticky: "EOD and your plan",
+      habits: ["check", "show"],
+      minutes: { manual: 20, claude: 5 },
+      open: "Great week. EOD, and then go plan your real week one.",
+      steps: [
+        {
+          kind: "review",
+          id: "eod",
+          title: "Check your EOD before it goes",
+          habit: "check",
+          intro: "One line makes something sound riskier than it is. Find it.",
+          artifact: { kind: "eod", title: "EOD, Wednesday", meta: "Drafted by /eod-sod" },
+          segments: [
+            { text: "Done today\n• Wrote Instructions for Claude on the Alvarez Ops project: never overwrite, every number sourced, SOPs as numbered steps.\n• Scheduled the Friday status: 2:00 pm Denver, saved to the folder, nothing posted.\n" },
+            { text: "• Replaced all thirty SOPs with new versions.\n", flag: "Nothing was replaced. Thirty converted SOPs sit in a new folder after a two-SOP pilot; the originals are where they were. 'Replaced' is the word Tom fears most.", fix: "• Thirty SOPs converted after a two-SOP pilot, in the new-format folder. Originals untouched." },
+            { text: "• Kept Claude's folder to Alvarez Ops; declined the whole shared drive.\n\nWhat Claude helped with\n• Instructions, the Friday status and thirty SOPs. About 4 hours saved (estimate)." },
+          ],
+          done: "Exact words matter most when you describe what happened to files. Copied, converted, untouched: say which.",
+          hints: ["Which line describes something destructive?", "Converted, not replaced.", "The Replaced line."],
+        },
+        {
+          kind: "live",
+          id: "live",
+          title: "Make one of these real",
+          body: "Turn one of this week's workflows into a real one for your client: a Project with instructions, a weekly status on a schedule, or a daily sheet draft for someone to check.",
+          k: "live-o3",
+          label: "I set up one real workflow for my client: a Project, a scheduled status or a scheduled draft sheet.",
+          prompts: [
+            "Create a project called [client] ops and add Instructions for Claude: who they are, how they write (with one real example), my defaults (never overwrite, copy and change log, every number sourced, SOP format), and what to do when unsure (blank and Ask, read every page).",
+            "/schedule Every Friday at [time] in my client's time zone, read [board] and [tracker] and save a status to the client folder: what slipped, what it costs, what needs my client. Notify me. Never post or send anything.",
+          ],
+        },
+        { kind: "launchpad", id: "launchpad", title: "Plan your real Week 1" },
+      ],
+      done: "See you Monday. And thank you.",
+    },
+  ],
+}

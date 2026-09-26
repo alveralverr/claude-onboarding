@@ -7,7 +7,11 @@ Since v5 there are two kinds of content:
 
 ## Paths
 
-A path lives in `src/content/paths/<id>/` and is listed in `src/content/paths/index.ts`. Types are in `src/story/types.ts`.
+A path lives in `src/content/paths/<id>/` and is listed in `src/content/paths/index.ts`. Types are in `src/story/types.ts`. Five are live, each three shifts of about twelve minutes with the same skeleton, so an assistant can switch roles without relearning the desk: General admin (`admin/`, Priya, an architecture studio), Bookkeeping and finance (`finance/`, Marco, two coffee shops), Lead gen and sales (`leadgen/`, Nadia, a recruiting agency), Operations and data (`ops/`, Tom, a landscaping company), Content and social (`content/`, Leah, a wellness coach). Every path's Shift 1 ends with a `live` step on `FIRST_TASK_KEY`; Shifts 2 and 3 use `live-<letter>2` and `live-<letter>3`.
+
+The shared skeleton: Shift 1 is a `sort`, a `brief` + `plan` + `review` task, a `brief` + `connect` + `choose` + `permission` task, a `phone` update, and an EOD `review` + `live`. Shift 2 is a transform task (call, file or long document), a research task with a `review` that catches invented numbers, a proactive-idea `choose` + `phone`, and an EOD. Shift 3 is `instructions`, an automation `choose` + `plan` (the wrong step always sends, posts or moves money), a pilot `choose` + `phone`, a vertical-specific trap on the phone (a login, a payment, personal data, folder scope, a health question), and an EOD with `live` + `launchpad`. Each vertical's traps come from the plan in `docs-internal/PLAN_V5.md`.
+
+When you write a new one, keep every `brief` step's `example` passing its own `ingredients[].test` regexes (case-insensitive), give every `choose`, `phone`, `connect`, `permission` and plan redirect exactly one `good` option, and give every `review` two flags (one for an EOD). A quick check of all three rules is in the commit history of the first four paths.
 
 - `persona.ts`: the fictional client (name, company, city, time zone, three preferences, voice) plus their files and project options. **Fictional only.** Never reuse a name, company or detail from telemetry or Account Lead notes; the repo is public.
 - `shift1.ts` and so on: a `Shift` is `{ id, day, title, clock, tasks }`. A `Task` is `{ id, title, sticky, habits, minutes: { manual, claude }, open, steps, done }`. `open` is the client's text that starts it; `minutes` feed the hours-saved estimate.

@@ -65,6 +65,10 @@ export const BADGES: Badge[] = [
   { id: "voice-heard", name: "Voice heard", how: "Sent feedback on the office." },
   { id: "first-shift", name: "First shift", how: "Finished a full shift at your desk." },
   { id: "path-admin", name: "General admin", how: "Finished every shift of the General admin path." },
+  { id: "path-finance", name: "Finance admin", how: "Finished every shift of the Bookkeeping and finance path." },
+  { id: "path-leadgen", name: "Lead gen", how: "Finished every shift of the Lead gen and sales path." },
+  { id: "path-ops", name: "Operations", how: "Finished every shift of the Operations and data path." },
+  { id: "path-content", name: "Content", how: "Finished every shift of the Content and social path." },
 ]
 
 export type Level = { n: number; name: string; xp: number }
