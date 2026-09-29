@@ -10,6 +10,7 @@ export const LEAH: Persona = {
   city: "Vancouver, BC",
   tzShort: "PT",
   initials: "LS",
+  portrait: "/assets/media/client-leah.webp",
   prefs: [
     "Never a health claim. 'Helps me' is fine. 'Cures', 'treats' or 'proven' is never fine.",
     "Captions sound like I talk: first person, warm, a question at the end. No hashtag walls.",

@@ -93,7 +93,7 @@ A mastery room is a mission whose `Room` entry has `mastery: true`, a `live` key
 - **Nothing is ever locked.** Every room and every step is reachable. Don't add gates.
 - **Legacy links.** Every id in `LEGACY` (`#setup`, `#connectors`, ...) is linked from `claude-design.html` and from links already shared with assistants. Keep them, and add the new home of any section you move.
 - **Copy rules.** One idea per step, under 40 words of instruction, no em dashes, no emoji, sentence case, no "Step 1" labels in copy. Taglish and voice-to-text are fine in examples.
-- **Images from renders.** Source PNGs live in `assets-src/v4` (git-ignored) with descriptive names: `lobby`, `room-<id>`, `avatar-<name>`, `client-dana`, `badge-<id>`, `item-<id>`; `-alt` files are second takes kept for swapping. Convert with Pillow to WebP in `public/assets/media`: scenes 1200 wide (lobby at 768 and 1536), everything else 256 square with alpha.
+- **Images from renders.** The live set's source PNGs are in `assets-src/v6` (git-ignored), made from the brief in `assets-src/v5/asset-brief-v2.md` so they match the desk render: `lobby`, `room-<id>`, `avatar-<name>`, `client-<name>`, `coach-andi`, `badge-<id>`, `item-<id>`. Convert with Pillow to WebP in `public/assets/media` under the same names: rooms 1200 x 800, lobby at 1536 and 768, everything else 256 square with alpha. A new lobby render means re-measuring every room's `spot` in `world.ts`.
 - **Media.** WebP under `public/assets/media` with `w` and `h`; YouTube through `{ type: "youtube" }` (nothing loads until clicked); long animations `{ type: "gif" }` with a poster; muted demos `{ type: "video" }`.
 
 ## Adding a room

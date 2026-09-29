@@ -1,8 +1,9 @@
 /* The office: rooms on the map, badges, levels, desk items, avatars.
    Images are WebP in public/assets/media, converted from the ChatGPT renders
-   in assets-src/v4 (see the README there). `spot` is where the room's label
+   in assets-src/v6 (brief: assets-src/v5/asset-brief-v2.md). `spot` is where the room's label
    sits on the lobby scene (lobby-1536.webp), in % of width and height,
-   measured at the top of the furniture.
+   measured at the top of the furniture. Re-measure all nine whenever the
+   lobby render changes (current: assets-src/v6/lobby.png).
 
    Since v5 the desk (#/) is the only home. The office map opens from the
    desk, every room exits back to it, and two v4 rooms are retired: The Inbox
@@ -28,15 +29,15 @@ export type Room = {
 }
 
 export const ROOMS: Room[] = [
-  { id: "desk", name: "Set up your real Claude", blurb: "Invite, desktop app, connectors, skills", minutes: 20, core: true, href: "#/room/desk", spot: { x: 20, y: 52 }, image: "/assets/media/room-desk.webp" },
-  { id: "vault", name: "The Vault", blurb: "Pass the safety check", minutes: 6, core: true, href: "#/room/vault", spot: { x: 24, y: 12 }, image: "/assets/media/room-vault.webp" },
-  { id: "studio", name: "The Studio", blurb: "Docs, slides and files", minutes: 7, mastery: true, live: "live-studio", badge: "deck-builder", href: "#/room/studio", spot: { x: 47, y: 58 }, image: "/assets/media/room-studio.webp" },
-  { id: "switchboard", name: "The Switchboard", blurb: "Connectors, and their limits", minutes: 6, mastery: true, live: "live-switchboard", badge: "connector-pro", href: "#/room/switchboard", spot: { x: 41, y: 8 }, image: "/assets/media/room-switchboard.webp" },
-  { id: "writing", name: "The Writing Room", blurb: "Prompting and client voice", minutes: 8, mastery: true, live: "live-writing", badge: "prompt-whisperer", href: "#/room/writing", spot: { x: 60, y: 41 }, image: "/assets/media/room-writing.webp" },
-  { id: "workshop", name: "The Workshop", blurb: "Skills, yours and Magic's", minutes: 6, mastery: true, live: "live-workshop", badge: "skill-maker", href: "#/room/workshop", spot: { x: 40, y: 29 }, image: "/assets/media/room-workshop.webp" },
-  { id: "engine", name: "The Engine Room", blurb: "Models, limits, memory", minutes: 5, mastery: true, live: "live-engine", href: "#/room/engine", spot: { x: 83, y: 46 }, image: "/assets/media/room-engine.webp" },
-  { id: "shelf", name: "The Shelf", blurb: "Reference for every day", href: "#/shelf", spot: { x: 59, y: 10 }, image: "/assets/media/room-shelf.webp" },
-  { id: "help", name: "Help Desk", blurb: "Every route to a human", href: "#/shelf/help", spot: { x: 81, y: 27 }, image: "/assets/media/room-help.webp" },
+  { id: "desk", name: "Set up your real Claude", blurb: "Invite, desktop app, connectors, skills", minutes: 20, core: true, href: "#/room/desk", spot: { x: 25, y: 48 }, image: "/assets/media/room-desk.webp" },
+  { id: "vault", name: "The Vault", blurb: "Pass the safety check", minutes: 6, core: true, href: "#/room/vault", spot: { x: 39.7, y: 14.5 }, image: "/assets/media/room-vault.webp" },
+  { id: "studio", name: "The Studio", blurb: "Docs, slides and files", minutes: 7, mastery: true, live: "live-studio", badge: "deck-builder", href: "#/room/studio", spot: { x: 46.5, y: 54 }, image: "/assets/media/room-studio.webp" },
+  { id: "switchboard", name: "The Switchboard", blurb: "Connectors, and their limits", minutes: 6, mastery: true, live: "live-switchboard", badge: "connector-pro", href: "#/room/switchboard", spot: { x: 53.7, y: 17 }, image: "/assets/media/room-switchboard.webp" },
+  { id: "writing", name: "The Writing Room", blurb: "Prompting and client voice", minutes: 8, mastery: true, live: "live-writing", badge: "prompt-whisperer", href: "#/room/writing", spot: { x: 51.5, y: 38.5 }, image: "/assets/media/room-writing.webp" },
+  { id: "workshop", name: "The Workshop", blurb: "Skills, yours and Magic's", minutes: 6, mastery: true, live: "live-workshop", badge: "skill-maker", href: "#/room/workshop", spot: { x: 30.5, y: 30 }, image: "/assets/media/room-workshop.webp" },
+  { id: "engine", name: "The Engine Room", blurb: "Models, limits, memory", minutes: 5, mastery: true, live: "live-engine", href: "#/room/engine", spot: { x: 72, y: 40 }, image: "/assets/media/room-engine.webp" },
+  { id: "shelf", name: "The Shelf", blurb: "Reference for every day", href: "#/shelf", spot: { x: 67, y: 18 }, image: "/assets/media/room-shelf.webp" },
+  { id: "help", name: "Help Desk", blurb: "Every route to a human", href: "#/shelf/help", spot: { x: 70.5, y: 64 }, image: "/assets/media/room-help.webp" },
 ]
 
 export const CORE_ORDER: RoomId[] = ["desk", "vault"]
@@ -44,12 +45,17 @@ export const MASTERY_ORDER: RoomId[] = ["studio", "switchboard", "writing", "wor
 
 export type Badge = { id: string; name: string; how: string }
 export const badgeImage = (id: string) => `/assets/media/badge-${id}.webp`
-/* Badges that have a rendered medallion in public/assets/media. Others draw
-   a fallback until their render arrives (see assets-src/v5/README.md). */
+/* Badges that have a rendered medallion in public/assets/media (the v6 set,
+   sources in assets-src/v6). Any new id draws a fallback until its render
+   arrives. */
 export const BADGE_ART = new Set([
   "desk-ready", "first-task", "editors-eye", "secret-keeper", "client-ready", "deck-builder",
   "connector-pro", "scheduler", "prompt-whisperer", "skill-maker", "streak", "voice-heard",
+  "first-shift", "path-admin", "path-finance", "path-leadgen", "path-ops", "path-content",
 ])
+
+/* Andi, the practice Account Lead who coaches and texts during shifts. */
+export const COACH_ANDI = "/assets/media/coach-andi.webp"
 export const BADGES: Badge[] = [
   { id: "desk-ready", name: "Desk ready", how: "Finished every setup item." },
   { id: "first-task", name: "First real task", how: "Took one task from a shift live in your real Claude, and reviewed it." },

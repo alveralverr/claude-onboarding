@@ -10,6 +10,7 @@ export const MARCO: Persona = {
   city: "Portland, Oregon",
   tzShort: "PT",
   initials: "MR",
+  portrait: "/assets/media/client-marco.webp",
   prefs: [
     "Numbers come from a document, never from memory. A blank beats a guess.",
     "Every Friday: one line on cash, and what is overdue in and out.",

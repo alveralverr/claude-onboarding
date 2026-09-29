@@ -1,6 +1,7 @@
 import { LightbulbIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { COACH_ANDI } from "@/content/world"
 import type { RunnerApi } from "@/story/useRunner"
 
 /* Andi, a practice Account Lead: three levels of hint, free to use. Sits
@@ -12,9 +13,7 @@ export function Coach({ api }: { api: RunnerApi }) {
   const more = api.hintLevel < hints.length
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-white bg-card/95 px-3 py-2 shadow-card-sm" role="status" aria-live="polite">
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-warning-soft text-[13px] font-semibold text-warning" aria-hidden="true" title="Andi, your Account Lead (practice)">
-        A
-      </span>
+      <img src={COACH_ANDI} alt="" width={256} height={256} className="size-9 shrink-0 rounded-full bg-[#E6E6F8] object-cover" title="Andi, your Account Lead (practice)" />
       <p className="min-w-0 flex-1 text-[14px] leading-snug">
         <span className="sr-only">Andi, your Account Lead (practice): </span>
         {text}

@@ -10,6 +10,7 @@ export const TOM: Persona = {
   city: "Denver, Colorado",
   tzShort: "MT",
   initials: "TA",
+  portrait: "/assets/media/client-tom.webp",
   prefs: [
     "One tracker, one truth. If a number changes, tell me where it came from.",
     "SOPs are numbered step lists. One action per line, nothing clever.",

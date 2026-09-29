@@ -10,6 +10,7 @@ export const PRIYA: Persona = {
   city: "Austin, Texas",
   tzShort: "CT",
   initials: "PM",
+  portrait: "/assets/media/client-priya.webp",
   prefs: [
     "No contractions in emails to clients or partners.",
     "A plan by noon her time: three bullets, done, next, needs you.",

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import type { Task } from "@/story/types"
 import type { RunnerApi } from "@/story/useRunner"
 import { PhoneStepView } from "@/story/steps/PhoneStepView"
+import { COACH_ANDI } from "@/content/world"
 import { ClientAvatar } from "./ClientAvatar"
 
 /* The client's thread, on your phone. Tasks start here; some steps are
@@ -51,7 +52,12 @@ export function PhonePanel({
         {api.thread.length === 0 && !pending && <p className="m-auto text-center text-[13px] text-muted-foreground">No messages yet.</p>}
         {api.thread.map((m) => (
           <div key={m.id} className={cn("flex flex-col", m.from === "you" ? "items-end" : "items-start")}>
-            {m.from === "al" && <span className="mb-0.5 px-1 text-[11.5px] text-muted-foreground">{m.name}</span>}
+            {m.from === "al" && (
+              <span className="mb-1 flex items-center gap-1.5 px-1 text-[11.5px] text-muted-foreground">
+                <img src={COACH_ANDI} alt="" width={256} height={256} className="size-5 rounded-full bg-[#E6E6F8] object-cover" />
+                {m.name}
+              </span>
+            )}
             <p
               className={cn(
                 "max-w-[85%] rounded-2xl px-3.5 py-2 text-[14px] leading-snug whitespace-pre-line",

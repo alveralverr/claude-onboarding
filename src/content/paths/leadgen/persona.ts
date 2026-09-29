@@ -10,6 +10,7 @@ export const NADIA: Persona = {
   city: "Chicago, Illinois",
   tzShort: "CT",
   initials: "NC",
+  portrait: "/assets/media/client-nadia.webp",
   prefs: [
     "Book the call, do not pitch. An email's only job is a fifteen-minute meeting.",
     "Every lead has a source and a reason. No list without both.",
