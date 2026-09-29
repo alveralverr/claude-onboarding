@@ -25,6 +25,23 @@ import { Hearts, ShiftSummary } from "./Summary"
 import { UpdateCard } from "./WhatsNew"
 import { shiftClock } from "./pathIcons"
 
+/* Wide screens float the phone over the scene; narrow ones stack it. */
+const WIDE = "(min-width: 1024px)"
+function useWide() {
+  return React.useSyncExternalStore(
+    (cb) => {
+      const m = window.matchMedia(WIDE)
+      m.addEventListener("change", cb)
+      return () => m.removeEventListener("change", cb)
+    },
+    () => window.matchMedia(WIDE).matches,
+    () => false
+  )
+}
+
+/* Frosted chips that sit on the scene. */
+const GLASS = "border border-white/80 bg-card/85 shadow-card-sm backdrop-blur-md"
+
 /* Drills shipped with updates play as a bonus shift after the real ones.
    They never count toward the path badge (derive() reads PATHS, not this). */
 const BONUS_ID = "updates"
@@ -183,93 +200,120 @@ export function Desk({ drill, office }: { drill?: string; office?: boolean }) {
     markUpdatesSeen(LATEST_UPDATE_DATE)
   }
 
+  const wide = useWide()
+  // The scene is the page: controls float on it instead of framing it.
+  const deskView = !onLaptop && !showOffice
+  const phoneOverScene = deskView && wide
+
+  const hud = (
+    <div className={cn("flex flex-wrap items-center gap-2", deskView && "md:pointer-events-none md:absolute md:inset-x-4 md:top-4 md:z-[5]")}>
+      <div className={cn("pointer-events-auto flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-1.5", GLASS)}>
+        <ClientAvatar persona={persona} className="size-9 text-[13px]" />
+        <div className="min-w-0 leading-tight">
+          <p className="text-[14px] font-semibold">{persona.name}</p>
+          <p className="text-[12px] text-muted-foreground">
+            {persona.company} · {persona.tzShort}
+          </p>
+        </div>
+        <Hearts value={trustOf(g, path.id)} className="ml-1 hidden sm:inline" />
+      </div>
+      <div className="pointer-events-auto ml-auto flex items-center gap-1.5">
+        <Button variant="ghost" className={cn("h-10 rounded-full px-3.5 hover:bg-card", GLASS)} onClick={openPhone} aria-label={phoneUnread ? `Phone, ${phoneUnread} new` : "Phone"}>
+          <SmartphoneIcon data-icon="inline-start" />
+          <span className="max-sm:sr-only">Phone</span>
+          {phoneUnread > 0 && <span className="ml-0.5 rounded-full bg-[#E24B4A] px-1.5 text-[12px] font-bold text-white">{phoneUnread}</span>}
+        </Button>
+        <Button variant="ghost" className={cn("h-10 rounded-full px-3.5 hover:bg-card", GLASS)} onClick={() => setLaptopOpen(true)} disabled={onLaptop || !!api.step}>
+          <LaptopIcon data-icon="inline-start" />
+          <span className="max-sm:sr-only">Laptop</span>
+        </Button>
+        <Button variant="ghost" className={cn("h-10 rounded-full px-3.5 hover:bg-card", GLASS)} onClick={() => setPlaybook(true)}>
+          <BookOpenIcon data-icon="inline-start" />
+          <span className="max-sm:sr-only">Notebook</span>
+        </Button>
+      </div>
+    </div>
+  )
+
+  // One line on the front of the desk: what just happened, or what's next.
+  const finishedShown = !!finishedTask && (finishedBonus || !api.finished?.shiftDone)
+  let status: React.ReactNode = null
+  if (finishedShown && finishedTask) {
+    status = (
+      <>
+        <CheckIcon className="size-5 shrink-0 text-success" />
+        <p className="min-w-0 flex-1 text-[15px]">
+          <span className="font-semibold">{finishedTask.title}</span> done. <span className="text-muted-foreground">{api.finished?.clean ? "Clean run, and trust went up." : "A lesson or two on the way."}</span>
+        </p>
+        {api.placement !== null && api.placement >= 7 && finishedTask.id === "sort" && shifts[1] && (
+          <Button variant="outline" className="rounded-full" onClick={() => open(1, 0)}>
+            Skip to {shifts[1].day}
+          </Button>
+        )}
+        {next && (
+          <Button className="rounded-full" onClick={() => open(next.si, next.ti)}>
+            Next: {shifts[next.si].tasks[next.ti].title}
+          </Button>
+        )}
+      </>
+    )
+  } else if (!api.active && pendingTask) {
+    status = (
+      <>
+        <p className="min-w-0 flex-1 text-[15px]">
+          <span className="font-semibold">Ready: {pendingTask.title}.</span> <span className="text-muted-foreground">Pick up your phone to start.</span>
+        </p>
+        <Button className="rounded-full" onClick={() => setPhoneOpen(true)}>
+          Open the phone
+        </Button>
+      </>
+    )
+  } else if (!api.active && nextTask && next) {
+    status = (
+      <>
+        <p className="min-w-0 flex-1 text-[15px]">
+          <span className="text-muted-foreground">
+            {shift.day} · {doneIds.length} of {shift.tasks.length} ·{" "}
+          </span>
+          <span className="font-semibold">Next up: {nextTask.title}.</span> <span className="text-muted-foreground">{persona.first} texted you.</span>
+        </p>
+        <Button className="rounded-full" onClick={() => open(next.si, next.ti)}>
+          Pick up the phone
+        </Button>
+      </>
+    )
+  } else if (!api.active) {
+    status = (
+      <>
+        <p className="min-w-0 flex-1 text-[15px]">
+          <span className="font-semibold">Week one with {persona.first} is done.</span> <span className="text-muted-foreground">Replay a task from your notebook, or plan your real week.</span>
+        </p>
+        <Button className="rounded-full" render={<a href="#/launchpad" />} nativeButton={false}>
+          Plan your real Week 1
+        </Button>
+      </>
+    )
+  }
+  const pill =
+    status && deskView && !phoneVisible ? (
+      <div className="md:pointer-events-none md:absolute md:inset-x-4 md:bottom-4 md:z-[5] md:flex md:justify-center">
+        <div role="status" className={cn("pointer-events-auto flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl py-2 pr-2 pl-4 md:max-w-[min(680px,64%)] md:rounded-full", GLASS, "bg-card/90")}>
+          {status}
+        </div>
+      </div>
+    ) : null
+
+  const phone = phoneVisible ? <PhonePanel api={api} pending={pendingTask} onStart={begin} onClose={() => setPhoneOpen(false)} /> : null
+
   return (
-    <section className="hero-wash min-h-[calc(100dvh-4rem)] pt-4 pb-12 md:pt-6" aria-labelledby="desk-title">
-      <div className="wrap flex flex-col gap-4 px-4 md:px-8">
+    <section className="hero-wash min-h-[calc(100dvh-4rem)] pt-4 pb-10" aria-labelledby="desk-title">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-3 px-4 md:px-8">
         <h1 id="desk-title" className="sr-only">
           Your desk: {shift.day}, {shift.title}
         </h1>
 
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-3 rounded-2xl border-2 border-white bg-card/90 px-4 py-3 shadow-card-sm">
-          <ClientAvatar persona={persona} className="size-11 text-[15px]" />
-          <div className="min-w-0 leading-tight">
-            <p className="text-[16px] font-semibold">{persona.name}</p>
-            <p className="text-[13px] text-muted-foreground">
-              {persona.company} · {persona.city} ({persona.tzShort})
-            </p>
-            <Hearts value={trustOf(g, path.id)} className="mt-0.5 block" />
-          </div>
-          <div className="hidden border-l pl-4 leading-tight md:block">
-            <p className="text-[15px] font-semibold">
-              {shift.day}: {shift.title}
-            </p>
-            <p className="text-[13px] text-muted-foreground">
-              {clock.label} · {doneIds.length} of {shift.tasks.length} tasks done
-            </p>
-          </div>
-          <div className="ml-auto flex flex-wrap items-center gap-2">
-            <span className="hidden text-[13px] text-muted-foreground sm:inline" title="Estimated: time by hand minus time with Claude plus a review, over the tasks you have finished.">
-              {d.hours} h saved
-            </span>
-            <Button variant="outline" size="lg" onClick={openPhone} aria-label={phoneUnread ? `Phone, ${phoneUnread} new` : "Phone"}>
-              <SmartphoneIcon data-icon="inline-start" />
-              Phone
-              {phoneUnread > 0 && <span className="ml-1 rounded-full bg-[#E24B4A] px-1.5 text-[12px] font-bold text-white">{phoneUnread}</span>}
-            </Button>
-            <Button variant="outline" size="lg" onClick={() => setLaptopOpen(true)} disabled={onLaptop || !!api.step}>
-              <LaptopIcon data-icon="inline-start" />
-              Laptop
-            </Button>
-            <Button variant="outline" size="lg" onClick={() => setPlaybook(true)}>
-              <BookOpenIcon data-icon="inline-start" />
-              Notebook
-            </Button>
-          </div>
-        </div>
-
-        {finishedTask && (finishedBonus || !api.finished?.shiftDone) && (
-          <div role="status" className="flex flex-wrap items-center gap-3 rounded-2xl bg-success-soft px-4 py-3 text-success">
-            <CheckIcon className="size-5 shrink-0" />
-            <p className="min-w-0 flex-1 text-[15px]">
-              <span className="font-semibold">{finishedTask.title}</span> done. {api.finished?.clean ? "Clean run, and trust went up." : "A lesson or two on the way."}
-            </p>
-            {api.placement !== null && api.placement >= 7 && finishedTask.id === "sort" && shifts[1] && (
-              <Button variant="outline" onClick={() => open(1, 0)}>
-                You know this. Skip to {shifts[1].day}
-              </Button>
-            )}
-            {next && <Button onClick={() => open(next.si, next.ti)}>Next: {shifts[next.si].tasks[next.ti].title}</Button>}
-          </div>
-        )}
-
-        {!api.active && !finishedTask && !phoneVisible && !showOffice && (
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-card/70 px-4 py-3">
-            {pendingTask ? (
-              <>
-                <p className="min-w-0 flex-1 text-[15px]">
-                  <span className="font-semibold">Ready: {pendingTask.title}.</span> <span className="text-muted-foreground">Pick up your phone to start.</span>
-                </p>
-                <Button onClick={() => setPhoneOpen(true)}>Open the phone</Button>
-              </>
-            ) : nextTask && next ? (
-              <>
-                <p className="min-w-0 flex-1 text-[15px]">
-                  <span className="font-semibold">Next up: {nextTask.title}.</span> <span className="text-muted-foreground">{persona.first} texted you.</span>
-                </p>
-                <Button onClick={() => open(next.si, next.ti)}>Pick up the phone</Button>
-              </>
-            ) : (
-              <>
-                <p className="min-w-0 flex-1 text-[15px]">
-                  <span className="font-semibold">Week one with {persona.first} is done.</span> <span className="text-muted-foreground">Replay any task from your notebook, or plan your real week.</span>
-                </p>
-                <Button render={<a href="#/launchpad" />} nativeButton={false}>
-                  Plan your real Week 1
-                </Button>
-              </>
-            )}
-          </div>
-        )}
+        {/* On the laptop and in the office the chips sit above; on the desk they float on the scene. */}
+        {!deskView && hud}
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
@@ -304,8 +348,10 @@ export function Desk({ drill, office }: { drill?: string; office?: boolean }) {
                 initial={reduce ? false : { opacity: 0, scale: 1.06 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="relative mx-auto w-full md:max-w-[calc((100dvh-15rem)*1.5)]"
+                className="relative mx-auto w-full md:max-w-[calc((100dvh-9.5rem)*1.5)]"
               >
+                {/* Narrow screens: chips above the scene, the status line below it. */}
+                <div className="mb-3 md:hidden">{hud}</div>
                 <Stage
                   userName={userName}
                   persona={persona}
@@ -324,6 +370,9 @@ export function Desk({ drill, office }: { drill?: string; office?: boolean }) {
                   onSticky={(ti) => open(shiftIdx, ti)}
                   onOffice={openOffice}
                 />
+                <div className="hidden md:contents">{hud}</div>
+                {pill && <div className="mt-3 md:mt-0">{pill}</div>}
+                {phoneOverScene && phone && <div className="absolute top-[72px] right-4 z-[6] flex max-h-[calc(100%-88px)] w-[340px] flex-col">{phone}</div>}
                 {deskStep && api.task && (
                   <Overlay kicker={api.task.title} title={deskStep.title} onClose={api.quit}>
                     {deskStep.kind === "sort" && <SortBoard key={`${api.task.id}-${api.epoch}`} step={deskStep} api={api} />}
@@ -417,11 +466,7 @@ export function Desk({ drill, office }: { drill?: string; office?: boolean }) {
             </div>
           </div>
 
-          {phoneVisible && (
-            <div className="order-first w-full lg:order-none lg:sticky lg:top-20 lg:w-[360px] lg:shrink-0">
-              <PhonePanel api={api} pending={pendingTask} onStart={begin} onClose={() => setPhoneOpen(false)} />
-            </div>
-          )}
+          {phone && !phoneOverScene && <div className="order-first w-full lg:order-none lg:sticky lg:top-20 lg:w-[360px] lg:shrink-0">{phone}</div>}
         </div>
       </div>
     </section>
